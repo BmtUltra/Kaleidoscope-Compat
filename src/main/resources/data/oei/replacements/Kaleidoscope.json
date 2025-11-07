@@ -1,0 +1,118 @@
+[
+  {
+    "matchItems": [
+      "farm_and_charm:tomato",
+      "farmersdelight:tomato",
+      "bakeries:tomato",
+      "sakura:tomato",
+      "crockpot:tomato"
+    ],
+    "resultItems": "kaleidoscope_cookery:tomato"
+  },
+  {
+    "matchItems": [
+      "farm_and_charm:rotten_tomato"
+    ],
+    "resultItems": "farmersdelight:rotten_tomato"
+  },
+  {
+    "matchItems": [
+      "farm_and_charm:onion"
+    ],
+    "resultItems": "farmersdelight:onion"
+  },
+  {
+    "matchItems": [
+      "farmersdelight:rice_panicle"
+    ],
+    "resultItems": "kaleidoscope_cookery:rice_panicle"
+  },
+  {
+    "matchItems": [
+      "farmersdelight:cooked_rice"
+    ],
+    "resultItems": "kaleidoscope_cookery:cooked_rice"
+  },
+  {
+    "matchItems": [
+      "farmersdelight:rice"
+    ],
+    "resultItems": "kaleidoscope_cookery:rice"
+  },
+  {
+    "matchItems": [
+      "farmersdelight:wheat_dough",
+      "farm_and_charm:dough"
+    ],
+    "resultItems": "kaleidoscope_cookery:raw_dough"
+  },
+  {
+    "matchItems": [
+      "farmersdelight:tomato_seeds",
+      "farm_and_charm:tomato_seeds"
+    ],
+    "resultItems": "kaleidoscope_cookery:tomato_seed"
+  },
+  {
+    "matchItems": [
+      "farmersdelight:fried_egg"
+    ],
+    "resultItems": "kaleidoscope_cookery:fried_egg"
+  },
+  {
+    "matchItems": [
+      "farmersdelight:raw_pasta",
+      "farm_and_charm:raw_pasta"
+    ],
+    "resultItems": "kaleidoscope_cookery:raw_noodles"
+  },
+  {
+    "matchItems": [
+      "farmersdelight:salmon_slice"
+    ],
+    "resultItems": "kaleidoscope_cookery:sashimi"
+  },
+  {
+    "matchItems": [
+      "farmersdelight:mutton_chops"
+    ],
+    "resultItems": "kaleidoscope_cookery:raw_lamb_chops"
+  },
+  {
+    "matchItems": [
+      "farmersdelight:cooked_mutton_chops"
+    ],
+    "resultItems": "kaleidoscope_cookery:cooked_lamb_chops"
+  },
+  {
+    "matchItems": [
+      "farm_and_charm:lettuce_seeds"
+    ],
+    "resultItems": "kaleidoscope_cookery:lettuce_seed"
+  },
+  {
+    "matchItems": [
+      "farm_and_charm:lettuce"
+    ],
+    "resultItems": "kaleidoscope_cookery:lettuce"
+  },
+  {
+    "matchItems": [
+      "bakeries:butter_cube",
+      "youkaishomecoming:butter"
+    ],
+    "resultItems": "farm_and_charm:butter"
+  },
+  {
+    "matchItems": [
+      "dropthemeat:raw_horse"
+    ],
+    "resultItems": "kaleidoscope_cookery:raw_donkey_meat"
+  },
+  {
+    "matchItems": [
+      "dropthemeat:cooked_horse"
+    ],
+    "resultItems": "kaleidoscope_cookery:cooked_donkey_meat"
+  }
+]
