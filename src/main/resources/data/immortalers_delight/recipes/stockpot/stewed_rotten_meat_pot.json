@@ -1,0 +1,35 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "carrier": {
+    "item": "minecraft:decorated_pot"
+  },
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 16034443,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished",
+  "ingredients": [
+    {
+      "item": "immortalers_delight:himekaido_jelly"
+    },
+    {
+      "item": "immortalers_delight:himekaido"
+    },
+    {
+      "item": "minecraft:pufferfish"
+    },
+    {
+      "item": "minecraft:pufferfish"
+    },
+    {
+      "item": "minecraft:rotten_flesh"
+    },
+    {
+      "tag": "forge:rawchicken"
+    }
+  ],
+  "result": {
+    "item": "immortalers_delight:stewed_rotten_meat_pot"
+  },
+  "soup_base": "minecraft:water",
+  "time": 300
+}

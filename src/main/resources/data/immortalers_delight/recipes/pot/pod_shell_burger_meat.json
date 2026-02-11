@@ -1,0 +1,31 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "carrier": {
+    "item": "minecraft:bowl"
+  },
+  "ingredients": [
+    {
+      "item": "farmersdelight:minced_beef"
+    },
+    {
+      "tag": "forge:crops/tomato"
+    },
+    {
+      "tag": "forge:crops/tomato"
+    },
+    {
+      "tag": "minecraft:leaves"
+    },
+    {
+      "item": "immortalers_delight:pitcher_pod_petal"
+    },
+    {
+      "item": "immortalers_delight:pitcher_pod_petal"
+    }
+  ],
+  "result": {
+    "item": "immortalers_delight:pod_shell_burger_meat"
+  },
+  "stir_fry_count": 3,
+  "time": 200
+}

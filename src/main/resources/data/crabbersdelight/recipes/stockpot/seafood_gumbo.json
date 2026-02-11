@@ -1,0 +1,32 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "carrier": {
+    "item": "minecraft:bowl"
+  },
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 2551400,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_orange",
+  "ingredients": [
+    {
+      "item": "crabbersdelight:clawster"
+    },
+    {
+      "item": "crabbersdelight:shrimp"
+    },
+    {
+      "tag": "forge:crops/onion"
+    },
+    {
+      "tag": "forge:crops/rice"
+    },
+    {
+      "tag": "forge:raw_pork"
+    }
+  ],
+  "result": {
+    "item": "crabbersdelight:seafood_gumbo"
+  },
+  "soup_base": "minecraft:water",
+  "time": 300
+}

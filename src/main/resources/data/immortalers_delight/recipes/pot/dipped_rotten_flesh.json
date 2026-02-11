@@ -1,0 +1,22 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "ingredients": [
+    {
+      "item": "immortalers_delight:himekaido_jelly"
+    },
+    {
+      "item": "minecraft:rotten_flesh"
+    },
+    {
+      "item": "minecraft:rotten_flesh"
+    },
+    {
+      "item": "minecraft:rotten_flesh"
+    }
+  ],
+  "result": {
+    "item": "immortalers_delight:dipped_rotten_flesh"
+  },
+  "stir_fry_count": 3,
+  "time": 200
+}

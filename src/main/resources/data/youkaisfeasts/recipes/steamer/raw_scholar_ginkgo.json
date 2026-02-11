@@ -1,0 +1,10 @@
+{
+  "type": "kaleidoscope_cookery:steamer",
+  "cook_tick": 1200,
+  "ingredient": {
+    "item": "youkaisfeasts:raw_scholar_ginkgo"
+  },
+  "result": {
+    "item": "youkaisfeasts:raw_scholar_ginkgo"
+  }
+}

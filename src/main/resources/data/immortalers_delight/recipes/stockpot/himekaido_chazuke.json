@@ -1,0 +1,29 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "carrier": {
+    "item": "minecraft:bowl"
+  },
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 65535,
+  "finished_texture": "kaleidoscope_cookery:stockpot/rice_himekaido",
+  "ingredients": [
+    {
+      "item": "immortalers_delight:leisamboo_tea"
+    },
+    {
+      "item": "immortalers_delight:leisamboo_tea"
+    },
+    {
+      "item": "immortalers_delight:himekaido"
+    },
+    {
+      "tag": "forge:cooked_rice"
+    }
+  ],
+  "result": {
+    "item": "immortalers_delight:himekaido_chazuke"
+  },
+  "soup_base": "minecraft:water",
+  "time": 300
+}

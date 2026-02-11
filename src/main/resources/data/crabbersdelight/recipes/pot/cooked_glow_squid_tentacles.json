@@ -1,0 +1,13 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "ingredients": [
+    {
+      "item": "crabbersdelight:raw_glow_squid_tentacles"
+    }
+  ],
+  "result": {
+    "item": "crabbersdelight:cooked_glow_squid_tentacles"
+  },
+  "stir_fry_count": 3,
+  "time": 200
+}

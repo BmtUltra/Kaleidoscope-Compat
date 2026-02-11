@@ -1,0 +1,32 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "carrier": {
+    "item": "minecraft:bowl"
+  },
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 8606770,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_brown",
+  "ingredients": [
+    {
+      "item": "immortalers_delight:himekaido_jelly"
+    },
+    {
+      "item": "minecraft:rotten_flesh"
+    },
+    {
+      "item": "minecraft:rotten_flesh"
+    },
+    {
+      "item": "minecraft:spider_eye"
+    },
+    {
+      "item": "minecraft:spider_eye"
+    }
+  ],
+  "result": {
+    "item": "immortalers_delight:braised_spider_eyes_block"
+  },
+  "soup_base": "minecraft:water",
+  "time": 300
+}

@@ -1,0 +1,35 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "carrier": {
+    "item": "minecraft:pitcher_plant"
+  },
+  "cooking_bubble_color": 16777215,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 65280,
+  "finished_texture": "kaleidoscope_cookery:stockpot/rice_pitcher",
+  "ingredients": [
+    {
+      "tag": "forge:crops/rice"
+    },
+    {
+      "tag": "forge:crops/rice"
+    },
+    {
+      "item": "minecraft:glow_berries"
+    },
+    {
+      "item": "minecraft:glow_berries"
+    },
+    {
+      "item": "immortalers_delight:evolutcorn_grains"
+    },
+    {
+      "item": "immortalers_delight:evolutcorn_grains"
+    }
+  ],
+  "result": {
+    "item": "immortalers_delight:pitcher_plant_claypot_rice"
+  },
+  "soup_base": "minecraft:water",
+  "time": 300
+}

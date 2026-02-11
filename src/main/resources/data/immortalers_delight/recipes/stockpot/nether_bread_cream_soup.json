@@ -1,0 +1,32 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "carrier": {
+    "item": "immortalers_delight:kwat_wheat_toast"
+  },
+  "cooking_bubble_color": 16753920,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 65280,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_orange",
+  "ingredients": [
+    {
+      "item": "farmersdelight:onion"
+    },
+    {
+      "item": "minecraft:brown_mushroom"
+    },
+    {
+      "item": "minecraft:brown_mushroom"
+    },
+    {
+      "tag": "forge:milk"
+    },
+    {
+      "tag": "forge:milk"
+    }
+  ],
+  "result": {
+    "item": "immortalers_delight:nether_bread_cream_soup"
+  },
+  "soup_base": "minecraft:water",
+  "time": 300
+}

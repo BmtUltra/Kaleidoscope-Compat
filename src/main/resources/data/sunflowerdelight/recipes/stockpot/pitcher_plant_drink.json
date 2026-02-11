@@ -1,0 +1,29 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "carrier": {
+    "item": "minecraft:glass_bottle"
+  },
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 221160221,
+  "finished_texture": "kaleidoscope_cookery:stockpot/pitcher_plant_drink",
+  "ingredients": [
+    {
+      "item": "sunflowerdelight:big_pitcher_plant_petal"
+    },
+    {
+      "item": "sunflowerdelight:small_pitcher_plant_petal"
+    },
+    {
+      "item": "minecraft:apple"
+    },
+    {
+      "item": "minecraft:apple"
+    }
+  ],
+  "result": {
+    "item": "sunflowerdelight:pitcher_plant_drink"
+  },
+  "soup_base": "minecraft:water",
+  "time": 300
+}

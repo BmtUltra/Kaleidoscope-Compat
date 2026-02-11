@@ -1,0 +1,22 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "carrier": {
+    "tag": "forge:cooked_rice"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:torchflower"
+    },
+    {
+      "item": "immortalers_delight:torchflower_mustard"
+    },
+    {
+      "tag": "forge:crops/onion"
+    }
+  ],
+  "result": {
+    "item": "immortalers_delight:torchflower_curry_rice"
+  },
+  "stir_fry_count": 3,
+  "time": 200
+}

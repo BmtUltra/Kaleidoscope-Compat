@@ -1,0 +1,26 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "carrier": {
+    "item": "minecraft:bowl"
+  },
+  "cooking_bubble_color": 16777215,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 8606770,
+  "finished_texture": "kaleidoscope_cookery:default_finished_brown",
+  "ingredients": [
+    {
+      "item": "minecraft:porkchop"
+    },
+    {
+      "item": "immortalers_delight:warped_laurel"
+    },
+    {
+      "item": "immortalers_delight:kwat_wheat_paste"
+    }
+  ],
+  "result": {
+    "item": "immortalers_delight:braised_pork"
+  },
+  "soup_base": "minecraft:water",
+  "time": 300
+}

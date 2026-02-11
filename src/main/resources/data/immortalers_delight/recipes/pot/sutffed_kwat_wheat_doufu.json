@@ -1,0 +1,26 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "ingredients": [
+    {
+      "item": "immortalers_delight:fry_kwat_wheat_doufu"
+    },
+    {
+      "item": "immortalers_delight:fry_kwat_wheat_doufu"
+    },
+    {
+      "tag": "forge:crops/rice"
+    },
+    {
+      "tag": "forge:mushrooms"
+    },
+    {
+      "tag": "forge:raw_meat"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "item": "immortalers_delight:sutffed_kwat_wheat_doufu"
+  },
+  "stir_fry_count": 3,
+  "time": 200
+}

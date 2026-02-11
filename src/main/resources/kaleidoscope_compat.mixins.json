@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.bmt.kaleidoscope_compat.mixins",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+  ],
+  "mixins": [
+    "AdvanceBlockMatchToolMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

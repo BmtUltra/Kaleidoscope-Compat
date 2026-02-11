@@ -1,0 +1,22 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "carrier": {
+    "item": "minecraft:paper"
+  },
+  "ingredients": [
+    {
+      "item": "immortalers_delight:evolutcorn_grains"
+    },
+    {
+      "item": "immortalers_delight:evolutcorn_grains"
+    },
+    {
+      "item": "minecraft:honey_bottle"
+    }
+  ],
+  "result": {
+    "item": "immortalers_delight:popolutcorn"
+  },
+  "stir_fry_count": 3,
+  "time": 200
+}

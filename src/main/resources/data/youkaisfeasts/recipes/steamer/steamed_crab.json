@@ -1,0 +1,10 @@
+{
+  "type": "kaleidoscope_cookery:steamer",
+  "cook_tick": 1200,
+  "ingredient": {
+    "item": "youkaisfeasts:crab"
+  },
+  "result": {
+    "item": "youkaisfeasts:steamed_crab"
+  }
+}

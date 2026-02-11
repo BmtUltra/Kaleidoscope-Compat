@@ -1,0 +1,12 @@
+{
+  "type": "kaleidoscope_cookery:chopping_board",
+  "cut_count": 2,
+  "ingredient": {
+    "item": "crabbersdelight:cooked_crab"
+  },
+  "model_id": "kaleidoscope_cookery:crab",
+  "result": {
+    "count": 4,
+    "item": "crabbersdelight:crab_legs"
+  }
+}

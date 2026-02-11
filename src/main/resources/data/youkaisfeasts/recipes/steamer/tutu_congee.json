@@ -1,0 +1,10 @@
+{
+  "type": "kaleidoscope_cookery:steamer",
+  "cook_tick": 1200,
+  "ingredient": {
+    "item": "youkaisfeasts:raw_tutu_congee"
+  },
+  "result": {
+    "item": "youkaisfeasts:tutu_congee"
+  }
+}

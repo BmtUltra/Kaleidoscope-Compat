@@ -1,0 +1,26 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "carrier": {
+    "item": "minecraft:nautilus_shell"
+  },
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 16711935,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_himekaido",
+  "ingredients": [
+    {
+      "item": "minecraft:kelp"
+    },
+    {
+      "item": "minecraft:apple"
+    },
+    {
+      "item": "minecraft:sweet_berries"
+    }
+  ],
+  "result": {
+    "item": "oceanic_delight:nautilus_juice"
+  },
+  "soup_base": "minecraft:water",
+  "time": 300
+}

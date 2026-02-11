@@ -1,0 +1,23 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "cooking_bubble_color": 16777215,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 8606770,
+  "finished_texture": "kaleidoscope_cookery:default_finished_brown",
+  "ingredients": [
+    {
+      "item": "minecraft:chicken"
+    },
+    {
+      "item": "immortalers_delight:warped_laurel"
+    },
+    {
+      "item": "immortalers_delight:kwat_wheat_paste"
+    }
+  ],
+  "result": {
+    "item": "immortalers_delight:lu_chicken_legs"
+  },
+  "soup_base": "minecraft:water",
+  "time": 300
+}

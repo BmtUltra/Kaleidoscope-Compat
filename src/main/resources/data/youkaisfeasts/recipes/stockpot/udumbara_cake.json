@@ -1,0 +1,23 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "carrier": {
+    "item": "minecraft:bowl"
+  },
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 16761035,
+  "finished_texture": "kaleidoscope_cookery:stockpot/cake",
+  "ingredients": [
+    {
+      "tag": "forge:dough/wheat"
+    },
+    {
+      "item": "youkaisfeasts:udumbara_flower"
+    }
+  ],
+  "result": {
+    "item": "youkaisfeasts:udumbara_cake"
+  },
+  "soup_base": "minecraft:water",
+  "time": 300
+}

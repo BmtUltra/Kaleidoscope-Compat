@@ -1,0 +1,29 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "carrier": {
+    "item": "minecraft:glass_bottle"
+  },
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 255204153,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_pod",
+  "ingredients": [
+    {
+      "item": "minecraft:brown_mushroom"
+    },
+    {
+      "item": "minecraft:hanging_roots"
+    },
+    {
+      "item": "sunflowerdelight:pitcher_pod_pulp"
+    },
+    {
+      "item": "sunflowerdelight:pitcher_pod_pulp"
+    }
+  ],
+  "result": {
+    "item": "sunflowerdelight:pitcher_pod_decoction"
+  },
+  "soup_base": "minecraft:water",
+  "time": 300
+}

@@ -1,0 +1,26 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "carrier": {
+    "item": "minecraft:bowl"
+  },
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 16711680,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_blaze",
+  "ingredients": [
+    {
+      "item": "immortalers_delight:torchflower_mustard"
+    },
+    {
+      "item": "minecraft:kelp"
+    },
+    {
+      "tag": "forge:raw_beef"
+    }
+  ],
+  "result": {
+    "item": "immortalers_delight:hot_hi_soup"
+  },
+  "soup_base": "minecraft:water",
+  "time": 300
+}

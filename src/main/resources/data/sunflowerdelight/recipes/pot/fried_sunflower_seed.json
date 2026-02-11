@@ -1,0 +1,13 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "ingredients": [
+    {
+      "item": "sunflowerdelight:peeled_sunflower_seed"
+    }
+  ],
+  "result": {
+    "item": "sunflowerdelight:fried_sunflower_seed"
+  },
+  "stir_fry_count": 3,
+  "time": 200
+}

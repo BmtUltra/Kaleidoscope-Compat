@@ -1,0 +1,23 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "carrier": {
+    "item": "minecraft:bowl"
+  },
+  "cooking_bubble_color": 16753920,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 16777088,
+  "finished_texture": "kaleidoscope_cookery:stockpot/potatoes",
+  "ingredients": [
+    {
+      "item": "immortalers_delight:mashed_potatoes"
+    },
+    {
+      "item": "immortalers_delight:himekaido_jelly"
+    }
+  ],
+  "result": {
+    "item": "immortalers_delight:mashed_potato_with_jam"
+  },
+  "soup_base": "minecraft:water",
+  "time": 300
+}

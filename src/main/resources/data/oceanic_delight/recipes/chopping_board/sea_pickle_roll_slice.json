@@ -1,0 +1,12 @@
+{
+  "type": "kaleidoscope_cookery:chopping_board",
+  "cut_count": 2,
+  "ingredient": {
+    "item": "oceanic_delight:sea_pickle_roll"
+  },
+  "model_id": "kaleidoscope_cookery:sea_roll",
+  "result": {
+    "count": 3,
+    "item": "oceanic_delight:sea_pickle_roll_slice"
+  }
+}
