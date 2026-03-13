@@ -1,4 +1,4 @@
-package com.bmt.kaleidoscope_compat.mixins;
+package com.bmt.kaleidoscope_compat.mixins.curios;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.loot.AdvanceBlockMatchTool;
 import net.minecraft.world.entity.Entity;

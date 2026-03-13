@@ -11,8 +11,6 @@ public class ThirstCompat {
 
     @SubscribeEvent
     public static void onCommonSetup(FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> {
-            ThirstConfigGenerator.generateConfig();
-        });
+        event.enqueueWork(ThirstConfigGenerator::generateConfig);
     }
 }

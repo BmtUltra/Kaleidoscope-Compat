@@ -134,10 +134,13 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
-    implementation fg.deobf("maven.modrinth:kaleidoscope-cookery:1.2.0-forge+mc1.20.1")
-    implementation fg.deobf("maven.modrinth:curios:5.14.1+1.20.1")
+    implementation fg.deobf("maven.modrinth:kaleidoscope-cookery:1.1.1-forge+mc1.20.1")
+    //implementation fg.deobf("maven.modrinth:curios:5.14.1+1.20.1")
+    compileOnly fg.deobf("maven.modrinth:curios:5.14.1+1.20.1")
+    runtimeOnly fg.deobf("maven.modrinth:curios:5.14.1+1.20.1")
+    compileOnly fg.deobf("mezz.jei:jei-1.20.1-forge:15.20.0.105")
     runtimeOnly fg.deobf("mezz.jei:jei-1.20.1-forge:15.20.0.105")
-    runtimeOnly fg.deobf("maven.modrinth:thirst-was-taken:1.20.1-1.4.0")
+    //runtimeOnly fg.deobf("maven.modrinth:thirst-was-taken:1.20.1-1.4.0")
     runtimeOnly fg.deobf("maven.modrinth:appleskin:2.5.1+mc1.20.1")
     runtimeOnly fg.deobf("maven.modrinth:cloth-config:11.1.136+forge")
     runtimeOnly fg.deobf("maven.modrinth:architectury-api:9.2.14+forge")

@@ -2,11 +2,12 @@
   "required": true,
   "minVersion": "0.8",
   "package": "com.bmt.kaleidoscope_compat.mixins",
+  "plugin": "com.bmt.kaleidoscope_compat.mixins.MainMixinPlugin",
   "compatibilityLevel": "JAVA_17",
   "client": [
   ],
   "mixins": [
-    "AdvanceBlockMatchToolMixin"
+    "curios.AdvanceBlockMatchToolMixin"
   ],
   "injectors": {
     "defaultRequire": 1
