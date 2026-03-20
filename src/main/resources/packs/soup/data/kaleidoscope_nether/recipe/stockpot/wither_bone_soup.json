@@ -1,0 +1,32 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "cooking_bubble_color": 0,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 4338990,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_black",
+  "ingredients": [
+    {
+      "tag": "c:wither"
+    },
+    {
+      "tag": "c:wither"
+    },
+    {
+      "tag": "c:wither"
+    },
+    {
+      "item": "minecraft:coal"
+    },
+    {
+      "item": "minecraft:coal"
+    },
+    {
+      "item": "minecraft:coal"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "id": "kaleidoscope_nether:wither_bone_soup"
+  },
+  "soup_base": "minecraft:lava"
+}

@@ -1,0 +1,25 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 15651223,
+  "finished_texture": "kaleidoscope_cookery:stockpot/rice_moshroom",
+  "ingredients": [
+    {
+      "item": "minecraft:carrot"
+    },
+    {
+      "item": "minecraft:golden_carrot"
+    },
+    {
+      "tag": "c:crops/rice"
+    },
+    {
+      "tag": "c:foods/raw_mutton"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "kaleidoscope_chinesefood:lamb_pilaf"
+  }
+}

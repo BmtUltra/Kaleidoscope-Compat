@@ -1,0 +1,47 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 10948634,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_blood",
+  "ingredients": [
+    [
+      {
+        "tag": "c:raw_ham"
+      },
+      {
+        "item": "kaleidoscope_nether:ham_slice"
+      }
+    ],
+    [
+      {
+        "tag": "c:raw_ham"
+      },
+      {
+        "item": "kaleidoscope_nether:ham_slice"
+      }
+    ],
+    {
+      "tag": "c:hot_spices"
+    },
+    {
+      "tag": "c:vegetables/pepper"
+    },
+    {
+      "tag": "c:vegetables/pepper"
+    },
+    {
+      "tag": "c:foods/pasta"
+    },
+    {
+      "tag": "c:foods/pasta"
+    },
+    {
+      "tag": "c:foods/pasta"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "id": "kaleidoscope_nether:spicy_hoglin_ramen"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 10948634,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_blood",
+  "ingredients": [
+    {
+      "tag": "c:foods/raw_pork"
+    },
+    {
+      "tag": "c:foods/raw_pork"
+    },
+    {
+      "tag": "c:vegetables/chilipepper"
+    },
+    {
+      "tag": "c:vegetables/chilipepper"
+    },
+    {
+      "tag": "c:vegetables/lettuce"
+    },
+    {
+      "tag": "c:foods/pasta"
+    },
+    {
+      "tag": "c:foods/pasta"
+    },
+    {
+      "tag": "c:foods/pasta"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "id": "kaleidoscope_nether:chongqing_noodles"
+  }
+}

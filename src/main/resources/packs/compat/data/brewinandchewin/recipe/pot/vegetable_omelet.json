@@ -1,0 +1,23 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "ingredients": [
+    {
+      "tag": "brewinandchewin:foods/cheese_wedge"
+    },
+    {
+      "tag": "c:eggs"
+    },
+    {
+      "tag": "c:eggs"
+    },
+    {
+      "tag": "c:foods/onion"
+    },
+    {
+      "tag": "c:foods/carrot"
+    }
+  ],
+  "result": {
+    "id": "brewinandchewin:vegetable_omelet"
+  }
+}

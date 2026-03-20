@@ -1,0 +1,23 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "ingredients": [
+    {
+      "item": "minecraft:rotten_flesh"
+    },
+    {
+      "item": "minecraft:rotten_flesh"
+    },
+    {
+      "tag": "c:dough"
+    },
+    {
+      "tag": "c:crops/onion"
+    },
+    {
+      "item": "casualnessdelight:capsicum_sauce"
+    }
+  ],
+  "result": {
+    "id": "casualnessdelight:spicy_strips"
+  }
+}

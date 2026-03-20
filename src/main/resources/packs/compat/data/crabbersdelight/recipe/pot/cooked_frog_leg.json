@@ -1,0 +1,11 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "ingredients": [
+    {
+      "item": "crabbersdelight:raw_frog_leg"
+    }
+  ],
+  "result": {
+    "id": "crabbersdelight:cooked_frog_leg"
+  }
+}

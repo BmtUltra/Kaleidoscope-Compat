@@ -1,0 +1,30 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 6957334,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_bobo",
+  "ingredients": [
+    {
+      "item": "casualnessdelight:raw_cabbage_bobo_chicken"
+    },
+    {
+      "item": "casualnessdelight:raw_cabbage_bobo_chicken"
+    },
+    {
+      "item": "casualnessdelight:raw_potato_bobo_chicken"
+    },
+    {
+      "item": "casualnessdelight:raw_potato_bobo_chicken"
+    },
+    {
+      "item": "casualnessdelight:raw_chicken_bobo_chicken"
+    },
+    {
+      "item": "casualnessdelight:raw_chicken_bobo_chicken"
+    }
+  ],
+  "result": {
+    "id": "casualnessdelight:bobo_chicken"
+  }
+}

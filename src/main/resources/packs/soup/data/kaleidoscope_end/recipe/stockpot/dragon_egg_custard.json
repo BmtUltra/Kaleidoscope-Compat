@@ -1,0 +1,33 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "carrier": {
+    "item": "kaleidoscope_end:dragon_egg_shell"
+  },
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 11243699,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_chorus",
+  "ingredients": [
+    {
+      "item": "kaleidoscope_end:ender_mint"
+    },
+    {
+      "item": "kaleidoscope_end:ender_mint"
+    },
+    {
+      "item": "kaleidoscope_end:ender_mint"
+    },
+    {
+      "item": "kaleidoscope_end:optic_nerve"
+    },
+    {
+      "item": "kaleidoscope_end:optic_nerve"
+    },
+    {
+      "item": "kaleidoscope_end:dragon_egg_liquid"
+    }
+  ],
+  "result": {
+    "id": "kaleidoscope_end:dragon_egg_custard"
+  }
+}

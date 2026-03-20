@@ -1,0 +1,11 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "ingredients": [
+    {
+      "item": "farmersdelight:cod_slice"
+    }
+  ],
+  "result": {
+    "id": "farmersdelight:cooked_cod_slice"
+  }
+}

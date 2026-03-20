@@ -1,0 +1,37 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 16382186,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_white",
+  "ingredients": [
+    {
+      "item": "kaleidoscope_end:void_conch"
+    },
+    {
+      "tag": "c:eggs"
+    },
+    {
+      "tag": "c:eggs"
+    },
+    {
+      "tag": "c:crops"
+    },
+    {
+      "tag": "c:crops"
+    },
+    {
+      "tag": "c:pasta"
+    },
+    {
+      "tag": "c:pasta"
+    },
+    {
+      "tag": "c:pasta"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "id": "kaleidoscope_end:void_conch_noodle_soup"
+  }
+}

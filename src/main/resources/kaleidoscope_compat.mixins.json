@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.bmt.kaleidoscope_compat.mixin",
+  "plugin": "com.bmt.kaleidoscope_compat.mixin.MainMixinPlugin",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+  ],
+  "mixins": [
+    "curios.AdvanceBlockMatchToolMixin",
+    "farmersdelight.NourishmentEffectMixin",
+    "kaleidoscope_compat.TransmutationLunchBagItemMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "carrier": {
+    "item": "minecraft:bowl"
+  },
+  "ingredients": [
+    {
+      "tag": "c:foods/cooked_rice"
+    },
+    {
+      "tag": "c:crops/onion"
+    },
+    {
+      "item": "crabbersdelight:shrimp"
+    },
+    {
+      "item": "minecraft:carrot"
+    }
+  ],
+  "result": {
+    "id": "crabbersdelight:shrimp_fried_rice"
+  }
+}

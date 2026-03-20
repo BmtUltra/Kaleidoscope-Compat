@@ -1,0 +1,11 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "ingredients": [
+    {
+      "item": "crabbersdelight:pufferfish_slice"
+    }
+  ],
+  "result": {
+    "id": "crabbersdelight:cooked_pufferfish_slice"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "ingredients": [
+    {
+      "item": "crabbersdelight:raw_squid_tentacles"
+    }
+  ],
+  "result": {
+    "id": "crabbersdelight:cooked_squid_tentacles"
+  }
+}
