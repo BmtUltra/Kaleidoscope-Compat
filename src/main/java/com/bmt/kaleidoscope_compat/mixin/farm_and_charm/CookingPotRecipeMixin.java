@@ -1,13 +1,13 @@
-package com.bmt.kaleidoscope_compat.mixin.farmersdelight;
+package com.bmt.kaleidoscope_compat.mixin.farm_and_charm;
 
 import com.bmt.kaleidoscope_compat.config.KCConfig;
 import net.minecraft.world.level.Level;
-import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import vectorwing.farmersdelight.common.crafting.CookingPotRecipe;
+import net.satisfy.farm_and_charm.core.recipe.CookingPotRecipe;
+import net.minecraft.world.item.crafting.RecipeInput;
 
 @Mixin(CookingPotRecipe.class)
 public class CookingPotRecipeMixin {
@@ -17,8 +17,8 @@ public class CookingPotRecipeMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    private void kc$interceptCookingPotRecipes(RecipeWrapper inv, Level level, CallbackInfoReturnable<Boolean> cir) {
-        if (KCConfig.cookingPotRecipesDisabled) {
+    private void kc$interceptFarmAndCharmCookingPotRecipes(RecipeInput recipeInput, Level level, CallbackInfoReturnable<Boolean> cir) {
+        if (KCConfig.farmAndCharmCookingPotRecipesDisabled) {
             cir.setReturnValue(false);
         }
     }

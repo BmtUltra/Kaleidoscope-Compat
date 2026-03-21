@@ -69,6 +69,11 @@ public class KCConfig {
                     "When enabled, all cutting board recipes will not work")
             .define("farmersdelight.cutting_board_recipes_disabled", false);
 
+    private static final ModConfigSpec.BooleanValue FARM_AND_CHARM_COOKING_POT_RECIPES_DISABLED = BUILDER
+            .comment("Whether all Farm and Charm cooking pot recipes are disabled",
+                    "When enabled, all Farm and Charm cooking pot recipes will not work")
+            .define("farm_and_charm.cooking_pot_recipes_disabled", false);
+
     public static final ModConfigSpec SPEC = BUILDER.build();
 
     public static DatapackMode datapackMode = DatapackMode.COMPAT;
@@ -84,25 +89,20 @@ public class KCConfig {
     public static boolean cookingPotRecipesDisabled = false;
     public static boolean cuttingBoardRecipesDisabled = false;
 
+    public static boolean farmAndCharmCookingPotRecipesDisabled = false;
+
     @SubscribeEvent
     public static void onLoad(final ModConfigEvent event) {
         datapackMode = DATAPACK_MODE.get();
-
         soupDatapackEnabled = SOUP_DATAPACK_ENABLED.get();
-
         lunchBagBlacklistEnabled = LUNCH_BAG_BLACKLIST_ENABLED.get();
-
         satiatedShieldWeakenEnabled = SATIATED_SHIELD_WEAKEN_ENABLED.get();
-
         satiatedShieldDamageReductionRatio = SATIATED_SHIELD_DAMAGE_REDUCTION_RATIO.get();
-
         nourishmentEffectBlockEnabled = NOURISHMENT_EFFECT_BLOCK_ENABLED.get();
-
         transmutationLunchBagBackEnabled = TRANSMUTATION_LUNCH_BAG_BACK_ENABLED.get();
-
         cookingPotRecipesDisabled = COOKING_POT_RECIPES_DISABLED.get();
-
         cuttingBoardRecipesDisabled = CUTTING_BOARD_RECIPES_DISABLED.get();
+        farmAndCharmCookingPotRecipesDisabled = FARM_AND_CHARM_COOKING_POT_RECIPES_DISABLED.get();
 
         lunchBagBlacklist.clear();
         for (String itemStr : LUNCH_BAG_BLACKLIST.get()) {
