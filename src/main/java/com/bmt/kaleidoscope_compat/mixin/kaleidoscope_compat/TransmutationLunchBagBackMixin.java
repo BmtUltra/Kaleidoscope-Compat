@@ -117,7 +117,6 @@ public class TransmutationLunchBagBackMixin {
             TransmutationLunchBagItem.setItems(bag, items);
             return bag;
         }
-
         return bag;
     }
 }
