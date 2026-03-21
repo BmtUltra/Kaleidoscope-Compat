@@ -74,6 +74,11 @@ public class KCConfig {
                     "When enabled, all Farm and Charm cooking pot recipes will not work")
             .define("farm_and_charm.cooking_pot_recipes_disabled", false);
 
+    private static final ModConfigSpec.BooleanValue VINERY_BARREL_RECIPES_DISABLED = BUILDER
+            .comment("Whether all Vinery fermentation barrel recipes are disabled",
+                    "When enabled, all Vinery fermentation barrel recipes will not work")
+            .define("vinery.barrel_recipes_disabled", false);
+
     public static final ModConfigSpec SPEC = BUILDER.build();
 
     public static DatapackMode datapackMode = DatapackMode.COMPAT;
@@ -90,6 +95,7 @@ public class KCConfig {
     public static boolean cuttingBoardRecipesDisabled = false;
 
     public static boolean farmAndCharmCookingPotRecipesDisabled = false;
+    public static boolean vineryBarrelRecipesDisabled = false;
 
     @SubscribeEvent
     public static void onLoad(final ModConfigEvent event) {
@@ -103,6 +109,7 @@ public class KCConfig {
         cookingPotRecipesDisabled = COOKING_POT_RECIPES_DISABLED.get();
         cuttingBoardRecipesDisabled = CUTTING_BOARD_RECIPES_DISABLED.get();
         farmAndCharmCookingPotRecipesDisabled = FARM_AND_CHARM_COOKING_POT_RECIPES_DISABLED.get();
+        vineryBarrelRecipesDisabled = VINERY_BARREL_RECIPES_DISABLED.get();
 
         lunchBagBlacklist.clear();
         for (String itemStr : LUNCH_BAG_BLACKLIST.get()) {

@@ -20,6 +20,9 @@
     "kaleidoscope_compat.TransmutationLunchBagItemMixin",
     "vinery.BarCabinetBlockEntityRenderMixin",
     "vinery.BarCabinetBlockMixin",
+    "vinery.BarrelRecipeCategoryMixin",
+    "vinery.FermentationBarrelRecipeMixin",
+    "vinery.RecipeManagerMixin",
     "youkaisfeasts.BarCabinetBlockMixin",
     "youkaisfeasts.SauceRackBlockEntityMixin",
     "youkaisfeasts.WineShelfBlockEntityMixin"
