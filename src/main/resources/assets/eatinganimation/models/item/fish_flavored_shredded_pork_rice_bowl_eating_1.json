@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "eatinganimation:item/fish_flavored_shredded_pork_rice_bowl_eating_1"
+  }
+}

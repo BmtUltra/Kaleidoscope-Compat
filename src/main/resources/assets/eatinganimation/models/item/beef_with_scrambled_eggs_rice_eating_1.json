@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "eatinganimation:item/beef_with_scrambled_eggs_rice_eating_1"
+  }
+}

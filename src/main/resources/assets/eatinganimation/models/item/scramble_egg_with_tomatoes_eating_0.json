@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "eatinganimation:item/scramble_egg_with_tomatoes_eating_0"
+  }
+}

@@ -9,20 +9,14 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import net.minecraft.world.item.ItemStack;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import top.theillusivec4.curios.api.CuriosApi;
 
 @Mixin(AdvanceBlockMatchTool.class)
 public class AdvanceBlockMatchToolMixin {
-
-    @Unique
-    private static final Logger kaleidoscopecompat_template_1_21_1$LOGGER = LoggerFactory.getLogger("KaleidoscopeCompat");
 
     @Shadow
     @Final
@@ -54,14 +48,8 @@ public class AdvanceBlockMatchToolMixin {
                     for (int i = 0; i < stacks.getSlots(); i++) {
                         ItemStack stack = stacks.getStackInSlot(i);
                         if (!stack.isEmpty()) {
-                            var itemTags = stack.getTags();
-                            kaleidoscopecompat_template_1_21_1$LOGGER.debug("Checking Curios head slot item: {}, tags: {}", stack.getItem(), itemTags.map(tag -> tag.location().toString()).toList());
-
                             boolean matches = this.predicate.test(stack);
-                            kaleidoscopecompat_template_1_21_1$LOGGER.debug("Item {} matches predicate: {}", stack.getItem(), matches);
-
                             if (matches) {
-                                kaleidoscopecompat_template_1_21_1$LOGGER.debug("Found matching item in Curios head slot: {}", stack.getItem());
                                 cir.setReturnValue(true);
                                 return;
                             }
