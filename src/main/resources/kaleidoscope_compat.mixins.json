@@ -9,7 +9,9 @@
   "mixins": [
     "curios.AdvanceBlockMatchToolMixin",
     "farmersdelight.NourishmentEffectMixin",
+    "kaleidoscope_compat.SatiatedShieldEventMixin",
     "kaleidoscope_compat.TransmutationLunchBagItemMixin",
+    "kaleidoscope_compat.TransmutationLunchBagBackMixin",
     "youkaisfeasts.WineShelfBlockEntityMixin"
   ],
   "injectors": {

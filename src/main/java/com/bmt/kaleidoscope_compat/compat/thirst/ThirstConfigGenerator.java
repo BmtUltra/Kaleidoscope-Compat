@@ -25,7 +25,20 @@ public class ThirstConfigGenerator {
         SOUP_ITEMS.put("kaleidoscope_cookery:borscht", new int[]{6, 8});
         SOUP_ITEMS.put("kaleidoscope_cookery:beef_meatball_soup", new int[]{4, 6});
         SOUP_ITEMS.put("kaleidoscope_cookery:chicken_and_mushroom_stew", new int[]{5, 7});
+        SOUP_ITEMS.put("kaleidoscope_cookery:donkey_soup", new int[]{6, 8});
+
         SOUP_ITEMS.put("kaleidoscope_nether:blaze_soup", new int[]{5, 7});
+        SOUP_ITEMS.put("kaleidoscope_nether:wither_bone_soup", new int[]{4, 6});
+        SOUP_ITEMS.put("kaleidoscope_nether:star_stew", new int[]{3, 5});
+        SOUP_ITEMS.put("kaleidoscope_nether:soul_soup", new int[]{3, 5});
+        SOUP_ITEMS.put("kaleidoscope_nether:poisonous_soup", new int[]{3, 5});
+        SOUP_ITEMS.put("kaleidoscope_nether:magma_cream_soup", new int[]{3, 5});
+        SOUP_ITEMS.put("kaleidoscope_nether:glowing_soup", new int[]{3, 5});
+
+        SOUP_ITEMS.put("kaleidoscope_end:dragon_breath_chorus_soup", new int[]{6, 8});
+
+        SOUP_ITEMS.put("kaleidoscope_chinesefood:seaweed_egg_drop_soup", new int[]{6, 8});
+        SOUP_ITEMS.put("kaleidoscope_chinesefood:tomato_egg_drop_soup", new int[]{6, 8});
     }
 
     public static void generateConfig() {

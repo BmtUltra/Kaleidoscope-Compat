@@ -28,14 +28,36 @@ public class KCConfig {
 
     private static final ModConfigSpec.BooleanValue LUNCH_BAG_BLACKLIST_ENABLED = BUILDER
             .comment("Whether the lunch bag blacklist is enabled")
-            .define("lunchBag.blacklist_enabled", true);
+            .define("lunchBlacklist.blacklist_enabled", true);
 
     private static final ModConfigSpec.ConfigValue<List<? extends String>> LUNCH_BAG_BLACKLIST = BUILDER
             .comment("List of item IDs that cannot be put into the Transmutation Lunch Bag",
                     "Format: modid:item_id (e.g., artifacts:everlasting_beef, minecraft:apple)")
-            .defineList("lunchBag.blacklist",
+            .defineList("lunchBlacklist.blacklist",
                     Arrays.asList("artifacts:eternal_steak","kaleidoscope_nether:everlasting_flame_steak"),
                     KCConfig::validateItemName);
+
+    private static final ModConfigSpec.BooleanValue SATIATED_SHIELD_WEAKEN_ENABLED = BUILDER
+            .comment("Whether the weakened satiated shield effect is enabled",
+                    "When enabled, satiated shield will be weakened according to config settings")
+            .define("satiatedShield.weaken_enabled", false);
+
+    private static final ModConfigSpec.DoubleValue SATIATED_SHIELD_DAMAGE_REDUCTION_RATIO = BUILDER
+            .comment("Damage reduction ratio for weakened satiated shield effect",
+                    "Value between 0.0 (no reduction) and 1.0 (100% reduction)",
+                    "Default: 0.5 (50% damage reduction)")
+            .defineInRange("satiatedShield.damage_reduction_ratio", 0.5, 0.0, 1.0);
+
+    private static final ModConfigSpec.BooleanValue NOURISHMENT_EFFECT_BLOCK_ENABLED = BUILDER
+            .comment("Whether Nourishment effect is blocked when player has Satiated Shield",
+                    "When enabled, FarmersDelight's Nourishment effect will not work if player has Satiated Shield effect")
+            .define("nourishmentEffect.block_enabled", true);
+
+    private static final ModConfigSpec.BooleanValue TRANSMUTATION_LUNCH_BAG_BACK_ENABLED = BUILDER
+            .comment("Whether the modified Transmutation Lunch Bag behavior is enabled",
+                    "When enabled, the lunch bag will only consume the first food item but apply all effects from all items in the bag",
+                    "When disabled, the original Kaleidoscope Cookery behavior will be used")
+            .define("transmutationLunchBag.back_behavior_enabled", false);
 
     public static final ModConfigSpec SPEC = BUILDER.build();
 
@@ -44,11 +66,27 @@ public class KCConfig {
     public static boolean lunchBagBlacklistEnabled = true;
     public static Set<ResourceLocation> lunchBagBlacklist = new HashSet<>();
 
+    public static boolean satiatedShieldWeakenEnabled = true;
+    public static double satiatedShieldDamageReductionRatio = 0.5;
+    public static boolean nourishmentEffectBlockEnabled = true;
+
+    public static boolean transmutationLunchBagBackEnabled = true;
+
     @SubscribeEvent
     public static void onLoad(final ModConfigEvent event) {
         datapackMode = DATAPACK_MODE.get();
+
         soupDatapackEnabled = SOUP_DATAPACK_ENABLED.get();
+
         lunchBagBlacklistEnabled = LUNCH_BAG_BLACKLIST_ENABLED.get();
+
+        satiatedShieldWeakenEnabled = SATIATED_SHIELD_WEAKEN_ENABLED.get();
+
+        satiatedShieldDamageReductionRatio = SATIATED_SHIELD_DAMAGE_REDUCTION_RATIO.get();
+
+        nourishmentEffectBlockEnabled = NOURISHMENT_EFFECT_BLOCK_ENABLED.get();
+
+        transmutationLunchBagBackEnabled = TRANSMUTATION_LUNCH_BAG_BACK_ENABLED.get();
 
         lunchBagBlacklist.clear();
         for (String itemStr : LUNCH_BAG_BLACKLIST.get()) {
