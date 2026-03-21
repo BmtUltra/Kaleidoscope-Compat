@@ -59,6 +59,16 @@ public class KCConfig {
                     "When disabled, the original Kaleidoscope Cookery behavior will be used")
             .define("transmutationLunchBag.back_behavior_enabled", false);
 
+    private static final ModConfigSpec.BooleanValue COOKING_POT_RECIPES_DISABLED = BUILDER
+            .comment("Whether all FarmersDelight cooking pot recipes are disabled",
+                    "When enabled, all cooking pot recipes will not work")
+            .define("farmersdelight.cooking_pot_recipes_disabled", false);
+
+    private static final ModConfigSpec.BooleanValue CUTTING_BOARD_RECIPES_DISABLED = BUILDER
+            .comment("Whether all FarmersDelight cutting board recipes are disabled",
+                    "When enabled, all cutting board recipes will not work")
+            .define("farmersdelight.cutting_board_recipes_disabled", false);
+
     public static final ModConfigSpec SPEC = BUILDER.build();
 
     public static DatapackMode datapackMode = DatapackMode.COMPAT;
@@ -71,6 +81,8 @@ public class KCConfig {
     public static boolean nourishmentEffectBlockEnabled = true;
 
     public static boolean transmutationLunchBagBackEnabled = true;
+    public static boolean cookingPotRecipesDisabled = false;
+    public static boolean cuttingBoardRecipesDisabled = false;
 
     @SubscribeEvent
     public static void onLoad(final ModConfigEvent event) {
@@ -87,6 +99,10 @@ public class KCConfig {
         nourishmentEffectBlockEnabled = NOURISHMENT_EFFECT_BLOCK_ENABLED.get();
 
         transmutationLunchBagBackEnabled = TRANSMUTATION_LUNCH_BAG_BACK_ENABLED.get();
+
+        cookingPotRecipesDisabled = COOKING_POT_RECIPES_DISABLED.get();
+
+        cuttingBoardRecipesDisabled = CUTTING_BOARD_RECIPES_DISABLED.get();
 
         lunchBagBlacklist.clear();
         for (String itemStr : LUNCH_BAG_BLACKLIST.get()) {

@@ -1,5 +1,6 @@
 package com.bmt.kaleidoscope_compat;
 
+import com.bmt.kaleidoscope_compat.compat.farm_and_charm.FarmAndCharmCompat;
 import com.bmt.kaleidoscope_compat.config.KCConfig;
 import com.bmt.kaleidoscope_compat.init.KCSoupBases;
 import net.neoforged.bus.api.IEventBus;
@@ -13,5 +14,6 @@ public class KaleidoscopeCompat {
     public KaleidoscopeCompat(IEventBus modEventBus, ModContainer modContainer) {
         modContainer.registerConfig(ModConfig.Type.COMMON, KCConfig.SPEC);
         KCSoupBases.registerAll();
+        FarmAndCharmCompat.init();
     }
 }

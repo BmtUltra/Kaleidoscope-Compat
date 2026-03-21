@@ -8,10 +8,18 @@
   ],
   "mixins": [
     "curios.AdvanceBlockMatchToolMixin",
+    "farmersdelight.CookingPotRecipeMixin",
+    "farmersdelight.CuttingBoardRecipeMixin",
+    "farmersdelight.FDRecipesMixin",
     "farmersdelight.NourishmentEffectMixin",
     "kaleidoscope_compat.SatiatedShieldEventMixin",
-    "kaleidoscope_compat.TransmutationLunchBagItemMixin",
     "kaleidoscope_compat.TransmutationLunchBagBackMixin",
+    "kaleidoscope_compat.TransmutationLunchBagItemMixin",
+    "farm_and_charm.StockpotRecipeCategoryMixin",
+    "vinery.BarCabinetBlockEntityRenderMixin",
+    "vinery.BarCabinetBlockMixin",
+    "youkaisfeasts.BarCabinetBlockMixin",
+    "youkaisfeasts.SauceRackBlockEntityMixin",
     "youkaisfeasts.WineShelfBlockEntityMixin"
   ],
   "injectors": {
