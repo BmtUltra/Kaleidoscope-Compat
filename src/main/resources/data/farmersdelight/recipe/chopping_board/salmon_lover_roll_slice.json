@@ -1,0 +1,12 @@
+{
+  "type": "kaleidoscope_cookery:chopping_board",
+  "cut_count": 5,
+  "ingredient": {
+    "item": "youkaisfeasts:salmon_lover_roll"
+  },
+  "model_id": "kaleidoscope_cookery:california_rell",
+  "result": {
+    "count": 6,
+    "id": "youkaisfeasts:salmon_lover_roll_slice"
+  }
+}

@@ -7,6 +7,7 @@
   "client": [
   ],
   "mixins": [
+    "kaleidoscope_compat.PhantomMixin",
     "accessories.AdvanceBlockMatchToolMixin",
     "curios.AdvanceBlockMatchToolMixin",
     "farm_and_charm.CookingPotCategoryMixin",
