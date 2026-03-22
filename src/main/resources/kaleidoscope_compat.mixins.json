@@ -7,6 +7,7 @@
   "client": [
   ],
   "mixins": [
+    "accessories.AdvanceBlockMatchToolMixin",
     "curios.AdvanceBlockMatchToolMixin",
     "farm_and_charm.CookingPotCategoryMixin",
     "farm_and_charm.CookingPotRecipeMixin",
