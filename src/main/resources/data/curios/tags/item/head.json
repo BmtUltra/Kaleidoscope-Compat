@@ -1,7 +1,13 @@
 {
   "replace": false,
   "values": [
-    "kaleidoscope_cookery:straw_hat_flower",
-    "kaleidoscope_cookery:straw_hat"
+    {
+      "id": "kaleidoscope_cookery:straw_hat_flower",
+      "required": false
+    },
+    {
+      "id": "kaleidoscope_cookery:straw_hat",
+      "required": false
+    }
   ]
 }
