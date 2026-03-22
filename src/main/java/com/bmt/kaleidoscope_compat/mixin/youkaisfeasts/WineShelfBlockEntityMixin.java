@@ -1,9 +1,8 @@
 package com.bmt.kaleidoscope_compat.mixin.youkaisfeasts;
 
+import com.bmt.kaleidoscope_compat.util.TagUtil;
 import com.github.ysbbbbbb.kaleidoscopetavern.item.BottleBlockItem;
 import com.github.ysbbbbbb.kaleidoscopetavern.item.DrinkBlockItem;
-import dev.xkmc.youkaishomecoming.content.item.fluid.BucketBottleItem;
-import dev.xkmc.youkaishomecoming.content.item.fluid.SlipBottleItem;
 import dev.xkmc.youkaishomecoming.content.pot.storage.shelf.WineShelfBlockEntity;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,7 +20,7 @@ public class WineShelfBlockEntityMixin {
             remap = false
     )
     private static void kaleidoscopeCompat$isFlask(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
-        if (stack.getItem() instanceof SlipBottleItem || stack.getItem() instanceof BucketBottleItem) {
+        if (stack.is(TagUtil.Items.BOTTLE_ITEMS)) {
             cir.setReturnValue(true);
             return;
         }

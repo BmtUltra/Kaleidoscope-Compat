@@ -21,11 +21,10 @@
     "kaleidoscope_end.CropBlockBaseMixin",
     "kaleidoscope_nether.CropBlockBaseMixin",
     "vinery.BarCabinetBlockEntityRenderMixin",
-    "vinery.BarCabinetBlockMixin",
+    "kaleidoscope_compat.BarCabinetBlockMixin",
     "vinery.BarrelRecipeCategoryMixin",
     "vinery.FermentationBarrelRecipeMixin",
     "vinery.RecipeManagerMixin",
-    "youkaisfeasts.BarCabinetBlockMixin",
     "youkaisfeasts.SauceRackBlockEntityMixin",
     "youkaisfeasts.WineShelfBlockEntityMixin"
   ],
