@@ -74,13 +74,12 @@ config="${mod_id}.mixins.json"
     ordering="NONE"
     side="BOTH"
 
-# Curios dependency
-#[[dependencies.${mod_id}]]
-#    modId="curios"
-#    type="required"
-#    versionRange="[9.0.0,)"
-#    ordering="NONE"
-#    side="BOTH"
+[[dependencies.${mod_id}]]
+    modId="curios"
+    type="required"
+    versionRange="[9.0.0,)"
+    ordering="NONE"
+    side="BOTH"
 
 # Kaleidoscope Cookery dependency
 [[dependencies.${mod_id}]]
@@ -90,12 +89,12 @@ config="${mod_id}.mixins.json"
     ordering="AFTER"
     side="BOTH"
 
-#[[dependencies.${mod_id}]]
-#modId="kaleidoscope_tavern"
-#type="required"
-#versionRange="[1.0.0,)"
-#ordering="AFTER"
-#side="BOTH"
+[[dependencies.${mod_id}]]
+modId="kaleidoscope_tavern"
+type="required"
+versionRange="[1.0.0,)"
+ordering="AFTER"
+side="BOTH"
 
 # Artifacts
 [[dependencies.${mod_id}]]
