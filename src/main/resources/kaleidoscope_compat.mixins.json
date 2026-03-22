@@ -18,6 +18,8 @@
     "kaleidoscope_compat.SatiatedShieldEventMixin",
     "kaleidoscope_compat.TransmutationLunchBagBackMixin",
     "kaleidoscope_compat.TransmutationLunchBagItemMixin",
+    "kaleidoscope_end.CropBlockBaseMixin",
+    "kaleidoscope_nether.CropBlockBaseMixin",
     "vinery.BarCabinetBlockEntityRenderMixin",
     "vinery.BarCabinetBlockMixin",
     "vinery.BarrelRecipeCategoryMixin",

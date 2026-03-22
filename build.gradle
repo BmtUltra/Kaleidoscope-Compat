@@ -155,6 +155,9 @@ dependencies {
     compileOnly "maven.modrinth:botany-pots:21.1.41"
     runtimeOnly "maven.modrinth:farmers-delight:1.21.1-1.2.10"
     compileOnly "maven.modrinth:farmers-delight:1.21.1-1.2.10"
+    runtimeOnly "maven.modrinth:kaleidoscope-nether:1.0.6-neoforge+mc1.21.1"
+    compileOnly "maven.modrinth:kaleidoscope-nether:1.0.6-neoforge+mc1.21.1"
+    implementation "maven.modrinth:kaleidoscope-end:1.0.2-neoforge+mc1.21.1"
     implementation "maven.modrinth:thirst-was-taken:1.21.1-2.1.5"
 }
 
