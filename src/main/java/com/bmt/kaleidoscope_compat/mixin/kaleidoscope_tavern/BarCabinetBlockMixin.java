@@ -1,4 +1,4 @@
-package com.bmt.kaleidoscope_compat.mixin.kaleidoscope_compat;
+package com.bmt.kaleidoscope_compat.mixin.kaleidoscope_tavern;
 
 import com.bmt.kaleidoscope_compat.util.TagUtil;
 import com.github.ysbbbbbb.kaleidoscopetavern.block.brew.BarCabinetBlock;
@@ -15,7 +15,7 @@ public abstract class BarCabinetBlockMixin {
 
     @Inject(method = "getBottleBlock", at = @At("HEAD"), cancellable = true, remap = false)
     private void kc$getVineryBottleBlock(ItemStack stack, CallbackInfoReturnable<BottleBlock> cir) {
-        if (stack.is(TagUtil.Items.BOTTLE_ITEMS)) {
+        if (stack.is(TagUtil.Items.SMALL_BOTTLE)) {
             cir.setReturnValue((BottleBlock) ModBlocks.EMPTY_BOTTLE.get());
         }
     }

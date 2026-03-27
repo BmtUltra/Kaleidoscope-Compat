@@ -1,4 +1,4 @@
-package com.bmt.kaleidoscope_compat.mixin.vinery;
+package com.bmt.kaleidoscope_compat.mixin.kaleidoscope_tavern;
 
 import com.github.ysbbbbbb.kaleidoscopetavern.compat.jei.category.BarrelRecipeCategory;
 import com.google.common.collect.Lists;

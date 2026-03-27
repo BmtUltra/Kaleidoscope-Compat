@@ -1,4 +1,4 @@
-package com.bmt.kaleidoscope_compat.mixin.vinery;
+package com.bmt.kaleidoscope_compat.mixin.kaleidoscope_tavern;
 
 import com.github.ysbbbbbb.kaleidoscopetavern.client.render.block.BarCabinetBlockEntityRender;
 import net.minecraft.world.level.block.Block;

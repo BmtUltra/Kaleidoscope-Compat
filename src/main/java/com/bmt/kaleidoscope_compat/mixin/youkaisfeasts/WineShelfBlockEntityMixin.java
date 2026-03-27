@@ -20,12 +20,7 @@ public class WineShelfBlockEntityMixin {
             remap = false
     )
     private static void kaleidoscopeCompat$isFlask(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
-        if (stack.is(TagUtil.Items.BOTTLE_ITEMS)) {
-            cir.setReturnValue(true);
-            return;
-        }
-
-        if (stack.getItem() instanceof BottleBlockItem || stack.getItem() instanceof DrinkBlockItem) {
+        if (stack.is(TagUtil.Items.WINE)) {
             cir.setReturnValue(true);
         }
     }

@@ -89,12 +89,12 @@ config="${mod_id}.mixins.json"
     ordering="AFTER"
     side="BOTH"
 
-[[dependencies.${mod_id}]]
-modId="kaleidoscope_tavern"
-type="required"
-versionRange="[1.0.0,)"
-ordering="AFTER"
-side="BOTH"
+#[[dependencies.${mod_id}]]
+#modId="kaleidoscope_tavern"
+#type="required"
+#versionRange="[1.0.0,)"
+#ordering="AFTER"
+#side="BOTH"
 
 # Artifacts
 [[dependencies.${mod_id}]]

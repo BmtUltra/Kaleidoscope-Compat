@@ -139,7 +139,7 @@ dependencies {
 //    implementation "maven.modrinth:artifacts:13.2.0"
  //   implementation "maven.modrinth:kaleidoscope-nether:1.0.5-fix-1.21.1"
 
-    runtimeOnly "maven.modrinth:curios:9.5.1+1.21.1"
+
     compileOnly "maven.modrinth:curios:9.5.1+1.21.1"
     compileOnly "maven.modrinth:lets-do-farm-charm:1.1.21"
 //    runtimeOnly "maven.modrinth:youkaishomecoming:3.0.8"
@@ -147,7 +147,7 @@ dependencies {
     compileOnly "maven.modrinth:lets-do-vinery:1.5.3"
 
     compileOnly "maven.modrinth:gensokyo-delight-youkais-feasts:1.0.4"
-    runtimeOnly "maven.modrinth:kaleidoscopetavern:1.0.1-neoforge+mc1.21.1"
+
     compileOnly "maven.modrinth:kaleidoscopetavern:1.0.1-neoforge+mc1.21.1"
     compileOnly "maven.modrinth:botany-pots:21.1.41"
     compileOnly "maven.modrinth:farmers-delight:1.21.1-1.2.10"
@@ -160,7 +160,7 @@ dependencies {
     implementation "maven.modrinth:zeta:1.1-39"
     compileOnly "maven.modrinth:accessories:1.1.0-beta.53+1.21.1"
     implementation "maven.modrinth:owo-lib:0.12.15.5-beta.1+1.21"
-    implementation "maven.modrinth:l_enders-cataclysm:3.24"
+//    implementation "maven.modrinth:l_enders-cataclysm:3.24"
     compileOnly "maven.modrinth:create-central-kitchen:2.3.0"
     compileOnly "maven.modrinth:create:mc1.21.1-6.0.9"
     compileOnly "maven.modrinth:create-dragons-plus:1.8.7"
@@ -169,6 +169,7 @@ dependencies {
     runtimeOnly "maven.modrinth:gensokyo-delight-youkais-feasts:1.0.4"
     runtimeOnly "maven.modrinth:botany-pots:21.1.41"
     runtimeOnly "maven.modrinth:kaleidoscope-nether:1.0.6-neoforge+mc1.21.1"
+    runtimeOnly "maven.modrinth:kaleidoscopetavern:1.0.1-neoforge+mc1.21.1"
     runtimeOnly "maven.modrinth:lets-do-vinery:1.5.3"
     runtimeOnly "maven.modrinth:lets-do-farm-charm:1.1.21"
     runtimeOnly "maven.modrinth:quark:4.1-475"
@@ -176,6 +177,7 @@ dependencies {
     runtimeOnly "maven.modrinth:create-central-kitchen:2.3.0"
     runtimeOnly "maven.modrinth:create:mc1.21.1-6.0.9"
     runtimeOnly "maven.modrinth:create-dragons-plus:1.8.7"
+    runtimeOnly "maven.modrinth:curios:9.5.1+1.21.1"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {

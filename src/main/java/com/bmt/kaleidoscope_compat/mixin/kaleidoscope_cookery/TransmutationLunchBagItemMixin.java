@@ -1,4 +1,4 @@
-package com.bmt.kaleidoscope_compat.mixin.kaleidoscope_compat;
+package com.bmt.kaleidoscope_compat.mixin.kaleidoscope_cookery;
 
 import com.bmt.kaleidoscope_compat.config.KCConfig;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.TransmutationLunchBagItem;

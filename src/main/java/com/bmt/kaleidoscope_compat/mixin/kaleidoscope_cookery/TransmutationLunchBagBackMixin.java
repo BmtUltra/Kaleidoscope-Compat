@@ -1,4 +1,4 @@
-package com.bmt.kaleidoscope_compat.mixin.kaleidoscope_compat;
+package com.bmt.kaleidoscope_compat.mixin.kaleidoscope_cookery;
 
 import com.bmt.kaleidoscope_compat.config.KCConfig;
 import com.github.ysbbbbbb.kaleidoscopecookery.advancements.critereon.ModEventTriggerType;
@@ -26,7 +26,7 @@ import java.util.List;
 public class TransmutationLunchBagBackMixin {
 
     /**
-     * @author KC
+     * @author BmtUltra
      * @reason 把饭袋改回原来的样子，农业模组特有的没轻没重（
      */
     @Overwrite

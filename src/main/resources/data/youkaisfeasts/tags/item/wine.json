@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "kaleidoscope_tavern:brandy",
+      "required": false
+    },
+    {
+      "id": "kaleidoscope_tavern:carignan",
+      "required": false
+    }
+  ]
+}
