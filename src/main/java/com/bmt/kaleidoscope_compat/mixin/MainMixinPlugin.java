@@ -1,22 +1,17 @@
 package com.bmt.kaleidoscope_compat.mixin;
 
-import com.mojang.logging.LogUtils;
 import org.objectweb.asm.tree.ClassNode;
-import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
 import java.util.List;
 import java.util.Set;
 
+@SuppressWarnings("all")
 public class MainMixinPlugin implements IMixinConfigPlugin {
 
-    private static final Logger LOGGER = LogUtils.getLogger();
-
     @Override
-    public void onLoad(String mixinPackage) {
-        LOGGER.info("Initializing Kaleidoscope Compat Mixins");
-    }
+    public void onLoad(String mixinPackage) {}
 
     @Override
     public String getRefMapperConfig() {
@@ -29,9 +24,7 @@ public class MainMixinPlugin implements IMixinConfigPlugin {
     }
 
     @Override
-    public void acceptTargets(Set<String> myTargets, Set<String> otherTargets) {
-
-    }
+    public void acceptTargets(Set<String> myTargets, Set<String> otherTargets) {}
 
     @Override
     public List<String> getMixins() {
@@ -39,12 +32,8 @@ public class MainMixinPlugin implements IMixinConfigPlugin {
     }
 
     @Override
-    public void preApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
-
-    }
+    public void preApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {}
 
     @Override
-    public void postApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
-
-    }
+    public void postApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {}
 }
