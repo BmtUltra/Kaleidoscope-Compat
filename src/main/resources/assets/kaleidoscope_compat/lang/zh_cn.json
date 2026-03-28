@@ -1,3 +1,11 @@
 {
-  "jei.category.kaleidoscope_compat.shawarma_spit": "旋风烤肉塔"
+  "jei.category.kaleidoscope_compat.shawarma_spit": "旋风烤肉塔",
+
+  "item.kaleidoscope_tavern.red_grape_juice_bucket": "红葡萄汁桶",
+  "item.kaleidoscope_tavern.white_grape_juice_bucket": "白葡萄汁桶",
+  "item.kaleidoscope_tavern.apple_juice_bucket": "苹果汁桶",
+
+  "fluid.kaleidoscope_tavern.red_grape_juice": "红葡萄汁",
+  "fluid.kaleidoscope_tavern.white_grape_juice": "白葡萄汁",
+  "fluid.kaleidoscope_tavern.apple_juice": "苹果汁"
 }

@@ -1,3 +1,11 @@
 {
-  "jei.category.kaleidoscope_compat.shawarma_spit": "Shawarma Spit"
+  "jei.category.kaleidoscope_compat.shawarma_spit": "Shawarma Spit",
+
+  "item.kaleidoscope_compat.red_grape_juice_bucket": "Red Grape Juice Bucket",
+  "item.kaleidoscope_compat.white_grape_juice_bucket": "White Grape Juice Bucket",
+  "item.kaleidoscope_compat.apple_juice_bucket": "Apple Juice Bucket",
+
+  "fluid.kaleidoscope_compat.red_grape_juice": "Red Grape Juice",
+  "fluid.kaleidoscope_compat.white_grape_juice": "White Grape Juice",
+  "fluid.kaleidoscope_compat.apple_juice": "Apple Juice"
 }
