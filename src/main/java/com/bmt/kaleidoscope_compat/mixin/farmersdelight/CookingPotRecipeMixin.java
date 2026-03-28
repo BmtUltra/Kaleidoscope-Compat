@@ -1,6 +1,6 @@
 package com.bmt.kaleidoscope_compat.mixin.farmersdelight;
 
-import com.bmt.kaleidoscope_compat.config.KCConfig;
+import com.bmt.kaleidoscope_compat.config.MainConfig;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.items.wrapper.RecipeWrapper;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,12 +13,12 @@ import vectorwing.farmersdelight.common.crafting.CookingPotRecipe;
 public class CookingPotRecipeMixin {
 
     @Inject(
-            method = "matches",
+            method = "matches*",
             at = @At("HEAD"),
             cancellable = true
     )
     private void kc$interceptCookingPotRecipes(RecipeWrapper inv, Level level, CallbackInfoReturnable<Boolean> cir) {
-        if (KCConfig.cookingPotRecipesDisabled) {
+        if (MainConfig.cookingPotRecipesDisabled) {
             cir.setReturnValue(false);
         }
     }

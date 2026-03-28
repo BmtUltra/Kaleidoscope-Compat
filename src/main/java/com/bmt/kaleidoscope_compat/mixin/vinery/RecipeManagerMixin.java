@@ -1,10 +1,9 @@
 package com.bmt.kaleidoscope_compat.mixin.vinery;
 
-import com.bmt.kaleidoscope_compat.config.KCConfig;
+import com.bmt.kaleidoscope_compat.config.MainConfig;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.satisfy.vinery.core.recipe.FermentationBarrelRecipe;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -23,7 +22,7 @@ public class RecipeManagerMixin {
     private <T extends net.minecraft.world.item.crafting.Recipe<?>> void kc$interceptVineryBarrelRecipes(
             RecipeType<T> recipeType, CallbackInfoReturnable<List<RecipeHolder<T>>> cir) {
 
-        if (recipeType.toString().contains("wine_fermentation") && KCConfig.vineryBarrelRecipesDisabled) {
+        if (recipeType.toString().contains("wine_fermentation") && MainConfig.vineryBarrelRecipesDisabled) {
             cir.setReturnValue(List.of());
         }
     }

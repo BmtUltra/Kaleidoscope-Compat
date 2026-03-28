@@ -131,14 +131,9 @@ configurations {
 dependencies {
     //implementation "maven.modrinth:curios:9.5.1+1.21.1"
     implementation "maven.modrinth:kaleidoscope-cookery:1.2.1-neoforge+mc1.21.1"
-    //implementation "org.spongepowered:mixin:0.8.5"
-    //implementation "maven.modrinth:jei:19.27.0.340"
-//    compileOnly "maven.modrinth:jei:19.27.0.340"
-//    runtimeOnly "maven.modrinth:jei:19.27.0.340"
     implementation "curse.maven:jei-238222:7420587"
 //    implementation "maven.modrinth:artifacts:13.2.0"
  //   implementation "maven.modrinth:kaleidoscope-nether:1.0.5-fix-1.21.1"
-
 
     compileOnly "maven.modrinth:curios:9.5.1+1.21.1"
     compileOnly "maven.modrinth:lets-do-farm-charm:1.1.21"
@@ -166,6 +161,9 @@ dependencies {
 //    compileOnly "maven.modrinth:create-dragons-plus:1.8.7"
     compileOnly "maven.modrinth:mystical-agriculture:8.0.24"
     implementation "maven.modrinth:cucumber:8.0.15"
+    compileOnly "maven.modrinth:lets-do-brewery-farmcharm-compat:2.1.8"
+    compileOnly "curse.maven:spice-of-life-carrot-edition-277616:7374098"
+//    compileOnly "maven.modrinth:ars-nouveau:5.11.3"
 
     runtimeOnly "maven.modrinth:farmers-delight:1.21.1-1.2.10"
     runtimeOnly "maven.modrinth:gensokyo-delight-youkais-feasts:1.0.4"
@@ -181,6 +179,9 @@ dependencies {
 //    runtimeOnly "maven.modrinth:create-dragons-plus:1.8.7"
     runtimeOnly "maven.modrinth:curios:9.5.1+1.21.1"
     runtimeOnly "maven.modrinth:mystical-agriculture:8.0.24"
+    runtimeOnly "maven.modrinth:lets-do-brewery-farmcharm-compat:2.1.8"
+    runtimeOnly "curse.maven:spice-of-life-carrot-edition-277616:7374098"
+//    runtimeOnly "maven.modrinth:ars-nouveau:5.11.3"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {

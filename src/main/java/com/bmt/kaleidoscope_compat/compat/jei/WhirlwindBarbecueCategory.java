@@ -17,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+@SuppressWarnings("all")
 public class WhirlwindBarbecueCategory implements IRecipeCategory<CampfireCookingRecipe> {
     
     public static final RecipeType<CampfireCookingRecipe> RECIPE_TYPE =

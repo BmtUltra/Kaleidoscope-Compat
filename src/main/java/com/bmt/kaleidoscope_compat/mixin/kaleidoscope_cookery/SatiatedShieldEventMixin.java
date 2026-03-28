@@ -1,6 +1,6 @@
 package com.bmt.kaleidoscope_compat.mixin.kaleidoscope_cookery;
 
-import com.bmt.kaleidoscope_compat.config.KCConfig;
+import com.bmt.kaleidoscope_compat.config.MainConfig;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.SatiatedShieldEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.config.GeneralConfig;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModEffects;
@@ -25,7 +25,7 @@ public class SatiatedShieldEventMixin {
             cancellable = true
     )
     private static void weakenSatiatedShield$onPlayerHurt(LivingDamageEvent.Pre event, CallbackInfo ci) {
-        if (!KCConfig.satiatedShieldWeakenEnabled) {
+        if (!MainConfig.satiatedShieldWeakenEnabled) {
             return;
         }
 
@@ -47,7 +47,7 @@ public class SatiatedShieldEventMixin {
                 float playerFoodLevel = player.getFoodData().getFoodLevel();
                 player.causeFoodExhaustion(exhaustionLevel);
 
-                float damageReductionRatio = (float) KCConfig.satiatedShieldDamageReductionRatio;
+                float damageReductionRatio = (float) MainConfig.satiatedShieldDamageReductionRatio;
 
                 if (SATIATED_SHIELD_ABSORB_EXCESS_DAMAGE.get()) {
                     float reducedDamage = originalDamage * (1.0f - damageReductionRatio);

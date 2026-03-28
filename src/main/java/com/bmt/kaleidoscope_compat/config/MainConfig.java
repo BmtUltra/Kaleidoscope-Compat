@@ -13,8 +13,9 @@ import net.neoforged.neoforge.common.ModConfigSpec;
 import javax.annotation.Nullable;
 import java.util.*;
 
+@SuppressWarnings("all")
 @EventBusSubscriber(modid = KaleidoscopeCompat.MOD_ID)
-public class KCConfig {
+public class MainConfig {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
 
     private static final ModConfigSpec.EnumValue<DatapackMode> DATAPACK_MODE = BUILDER
@@ -35,7 +36,7 @@ public class KCConfig {
                     "Format: modid:item_id (e.g., artifacts:everlasting_beef, minecraft:apple)")
             .defineList("lunchBlacklist.blacklist",
                     Arrays.asList("artifacts:eternal_steak","kaleidoscope_nether:everlasting_flame_steak"),
-                    KCConfig::validateItemName);
+                    MainConfig::validateItemName);
 
     private static final ModConfigSpec.BooleanValue SATIATED_SHIELD_WEAKEN_ENABLED = BUILDER
             .comment("Whether the weakened satiated shield effect is enabled","是否启用饱腹代偿削弱",

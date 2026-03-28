@@ -1,6 +1,6 @@
 package com.bmt.kaleidoscope_compat.mixin.kaleidoscope_cookery;
 
-import com.bmt.kaleidoscope_compat.config.KCConfig;
+import com.bmt.kaleidoscope_compat.config.MainConfig;
 import com.github.ysbbbbbb.kaleidoscopecookery.entity.ScarecrowEntity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,7 +23,7 @@ public abstract class PhantomMixin extends LivingEntity {
             at = @At("HEAD")
     )
     private void checkScarecrowNearby(CallbackInfo ci) {
-        if (!KCConfig.scarecrowRepelPhantoms) {
+        if (!MainConfig.scarecrowRepelPhantoms) {
             return;
         }
 

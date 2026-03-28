@@ -1,6 +1,6 @@
 package com.bmt.kaleidoscope_compat.mixin.kaleidoscope_cookery;
 
-import com.bmt.kaleidoscope_compat.config.KCConfig;
+import com.bmt.kaleidoscope_compat.config.MainConfig;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.TransmutationLunchBagItem;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,7 +17,7 @@ public class TransmutationLunchBagItemMixin {
             cancellable = true
     )
     private static void checkBlacklist(ItemStack food, CallbackInfoReturnable<Boolean> cir) {
-        if (KCConfig.isItemBlacklisted(food.getItem())) {
+        if (MainConfig.isItemBlacklisted(food.getItem())) {
             cir.setReturnValue(false);
         }
     }
