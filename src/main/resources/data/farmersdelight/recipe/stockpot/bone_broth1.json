@@ -1,0 +1,47 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 11965769,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_bone",
+  "ingredients": [
+    {
+      "item": "minecraft:bone"
+    },
+    {
+      "item": "minecraft:bone"
+    },
+    [
+     {
+       "tag": "c:mushrooms"
+     },
+     {
+       "item": "minecraft:glow_lichen"
+     },
+     {
+       "item": "minecraft:hanging_roots"
+     },
+     {
+       "item": "minecraft:glow_berries"
+     }
+    ],
+    [
+     {
+       "tag": "c:mushrooms"
+     },
+     {
+       "item": "minecraft:glow_lichen"
+     },
+     {
+       "item": "minecraft:hanging_roots"
+     },
+     {
+       "item": "minecraft:glow_berries"
+     }
+    ]
+  ],
+  "result": {
+    "count": 2,
+    "id": "farmersdelight:bone_broth"
+  }
+}

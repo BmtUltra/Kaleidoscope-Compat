@@ -4,6 +4,7 @@ import com.bmt.kaleidoscope_compat.util.TagUtil;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.ModList;
 
+@SuppressWarnings("all")
 public class AccessoriesIntegration {
 
     private static final String ACCESSORIES_MOD_ID = "accessories";

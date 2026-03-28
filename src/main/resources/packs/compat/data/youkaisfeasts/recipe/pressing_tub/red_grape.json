@@ -1,8 +1,0 @@
-{
-  "type": "kaleidoscope_tavern:pressing_tub",
-  "fluid": "youkaisfeasts:red_grape_juice",
-  "fluid_amount": 50,
-  "ingredient": {
-    "item": "youkaisfeasts:red_grape"
-  }
-}

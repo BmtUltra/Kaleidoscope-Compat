@@ -27,6 +27,7 @@
     "kaleidoscope_nether.CropBlockBaseMixin",
     "kaleidoscope_tavern.BarCabinetBlockEntityRenderMixin",
     "kaleidoscope_tavern.BarCabinetBlockMixin",
+    "kaleidoscope_tavern.BarCabinetRenderMixin",
     "kaleidoscope_tavern.BarrelRecipeCategoryMixin",
     "quark.SimpleHarvestEventMixin",
     "solcarrot.FoodListMixin",

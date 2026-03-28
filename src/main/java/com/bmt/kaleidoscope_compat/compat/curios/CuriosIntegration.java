@@ -8,6 +8,7 @@ import top.theillusivec4.curios.api.SlotResult;
 
 import java.util.Optional;
 
+@SuppressWarnings("all")
 public class CuriosIntegration {
 
     private static final String CURIOS_MOD_ID = "curios";
