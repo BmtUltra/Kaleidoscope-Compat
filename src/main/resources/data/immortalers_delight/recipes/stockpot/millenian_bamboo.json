@@ -5,8 +5,8 @@
   },
   "cooking_bubble_color": 16772291,
   "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
-  "finished_bubble_color": 16777088,
-  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_light_yellow",
+  "finished_bubble_color": 16768361,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_millenion",
   "ingredients": [
     {
       "item": "immortalers_delight:evolutcorn"

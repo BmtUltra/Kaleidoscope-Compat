@@ -5,8 +5,8 @@
   },
   "cooking_bubble_color": 16772291,
   "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
-  "finished_bubble_color": 65280,
-  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_green",
+  "finished_bubble_color": 5145888,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_poor_good",
   "ingredients": [
     {
       "tag": "forge:seeds"

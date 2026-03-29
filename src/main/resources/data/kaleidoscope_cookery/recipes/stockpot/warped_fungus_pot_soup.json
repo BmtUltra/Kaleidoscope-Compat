@@ -5,8 +5,8 @@
   },
   "cooking_bubble_color": 16772291,
   "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
-  "finished_bubble_color": 65535,
-  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_cyan",
+  "finished_bubble_color": 7130800,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_warped",
   "ingredients": [
     {
       "item": "minecraft:warped_fungus"

@@ -17,33 +17,34 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+@SuppressWarnings("all")
 public class WhirlwindBarbecueCategory implements IRecipeCategory<CampfireCookingRecipe> {
-    
+
     public static final RecipeType<CampfireCookingRecipe> RECIPE_TYPE =
-        RecipeType.create(KaleidoscopeCompat.MOD_ID, "shawarma_spit", CampfireCookingRecipe.class);
-    
-    private static final ResourceLocation TEXTURE = 
-        ResourceLocation.fromNamespaceAndPath(KaleidoscopeCompat.MOD_ID, 
-            "textures/gui/shawarma_spit.png");
-    
+            RecipeType.create(KaleidoscopeCompat.MOD_ID, "shawarma_spit", CampfireCookingRecipe.class);
+
+    private static final ResourceLocation TEXTURE =
+            ResourceLocation.fromNamespaceAndPath(KaleidoscopeCompat.MOD_ID,
+                    "textures/gui/shawarma_spit.png");
+
     private final IDrawable background;
     private final IDrawable icon;
-    
+
     public WhirlwindBarbecueCategory(IGuiHelper guiHelper) {
         this.background = guiHelper.createDrawable(TEXTURE, 0, 0, 170, 100);
 
         this.icon = guiHelper.createDrawableItemStack(
-            new ItemStack(
-                    Objects.requireNonNull(ModBlocks.SHAWARMA_SPIT.get())
-            )
+                new ItemStack(
+                        Objects.requireNonNull(ModBlocks.SHAWARMA_SPIT.get())
+                )
         );
     }
-    
+
     @Override
     public @NotNull RecipeType<CampfireCookingRecipe> getRecipeType() {
         return RECIPE_TYPE;
     }
-    
+
     @Override
     public @NotNull Component getTitle() {
         return Component.translatable("jei.category.kaleidoscope_compat.shawarma_spit");
@@ -53,18 +54,20 @@ public class WhirlwindBarbecueCategory implements IRecipeCategory<CampfireCookin
     public IDrawable getBackground() {
         return background;
     }
-    
+
     @Override
     public IDrawable getIcon() {
         return icon;
     }
-    
+
     @Override
     public void setRecipe(@NotNull IRecipeLayoutBuilder builder, @NotNull CampfireCookingRecipe recipe, @NotNull IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 56, 36)
-            .addIngredients(recipe.getIngredients().get(0));
-        
+        if (!recipe.getIngredients().isEmpty()) {
+            builder.addSlot(RecipeIngredientRole.INPUT, 56, 36)
+                    .addIngredients(recipe.getIngredients().get(0));
+        }
+
         builder.addSlot(RecipeIngredientRole.OUTPUT, 123, 36)
-            .addItemStack(recipe.getResultItem(null));
+                .addItemStack(recipe.getResultItem(null));
     }
 }

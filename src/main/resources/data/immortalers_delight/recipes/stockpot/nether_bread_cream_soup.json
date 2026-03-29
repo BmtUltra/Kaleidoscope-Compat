@@ -5,8 +5,8 @@
   },
   "cooking_bubble_color": 16753920,
   "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
-  "finished_bubble_color": 65280,
-  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_orange",
+  "finished_bubble_color": 16169255,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_torchflower",
   "ingredients": [
     {
       "item": "farmersdelight:onion"

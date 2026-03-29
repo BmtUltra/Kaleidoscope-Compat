@@ -1,13 +1,39 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.bmt.kaleidoscope_compat.mixins",
-  "plugin": "com.bmt.kaleidoscope_compat.mixins.MainMixinPlugin",
+  "package": "com.bmt.kaleidoscope_compat.mixin",
+  "plugin": "com.bmt.kaleidoscope_compat.mixin.MainMixinPlugin",
+  "refmap": "kaleidoscope_compat.refmap.json",
   "compatibilityLevel": "JAVA_17",
   "client": [
+    "solcarrot.FoodItemsMixin"
   ],
   "mixins": [
-    "curios.AdvanceBlockMatchToolMixin"
+    "curios.AdvanceBlockMatchToolMixin",
+    "farm_and_charm.CookingPotCategoryMixin",
+    "farm_and_charm.CookingPotRecipeMixin",
+    "farm_and_charm.StockpotRecipeCategoryMixin",
+    "farmersdelight.CookingPotRecipeMixin",
+    "farmersdelight.CuttingBoardRecipeMixin",
+    "farmersdelight.FDRecipesMixin",
+    "farmersdelight.NourishmentEffectMixin",
+    "kaleidoscope_cookery.PhantomMixin",
+    "kaleidoscope_cookery.PotBlockEntityOilMixin",
+    "kaleidoscope_cookery.RegistryMixin",
+    "kaleidoscope_cookery.SatiatedShieldEventMixin",
+    "kaleidoscope_cookery.SickleItemMixin",
+    "kaleidoscope_cookery.TransmutationLunchBagBackMixin",
+    "kaleidoscope_cookery.TransmutationLunchBagItemMixin",
+    "kaleidoscope_end.CropBlockBaseMixin",
+    "kaleidoscope_nether.CropBlockBaseMixin",
+    "kaleidoscope_tavern.BarCabinetBlockMixin",
+    "kaleidoscope_tavern.BarrelRecipeCategoryMixin",
+    "kaleidoscope_tavern.RegistryMixin",
+    "quark.SimpleHarvestEventMixin",
+    "solcarrot.FoodListMixin",
+    "vinery.RecipeManagerMixin",
+    "youkaisfeasts.SauceRackBlockEntityMixin",
+    "youkaisfeasts.WineShelfBlockEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

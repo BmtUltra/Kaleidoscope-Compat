@@ -5,8 +5,8 @@
   },
   "cooking_bubble_color": 16772291,
   "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
-  "finished_bubble_color": 2551400,
-  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_orange",
+  "finished_bubble_color": 15906427,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_apple",
   "ingredients": [
     {
       "item": "minecraft:apple"

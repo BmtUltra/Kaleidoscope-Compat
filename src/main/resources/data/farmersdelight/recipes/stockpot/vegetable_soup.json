@@ -5,8 +5,8 @@
   },
   "cooking_bubble_color": 16772291,
   "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
-  "finished_bubble_color": 617133,
-  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_dark_green",
+  "finished_bubble_color": 10982199,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_vegetable",
   "ingredients": [
     {
       "item": "minecraft:carrot"

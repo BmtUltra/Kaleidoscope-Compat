@@ -5,8 +5,8 @@
   },
   "cooking_bubble_color": 16772291,
   "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
-  "finished_bubble_color": 15232152,
-  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_light_purple",
+  "finished_bubble_color": 5328000,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_ink",
   "ingredients": [
     {
       "tag": "forge:pasta"

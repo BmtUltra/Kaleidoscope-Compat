@@ -5,14 +5,14 @@
   },
   "cooking_bubble_color": 16772291,
   "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
-  "finished_bubble_color": 2551400,
+  "finished_bubble_color": 16229438,
   "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_orange",
   "ingredients": [
     {
       "tag": "forge:pasta"
     },
     {
-      "tag": "forge:eggs"
+      "tag": "forge:cooked_eggs"
     },
     {
       "item": "minecraft:dried_kelp"

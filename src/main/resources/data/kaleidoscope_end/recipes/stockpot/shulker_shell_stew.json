@@ -1,0 +1,39 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "carrier": {
+    "item": "minecraft:bowl"
+  },
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 16382186,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_white",
+  "ingredients": [
+    {
+      "tag": "forge:shulker_meat"
+    },
+    {
+      "tag": "forge:shulker_meat"
+    },
+    {
+      "tag": "forge:shulker_meat"
+    },
+    {
+      "item": "kaleidoscope_end:optic_nerve"
+    },
+    {
+      "item": "kaleidoscope_end:optic_nerve"
+    },
+    {
+      "item": "kaleidoscope_end:optic_nerve"
+    },
+    {
+      "item": "minecraft:shulker_shell"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "item": "kaleidoscope_end:shulker_shell_stew"
+  },
+  "soup_base": "minecraft:water",
+  "time": 300
+}

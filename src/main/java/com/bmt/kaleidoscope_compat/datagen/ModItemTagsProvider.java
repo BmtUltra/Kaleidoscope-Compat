@@ -1,6 +1,6 @@
 package com.bmt.kaleidoscope_compat.datagen;
 
-import com.bmt.kaleidoscope_compat.util.ModTags;
+import com.bmt.kaleidoscope_compat.util.TagUtil;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
@@ -22,7 +22,7 @@ public class ModItemTagsProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
-        TagAppender<Item> strawHatsTag = tag(ModTags.Items.STRAW_HATS);
+        TagAppender<Item> strawHatsTag = tag(TagUtil.Items.STRAW_HATS);
         strawHatsTag.addOptional(ResourceLocation.fromNamespaceAndPath("vinery", "straw_hat"));
         strawHatsTag.addOptional(ResourceLocation.fromNamespaceAndPath("sakura", "strawhat"));
         strawHatsTag.addOptional(ResourceLocation.fromNamespaceAndPath("artifacts", "villager_hat"));

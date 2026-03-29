@@ -5,8 +5,8 @@
   },
   "cooking_bubble_color": 16772291,
   "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
-  "finished_bubble_color": 221160221,
-  "finished_texture": "kaleidoscope_cookery:stockpot/pitcher_plant_drink",
+  "finished_bubble_color": 9799142,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_pitcher_drick",
   "ingredients": [
     {
       "item": "sunflowerdelight:big_pitcher_plant_petal"

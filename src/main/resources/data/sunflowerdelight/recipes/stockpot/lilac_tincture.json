@@ -5,8 +5,8 @@
   },
   "cooking_bubble_color": 16772291,
   "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
-  "finished_bubble_color": 16761035,
-  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_pink",
+  "finished_bubble_color": 13861075,
+  "finished_texture": "kaleidoscope_cookery:default_finished_lilac",
   "ingredients": [
     {
       "item": "sunflowerdelight:lilac_flower"

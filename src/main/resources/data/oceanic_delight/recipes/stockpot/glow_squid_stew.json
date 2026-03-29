@@ -5,8 +5,8 @@
   },
   "cooking_bubble_color": 16772291,
   "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
-  "finished_bubble_color": 13152186,
-  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_blue",
+  "finished_bubble_color": 2792287,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_glow",
   "ingredients": [
     {
       "item": "oceanic_delight:glow_squid_tentacles"

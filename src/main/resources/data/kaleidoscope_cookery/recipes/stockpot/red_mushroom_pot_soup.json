@@ -5,8 +5,8 @@
   },
   "cooking_bubble_color": 16772291,
   "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
-  "finished_bubble_color": 14104435,
-  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_light_pink",
+  "finished_bubble_color": 15308178,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_red_mushiroom",
   "ingredients": [
     {
       "item": "minecraft:red_mushroom"

@@ -21,11 +21,11 @@ import top.theillusivec4.curios.api.client.ICurioRenderer;
 public class StrawHatCurioRenderer extends StrawHatModel implements ICurioRenderer {
 
     private static final ResourceLocation STRAW_HAT_TEXTURE =
-             ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID,
+            ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID,
                     "textures/models/armor/straw_hat.png");
 
     private static final ResourceLocation STRAW_HAT_FLOWER_TEXTURE =
-             ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID,
+            ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID,
                     "textures/models/armor/straw_hat_flower.png");
 
     public StrawHatCurioRenderer(ModelPart root) {
@@ -45,6 +45,8 @@ public class StrawHatCurioRenderer extends StrawHatModel implements ICurioRender
 
         poseStack.pushPose();
 
+        ICurioRenderer.followHeadRotations(slotContext.entity(), humanoidModel.head);
+
         this.getHead().copyFrom(humanoidModel.head);
 
         boolean hasFlower = stack.getItem() == ModItems.STRAW_HAT_FLOWER.get();
@@ -59,12 +61,11 @@ public class StrawHatCurioRenderer extends StrawHatModel implements ICurioRender
                 vertexConsumer,
                 packedLight,
                 OverlayTexture.NO_OVERLAY,
-                1.0f,
-                1.0f,
-                1.0f,
-                1.0f
+                1.0F,
+                1.0F,
+                1.0F,
+                1.0F
         );
-
         poseStack.popPose();
     }
 }

@@ -5,8 +5,8 @@
   },
   "cooking_bubble_color": 16772291,
   "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
-  "finished_bubble_color": 16750535,
-  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_light_orange",
+  "finished_bubble_color": 14845027,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_crimson",
   "ingredients": [
     {
       "item": "minecraft:crimson_fungus"

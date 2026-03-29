@@ -1,0 +1,10 @@
+{
+  "type": "kaleidoscope_cookery:millstone",
+  "ingredient": {
+    "item": "immortalers_delight:a_bush"
+  },
+  "result": {
+    "count": 2,
+    "item": "immortalers_delight:ab_ash"
+  }
+}

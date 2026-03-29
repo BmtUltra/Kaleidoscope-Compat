@@ -1,0 +1,36 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "carrier": {
+    "item": "minecraft:bowl"
+  },
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 16382186,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_white",
+  "ingredients": [
+    {
+      "item": "kaleidoscope_chinesefood:century_egg"
+    },
+    {
+      "item": "kaleidoscope_chinesefood:century_egg"
+    },
+    {
+      "tag": "forge:raw_pork"
+    },
+    {
+      "tag": "forge:raw_pork"
+    },
+    {
+      "tag": "forge:crops/rice"
+    },
+    {
+      "tag": "forge:crops/rice"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "item": "kaleidoscope_chinesefood:century_egg_congee"
+  },
+  "soup_base": "minecraft:water",
+  "time": 300
+}

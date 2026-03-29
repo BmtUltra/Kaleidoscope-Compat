@@ -5,8 +5,8 @@
   },
   "cooking_bubble_color": 16772291,
   "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
-  "finished_bubble_color": 0,
-  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_black",
+  "finished_bubble_color": 4859939,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_dark_cofe",
   "ingredients": [
     {
       "tag": "rusticdelight:coffee_ingredients"
