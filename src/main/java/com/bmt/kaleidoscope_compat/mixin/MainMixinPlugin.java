@@ -23,7 +23,7 @@ public class MainMixinPlugin implements IMixinConfigPlugin {
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
         String[] split = mixinClassName.split("\\.");
         for (int i = 0; i < split.length; i++) {
-            if (split[i].equals("mixins") && FMLLoader.getLoadingModList().getModFileById(split[i + 1]) != null) {
+            if (split[i].equals("mixin") && FMLLoader.getLoadingModList().getModFileById(split[i + 1]) != null) {
                 return true;
             }
         }
