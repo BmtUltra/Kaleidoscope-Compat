@@ -1,9 +1,9 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.bmt.kaleidoscope_compat.mixin",
-  "plugin": "com.bmt.kaleidoscope_compat.mixin.MainMixinPlugin",
-  "refmap": "kaleidoscope_compat.refmap.json",
+  "package": "com.bmt.kaleidoscope_compat.mixins",
+  "plugin": "com.bmt.kaleidoscope_compat.mixins.MainMixinPlugin",
+  "refmap": "kaleidoscope_compat.mixins.refmap.json",
   "compatibilityLevel": "JAVA_17",
   "client": [
     "solcarrot.FoodItemsMixin"
