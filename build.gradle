@@ -105,7 +105,6 @@ dependencies {
 
     implementation fg.deobf("maven.modrinth:farmers-delight:1.20.1-1.2.11")
     implementation fg.deobf("maven.modrinth:kaleidoscope-nether:1.1.4-forge+mc1.20.1")
-    implementation fg.deobf("maven.modrinth:kaleidoscopetavern:1.0.1-forge+mc1.20.1")
     implementation fg.deobf("maven.modrinth:kaleidoscope-end:1.0.2-1.20.1")
     implementation fg.deobf("maven.modrinth:quark:1.20.1-4.0-462")
     implementation fg.deobf("curse.maven:spice-of-life-carrot-edition-277616:4888575")
@@ -117,6 +116,8 @@ dependencies {
 
     implementation fg.deobf("curse.maven:l2library-620203:6806000")
     implementation fg.deobf("curse.maven:zeta-968868:7335229")
+
+    implementation fg.deobf("maven.modrinth:kaleidoscopetavern:1.0.1-forge+mc1.20.1")
 
     annotationProcessor 'org.spongepowered:mixin:0.8.7:processor'
 }
