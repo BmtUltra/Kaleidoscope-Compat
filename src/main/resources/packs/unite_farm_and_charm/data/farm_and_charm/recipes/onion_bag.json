@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "farmersdelight:onion"
+    }
+  },
+  "result": {
+    "item": "farm_and_charm:onion_bag",
+    "count": 1
+  }
+}

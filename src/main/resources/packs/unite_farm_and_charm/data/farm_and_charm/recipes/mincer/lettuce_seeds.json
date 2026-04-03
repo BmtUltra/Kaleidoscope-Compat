@@ -1,0 +1,11 @@
+{
+  "type": "farm_and_charm:mincer",
+  "ingredient": {
+    "item": "kaleidoscope_cookery:lettuce"
+  },
+  "recipe_type": "MEAT",
+  "result": {
+    "item": "kaleidoscope_cookery:lettuce_seed",
+    "count": 4
+  }
+}

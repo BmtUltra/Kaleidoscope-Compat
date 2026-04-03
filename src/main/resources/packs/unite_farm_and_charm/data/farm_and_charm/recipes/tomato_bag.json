@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "grape_bag",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "kaleidoscope_cookery:tomato"
+    }
+  },
+  "result": {
+    "item": "farm_and_charm:tomato_bag",
+    "count": 1
+  }
+}

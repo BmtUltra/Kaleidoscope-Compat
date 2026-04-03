@@ -90,8 +90,6 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-
     implementation fg.deobf("maven.modrinth:kaleidoscope-cookery:1.2.1-forge+mc1.20.1")
     //implementation fg.deobf("maven.modrinth:curios:5.14.1+1.20.1")
     compileOnly fg.deobf("maven.modrinth:curios:5.14.1+1.20.1")
@@ -111,9 +109,16 @@ dependencies {
     implementation fg.deobf("maven.modrinth:kaleidoscope-end:1.0.2-1.20.1")
     implementation fg.deobf("maven.modrinth:quark:1.20.1-4.0-462")
     implementation fg.deobf("curse.maven:spice-of-life-carrot-edition-277616:4888575")
-    implementation fg.deobf("maven.modrinth:lets-do-vinery:1.4.41")
+    implementation fg.deobf("curse.maven:lets-do-vinery-704465:6965751")
     implementation fg.deobf("maven.modrinth:gensokyo-delight-youkais-feasts:0.4.7")
     implementation fg.deobf("maven.modrinth:lets-do-farm-charm:1.0.14")
+    implementation fg.deobf("curse.maven:kubejs-238086:5853326")
+    implementation fg.deobf("curse.maven:rhino-416294:6186971")
+
+    implementation fg.deobf("curse.maven:l2library-620203:6806000")
+    implementation fg.deobf("curse.maven:zeta-968868:7335229")
+
+    annotationProcessor 'org.spongepowered:mixin:0.8.7:processor'
 }
 
 mixin {

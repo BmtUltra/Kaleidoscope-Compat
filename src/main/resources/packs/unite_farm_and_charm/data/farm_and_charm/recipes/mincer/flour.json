@@ -1,0 +1,11 @@
+{
+  "type": "farm_and_charm:mincer",
+  "ingredient": {
+    "tag": "farm_and_charm:wheat"
+  },
+  "recipe_type": "STONE",
+  "result": {
+    "item": "kaleidoscope_cookery:flour",
+    "count": 4
+  }
+}
