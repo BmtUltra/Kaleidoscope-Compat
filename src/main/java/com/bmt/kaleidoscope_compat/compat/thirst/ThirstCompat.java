@@ -1,6 +1,5 @@
-package com.bmt.kaleidoscope_compat.compat;
+package com.bmt.kaleidoscope_compat.compat.thirst;
 
-import com.bmt.kaleidoscope_compat.compat.thirst.ThirstConfigGenerator;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
