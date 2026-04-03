@@ -15,7 +15,8 @@ public class FermentationBarrelRecipeMixin {
     @Inject(
             method = "matches(Lnet/satisfy/vinery/core/block/entity/FermentationBarrelBlockEntity;Lnet/minecraft/world/level/Level;)Z",
             at = @At("HEAD"),
-            cancellable = true
+            cancellable = true,
+            remap = false
     )
     private void kc$interceptFermentationBarrelRecipes(FermentationBarrelBlockEntity blockEntity, Level world, CallbackInfoReturnable<Boolean> cir) {
         if (MainConfig.vineryBarrelRecipesDisabled) {
