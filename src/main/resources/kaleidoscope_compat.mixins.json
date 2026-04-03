@@ -33,6 +33,7 @@
     "kaleidoscope_tavern.RegistryMixin",
     "quark.SimpleHarvestEventMixin",
     "solcarrot.FoodListMixin",
+    "vinery.FermentationBarrelRecipeMixin",
     "vinery.RecipeManagerMixin",
     "youkaisfeasts.SauceRackBlockEntityMixin",
     "youkaisfeasts.WineShelfBlockEntityMixin"

@@ -46,9 +46,7 @@ public class DatapackLoader {
                     String.valueOf(ResourceLocation.fromNamespaceAndPath(KaleidoscopeCompat.MOD_ID, "packs/" + packName)),
                     Component.literal("Kaleidoscope Compat - " + packName.toUpperCase()),
                     true,
-                    (path) -> {
-                        return (net.minecraft.server.packs.PackResources) KaleidoscopeCompat.class.getResourceAsStream("/data/" + KaleidoscopeCompat.MOD_ID + "/" + packName + ".zip");
-                    },
+                    (path) -> (net.minecraft.server.packs.PackResources) KaleidoscopeCompat.class.getResourceAsStream("/data/" + KaleidoscopeCompat.MOD_ID + "/" + packName + ".zip"),
                     PackType.SERVER_DATA,
                     Pack.Position.TOP,
                     PackSource.WORLD
