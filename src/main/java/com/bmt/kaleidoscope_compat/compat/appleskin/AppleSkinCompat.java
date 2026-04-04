@@ -7,7 +7,6 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.neoforged.neoforge.items.ItemStackHandler;
@@ -16,8 +15,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-@SuppressWarnings("all")
-@EventBusSubscriber(modid = "kaleidoscope_compat", bus = EventBusSubscriber.Bus.GAME)
 public class AppleSkinCompat {
 
     private static final boolean APPLE_SKIN_LOADED = ModList.get().isLoaded("appleskin");
@@ -122,10 +119,6 @@ public class AppleSkinCompat {
                 FoodProperties.Builder builder = new FoodProperties.Builder();
                 builder.nutrition(firstFoodProperties.nutrition());
                 builder.saturationModifier(firstFoodProperties.saturation());
-
-                for (FoodProperties.PossibleEffect effect : firstFoodProperties.effects()) {
-                    builder.effect(effect.effect(), effect.probability());
-                }
 
                 lunchBag.set(DataComponents.FOOD, builder.build());
             } else {
