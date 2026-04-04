@@ -17,26 +17,29 @@ import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Mixin(TransmutationLunchBagItem.class)
-public class TransmutationLunchBagBackMixin {
+public abstract class TransmutationLunchBagBackMixin {
 
-    /**
-     * @author BmtUltra
-     * @reason 把饭袋改回原来的样子，农业模组特有的没轻没重（
-     */
-    @Overwrite
-    public ItemStack finishUsingItem(ItemStack bag, Level level, LivingEntity entity) {
+    @Inject(
+            method = "finishUsingItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/LivingEntity;)Lnet/minecraft/world/item/ItemStack;",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    public void kaleidoscopeCompat$finishUsingItem(ItemStack bag, Level level, LivingEntity entity, CallbackInfoReturnable<ItemStack> cir) {
         if (!MainConfig.transmutationLunchBagBackEnabled) {
-            return ((TransmutationLunchBagItem) (Object) this).finishUsingItem(bag, level, entity);
+            return;
         }
 
         if (!TransmutationLunchBagItem.hasItems(bag)) {
-            return bag;
+            cir.setReturnValue(bag);
+            return;
         }
 
         ItemStack food = ItemStack.EMPTY;
@@ -115,8 +118,9 @@ public class TransmutationLunchBagBackMixin {
             }
 
             TransmutationLunchBagItem.setItems(bag, items);
-            return bag;
+            cir.setReturnValue(bag);
+        } else {
+            cir.setReturnValue(bag);
         }
-        return bag;
     }
 }

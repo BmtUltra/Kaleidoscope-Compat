@@ -164,6 +164,7 @@ dependencies {
     compileOnly "maven.modrinth:lets-do-brewery-farmcharm-compat:2.1.8"
     compileOnly "curse.maven:spice-of-life-carrot-edition-277616:7374098"
 //    compileOnly "maven.modrinth:ars-nouveau:5.11.3"
+    compileOnly "maven.modrinth:appleskin:3.0.9+mc1.21"
 
     runtimeOnly "maven.modrinth:farmers-delight:1.21.1-1.2.10"
     runtimeOnly "maven.modrinth:gensokyo-delight-youkais-feasts:1.0.4"
@@ -180,8 +181,9 @@ dependencies {
     runtimeOnly "maven.modrinth:curios:9.5.1+1.21.1"
     runtimeOnly "maven.modrinth:mystical-agriculture:8.0.24"
     runtimeOnly "maven.modrinth:lets-do-brewery-farmcharm-compat:2.1.8"
-    runtimeOnly "curse.maven:spice-of-life-carrot-edition-277616:7374098"
+//    runtimeOnly "curse.maven:spice-of-life-carrot-edition-277616:7374098"
 //    runtimeOnly "maven.modrinth:ars-nouveau:5.11.3"
+    runtimeOnly "maven.modrinth:appleskin:3.0.9+mc1.21"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
