@@ -9,6 +9,5 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class KCItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(KaleidoscopeTavern.MOD_ID);
 
-    public static final DeferredItem<Item> WHITE_GRAPE_JUICE_BUCKET = ITEMS.register("white_grape_juice_bucket", () -> new JuiceBucketItem(KCFluids.WHITE_GRAPE_JUICE));
     public static final DeferredItem<Item> APPLE_JUICE_BUCKET = ITEMS.register("apple_juice_bucket", () -> new JuiceBucketItem(KCFluids.APPLE_JUICE));
 }

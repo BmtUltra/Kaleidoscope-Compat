@@ -11,7 +11,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 
 @EventBusSubscriber(modid = KaleidoscopeCompat.MOD_ID)
-public class CreativeTabEventHandler {
+public class CreativeTabEvent {
 
     @SubscribeEvent
     public static void addJuiceBucketsToTabs(BuildCreativeModeTabContentsEvent event) {
@@ -20,10 +20,6 @@ public class CreativeTabEventHandler {
             ItemStack glowBerriesBucket = ModItems.GLOW_BERRIES_BUCKET.get().getDefaultInstance();
 
             event.insertAfter(glowBerriesBucket,
-                    KCItems.WHITE_GRAPE_JUICE_BUCKET.get().getDefaultInstance(),
-                    CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-
-            event.insertAfter(KCItems.WHITE_GRAPE_JUICE_BUCKET.get().getDefaultInstance(),
                     KCItems.APPLE_JUICE_BUCKET.get().getDefaultInstance(),
                     CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
