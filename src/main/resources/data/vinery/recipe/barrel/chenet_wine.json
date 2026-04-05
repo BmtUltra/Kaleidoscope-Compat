@@ -1,0 +1,19 @@
+{
+  "type": "kaleidoscope_tavern:barrel",
+  "carrier": {
+    "item": "kaleidoscope_tavern:empty_bottle"
+  },
+  "fluid": "kaleidoscope_tavern:grape_juice",
+  "ingredients": [
+        {
+            "item": "minecraft:spider_eye"
+        },
+        {
+            "item": "minecraft:honey_bottle"
+        }
+  ],
+  "result": {
+    "count": 1,
+    "id": "vinery:chenet_wine"
+  }
+}

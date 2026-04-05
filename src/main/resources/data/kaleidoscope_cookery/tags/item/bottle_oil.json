@@ -1,6 +1,9 @@
 {
   "replace": false,
   "values": [
-    "rusticdelight:cooking_oil"
+    {
+      "id": "rusticdelight:cooking_oil",
+      "required": false
+    }
   ]
 }

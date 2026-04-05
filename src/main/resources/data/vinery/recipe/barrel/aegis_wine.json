@@ -1,0 +1,22 @@
+{
+  "type": "kaleidoscope_tavern:barrel",
+  "carrier": {
+    "item": "kaleidoscope_tavern:empty_bottle"
+  },
+  "fluid": "kaleidoscope_tavern:white_grape_juice",
+  "ingredients": [
+        {
+            "item": "minecraft:sugar"
+        },
+        {
+            "item": "minecraft:kelp"
+        },
+        {
+            "item": "minecraft:iron_ingot"
+        }
+  ],
+  "result": {
+    "count": 1,
+    "id": "vinery:aegis_wine"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "culturaldelights:tortilla"
+    },
+    {
+      "tag": "culturaldelights:cooked_chickens"
+    },
+    {
+      "item": "farmersdelight:tomato_sauce"
+    },
+    {
+      "tag": "culturaldelights:cucumbers"
+    },
+    {
+      "item": "farm_and_charm:corn"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "culturaldelights:chicken_taco"
+  }
+}

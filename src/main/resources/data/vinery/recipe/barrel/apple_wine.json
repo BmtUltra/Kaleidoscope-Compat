@@ -1,0 +1,16 @@
+{
+  "type": "kaleidoscope_tavern:barrel",
+  "carrier": {
+    "item": "kaleidoscope_tavern:empty_bottle"
+  },
+  "fluid": "kaleidoscope_compat:apple_juice",
+  "ingredients": [
+    {
+      "item": "vinery:apple_juice"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "vinery:apple_wine"
+  }
+}
