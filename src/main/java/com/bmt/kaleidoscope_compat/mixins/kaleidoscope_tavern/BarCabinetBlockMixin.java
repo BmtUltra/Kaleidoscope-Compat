@@ -18,5 +18,8 @@ public abstract class BarCabinetBlockMixin {
         if (stack.is(TagUtil.Items.SMALL_BOTTLE)) {
             cir.setReturnValue((BottleBlock) ModBlocks.EMPTY_BOTTLE.get());
         }
+        else if (stack.is(TagUtil.Items.LARGE_BOTTLE)) {
+            cir.setReturnValue((BottleBlock) ModBlocks.BRANDY.get());
+        }
     }
 }

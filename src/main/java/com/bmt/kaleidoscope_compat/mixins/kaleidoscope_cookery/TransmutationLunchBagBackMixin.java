@@ -5,6 +5,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.advancements.critereon.ModEventTr
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTrigger;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.TransmutationLunchBagItem;
 import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
+import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -17,30 +18,33 @@ import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.items.ItemStackHandler;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Mixin(TransmutationLunchBagItem.class)
-public class TransmutationLunchBagBackMixin {
+public abstract class TransmutationLunchBagBackMixin {
 
-    /**
-     * @author BmtUltra
-     * @reason 把饭袋改回原来的样子，农业模组特有的没轻没重（
-     */
-    @Overwrite
-    public ItemStack finishUsingItem(ItemStack bag, Level level, LivingEntity entity) {
+    @Inject(
+            method = "finishUsingItem(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/LivingEntity;)Lnet/minecraft/world/item/ItemStack;",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    public void kaleidoscopeCompat$finishUsingItem(ItemStack bag, Level level, LivingEntity entity, CallbackInfoReturnable<ItemStack> cir) {
         if (!MainConfig.transmutationLunchBagBackEnabled) {
-            return ((TransmutationLunchBagItem) (Object) this).finishUsingItem(bag, level, entity);
+            return;
         }
 
         if (!TransmutationLunchBagItem.hasItems(bag)) {
-            return bag;
+            cir.setReturnValue(bag);
+            return;
         }
 
         ItemStack food = ItemStack.EMPTY;
-        List<Pair<MobEffectInstance, Float>> allEffects = new ArrayList<>();
+        List<List<Pair<MobEffectInstance, Float>>> allEffects = new ArrayList<>();
 
         ItemStackHandler items = TransmutationLunchBagItem.getItems(bag);
 
@@ -53,16 +57,15 @@ public class TransmutationLunchBagBackMixin {
             FoodProperties foodProperties = stackInSlot.getItem().getFoodProperties(stackInSlot, null);
             if (foodProperties != null) {
                 List<Pair<MobEffectInstance, Float>> foodEffects = foodProperties.getEffects();
-                allEffects.addAll(foodEffects);
+                allEffects.add(foodEffects);
                 food = items.extractItem(i, 1, false);
                 break;
             }
 
             if (stackInSlot.is(Items.POTION)) {
-                List<MobEffectInstance> potionEffects = PotionUtils.getMobEffects(stackInSlot);
-                for (MobEffectInstance effect : potionEffects) {
-                    allEffects.add(Pair.of(effect, 1.0F));
-                }
+                List<Pair<MobEffectInstance, Float>> potionEffects = Lists.newArrayList();
+                PotionUtils.getMobEffects(stackInSlot).forEach(e -> potionEffects.add(Pair.of(e, 1F)));
+                allEffects.add(potionEffects);
                 food = items.extractItem(i, 1, false);
                 break;
             }
@@ -78,18 +81,16 @@ public class TransmutationLunchBagBackMixin {
                 FoodProperties foodProperties = stackInSlot.getItem().getFoodProperties(stackInSlot, null);
                 if (foodProperties != null) {
                     List<Pair<MobEffectInstance, Float>> foodEffects = foodProperties.getEffects();
-                    allEffects.addAll(foodEffects);
+                    allEffects.add(foodEffects);
                     continue;
                 }
 
                 if (stackInSlot.is(Items.POTION)) {
-                    List<MobEffectInstance> potionEffects = PotionUtils.getMobEffects(stackInSlot);
-                    for (MobEffectInstance effect : potionEffects) {
-                        allEffects.add(Pair.of(effect, 1.0F));
-                    }
+                    List<Pair<MobEffectInstance, Float>> potionEffects = Lists.newArrayList();
+                    PotionUtils.getMobEffects(stackInSlot).forEach(e -> potionEffects.add(Pair.of(e, 1F)));
+                    allEffects.add(potionEffects);
                 }
             }
-
             ItemStack returnStack = food.finishUsingItem(level, entity);
             Item containerItem = ItemUtils.getContainerItem(food);
 
@@ -102,21 +103,23 @@ public class TransmutationLunchBagBackMixin {
             }
 
             if (!level.isClientSide) {
-                for (Pair<MobEffectInstance, Float> effectPair : allEffects) {
-                    if (effectPair.getSecond() <= 0.0F || level.random.nextFloat() >= effectPair.getSecond()) {
-                        continue;
+                for (List<Pair<MobEffectInstance, Float>> effectList : allEffects) {
+                    for (Pair<MobEffectInstance, Float> effect : effectList) {
+                        if (effect.getSecond() <= 0.0F || level.random.nextFloat() >= effect.getSecond()) {
+                            continue;
+                        }
+                        entity.addEffect(new MobEffectInstance(effect.getFirst()));
                     }
-                    entity.addEffect(new MobEffectInstance(effectPair.getFirst()));
                 }
             }
 
             if (entity instanceof ServerPlayer player) {
                 ModTrigger.EVENT.trigger(player, ModEventTriggerType.USE_TRANSMUTATION_LUNCH_BAG);
             }
-
             TransmutationLunchBagItem.setItems(bag, items);
-            return bag;
+            cir.setReturnValue(bag);
+        } else {
+            cir.setReturnValue(bag);
         }
-        return bag;
     }
 }
