@@ -1,0 +1,35 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "kaleidoscope_tavern:wine"
+    },
+    {
+      "id": "kaleidoscope_tavern:champagne"
+    },
+    {
+      "id": "kaleidoscope_tavern:vodka"
+    },
+    {
+      "id": "kaleidoscope_tavern:sakura_wine"
+    },
+    {
+      "id": "kaleidoscope_tavern:plum_wine"
+    },
+    {
+      "id": "kaleidoscope_tavern:whiskey"
+    },
+    {
+      "id": "kaleidoscope_tavern:ice_wine"
+    },
+    {
+      "id": "kaleidoscope_tavern:vinegar"
+    },
+    {
+      "id": "kaleidoscope_tavern:empty_bottle"
+    },
+    {
+      "id": "kaleidoscope_tavern:molotov"
+    }
+  ]
+}

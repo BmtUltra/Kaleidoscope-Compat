@@ -36,6 +36,12 @@ public class DatapackLoader {
                 if (ModList.get().isLoaded("farmersdelight")) {
                     addDatapack(event, "unite_farmersdelight");
                 }
+                if (ModList.get().isLoaded("youkaisfeasts")) {
+                    addDatapack(event, "unite_youkaisfeasts");
+                }
+                if (ModList.get().isLoaded("culturaldelights")) {
+                    addDatapack(event, "unite_culturaldelights");
+                }
             }
         }
     }

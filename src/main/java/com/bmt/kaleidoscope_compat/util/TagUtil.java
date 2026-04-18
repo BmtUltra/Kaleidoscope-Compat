@@ -19,6 +19,7 @@ public class TagUtil {
         public static final TagKey<Item> BUCKET_OIL = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_cookery", "bucket_oil"));
         public static final TagKey<Item> SCALE_DOWN_IN_CABINET = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_tavern", "scale_down_in_cabinet"));
         public static final TagKey<Item> REMOVED_FROM_ALL_CREATIVE_TABS = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_cookery", "removed_from_all_creative_tabs"));
+        public static final TagKey<Item> DRINKS = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_tavern", "drinks"));
     }
 
     public static class Blocks {

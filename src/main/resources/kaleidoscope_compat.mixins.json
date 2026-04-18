@@ -1,8 +1,8 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.bmt.kaleidoscope_compat.mixin",
-  "plugin": "com.bmt.kaleidoscope_compat.mixin.MainMixinPlugin",
+  "package": "com.bmt.kaleidoscope_compat.mixins",
+  "plugin": "com.bmt.kaleidoscope_compat.mixins.MainMixinPlugin",
   "compatibilityLevel": "JAVA_21",
   "client": [
     "solcarrot.FoodItemsMixin"
@@ -29,8 +29,8 @@
     "kaleidoscope_tavern.BarCabinetBlockEntityRenderMixin",
     "kaleidoscope_tavern.BarCabinetBlockMixin",
     "kaleidoscope_tavern.BarCabinetRenderMixin",
+    "kaleidoscope_tavern.BarrelBlockEntityMixin",
     "kaleidoscope_tavern.BarrelRecipeCategoryMixin",
-    "kaleidoscope_tavern.RegistryMixin",
     "quark.SimpleHarvestEventMixin",
     "solcarrot.FoodListMixin",
     "vinery.FermentationBarrelRecipeMixin",
