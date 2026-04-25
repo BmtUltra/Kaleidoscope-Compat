@@ -1,5 +1,6 @@
 package com.bmt.kaleidoscope_compat.compat.thirst;
 
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -9,6 +10,9 @@ public class ThirstCompat {
 
     @SubscribeEvent
     public static void onCommonSetup(FMLCommonSetupEvent event) {
+        if (!ModList.get().isLoaded("thirst")) {
+            return;
+        }
         event.enqueueWork(ThirstConfigGenerator::generateConfig);
     }
 }

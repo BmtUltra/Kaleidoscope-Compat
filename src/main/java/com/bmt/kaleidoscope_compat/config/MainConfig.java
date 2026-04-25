@@ -38,17 +38,6 @@ public class MainConfig {
                     Arrays.asList("artifacts:eternal_steak","kaleidoscope_nether:everlasting_flame_steak"),
                     MainConfig::validateItemName);
 
-    private static final ModConfigSpec.BooleanValue SATIATED_SHIELD_WEAKEN_ENABLED = BUILDER
-            .comment("Whether the weakened satiated shield effect is enabled","是否启用饱腹代偿削弱",
-                    "When enabled, satiated shield will be weakened according to config settings")
-            .define("satiatedShield.weaken_enabled", false);
-
-    private static final ModConfigSpec.DoubleValue SATIATED_SHIELD_DAMAGE_REDUCTION_RATIO = BUILDER
-            .comment("Damage reduction ratio for weakened satiated shield effect","饱腹代偿承伤的百分比",
-                    "Value between 0.0 (no reduction) and 1.0 (100% reduction)",
-                    "Default: 0.5 (50% damage reduction)")
-            .defineInRange("satiatedShield.damage_reduction_ratio", 0.5, 0.0, 1.0);
-
     private static final ModConfigSpec.BooleanValue NOURISHMENT_EFFECT_BLOCK_ENABLED = BUILDER
             .comment("Whether Nourishment effect is blocked when player has Satiated Shield","是否启用滋养和饱腹代偿修复",
                     "When enabled, FarmersDelight's Nourishment effect will not work if player has Satiated Shield effect")
@@ -92,8 +81,6 @@ public class MainConfig {
     public static boolean lunchBagBlacklistEnabled = true;
     public static Set<ResourceLocation> lunchBagBlacklist = new HashSet<>();
 
-    public static boolean satiatedShieldWeakenEnabled = true;
-    public static double satiatedShieldDamageReductionRatio = 0.5;
     public static boolean nourishmentEffectBlockEnabled = true;
 
     public static boolean transmutationLunchBagBackEnabled = true;
@@ -110,8 +97,6 @@ public class MainConfig {
         datapackMode = DATAPACK_MODE.get();
         soupDatapackEnabled = SOUP_DATAPACK_ENABLED.get();
         lunchBagBlacklistEnabled = LUNCH_BAG_BLACKLIST_ENABLED.get();
-        satiatedShieldWeakenEnabled = SATIATED_SHIELD_WEAKEN_ENABLED.get();
-        satiatedShieldDamageReductionRatio = SATIATED_SHIELD_DAMAGE_REDUCTION_RATIO.get();
         nourishmentEffectBlockEnabled = NOURISHMENT_EFFECT_BLOCK_ENABLED.get();
         transmutationLunchBagBackEnabled = TRANSMUTATION_LUNCH_BAG_BACK_ENABLED.get();
         cookingPotRecipesDisabled = COOKING_POT_RECIPES_DISABLED.get();
