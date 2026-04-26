@@ -27,9 +27,7 @@ public class BarrelRecipeCategoryMixin {
         if (level == null) {
             return;
         }
-        
         List<RecipeHolder<BarrelRecipe>> recipes = Lists.newArrayList(cir.getReturnValue());
-//        VineryBarrelCompat.getTransformRecipeForJei(level, recipes);
         cir.setReturnValue(recipes);
     }
 }

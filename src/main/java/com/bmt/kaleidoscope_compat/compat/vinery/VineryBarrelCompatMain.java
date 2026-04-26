@@ -7,8 +7,6 @@ public class VineryBarrelCompatMain {
     public static boolean IS_LOADED = false;
 
     public static void init() {
-        ModList.get().getModContainerById(ID).ifPresent(modContainer -> {
-            IS_LOADED = true;
-        });
+        ModList.get().getModContainerById(ID).ifPresent(modContainer -> IS_LOADED = true);
     }
 }

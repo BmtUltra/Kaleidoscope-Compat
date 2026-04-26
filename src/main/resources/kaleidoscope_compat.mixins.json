@@ -24,7 +24,6 @@
     "kaleidoscope_cookery.TransmutationLunchBagItemMixin",
     "kaleidoscope_tavern.BarCabinetBlockEntityRenderMixin",
     "kaleidoscope_tavern.BarCabinetBlockMixin",
-    "kaleidoscope_tavern.BarCabinetRenderMixin",
     "kaleidoscope_tavern.BarrelBlockEntityMixin",
     "kaleidoscope_tavern.BarrelRecipeCategoryMixin",
     "quark.SimpleHarvestEventMixin",
