@@ -2,6 +2,10 @@
   "replace": false,
   "values": [
     {
+      "id": "#kaleidoscope_doll:all_dolls",
+      "required": false
+    },
+    {
       "id": "kaleidoscope_cookery:straw_hat_flower",
       "required": false
     },

@@ -1,0 +1,31 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 15982516,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_flesh",
+  "ingredients": [
+    {
+      "tag": "c:foods/raw_pork"
+    },
+    {
+      "tag": "c:foods/raw_pork"
+    },
+    {
+      "tag": "c:foods/raw_pork"
+    },
+	  {
+      "item": "delighto_flight:lotus_root"
+    },
+    {
+      "item": "delighto_flight:lotus_root"
+    },
+    {
+      "item": "delighto_flight:lotus_root"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "id": "delighto_flight:lotus_root_soup_with_pork_ribs"
+  }
+}

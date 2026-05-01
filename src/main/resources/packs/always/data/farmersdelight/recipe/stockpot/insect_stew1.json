@@ -1,0 +1,85 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 11965769,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_bone",
+  "ingredients": [
+    {
+      "item": "minersdelight:arthropod"
+    },
+    {
+      "item": "minersdelight:arthropod"
+    },
+    {
+      "type": "neoforge:compound",
+      "children": [
+        {
+          "item": "minersdelight:arthropod"
+        },
+        {
+          "item": "minersdelight:silverfish_eggs"
+        }
+      ]
+    },
+    {
+      "type": "neoforge:compound",
+      "children": [
+        {
+          "item": "minersdelight:arthropod"
+        },
+        {
+          "item": "minersdelight:silverfish_eggs"
+        }
+      ]
+    },
+    {
+      "type": "neoforge:compound",
+      "children": [
+        {
+          "item": "minersdelight:arthropod"
+        },
+        {
+          "item": "minersdelight:silverfish_eggs"
+        }
+      ]
+    },
+    {
+      "type": "neoforge:compound",
+      "children": [
+        {
+          "item": "minersdelight:arthropod"
+        },
+        {
+          "item": "minersdelight:silverfish_eggs"
+        }
+      ]
+    },
+    {
+      "type": "neoforge:compound",
+      "children": [
+        {
+          "item": "minersdelight:arthropod"
+        },
+        {
+          "item": "minersdelight:silverfish_eggs"
+        }
+      ]
+    },
+    {
+      "type": "neoforge:compound",
+      "children": [
+        {
+          "item": "minersdelight:arthropod"
+        },
+        {
+          "item": "minersdelight:silverfish_eggs"
+        }
+      ]
+    }
+  ],
+  "result": {
+    "count": 2,
+    "id": "minersdelight:bat_soup"
+  }
+}

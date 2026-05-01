@@ -1,0 +1,31 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 16229438,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_orange",
+  "ingredients": [
+    {
+      "tag": "youkaisfeasts:dango"
+    },
+    {
+      "tag": "youkaisfeasts:dango"
+    },
+    {
+      "item": "minecraft:carrot"
+    },
+    {
+      "item": "minecraft:carrot"
+    },
+    {
+      "tag": "c:foods/vegetable"
+    },
+    {
+      "tag": "c:foods/vegetable"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "id": "youkaisfeasts:sweet_ormosia_mochi_mixed_boiled"
+  }
+}

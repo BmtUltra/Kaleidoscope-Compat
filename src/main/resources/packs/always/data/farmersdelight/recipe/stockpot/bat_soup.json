@@ -1,0 +1,25 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 11965769,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_bone",
+  "ingredients": [
+    {
+      "tag": "c:foods/bat_wing"
+    },
+    {
+      "tag": "c:foods/bat_wing"
+    },
+    {
+      "tag": "c:foods/bat_wing"
+    },
+    {
+      "tag": "c:foods/bat_wing"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "id": "minersdelight:bat_soup"
+  }
+}

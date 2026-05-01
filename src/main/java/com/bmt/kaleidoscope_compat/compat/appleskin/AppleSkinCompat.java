@@ -16,15 +16,12 @@ import java.util.Map;
 import java.util.UUID;
 
 public class AppleSkinCompat {
-
-    private static final boolean APPLE_SKIN_LOADED = ModList.get().isLoaded("appleskin");
-
     private static final Map<UUID, ItemStack> lastHeldLunchBag = new HashMap<>();
     private static final Map<UUID, Boolean> lastLunchBagHasItems = new HashMap<>();
 
     @SubscribeEvent
     public static void onPlayerTick(PlayerTickEvent.Post event) {
-        if (!APPLE_SKIN_LOADED) {
+        if (!ModList.get().isLoaded("appleskin")) {
             return;
         }
 

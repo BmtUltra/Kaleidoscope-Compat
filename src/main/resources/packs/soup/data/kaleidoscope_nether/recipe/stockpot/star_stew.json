@@ -6,10 +6,10 @@
   "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_star",
   "ingredients": [
     {
-      "tag": "c:vegetables/tomato"
+      "tag": "c:crops/tomato"
     },
     {
-      "tag": "c:vegetables/tomato"
+      "tag": "c:crops/tomato"
     },
     {
       "tag": "c:vegetables/lettuce"

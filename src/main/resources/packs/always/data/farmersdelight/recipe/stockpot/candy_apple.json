@@ -1,0 +1,28 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+      "carrier": {
+    "item": "minecraft:stick"
+  },
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 15982516,
+  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_flesh",
+  "ingredients": [
+    {
+      "item": "minecraft:apple"
+    },
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "item": "minecraft:sugar"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "youkaisfeasts:candy_apple"
+  }
+}

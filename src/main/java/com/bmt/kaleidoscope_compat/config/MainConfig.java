@@ -1,7 +1,7 @@
 package com.bmt.kaleidoscope_compat.config;
 
 import com.bmt.kaleidoscope_compat.KaleidoscopeCompat;
-import com.bmt.kaleidoscope_compat.util.DatapackMode;
+import com.bmt.kaleidoscope_compat.datapack.DatapackMode;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -19,7 +19,8 @@ public class MainConfig {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
 
     private static final ModConfigSpec.EnumValue<DatapackMode> DATAPACK_MODE = BUILDER
-            .comment("COMPAT: Extensive compatibility with other mod items", "COMPAT: 与其他模组物品与配方提供大量兼容",
+            .comment("NONE: Disable all datapacks except soup", "NONE: 不启用数据兼容",
+                    "COMPAT: Extensive compatibility with other mod items", "COMPAT: 与其他模组物品与配方提供大量兼容",
                     "UNITE: Duplicate items of the unified module", "UNITE: 统一与其它模组重复的物品")
             .defineEnum("datapack.mode", DatapackMode.COMPAT);
 

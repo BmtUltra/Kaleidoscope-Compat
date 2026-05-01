@@ -2,7 +2,6 @@ package com.bmt.kaleidoscope_compat.datapack;
 
 import com.bmt.kaleidoscope_compat.KaleidoscopeCompat;
 import com.bmt.kaleidoscope_compat.config.MainConfig;
-import com.bmt.kaleidoscope_compat.util.DatapackMode;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
@@ -19,9 +18,18 @@ public class DatapackLoader {
     @SubscribeEvent
     public static void onDatapackLoad(AddPackFindersEvent event) {
         if (event.getPackType() == PackType.SERVER_DATA) {
+            if (MainConfig.datapackMode == DatapackMode.NONE) {
+                if (MainConfig.soupDatapackEnabled) {
+                    addDatapack(event, "soup");
+                }
+                return;
+            }
+            addDatapack(event, "always");
+
             String mainPackName = switch (MainConfig.datapackMode) {
                 case COMPAT -> "compat";
                 case UNITE -> "unite";
+                default -> throw new IllegalStateException("Unexpected value: " + MainConfig.datapackMode);
             };
             addDatapack(event, mainPackName);
 
