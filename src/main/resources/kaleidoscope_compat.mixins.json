@@ -27,6 +27,7 @@
     "kaleidoscope_cookery.SickleItemMixin",
     "kaleidoscope_cookery.StockpotBlockEntityArmRecipeMixin",
     "kaleidoscope_cookery.StockpotBlockEntityAccessor",
+    "kaleidoscope_cookery.TeapotBlockEntityAccessor",
     "kaleidoscope_cookery.TransmutationLunchBagItemMixin",
     "kaleidoscope_tavern.BarCabinetBlockEntityRenderMixin",
     "kaleidoscope_tavern.BarCabinetBlockMixin",

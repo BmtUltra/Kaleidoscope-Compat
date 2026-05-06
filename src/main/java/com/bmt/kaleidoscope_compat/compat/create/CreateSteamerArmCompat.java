@@ -69,8 +69,8 @@ public class CreateSteamerArmCompat {
                 return stack;
             }
 
-            int emptySlot = getFirstEmptySlot(steamer);
-            if (emptySlot == -1) {
+            int emptySlotCount = getEmptySlotCount(steamer);
+            if (emptySlotCount == 0) {
                 return stack;
             }
 
@@ -81,15 +81,27 @@ public class CreateSteamerArmCompat {
                 return stack;
             }
 
+            int insertCount = Math.min(stack.getCount(), emptySlotCount);
             if (!simulate) {
-                steamer.getItems().set(emptySlot, stack.copyWithCount(1));
-                steamer.getCookingProgress()[emptySlot] = 0;
-                steamer.getCookingTime()[emptySlot] = cookTime;
+                NonNullList<ItemStack> items = steamer.getItems();
+                int[] cookingProgress = steamer.getCookingProgress();
+                int[] cookingTime = steamer.getCookingTime();
+                int endIndex = getEndIndex(steamer);
+                int left = insertCount;
+                for (int i = 0; i < endIndex && left > 0; i++) {
+                    if (!items.get(i).isEmpty()) {
+                        continue;
+                    }
+                    items.set(i, stack.copyWithCount(1));
+                    cookingProgress[i] = 0;
+                    cookingTime[i] = cookTime;
+                    left--;
+                }
                 steamer.refresh();
             }
 
             ItemStack remainder = stack.copy();
-            remainder.shrink(1);
+            remainder.shrink(insertCount);
             return remainder;
         }
 
@@ -105,11 +117,12 @@ public class CreateSteamerArmCompat {
                 return ItemStack.EMPTY;
             }
 
-            ItemStack result = steamer.getItems().get(readySlot).copy();
+            ItemStack template = steamer.getItems().get(readySlot);
+            int extractLimit = amount > 0 ? amount : template.getMaxStackSize();
+            int extracted = countExtractableReadyItems(steamer, template, readySlot, extractLimit);
+            ItemStack result = template.copyWithCount(extracted);
             if (!simulate) {
-                steamer.getItems().set(readySlot, ItemStack.EMPTY);
-                steamer.getCookingProgress()[readySlot] = 0;
-                steamer.getCookingTime()[readySlot] = 0;
+                consumeReadyItems(steamer, template, readySlot, extracted);
                 steamer.refresh();
             }
             return result;
@@ -134,15 +147,16 @@ public class CreateSteamerArmCompat {
             return readyCount;
         }
 
-        private int getFirstEmptySlot(SteamerBlockEntity steamer) {
+        private int getEmptySlotCount(SteamerBlockEntity steamer) {
             NonNullList<ItemStack> items = steamer.getItems();
             int endIndex = getEndIndex(steamer);
+            int emptyCount = 0;
             for (int i = 0; i < endIndex; i++) {
                 if (items.get(i).isEmpty()) {
-                    return i;
+                    emptyCount++;
                 }
             }
-            return -1;
+            return emptyCount;
         }
 
         private int getReadySlotByIndex(SteamerBlockEntity steamer, int slot) {
@@ -164,6 +178,41 @@ public class CreateSteamerArmCompat {
                 readyIndex++;
             }
             return -1;
+        }
+
+        private int countExtractableReadyItems(SteamerBlockEntity steamer, ItemStack template, int startSlot, int limit) {
+            NonNullList<ItemStack> items = steamer.getItems();
+            int[] cookingTime = steamer.getCookingTime();
+            int endIndex = getEndIndex(steamer);
+            int count = 0;
+            for (int i = startSlot; i < endIndex && count < limit; i++) {
+                if (cookingTime[i] != -1 || !ItemStack.isSameItemSameComponents(items.get(i), template)) {
+                    continue;
+                }
+                count += items.get(i).getCount();
+            }
+            return Math.min(count, limit);
+        }
+
+        private void consumeReadyItems(SteamerBlockEntity steamer, ItemStack template, int startSlot, int amount) {
+            NonNullList<ItemStack> items = steamer.getItems();
+            int[] cookingProgress = steamer.getCookingProgress();
+            int[] cookingTime = steamer.getCookingTime();
+            int endIndex = getEndIndex(steamer);
+            int left = amount;
+            for (int i = startSlot; i < endIndex && left > 0; i++) {
+                if (cookingTime[i] != -1 || !ItemStack.isSameItemSameComponents(items.get(i), template)) {
+                    continue;
+                }
+                int taken = Math.min(left, items.get(i).getCount());
+                left -= taken;
+                items.get(i).shrink(taken);
+                if (items.get(i).isEmpty()) {
+                    items.set(i, ItemStack.EMPTY);
+                    cookingProgress[i] = 0;
+                    cookingTime[i] = 0;
+                }
+            }
         }
 
         private int getEndIndex(SteamerBlockEntity steamer) {

@@ -119,9 +119,10 @@ public class CreateStockpotArmCompat {
             if (!stockpot.hasLid() && stockpot.getStatus() == IStockpot.FINISHED
                     && stockpot.recipe.value().carrier().isEmpty() && !stockpot.getResult().isEmpty()
                     && stockpot.getTakeoutCount() > 0) {
-                ItemStack result = stockpot.getResult().copyWithCount(1);
+                int extractCount = amount > 0 ? Math.min(amount, stockpot.getTakeoutCount()) : stockpot.getTakeoutCount();
+                ItemStack result = stockpot.getResult().copyWithCount(extractCount);
                 if (!simulate) {
-                    consumeFinishedResult(stockpot, 1);
+                    consumeFinishedResult(stockpot, extractCount);
                 }
                 return result;
             }

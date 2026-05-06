@@ -11,8 +11,10 @@ public class CreateCompat {
         ModList.get().getModContainerById(ID).ifPresent(modContainer -> {
             IS_LOADED = true;
             CreatePotArmCompat.init(modEventBus);
+            CreateShawarmaSpitArmCompat.init(modEventBus);
             CreateSteamerArmCompat.init(modEventBus);
             CreateStockpotArmCompat.init(modEventBus);
+            CreateTeapotArmCompat.init(modEventBus);
         });
     }
 }
