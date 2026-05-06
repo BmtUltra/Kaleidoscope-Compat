@@ -5,6 +5,7 @@
   "plugin": "com.bmt.kaleidoscope_compat.mixins.MainMixinPlugin",
   "compatibilityLevel": "JAVA_21",
   "client": [
+    "appleskin.FoodHelperMixin",
     "solcarrot.FoodItemsMixin"
   ],
   "mixins": [
