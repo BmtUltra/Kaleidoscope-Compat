@@ -1,5 +1,6 @@
 package com.bmt.kaleidoscope_compat;
 
+import com.bmt.kaleidoscope_compat.compat.create.CreateCompat;
 import com.bmt.kaleidoscope_compat.compat.farm_and_charm.FarmAndCharmCompat;
 import com.bmt.kaleidoscope_compat.compat.vinery.VineryBarrelCompatMain;
 import com.bmt.kaleidoscope_compat.config.MainConfig;
@@ -14,6 +15,7 @@ public class KaleidoscopeCompat {
     public static final String MOD_ID = "kaleidoscope_compat";
     public KaleidoscopeCompat(IEventBus modEventBus, ModContainer modContainer) {
         modContainer.registerConfig(ModConfig.Type.COMMON, MainConfig.SPEC);
+        CreateCompat.init(modEventBus);
         FarmAndCharmCompat.init();
         VineryBarrelCompatMain.init();
     }

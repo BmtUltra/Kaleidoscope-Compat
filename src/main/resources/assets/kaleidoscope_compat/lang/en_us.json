@@ -1,3 +1,7 @@
 {
-  "jei.category.kaleidoscope_compat.shawarma_spit": "Shawarma Spit"
+  "jei.category.kaleidoscope_compat.shawarma_spit": "Shawarma Spit",
+  "tip.kaleidoscope_compat.pot_arm_recipe_set": "Set pot automation recipe: %s",
+  "tip.kaleidoscope_compat.stockpot_arm_recipe_set": "Set stockpot automation recipe: %s",
+  "tooltip.kaleidoscope_compat.recipe_item.pot_arm_recipe": "Hold Shift and right-click a pot to set the automation recipe",
+  "tooltip.kaleidoscope_compat.recipe_item.stockpot_arm_recipe": "Hold Shift and right-click a stockpot to set the automation recipe"
 }

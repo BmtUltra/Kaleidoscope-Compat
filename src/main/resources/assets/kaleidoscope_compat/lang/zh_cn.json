@@ -1,3 +1,7 @@
 {
-  "jei.category.kaleidoscope_compat.shawarma_spit": "旋风烤肉塔"
+  "jei.category.kaleidoscope_compat.shawarma_spit": "旋风烤肉塔",
+  "tip.kaleidoscope_compat.pot_arm_recipe_set": "已为动力臂设置炒锅配方：%s",
+  "tip.kaleidoscope_compat.stockpot_arm_recipe_set": "已为动力臂设置汤锅配方：%s",
+  "tooltip.kaleidoscope_compat.recipe_item.pot_arm_recipe": "按住 Shift 右键炒锅以设置动力臂配方",
+  "tooltip.kaleidoscope_compat.recipe_item.stockpot_arm_recipe": "按住 Shift 右键汤锅以设置动力臂配方"
 }

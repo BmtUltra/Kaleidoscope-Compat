@@ -5,6 +5,7 @@
   "plugin": "com.bmt.kaleidoscope_compat.mixins.MainMixinPlugin",
   "compatibilityLevel": "JAVA_21",
   "client": [
+    "appleskin.FoodHelperMixin",
     "solcarrot.FoodItemsMixin"
   ],
   "mixins": [
@@ -18,9 +19,15 @@
     "farmersdelight.FDRecipesMixin",
     "farmersdelight.NourishmentEffectMixin",
     "kaleidoscope_cookery.PhantomMixin",
+    "kaleidoscope_cookery.PotBlockEntityAccessor",
+    "kaleidoscope_cookery.PotBlockEntityArmRecipeMixin",
     "kaleidoscope_cookery.PotBlockEntityOilMixin",
+    "kaleidoscope_cookery.RecipeItemStockpotMixin",
     "kaleidoscope_cookery.RegistryMixin",
     "kaleidoscope_cookery.SickleItemMixin",
+    "kaleidoscope_cookery.StockpotBlockEntityArmRecipeMixin",
+    "kaleidoscope_cookery.StockpotBlockEntityAccessor",
+    "kaleidoscope_cookery.TeapotBlockEntityAccessor",
     "kaleidoscope_cookery.TransmutationLunchBagItemMixin",
     "kaleidoscope_tavern.BarCabinetBlockEntityRenderMixin",
     "kaleidoscope_tavern.BarCabinetBlockMixin",
