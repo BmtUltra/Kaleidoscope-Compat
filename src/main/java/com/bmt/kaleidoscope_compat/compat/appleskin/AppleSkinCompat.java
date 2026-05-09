@@ -34,12 +34,10 @@ public final class AppleSkinCompat {
                 return Optional.of(foodProperties);
             }
 
-            // Match the bag's real consumption order: a leading potion means no hunger preview.
             if (stackInSlot.has(DataComponents.POTION_CONTENTS)) {
                 return Optional.empty();
             }
         }
-
         return Optional.empty();
     }
 }
