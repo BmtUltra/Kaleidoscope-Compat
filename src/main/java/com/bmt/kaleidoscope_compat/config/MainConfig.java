@@ -75,6 +75,22 @@ public class MainConfig {
                     "When enabled, phantoms will avoid areas near scarecrows with heads")
             .define("scarecrow.repel_phantoms", true);
 
+    private static final ModConfigSpec.BooleanValue PROJECTILE_DODGE_TELEPORT_ENABLED = BUILDER
+            .comment("Whether projectile dodge teleport is enabled", "是否启用弹射闪避的传送",
+                    "When enabled, players with Projectile Dodge effect will teleport when hit by projectiles",
+                    "When disabled, projectiles will be cancelled without teleportation")
+            .define("projectileDodge.teleport_enabled", false);
+
+    private static final ModConfigSpec.IntValue PROJECTILE_DODGE_DURATION_COST = BUILDER
+            .comment("Duration cost per dodge (in ticks)", "每次闪避消耗的持续时间（tick）",
+                    "Default: 200 ticks (10 seconds)")
+            .defineInRange("projectileDodge.duration_cost", 200, 1, Integer.MAX_VALUE);
+
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> VITALITY_BLACKLIST = BUILDER
+            .comment("List of entity IDs that cannot be affected by Vitality effect", "生机效果黑名单实体ID",
+                    "Format: modid:entity_id (e.g., minecraft:zombie, minecraft:villager)")
+            .defineList("vitality.blacklist", Collections.emptyList(), MainConfig::validateEntityName);
+
     public static final ModConfigSpec SPEC = BUILDER.build();
 
     public static DatapackMode datapackMode = DatapackMode.COMPAT;
@@ -92,6 +108,9 @@ public class MainConfig {
     public static boolean vineryBarrelRecipesDisabled = false;
 
     public static boolean scarecrowRepelPhantoms = true;
+    public static boolean projectileDodgeTeleportEnabled = false;
+    public static int projectileDodgeDurationCost = 200;
+    public static Set<ResourceLocation> vitalityBlacklist = new HashSet<>();
 
     @SubscribeEvent
     public static void onLoad(final ModConfigEvent event) {
@@ -105,12 +124,21 @@ public class MainConfig {
         farmAndCharmCookingPotRecipesDisabled = FARM_AND_CHARM_COOKING_POT_RECIPES_DISABLED.get();
         vineryBarrelRecipesDisabled = VINERY_BARREL_RECIPES_DISABLED.get();
         scarecrowRepelPhantoms = SCARECROW_REPEL_PHANTOMS.get();
+        projectileDodgeTeleportEnabled = PROJECTILE_DODGE_TELEPORT_ENABLED.get();
+        projectileDodgeDurationCost = PROJECTILE_DODGE_DURATION_COST.get();
 
         lunchBagBlacklist.clear();
         for (String itemStr : LUNCH_BAG_BLACKLIST.get()) {
             ResourceLocation itemId = ResourceLocation.tryParse(itemStr);
             if (itemId != null) {
                 lunchBagBlacklist.add(itemId);
+            }
+        }
+        vitalityBlacklist.clear();
+        for (String entityStr : VITALITY_BLACKLIST.get()) {
+            ResourceLocation entityId = ResourceLocation.tryParse(entityStr);
+            if (entityId != null) {
+                vitalityBlacklist.add(entityId);
             }
         }
     }
@@ -128,6 +156,13 @@ public class MainConfig {
         }
         ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(item);
         return lunchBagBlacklist.contains(itemId);
+    }
+
+    private static boolean validateEntityName(final Object obj) {
+        if (!(obj instanceof String entityStr)) {
+            return false;
+        }
+        return ResourceLocation.tryParse(entityStr) != null;
     }
 
     @Nullable
