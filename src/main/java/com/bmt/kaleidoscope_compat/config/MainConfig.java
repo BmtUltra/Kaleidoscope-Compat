@@ -97,11 +97,11 @@ public class MainConfig {
             .define("create.compat_enabled", true);
 
     private static final ModConfigSpec.BooleanValue ACCESSORIES_COMPAT_ENABLED = BUILDER
-            .comment("Whether Accessories mod compatibility is enabled", "是否启用草帽和Accessories的兼容")
+            .comment("Whether Accessories mod compatibility is enabled", "是否启用草帽和accessories的兼容")
             .define("accessories.compat_enabled", true);
 
     private static final ModConfigSpec.BooleanValue CURIOS_COMPAT_ENABLED = BUILDER
-            .comment("Whether Curios mod compatibility is enabled", "是否启用草帽和Curios的兼容")
+            .comment("Whether Curios mod compatibility is enabled", "是否启用草帽和curios的兼容")
             .define("curios.compat_enabled", true);
 
     private static final ModConfigSpec.BooleanValue APPLESKIN_COMPAT_ENABLED = BUILDER

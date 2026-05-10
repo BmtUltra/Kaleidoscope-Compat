@@ -31,6 +31,7 @@
     "kaleidoscope_cookery.StockpotBlockEntityArmRecipeMixin",
     "kaleidoscope_cookery.TeapotBlockEntityAccessor",
     "kaleidoscope_cookery.TransmutationLunchBagItemMixin",
+    "kaleidoscope_cookery.VitalityEventMixin",
     "kaleidoscope_tavern.BarCabinetBlockEntityRenderMixin",
     "kaleidoscope_tavern.BarCabinetBlockMixin",
     "kaleidoscope_tavern.BarrelBlockEntityMixin",
