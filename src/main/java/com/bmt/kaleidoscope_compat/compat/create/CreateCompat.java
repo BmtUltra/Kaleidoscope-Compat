@@ -1,5 +1,6 @@
 package com.bmt.kaleidoscope_compat.compat.create;
 
+import com.bmt.kaleidoscope_compat.config.MainConfig;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModList;
 
@@ -8,6 +9,10 @@ public class CreateCompat {
     public static boolean IS_LOADED = false;
 
     public static void init(IEventBus modEventBus) {
+        if (!MainConfig.createCompatEnabled) {
+            return;
+        }
+
         ModList.get().getModContainerById(ID).ifPresent(modContainer -> {
             IS_LOADED = true;
             CreateMillstoneArmCompat.init(modEventBus);

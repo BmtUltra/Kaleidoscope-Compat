@@ -1,6 +1,7 @@
 package com.bmt.kaleidoscope_compat.event;
 
 import com.bmt.kaleidoscope_compat.KaleidoscopeCompat;
+import com.bmt.kaleidoscope_compat.config.MainConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -24,6 +25,10 @@ public class RichSoilHoeEvent {
 
     @SubscribeEvent
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
+        if (!MainConfig.richSoilHoeEnabled) {
+            return;
+        }
+
         Level level = event.getLevel();
         BlockPos pos = event.getPos();
         Player player = event.getEntity();

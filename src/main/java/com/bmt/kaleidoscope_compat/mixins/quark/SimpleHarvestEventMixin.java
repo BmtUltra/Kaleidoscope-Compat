@@ -1,5 +1,6 @@
 package com.bmt.kaleidoscope_compat.mixins.quark;
 
+import com.bmt.kaleidoscope_compat.config.MainConfig;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.SickleItem;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
@@ -15,18 +16,20 @@ import org.violetmoon.quark.api.event.SimpleHarvestEvent;
 public class SimpleHarvestEventMixin {
 
     @Inject(
-        method = "<init>",
-        at = @At("TAIL")
+            method = "<init>",
+            at = @At("TAIL")
     )
     private void kc$checkSickleOnHarvest(
-        net.minecraft.world.level.block.state.BlockState blockState, 
-        net.minecraft.core.BlockPos pos, 
-        net.minecraft.world.level.Level level, 
-        InteractionHand hand,
-        Entity entity, 
-        SimpleHarvestEvent.ActionType originalActionType,
-        CallbackInfo ci
+            net.minecraft.world.level.block.state.BlockState blockState,
+            net.minecraft.core.BlockPos pos,
+            net.minecraft.world.level.Level level,
+            InteractionHand hand,
+            Entity entity,
+            SimpleHarvestEvent.ActionType originalActionType,
+            CallbackInfo ci
     ) {
+        if (!MainConfig.quarkSickleHarvestFixEnabled) return;
+
         if (entity instanceof Player player && hand != null) {
             ItemStack heldItem = player.getItemInHand(hand);
             if (heldItem.getItem() instanceof SickleItem) {

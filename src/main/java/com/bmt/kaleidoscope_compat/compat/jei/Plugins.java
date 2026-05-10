@@ -1,6 +1,7 @@
 package com.bmt.kaleidoscope_compat.compat.jei;
 
 import com.bmt.kaleidoscope_compat.KaleidoscopeCompat;
+import com.bmt.kaleidoscope_compat.config.MainConfig;
 import com.bmt.kaleidoscope_compat.util.TagUtil;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import mezz.jei.api.IModPlugin;
@@ -31,74 +32,79 @@ import java.util.stream.Collectors;
 @JeiPlugin
 @SuppressWarnings("all")
 public class Plugins implements IModPlugin {
-    
-    private static final ResourceLocation PLUGIN_ID = 
-        ResourceLocation.fromNamespaceAndPath(KaleidoscopeCompat.MOD_ID, "jei_plugin");
-    
+
+    private static final ResourceLocation PLUGIN_ID =
+            ResourceLocation.fromNamespaceAndPath(KaleidoscopeCompat.MOD_ID, "jei_plugin");
+
     private static final Set<Item> hiddenItems = new HashSet<>();
     private IJeiRuntime jeiRuntime;
-    
+
     @Override
     public @NotNull ResourceLocation getPluginUid() {
         return PLUGIN_ID;
     }
-    
+
     @Override
     public void registerCategories(@NotNull IRecipeCategoryRegistration registration) {
+        if (!MainConfig.jeiCompatEnabled) return;
         registration.addRecipeCategories(
-            new WhirlwindBarbecueCategory(registration.getJeiHelpers().getGuiHelper())
+                new WhirlwindBarbecueCategory(registration.getJeiHelpers().getGuiHelper())
         );
     }
-    
+
     @Override
     public void registerRecipes(@NotNull IRecipeRegistration registration) {
+        if (!MainConfig.jeiCompatEnabled) return;
         registerBarbecueRecipes(registration);
     }
-    
+
     @Override
     public void registerRecipeCatalysts(@NotNull IRecipeCatalystRegistration registration) {
+        if (!MainConfig.jeiCompatEnabled) return;
         registration.addRecipeCatalyst(
-            new ItemStack(ModBlocks.SHAWARMA_SPIT.get()),
-            WhirlwindBarbecueCategory.RECIPE_TYPE
+                new ItemStack(ModBlocks.SHAWARMA_SPIT.get()),
+                WhirlwindBarbecueCategory.RECIPE_TYPE
         );
     }
-    
+
     @Override
     public void registerAdvanced(@NotNull IAdvancedRegistration registration) {
+        if (!MainConfig.jeiCompatEnabled) return;
         registration.addRecipeManagerPlugin(new RecipeHiding());
     }
-    
+
     @Override
     public void onRuntimeAvailable(@NotNull IJeiRuntime jeiRuntime) {
+        if (!MainConfig.jeiCompatEnabled) return;
         this.jeiRuntime = jeiRuntime;
         updateHiddenItems();
         hideTaggedItems();
     }
-    
+
     @Override
     public void onRuntimeUnavailable() {
         this.jeiRuntime = null;
         hiddenItems.clear();
     }
-    
+
     private void registerBarbecueRecipes(@NotNull IRecipeRegistration registration) {
         assert Minecraft.getInstance().level != null;
         List<RecipeHolder<CampfireCookingRecipe>> recipeHolders = Minecraft.getInstance().level
-            .getRecipeManager()
-            .getAllRecipesFor(RecipeType.CAMPFIRE_COOKING);
-        
+                .getRecipeManager()
+                .getAllRecipesFor(RecipeType.CAMPFIRE_COOKING);
+
         List<CampfireCookingRecipe> campfireRecipes = recipeHolders.stream()
-            .map(RecipeHolder::value)
-            .collect(Collectors.toList());
-        
+                .map(RecipeHolder::value)
+                .collect(Collectors.toList());
+
         registration.addRecipes(WhirlwindBarbecueCategory.RECIPE_TYPE, campfireRecipes);
     }
-    
+
     private void updateHiddenItems() {
         if (Minecraft.getInstance().level == null) {
             return;
         }
-        
+
         hiddenItems.clear();
         var itemRegistry = Minecraft.getInstance().level.registryAccess().registryOrThrow(BuiltInRegistries.ITEM.key());
 
@@ -106,24 +112,24 @@ public class Plugins implements IModPlugin {
             hiddenItems.add(itemHolder.value());
         }
     }
-    
+
     private void hideTaggedItems() {
         if (jeiRuntime == null || hiddenItems.isEmpty()) {
             return;
         }
-        
+
         List<ItemStack> itemsToHide = new ArrayList<>();
         for (Item item : hiddenItems) {
             itemsToHide.add(new ItemStack(item));
         }
-        
+
         jeiRuntime.getIngredientManager().removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK, itemsToHide);
     }
-    
+
     public static boolean isItemHidden(Item item) {
         return hiddenItems.contains(item);
     }
-    
+
     public static Set<Item> getHiddenItems() {
         return new HashSet<>(hiddenItems);
     }

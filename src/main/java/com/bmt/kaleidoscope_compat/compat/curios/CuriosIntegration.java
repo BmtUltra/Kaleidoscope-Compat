@@ -1,5 +1,6 @@
 package com.bmt.kaleidoscope_compat.compat.curios;
 
+import com.bmt.kaleidoscope_compat.config.MainConfig;
 import com.bmt.kaleidoscope_compat.util.TagUtil;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.fml.ModList;
@@ -14,7 +15,7 @@ public class CuriosIntegration {
     private static final String CURIOS_MOD_ID = "curios";
 
     public static boolean isLoaded() {
-        return ModList.get().isLoaded(CURIOS_MOD_ID);
+        return ModList.get().isLoaded(CURIOS_MOD_ID) && MainConfig.curiosCompatEnabled;
     }
 
     public static boolean hasStrawHatInCurios(LivingEntity entity) {

@@ -91,26 +91,70 @@ public class MainConfig {
                     "Format: modid:entity_id (e.g., minecraft:zombie, minecraft:villager)")
             .defineList("vitality.blacklist", Collections.emptyList(), MainConfig::validateEntityName);
 
+    private static final ModConfigSpec.BooleanValue CREATE_COMPAT_ENABLED = BUILDER
+            .comment("Whether Create mod compatibility is enabled", "是否启用机械动力模块兼容",
+                    "When disabled, all Create compatibility features will not be loaded")
+            .define("create.compat_enabled", true);
+
+    private static final ModConfigSpec.BooleanValue ACCESSORIES_COMPAT_ENABLED = BUILDER
+            .comment("Whether Accessories mod compatibility is enabled", "是否启用草帽和Accessories的兼容")
+            .define("accessories.compat_enabled", true);
+
+    private static final ModConfigSpec.BooleanValue CURIOS_COMPAT_ENABLED = BUILDER
+            .comment("Whether Curios mod compatibility is enabled", "是否启用草帽和Curios的兼容")
+            .define("curios.compat_enabled", true);
+
+    private static final ModConfigSpec.BooleanValue APPLESKIN_COMPAT_ENABLED = BUILDER
+            .comment("Whether AppleSkin mod compatibility is enabled", "是否启用苹果皮和嬗变饭袋的兼容")
+            .define("appleskin.compat_enabled", true);
+
+    private static final ModConfigSpec.BooleanValue FARM_AND_CHARM_COMPAT_ENABLED = BUILDER
+            .comment("Whether Farm and Charm mod compatibility is enabled", "是否启用沉浸农艺锅配方兼容")
+            .define("farm_and_charm.compat_enabled", true);
+
+    private static final ModConfigSpec.BooleanValue JEI_COMPAT_ENABLED = BUILDER
+            .comment("Whether JEI compatibility is enabled", "是否启用旋风烤肉塔JEI")
+            .define("jei.compat_enabled", true);
+
+    private static final ModConfigSpec.BooleanValue RICH_SOIL_HOE_ENABLED = BUILDER
+            .comment("Whether rich soil hoe tilling is enabled", "是否启用水中锄耕农夫乐事沃土功能",
+                    "When enabled, right-clicking rich soil with water above will turn it into rich soil farmland")
+            .define("rich_soil.hoe_enabled", true);
+
+    private static final ModConfigSpec.BooleanValue THIRST_COMPAT_ENABLED = BUILDER
+            .comment("Whether Thirst mod compatibility is enabled", "是否启用口渴兼容")
+            .define("thirst.compat_enabled", true);
+
+    private static final ModConfigSpec.BooleanValue QUARK_SICKLE_HARVEST_FIX_ENABLED = BUILDER
+            .comment("Whether Quark sickle harvest fix is enabled", "是否启用夸克兼容",
+                    "When enabled, sickle items will not trigger Quark's automatic harvest")
+            .define("quark.sickle_harvest_fix_enabled", true);
+
     public static final ModConfigSpec SPEC = BUILDER.build();
 
     public static DatapackMode datapackMode = DatapackMode.COMPAT;
     public static boolean soupDatapackEnabled = true;
     public static boolean lunchBagBlacklistEnabled = true;
     public static Set<ResourceLocation> lunchBagBlacklist = new HashSet<>();
-
     public static boolean nourishmentEffectBlockEnabled = true;
-
     public static boolean transmutationLunchBagBackEnabled = true;
     public static boolean cookingPotRecipesDisabled = false;
     public static boolean cuttingBoardRecipesDisabled = false;
-
     public static boolean farmAndCharmCookingPotRecipesDisabled = false;
     public static boolean vineryBarrelRecipesDisabled = false;
-
     public static boolean scarecrowRepelPhantoms = true;
     public static boolean projectileDodgeTeleportEnabled = false;
     public static int projectileDodgeDurationCost = 200;
     public static Set<ResourceLocation> vitalityBlacklist = new HashSet<>();
+    public static boolean createCompatEnabled = true;
+    public static boolean accessoriesCompatEnabled = true;
+    public static boolean curiosCompatEnabled = true;
+    public static boolean appleskinCompatEnabled = true;
+    public static boolean farmAndCharmCompatEnabled = true;
+    public static boolean jeiCompatEnabled = true;
+    public static boolean richSoilHoeEnabled = true;
+    public static boolean thirstCompatEnabled = true;
+    public static boolean quarkSickleHarvestFixEnabled = true;
 
     @SubscribeEvent
     public static void onLoad(final ModConfigEvent event) {
@@ -126,7 +170,15 @@ public class MainConfig {
         scarecrowRepelPhantoms = SCARECROW_REPEL_PHANTOMS.get();
         projectileDodgeTeleportEnabled = PROJECTILE_DODGE_TELEPORT_ENABLED.get();
         projectileDodgeDurationCost = PROJECTILE_DODGE_DURATION_COST.get();
-
+        createCompatEnabled = CREATE_COMPAT_ENABLED.get();
+        accessoriesCompatEnabled = ACCESSORIES_COMPAT_ENABLED.get();
+        curiosCompatEnabled = CURIOS_COMPAT_ENABLED.get();
+        appleskinCompatEnabled = APPLESKIN_COMPAT_ENABLED.get();
+        farmAndCharmCompatEnabled = FARM_AND_CHARM_COMPAT_ENABLED.get();
+        jeiCompatEnabled = JEI_COMPAT_ENABLED.get();
+        richSoilHoeEnabled = RICH_SOIL_HOE_ENABLED.get();
+        thirstCompatEnabled = THIRST_COMPAT_ENABLED.get();
+        quarkSickleHarvestFixEnabled = QUARK_SICKLE_HARVEST_FIX_ENABLED.get();
         lunchBagBlacklist.clear();
         for (String itemStr : LUNCH_BAG_BLACKLIST.get()) {
             ResourceLocation itemId = ResourceLocation.tryParse(itemStr);

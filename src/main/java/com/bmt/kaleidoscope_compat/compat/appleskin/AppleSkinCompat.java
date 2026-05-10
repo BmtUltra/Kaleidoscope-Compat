@@ -1,5 +1,6 @@
 package com.bmt.kaleidoscope_compat.compat.appleskin;
 
+import com.bmt.kaleidoscope_compat.config.MainConfig;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.TransmutationLunchBagItem;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.player.Player;
@@ -13,11 +14,17 @@ public final class AppleSkinCompat {
     private AppleSkinCompat() {
     }
 
+    public static boolean isEnabled() {
+        return MainConfig.appleskinCompatEnabled;
+    }
+
     public static boolean shouldTreatAsFood(ItemStack stack, Player player) {
+        if (!isEnabled()) return false;
         return findPreviewFoodProperties(stack, player).isPresent();
     }
 
     public static Optional<FoodProperties> findPreviewFoodProperties(ItemStack lunchBag, Player player) {
+        if (!isEnabled()) return Optional.empty();
         if (!(lunchBag.getItem() instanceof TransmutationLunchBagItem) || !TransmutationLunchBagItem.hasItems(lunchBag)) {
             return Optional.empty();
         }

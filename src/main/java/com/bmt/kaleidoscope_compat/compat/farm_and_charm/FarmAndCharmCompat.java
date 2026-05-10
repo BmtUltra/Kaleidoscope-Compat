@@ -1,5 +1,6 @@
 package com.bmt.kaleidoscope_compat.compat.farm_and_charm;
 
+import com.bmt.kaleidoscope_compat.config.MainConfig;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.StockpotRecipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
@@ -13,6 +14,10 @@ public class FarmAndCharmCompat {
     public static boolean IS_LOADED = false;
 
     public static void init() {
+        if (!MainConfig.farmAndCharmCompatEnabled) {
+            return;
+        }
+
         ModList.get().getModContainerById(ID).ifPresent(modContainer -> {
             IS_LOADED = true;
             NeoForge.EVENT_BUS.addListener(CookingPotCompat::afterStockpotRecipeMatch);

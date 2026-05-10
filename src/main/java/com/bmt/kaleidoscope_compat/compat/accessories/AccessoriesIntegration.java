@@ -1,5 +1,6 @@
 package com.bmt.kaleidoscope_compat.compat.accessories;
 
+import com.bmt.kaleidoscope_compat.config.MainConfig;
 import com.bmt.kaleidoscope_compat.util.TagUtil;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.ModList;
@@ -10,7 +11,7 @@ public class AccessoriesIntegration {
     private static final String ACCESSORIES_MOD_ID = "accessories";
 
     public static boolean isLoaded() {
-        return ModList.get().isLoaded(ACCESSORIES_MOD_ID);
+        return ModList.get().isLoaded(ACCESSORIES_MOD_ID) && MainConfig.accessoriesCompatEnabled;
     }
 
     public static boolean hasStrawHatInAccessories(net.minecraft.world.entity.LivingEntity entity) {
