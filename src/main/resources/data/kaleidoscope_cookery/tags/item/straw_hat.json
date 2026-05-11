@@ -9,6 +9,10 @@
       "required": false
     },
     {
+      "id": "tsuki:straw_hat",
+      "required": false
+    },
+    {
       "id": "artifacts:villager_hat",
       "required": false
     },
