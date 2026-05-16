@@ -15,12 +15,12 @@ public class CreateCompat {
 
         ModList.get().getModContainerById(ID).ifPresent(modContainer -> {
             IS_LOADED = true;
-            CreateMillstoneArmCompat.init(modEventBus);
-            CreatePotArmCompat.init(modEventBus);
-            CreateShawarmaSpitArmCompat.init(modEventBus);
-            CreateSteamerArmCompat.init(modEventBus);
-            CreateStockpotArmCompat.init(modEventBus);
-            CreateTeapotArmCompat.init(modEventBus);
+            if (MainConfig.createArmPotEnabled) {CreatePotArmCompat.init(modEventBus);}
+            if (MainConfig.createArmStockpotEnabled) {CreateStockpotArmCompat.init(modEventBus);}
+            if (MainConfig.createArmSteamerEnabled) {CreateSteamerArmCompat.init(modEventBus);}
+            if (MainConfig.createArmMillstoneEnabled) {CreateMillstoneArmCompat.init(modEventBus);}
+            if (MainConfig.createArmShawarmaSpitEnabled) {CreateShawarmaSpitArmCompat.init(modEventBus);}
+            if (MainConfig.createArmTeapotEnabled) {CreateTeapotArmCompat.init(modEventBus);}
         });
     }
 }

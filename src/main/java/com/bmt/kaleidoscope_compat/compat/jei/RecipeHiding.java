@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-@SuppressWarnings("all")
 public class RecipeHiding implements IRecipeManagerPlugin {
     
     @Override

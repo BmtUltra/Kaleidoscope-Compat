@@ -30,7 +30,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @JeiPlugin
-@SuppressWarnings("all")
 public class Plugins implements IModPlugin {
 
     private static final ResourceLocation PLUGIN_ID =
@@ -124,13 +123,5 @@ public class Plugins implements IModPlugin {
         }
 
         jeiRuntime.getIngredientManager().removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK, itemsToHide);
-    }
-
-    public static boolean isItemHidden(Item item) {
-        return hiddenItems.contains(item);
-    }
-
-    public static Set<Item> getHiddenItems() {
-        return new HashSet<>(hiddenItems);
     }
 }
