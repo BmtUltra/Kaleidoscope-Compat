@@ -1,0 +1,21 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "ingredients": [
+    {
+      "tag": "c:foods/dough"
+    },
+	{
+      "tag": "c:eggs"
+    },
+	{
+      "item": "delighto_flight:lotus_root_slice"
+    },
+	{
+      "tag": "c:foods/raw_pork"
+    }
+  ],
+  "result": {
+	"count": 2,
+    "id": "delighto_flight:stuffed_lotus_root"
+  }
+}

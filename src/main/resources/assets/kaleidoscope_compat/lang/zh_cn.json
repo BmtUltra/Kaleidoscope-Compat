@@ -31,6 +31,10 @@
   "config.kaleidoscope_compat.rich_soil.hoe_enabled": "沃土锄耕",
   "config.kaleidoscope_compat.rich_soil.hoe_enabled.tooltip.0": "启用后，可以耕地含水的沃土",
 
+  "config.kaleidoscope_compat.category.youkaisfeasts": "幻想乡乐事",
+  "config.kaleidoscope_compat.youkaisfeasts.steaming_recipes_disabled": "禁用蒸笼配方",
+  "config.kaleidoscope_compat.youkaisfeasts.steaming_recipes_disabled.tooltip.0": "启用后，所有幻想乡乐事蒸笼配方将无法使用",
+
   "config.kaleidoscope_compat.category.farm_and_charm": "沉浸农艺",
   "config.kaleidoscope_compat.farm_and_charm.cooking_pot_disabled": "禁用厨锅配方",
   "config.kaleidoscope_compat.farm_and_charm.cooking_pot_disabled.tooltip.0": "启用后，所有沉浸农艺厨锅配方将无法使用",

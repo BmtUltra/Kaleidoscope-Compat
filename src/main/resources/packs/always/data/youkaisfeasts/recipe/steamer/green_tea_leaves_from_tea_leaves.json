@@ -1,0 +1,10 @@
+{
+  "type": "kaleidoscope_cookery:steamer",
+  "cook_tick": 1200,
+  "ingredient": {
+    "item": "youkaisfeasts:tea_leaves"
+  },
+  "result": {
+    "id": "youkaisfeasts:green_tea_leaves"
+  }
+}

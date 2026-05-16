@@ -55,6 +55,11 @@ public class MainConfig {
                     "When enabled, all cutting board recipes will not work")
             .define("farmersdelight.cutting_board_recipes_disabled", false);
 
+    private static final ModConfigSpec.BooleanValue STEAMING_RECIPES_DISABLED = BUILDER
+            .comment("Whether all Youkai's Homecoming steaming recipes are disabled","是否禁用妖怪归家蒸笼配方",
+                    "When enabled, all steaming recipes will not work")
+            .define("youkaisfeasts.steaming_recipes_disabled", false);
+
     private static final ModConfigSpec.BooleanValue RICH_SOIL_HOE_ENABLED = BUILDER
             .comment("Whether rich soil hoe tilling is enabled", "是否启用水中锄耕农夫乐事沃土功能",
                     "When enabled, right-clicking rich soil with water above will turn it into rich soil farmland")
@@ -175,6 +180,7 @@ public class MainConfig {
     public static boolean jeiCompatEnabled = true;
     public static boolean thirstCompatEnabled = true;
     public static boolean quarkSickleHarvestFixEnabled = true;
+    public static boolean steamingRecipesDisabled = false;
 
     @SubscribeEvent
     public static void onLoad(final ModConfigEvent event) {
@@ -217,6 +223,7 @@ public class MainConfig {
         jeiCompatEnabled = JEI_COMPAT_ENABLED.get();
         thirstCompatEnabled = THIRST_COMPAT_ENABLED.get();
         quarkSickleHarvestFixEnabled = QUARK_SICKLE_HARVEST_FIX_ENABLED.get();
+        steamingRecipesDisabled = STEAMING_RECIPES_DISABLED.get();
     }
 
     private static boolean validateItemName(final Object obj) {

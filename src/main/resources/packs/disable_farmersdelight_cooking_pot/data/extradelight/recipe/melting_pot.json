@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "kaleidoscope_cookery:stockpot"
+    },
+    {
+      "item": "kaleidoscope_cookery:stockpot"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "extradelight:melting_pot"
+  }
+}

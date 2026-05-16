@@ -1,0 +1,11 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "ingredients": [
+    {
+      "item": "farmersdelight:minced_beef"
+    }
+  ],
+  "result": {
+    "id": "farmersdelight:beef_patty"
+  }
+}

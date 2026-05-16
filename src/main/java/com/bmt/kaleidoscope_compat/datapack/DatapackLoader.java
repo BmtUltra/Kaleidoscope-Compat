@@ -37,6 +37,22 @@ public class DatapackLoader {
                 addDatapack(event, "soup");
             }
 
+            if (MainConfig.cookingPotRecipesDisabled) {
+                addDatapack(event, "disable_farmersdelight_cooking_pot");
+            }
+            if (MainConfig.cuttingBoardRecipesDisabled) {
+                addDatapack(event, "disable_farmersdelight_cutting_board");
+            }
+            if (MainConfig.farmAndCharmCookingPotRecipesDisabled) {
+                addDatapack(event, "disable_farm_and_charm_cooking_pot");
+            }
+            if (MainConfig.vineryBarrelRecipesDisabled) {
+                addDatapack(event, "disable_vinery_fermentation_barrel");
+            }
+            if (MainConfig.steamingRecipesDisabled) {
+                addDatapack(event, "disable_youkaisfeasts_steamer_pot");
+            }
+
             if (MainConfig.datapackMode == DatapackMode.UNITE) {
                 if (ModList.get().isLoaded("farm_and_charm")) {
                     addDatapack(event, "unite_farm_and_charm");
@@ -49,6 +65,15 @@ public class DatapackLoader {
                 }
                 if (ModList.get().isLoaded("culturaldelights")) {
                     addDatapack(event, "unite_culturaldelights");
+                }
+                if (ModList.get().isLoaded("bakeries")) {
+                    addDatapack(event, "unite_bakeries");
+                }
+                if (ModList.get().isLoaded("create")) {
+                    addDatapack(event, "unite_create");
+                }
+                if (ModList.get().isLoaded("vinery")) {
+                    addDatapack(event, "unite_vinery");
                 }
             }
         }

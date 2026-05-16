@@ -1,0 +1,29 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+      "carrier": {
+    "item": "minecraft:bowl"
+  },
+  "ingredients": [
+    {
+      "item": "rusticdelight:batter"
+    },
+    {
+      "tag": "c:drinks/milk"
+    },
+    {
+      "tag": "rusticdelight:cherry_blossom_ingredients"
+    },
+    {
+      "tag": "rusticdelight:cherry_blossom_ingredients"
+    },
+    {
+      "tag": "rusticdelight:cherry_blossom_ingredients"
+    },
+    {
+      "tag": "rusticdelight:cherry_blossom_ingredients"
+    }
+  ],
+  "result": {
+    "id": "rusticdelight:cherry_blossom_pancakes"
+  }
+}

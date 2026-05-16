@@ -1,0 +1,27 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "ingredients": [
+      {
+        "item": "corn_delight:corn"
+      },
+      {
+        "item": "corn_delight:corn"
+      },
+      {
+        "item": "corn_delight:corn"
+      },
+      {
+        "item": "corn_delight:corn"
+      },
+      {
+        "item": "corn_delight:corn"
+      },
+      {
+        "item": "corn_delight:corn"
+      }
+  ],
+  "result": {
+    "count": 6,
+    "id": "corn_delight:boiled_corn"
+  }
+}

@@ -40,6 +40,7 @@
     "solcarrot.FoodListMixin",
     "vinery.FermentationBarrelRecipeMixin",
     "vinery.RecipeManagerMixin",
+    "youkaisfeasts.RackItemDataMixin",
     "youkaisfeasts.SauceRackBlockEntityMixin",
     "youkaisfeasts.WineShelfBlockEntityMixin"
   ],

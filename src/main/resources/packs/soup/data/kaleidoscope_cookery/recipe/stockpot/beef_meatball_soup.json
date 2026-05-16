@@ -17,12 +17,22 @@
     {
       "item": "kaleidoscope_cookery:raw_meatball"
     },
-    {
-      "tag": "c:crops/lettuce"
-    },
-    {
-      "tag": "c:crops/lettuce"
-    }
+    [
+      {
+       "tag": "c:crops/lettuce"
+      },
+      {
+       "tag": "c:crops/cabbage"
+      }
+    ],
+    [
+      {
+       "tag": "c:crops/lettuce"
+      },
+      {
+       "tag": "c:crops/cabbage"
+      }
+    ]
   ],
   "result": {
     "count": 3,

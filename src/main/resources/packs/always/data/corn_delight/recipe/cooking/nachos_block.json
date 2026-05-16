@@ -1,0 +1,40 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+    "carrier": {
+    "item": "minecraft:bowl"
+  },
+  "ingredients": [
+    {
+      "item": "corn_delight:tortilla_chip"
+    },
+    {
+      "item": "corn_delight:tortilla_chip"
+    },
+    {
+      "type": "neoforge:compound",
+      "children": [
+      {
+        "tag": "c:foods/cooked_chicken"
+      },
+      {
+        "tag": "c:foods/cooked_pork"
+      },
+      {
+        "tag": "c:foods/cooked_beef"
+      },
+      {
+        "tag": "c:foods/cooked_mutton"
+      }
+    ]
+    },
+    {
+      "tag": "c:drinks/milk"
+    },
+    {
+      "item": "farmersdelight:tomato_sauce"
+    }
+  ],
+  "result": {
+    "id": "corn_delight:nachos_block"
+  }
+}

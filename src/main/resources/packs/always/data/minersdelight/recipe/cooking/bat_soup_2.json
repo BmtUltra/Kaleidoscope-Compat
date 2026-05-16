@@ -1,0 +1,21 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "ingredients": [
+    {
+      "tag": "c:foods/bat_wing"
+    },
+    {
+      "tag": "c:foods/bat_wing"
+    },
+    {
+      "tag": "c:foods/bat_wing"
+    },
+    {
+      "tag": "c:foods/bat_wing"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "id": "minersdelight:bat_soup"
+  }
+}

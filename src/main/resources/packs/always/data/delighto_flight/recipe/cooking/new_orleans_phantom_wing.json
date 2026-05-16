@@ -1,0 +1,23 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+    "carrier": {
+    "item": "minecraft:bowl"
+  },
+  "ingredients": [
+    {
+      "item": "delighto_flight:phantom_wing"
+    },
+	{
+      "item": "delighto_flight:phantom_wing"
+    },
+    {
+      "tag": "c:crops/onion"
+    },
+	{
+      "item": "minecraft:nether_wart"
+    }
+  ],
+  "result": {
+    "id": "delighto_flight:new_orleans_phantom_wing"
+  }
+}

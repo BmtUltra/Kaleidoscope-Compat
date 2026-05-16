@@ -1,0 +1,16 @@
+{
+  "type": "kaleidoscope_tavern:barrel",
+  "carrier": {
+    "item": "kaleidoscope_tavern:empty_bottle"
+  },
+  "fluid": "kaleidoscope_tavern:ice_grape_juice",
+  "ingredients": [
+        {
+            "item": "minecraft:snowball"
+        }
+  ],
+  "result": {
+    "count": 1,
+    "id": "vinery:eiswein"
+  }
+}

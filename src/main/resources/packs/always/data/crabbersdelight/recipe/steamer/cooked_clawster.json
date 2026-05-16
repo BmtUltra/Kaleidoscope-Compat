@@ -1,0 +1,10 @@
+{
+  "type": "kaleidoscope_cookery:steamer",
+  "cook_tick": 1200,
+  "ingredient": {
+    "item": "crabbersdelight:clawster"
+  },
+  "result": {
+    "id": "crabbersdelight:cooked_clawster"
+  }
+}

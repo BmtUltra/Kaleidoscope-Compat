@@ -1,0 +1,20 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+    "carrier": {
+    "item": "minecraft:baked_potato"
+  },
+  "ingredients": [
+    {
+      "item": "corn_delight:cornbread"
+    },
+    {
+      "tag": "c:foods/vegetables"
+    },
+    {
+      "item": "minecraft:sweet_berries"
+    }
+  ],
+  "result": {
+    "id": "corn_delight:cornbread_stuffing"
+  }
+}

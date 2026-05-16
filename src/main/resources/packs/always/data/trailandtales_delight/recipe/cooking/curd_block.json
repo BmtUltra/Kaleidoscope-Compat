@@ -2,9 +2,18 @@
   "type": "kaleidoscope_cookery:stockpot",
   "cooking_bubble_color": 16772291,
   "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
-  "finished_bubble_color": 9196348,
-  "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_brown",
+  "finished_bubble_color": 16775138,
+  "finished_texture": "kaleidoscope_cookery:stockpot/curd",
   "ingredients": [
+    {
+      "tag": "c:foods/milk"
+    },
+    {
+      "tag": "c:foods/milk"
+    },
+    {
+      "tag": "c:foods/milk"
+    },
     {
       "item": "minecraft:sugar"
     },
@@ -13,8 +22,7 @@
     }
   ],
   "result": {
-    "count": 1,
     "id": "trailandtales_delight:curd_block"
   },
-  "soup_base": "minecraft:milk"
+    "soup_base": "minecraft:milk"
 }

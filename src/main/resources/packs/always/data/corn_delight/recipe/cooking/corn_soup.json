@@ -1,0 +1,33 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "ingredients": [
+    {
+      "tag": "c:crops/corn"
+    },
+    {
+      "tag": "c:foods/leafy_green"
+    },
+    {
+      "type": "neoforge:compound",
+      "children": [
+      {
+        "tag": "c:foods/raw_chicken"
+      },
+      {
+        "tag": "c:foods/raw_pork"
+      },
+      {
+        "tag": "c:foods/raw_beef"
+      },
+      {
+        "item": "minecraft:brown_mushroom"
+      }
+      ]
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "corn_delight:corn_soup"
+  },
+  "soup_base": "minecraft:milk"
+}

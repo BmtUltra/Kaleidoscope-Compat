@@ -1,0 +1,30 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "carrier": {
+    "tag": "c:foods/cooked_rice"
+  },
+  "ingredients": [
+    {
+      "tag": "c:chicken/cubed/raw"
+    },
+    {
+      "item": "minecraft:honey_bottle"
+    },
+    {
+      "tag": "extradelight:processed/chili"
+    },
+    {
+      "tag": "extradelight:processed/garlic"
+    },
+    {
+      "tag": "extradelight:processed/ginger"
+    },
+    {
+      "tag": "c:condiments/soy_sauce"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "id": "extradelight:honey_chili_chicken"
+  }
+}

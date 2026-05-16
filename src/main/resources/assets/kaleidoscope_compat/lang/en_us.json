@@ -31,6 +31,10 @@
   "config.kaleidoscope_compat.rich_soil.hoe_enabled": "Rich Soil Hoe Tilling",
   "config.kaleidoscope_compat.rich_soil.hoe_enabled.tooltip.0": "When enabled, you can till waterlogged rich soil",
 
+  "config.kaleidoscope_compat.category.youkaisfeasts": "Youkai's Homecoming",
+  "config.kaleidoscope_compat.youkaisfeasts.steaming_recipes_disabled": "Disable Steaming Recipes",
+  "config.kaleidoscope_compat.youkaisfeasts.steaming_recipes_disabled.tooltip.0": "When enabled, all Youkai's Homecoming steaming recipes will not work",
+
   "config.kaleidoscope_compat.category.farm_and_charm": "Farm and Charm",
   "config.kaleidoscope_compat.farm_and_charm.cooking_pot_disabled": "Disable Cooking Pot Recipes",
   "config.kaleidoscope_compat.farm_and_charm.cooking_pot_disabled.tooltip.0": "When enabled, all Farm and Charm cooking pot recipes will be disabled",

@@ -1,0 +1,12 @@
+{
+  "type": "kaleidoscope_cookery:chopping_board",
+  "cut_count": 5,
+  "ingredient": {
+    "item": "culturaldelights:chicken_roll"
+  },
+  "model_id": "kaleidoscope_cookery:california_kelp",
+  "result": {
+    "count": 3,
+    "id": "culturaldelights:chicken_roll_slice"
+  }
+}

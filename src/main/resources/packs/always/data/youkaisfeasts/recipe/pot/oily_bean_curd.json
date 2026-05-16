@@ -1,0 +1,11 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "ingredients": [
+    {
+      "item": "youkaisfeasts:tofu"
+    }
+  ],
+  "result": {
+    "id": "youkaisfeasts:oily_bean_curd"
+  }
+}

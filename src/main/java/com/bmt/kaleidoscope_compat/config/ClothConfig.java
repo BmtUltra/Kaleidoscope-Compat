@@ -144,6 +144,21 @@ public class ClothConfig {
                     )
                     .build());
 
+            ConfigCategory youkaisfeastsCategory = configBuilder.getOrCreateCategory(
+                    Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".category.youkaisfeasts"));
+
+            youkaisfeastsCategory.addEntry(entryBuilder
+                    .startBooleanToggle(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".youkaisfeasts.steaming_recipes_disabled"),
+                            MainConfig.steamingRecipesDisabled)
+                    .setDefaultValue(false)
+                    .setSaveConsumer(newValue -> MainConfig.steamingRecipesDisabled = newValue)
+                    .setTooltip(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".youkaisfeasts.steaming_recipes_disabled.tooltip.0")
+                    )
+                    .build());
+
+
             ConfigCategory farmAndCharmCategory = configBuilder.getOrCreateCategory(
                     Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".category.farm_and_charm"));
 
@@ -390,10 +405,6 @@ public class ClothConfig {
                             Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".quark.sickle_harvest_fix_enabled.tooltip.0")
                     )
                     .build());
-
-            configBuilder.setSavingRunnable(() -> {
-            });
-
             return configBuilder.build();
         });
     }

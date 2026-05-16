@@ -1,0 +1,16 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "ingredients": [
+    {
+      "tag": "c:seeds/corn"
+    },
+    {
+      "tag": "c:seeds/corn"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "corn_delight:creamed_corn"
+  },
+  "soup_base": "minecraft:milk"
+}

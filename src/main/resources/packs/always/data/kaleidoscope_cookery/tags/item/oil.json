@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id":"farm_and_charm:butter",
+      "required":false
+    },
+    {
+      "id":"youkaisfeasts:butter",
+      "required":false
+    }
+  ]
+}

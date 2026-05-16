@@ -1,0 +1,27 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "ingredients": [
+    {
+      "tag": "c:foods/bell_pepper"
+    },
+    {
+      "tag": "c:foods/bell_pepper"
+    },
+    {
+      "tag": "c:foods/bell_pepper"
+    },
+    {
+      "tag": "c:foods/bell_pepper"
+    },
+    {
+      "tag": "c:foods/bell_pepper"
+    },
+    {
+      "tag": "c:foods/bell_pepper"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "id": "rusticdelight:bell_pepper_soup"
+  }
+}

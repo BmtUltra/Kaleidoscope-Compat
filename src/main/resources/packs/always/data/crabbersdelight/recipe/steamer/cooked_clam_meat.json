@@ -1,0 +1,10 @@
+{
+  "type": "kaleidoscope_cookery:steamer",
+  "cook_tick": 1200,
+  "ingredient": {
+    "item": "crabbersdelight:raw_clam_meat"
+  },
+  "result": {
+    "id": "crabbersdelight:cooked_clam_meat"
+  }
+}
