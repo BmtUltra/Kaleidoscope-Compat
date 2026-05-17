@@ -54,10 +54,14 @@ public class ClothConfig {
                     )
                     .build());
 
-            ConfigCategory lunchBagCategory = configBuilder.getOrCreateCategory(
-                    Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".category.lunch_bag"));
+            ConfigCategory kitchenCategory = configBuilder.getOrCreateCategory(
+                    Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".category.kitchen"));
 
-            lunchBagCategory.addEntry(entryBuilder
+            // 嬗变饭袋子分类
+            var lunchBagSubCategory = entryBuilder.startSubCategory(
+                    Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".kitchen.lunch_bag_subcategory"));
+
+            lunchBagSubCategory.add(entryBuilder
                     .startBooleanToggle(
                             Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".lunchBlacklist.enabled"),
                             MainConfig.lunchBagBlacklistEnabled)
@@ -68,7 +72,7 @@ public class ClothConfig {
                     )
                     .build());
 
-            lunchBagCategory.addEntry(entryBuilder
+            lunchBagSubCategory.add(entryBuilder
                     .startStrList(
                             Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".lunchBlacklist.list"),
                             MainConfig.lunchBagBlacklist.stream()
@@ -86,7 +90,7 @@ public class ClothConfig {
                     })
                     .build());
 
-            lunchBagCategory.addEntry(entryBuilder
+            lunchBagSubCategory.add(entryBuilder
                     .startBooleanToggle(
                             Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".transmutationLunchBag.back_behavior"),
                             MainConfig.transmutationLunchBagBackEnabled)
@@ -97,7 +101,7 @@ public class ClothConfig {
                     )
                     .build());
 
-            lunchBagCategory.addEntry(entryBuilder
+            lunchBagSubCategory.add(entryBuilder
                     .startBooleanToggle(
                             Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".appleskin.compat_enabled"),
                             MainConfig.appleskinCompatEnabled)
@@ -107,6 +111,98 @@ public class ClothConfig {
                             Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".appleskin.compat_enabled.tooltip.0")
                     )
                     .build());
+
+            kitchenCategory.addEntry(lunchBagSubCategory.build());
+
+            // 稻草人子分类
+            var scarecrowSubCategory = entryBuilder.startSubCategory(
+                    Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".kitchen.scarecrow_subcategory"));
+
+            scarecrowSubCategory.add(entryBuilder
+                    .startBooleanToggle(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".scarecrow.repel_phantoms"),
+                            MainConfig.scarecrowRepelPhantoms)
+                    .setDefaultValue(true)
+                    .setSaveConsumer(newValue -> MainConfig.scarecrowRepelPhantoms = newValue)
+                    .setTooltip(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".scarecrow.repel_phantoms.tooltip.0")
+                    )
+                    .build());
+
+            kitchenCategory.addEntry(scarecrowSubCategory.build());
+
+            // 效果设置子分类
+            var effectSubCategory = entryBuilder.startSubCategory(
+                    Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".kitchen.effect_subcategory"));
+
+            effectSubCategory.add(entryBuilder
+                    .startBooleanToggle(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".nourishmentEffect.block_enabled"),
+                            MainConfig.nourishmentEffectBlockEnabled)
+                    .setDefaultValue(true)
+                    .setSaveConsumer(newValue -> MainConfig.nourishmentEffectBlockEnabled = newValue)
+                    .setTooltip(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".nourishmentEffect.block_enabled.tooltip.0")
+                    )
+                    .build());
+
+            var projectileDodgeSubCategory = entryBuilder.startSubCategory(
+                    Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".effect.projectile_dodge_subcategory"));
+
+            projectileDodgeSubCategory.add(entryBuilder
+                    .startBooleanToggle(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".projectileDodge.teleport_enabled"),
+                            MainConfig.projectileDodgeTeleportEnabled)
+                    .setDefaultValue(false)
+                    .setSaveConsumer(newValue -> MainConfig.projectileDodgeTeleportEnabled = newValue)
+                    .setTooltip(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".projectileDodge.teleport_enabled.tooltip.0")
+                    )
+                    .build());
+
+            projectileDodgeSubCategory.add(entryBuilder
+                    .startIntField(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".projectileDodge.duration_cost"),
+                            MainConfig.projectileDodgeDurationCost)
+                    .setDefaultValue(200)
+                    .setMin(1)
+                    .setMax(Integer.MAX_VALUE)
+                    .setSaveConsumer(newValue -> MainConfig.projectileDodgeDurationCost = newValue)
+                    .setTooltip(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".projectileDodge.duration_cost.tooltip.0"),
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".projectileDodge.duration_cost.tooltip.1")
+                    )
+                    .build());
+
+            effectSubCategory.add(projectileDodgeSubCategory.build());
+
+            var vitalitySubCategory = entryBuilder.startSubCategory(
+                    Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".effect.vitality_subcategory"));
+
+            vitalitySubCategory.add(entryBuilder
+                    .startStrList(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".vitality.blacklist"),
+                            MainConfig.vitalityBlacklist.stream()
+                                    .map(ResourceLocation::toString)
+                                    .collect(Collectors.toList()))
+                    .setDefaultValue(List.of())
+                    .setSaveConsumer(newValue -> {
+                        MainConfig.vitalityBlacklist.clear();
+                        for (String s : newValue) {
+                            ResourceLocation id = ResourceLocation.tryParse(s);
+                            if (id != null) {
+                                MainConfig.vitalityBlacklist.add(id);
+                            }
+                        }
+                    })
+                    .setTooltip(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".vitality.blacklist.tooltip.0")
+                    )
+                    .build());
+
+            effectSubCategory.add(vitalitySubCategory.build());
+
+            kitchenCategory.addEntry(effectSubCategory.build());
 
             ConfigCategory farmersDelightCategory = configBuilder.getOrCreateCategory(
                     Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".category.farmersdelight"));
@@ -158,7 +254,6 @@ public class ClothConfig {
                     )
                     .build());
 
-
             ConfigCategory farmAndCharmCategory = configBuilder.getOrCreateCategory(
                     Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".category.farm_and_charm"));
 
@@ -197,21 +292,6 @@ public class ClothConfig {
                             Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".vinery.barrel_disabled.tooltip.0")
                     )
                     .build());
-
-            ConfigCategory scarecrowCategory = configBuilder.getOrCreateCategory(
-                    Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".category.scarecrow"));
-
-            scarecrowCategory.addEntry(entryBuilder
-                    .startBooleanToggle(
-                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".scarecrow.repel_phantoms"),
-                            MainConfig.scarecrowRepelPhantoms)
-                    .setDefaultValue(true)
-                    .setSaveConsumer(newValue -> MainConfig.scarecrowRepelPhantoms = newValue)
-                    .setTooltip(
-                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".scarecrow.repel_phantoms.tooltip.0")
-                    )
-                    .build());
-
 
             ConfigCategory createCategory = configBuilder.getOrCreateCategory(
                     Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".category.create"));
@@ -298,78 +378,6 @@ public class ClothConfig {
 
             createCategory.addEntry(armSubCategory.build());
 
-
-            ConfigCategory effectCategory = configBuilder.getOrCreateCategory(
-                    Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".category.effect"));
-
-            effectCategory.addEntry(entryBuilder
-                    .startBooleanToggle(
-                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".nourishmentEffect.block_enabled"),
-                            MainConfig.nourishmentEffectBlockEnabled)
-                    .setDefaultValue(true)
-                    .setSaveConsumer(newValue -> MainConfig.nourishmentEffectBlockEnabled = newValue)
-                    .setTooltip(
-                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".nourishmentEffect.block_enabled.tooltip.0")
-                    )
-                    .build());
-
-            var projectileDodgeSubCategory = entryBuilder.startSubCategory(
-                    Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".effect.projectile_dodge_subcategory"));
-
-            projectileDodgeSubCategory.add(entryBuilder
-                    .startBooleanToggle(
-                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".projectileDodge.teleport_enabled"),
-                            MainConfig.projectileDodgeTeleportEnabled)
-                    .setDefaultValue(false)
-                    .setSaveConsumer(newValue -> MainConfig.projectileDodgeTeleportEnabled = newValue)
-                    .setTooltip(
-                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".projectileDodge.teleport_enabled.tooltip.0")
-                    )
-                    .build());
-
-            projectileDodgeSubCategory.add(entryBuilder
-                    .startIntField(
-                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".projectileDodge.duration_cost"),
-                            MainConfig.projectileDodgeDurationCost)
-                    .setDefaultValue(200)
-                    .setMin(1)
-                    .setMax(Integer.MAX_VALUE)
-                    .setSaveConsumer(newValue -> MainConfig.projectileDodgeDurationCost = newValue)
-                    .setTooltip(
-                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".projectileDodge.duration_cost.tooltip.0"),
-                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".projectileDodge.duration_cost.tooltip.1")
-                    )
-                    .build());
-
-            effectCategory.addEntry(projectileDodgeSubCategory.build());
-
-            var vitalitySubCategory = entryBuilder.startSubCategory(
-                    Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".effect.vitality_subcategory"));
-
-            vitalitySubCategory.add(entryBuilder
-                    .startStrList(
-                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".vitality.blacklist"),
-                            MainConfig.vitalityBlacklist.stream()
-                                    .map(ResourceLocation::toString)
-                                    .collect(Collectors.toList()))
-                    .setDefaultValue(List.of())
-                    .setSaveConsumer(newValue -> {
-                        MainConfig.vitalityBlacklist.clear();
-                        for (String s : newValue) {
-                            ResourceLocation id = ResourceLocation.tryParse(s);
-                            if (id != null) {
-                                MainConfig.vitalityBlacklist.add(id);
-                            }
-                        }
-                    })
-                    .setTooltip(
-                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".vitality.blacklist.tooltip.0")
-                    )
-                    .build());
-
-            effectCategory.addEntry(vitalitySubCategory.build());
-
-
             ConfigCategory compatCategory = configBuilder.getOrCreateCategory(
                     Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".category.compat"));
 
@@ -405,6 +413,7 @@ public class ClothConfig {
                             Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".quark.sickle_harvest_fix_enabled.tooltip.0")
                     )
                     .build());
+
             return configBuilder.build();
         });
     }
