@@ -41,6 +41,8 @@
   "config.kaleidoscope_compat.vitality.blacklist.tooltip.0": "生机效果不会生效的生物",
 
   "config.kaleidoscope_compat.category.farmersdelight": "农夫乐事",
+  "config.kaleidoscope_compat.farmersdelight.cooking_pot_gui_disabled": "禁用厨锅",
+  "config.kaleidoscope_compat.farmersdelight.cooking_pot_gui_disabled.tooltip.0": "启用后，农夫乐事厨锅无法使用",
   "config.kaleidoscope_compat.farmersdelight.cooking_pot_disabled": "禁用厨锅配方",
   "config.kaleidoscope_compat.farmersdelight.cooking_pot_disabled.tooltip.0": "启用后，所有农夫乐事厨锅配方将无法使用",
   "config.kaleidoscope_compat.farmersdelight.cutting_board_disabled": "禁用砧板配方",

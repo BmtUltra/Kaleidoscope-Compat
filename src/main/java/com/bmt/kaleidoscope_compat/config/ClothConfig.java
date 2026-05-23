@@ -57,7 +57,6 @@ public class ClothConfig {
             ConfigCategory kitchenCategory = configBuilder.getOrCreateCategory(
                     Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".category.kitchen"));
 
-            // 嬗变饭袋子分类
             var lunchBagSubCategory = entryBuilder.startSubCategory(
                     Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".kitchen.lunch_bag_subcategory"));
 
@@ -114,7 +113,6 @@ public class ClothConfig {
 
             kitchenCategory.addEntry(lunchBagSubCategory.build());
 
-            // 稻草人子分类
             var scarecrowSubCategory = entryBuilder.startSubCategory(
                     Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".kitchen.scarecrow_subcategory"));
 
@@ -131,7 +129,6 @@ public class ClothConfig {
 
             kitchenCategory.addEntry(scarecrowSubCategory.build());
 
-            // 效果设置子分类
             var effectSubCategory = entryBuilder.startSubCategory(
                     Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".kitchen.effect_subcategory"));
 
@@ -215,6 +212,19 @@ public class ClothConfig {
                     .setSaveConsumer(newValue -> MainConfig.cookingPotRecipesDisabled = newValue)
                     .setTooltip(
                             Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".farmersdelight.cooking_pot_disabled.tooltip.0")
+                    )
+                    .build());
+
+            farmersDelightCategory.addEntry(entryBuilder
+                    .startBooleanToggle(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".farmersdelight.cooking_pot_gui_disabled"),
+                            MainConfig.cookingPotGuiDisabled)
+                    .setDefaultValue(false)
+                    .setSaveConsumer(newValue -> {
+                        MainConfig.cookingPotGuiDisabled = newValue;
+                    })
+                    .setTooltip(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".farmersdelight.cooking_pot_gui_disabled.tooltip.0")
                     )
                     .build());
 

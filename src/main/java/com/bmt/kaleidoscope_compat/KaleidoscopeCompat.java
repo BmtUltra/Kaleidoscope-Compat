@@ -13,7 +13,6 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforgespi.Environment;
 
 @Mod(KaleidoscopeCompat.MOD_ID)
-@SuppressWarnings("all")
 public class KaleidoscopeCompat {
     public static final String MOD_ID = "kaleidoscope_compat";
     public KaleidoscopeCompat(IEventBus modEventBus, ModContainer modContainer) {

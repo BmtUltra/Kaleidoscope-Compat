@@ -50,6 +50,11 @@ public class MainConfig {
                     "When enabled, all cooking pot recipes will not work")
             .define("farmersdelight.cooking_pot_recipes_disabled", false);
 
+    private static final ModConfigSpec.BooleanValue COOKING_POT_GUI_DISABLED = BUILDER
+            .comment("Whether the FarmersDelight cooking pot GUI is disabled", "是否禁用农夫乐事厨锅",
+                    "When enabled, the cooking pot GUI will not open")
+            .define("farmersdelight.cooking_pot_gui_disabled", false);
+
     private static final ModConfigSpec.BooleanValue CUTTING_BOARD_RECIPES_DISABLED = BUILDER
             .comment("Whether all FarmersDelight cutting board recipes are disabled","是否禁用农夫乐事砧板配方",
                     "When enabled, all cutting board recipes will not work")
@@ -181,6 +186,7 @@ public class MainConfig {
     public static boolean thirstCompatEnabled = true;
     public static boolean quarkSickleHarvestFixEnabled = true;
     public static boolean steamingRecipesDisabled = false;
+    public static boolean cookingPotGuiDisabled = false;
 
     @SubscribeEvent
     public static void onLoad(final ModConfigEvent event) {
@@ -224,6 +230,7 @@ public class MainConfig {
         thirstCompatEnabled = THIRST_COMPAT_ENABLED.get();
         quarkSickleHarvestFixEnabled = QUARK_SICKLE_HARVEST_FIX_ENABLED.get();
         steamingRecipesDisabled = STEAMING_RECIPES_DISABLED.get();
+        cookingPotGuiDisabled = COOKING_POT_GUI_DISABLED.get();
     }
 
     private static boolean validateItemName(final Object obj) {
