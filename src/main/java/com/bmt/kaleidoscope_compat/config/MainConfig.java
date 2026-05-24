@@ -45,6 +45,12 @@ public class MainConfig {
                     "When disabled, the original Kaleidoscope Cookery behavior will be used")
             .define("transmutationLunchBag.back_behavior_enabled", false);
 
+    private static final ModConfigSpec.BooleanValue MILLSTONE_STACKING_ENABLED = BUILDER
+            .comment("Whether millstone item stacking is enabled", "是否启用石磨输入限制突破",
+                    "When enabled, you can add more items of the same type while the millstone is working",
+                    "当启用时，部分功能可以在石磨工作时添加同类型的物品进行堆叠")
+            .define("millstone.stacking_enabled", true);
+
     private static final ModConfigSpec.BooleanValue COOKING_POT_RECIPES_DISABLED = BUILDER
             .comment("Whether all FarmersDelight cooking pot recipes are disabled","是否禁用农夫乐事厨锅配方",
                     "When enabled, all cooking pot recipes will not work")
@@ -106,8 +112,64 @@ public class MainConfig {
                     "Format: modid:entity_id (e.g., minecraft:zombie, minecraft:villager)")
             .defineList("effect.blacklist", Collections.emptyList(), MainConfig::validateEntityName);
 
+    private static final ModConfigSpec.BooleanValue SPECTRUM_COMPAT_ENABLED = BUILDER
+            .comment("Whether Spectrum mod compatibility is enabled", "是否启用光谱世界兼容模块",
+                    "When disabled, all Spectrum compatibility features will not be loaded")
+            .define("spectrum.compat_enabled", true);
+
+    private static final ModConfigSpec.BooleanValue SPECTRUM_POT_ITEM_HANDLER_ENABLED = BUILDER
+            .comment("Whether Spectrum pot item handler is enabled", "是否启用炒锅节点传输",
+                    "When enabled, Spectrum mod can interact with the pot via item handler")
+            .define("spectrum.pot_item_handler_enabled", true);
+
+    private static final ModConfigSpec.BooleanValue SPECTRUM_CHOPPING_BOARD_ITEM_HANDLER_ENABLED = BUILDER
+            .comment("Whether Spectrum chopping board item handler is enabled", "是否启用切菜板节点传输",
+                    "When enabled, Spectrum mod can interact with the chopping board via item handler")
+            .define("spectrum.chopping_board_item_handler_enabled", true);
+
+    private static final ModConfigSpec.BooleanValue SPECTRUM_MILLSTONE_ITEM_HANDLER_ENABLED = BUILDER
+            .comment("Whether Spectrum millstone item handler is enabled", "是否启用石磨节点传输",
+                    "When enabled, Spectrum mod can interact with the millstone via item handler")
+            .define("spectrum.millstone_item_handler_enabled", true);
+
+    private static final ModConfigSpec.BooleanValue SPECTRUM_SHAWARMA_SPIT_ITEM_HANDLER_ENABLED = BUILDER
+            .comment("Whether Spectrum shawarma spit item handler is enabled", "是否启用旋风烤肉塔节点传输",
+                    "When enabled, Spectrum mod can interact with the shawarma spit via item handler")
+            .define("spectrum.shawarma_spit_item_handler_enabled", true);
+
+    private static final ModConfigSpec.BooleanValue SPECTRUM_STEAMER_ITEM_HANDLER_ENABLED = BUILDER
+            .comment("Whether Spectrum steamer item handler is enabled", "是否启用蒸笼节点传输",
+                    "When enabled, Spectrum mod can interact with the steamer via item handler")
+            .define("spectrum.steamer_item_handler_enabled", true);
+
+    private static final ModConfigSpec.BooleanValue SPECTRUM_TEAPOT_ITEM_HANDLER_ENABLED = BUILDER
+            .comment("Whether Spectrum teapot item handler is enabled", "是否启用茶壶节点传输",
+                    "When enabled, Spectrum mod can interact with the teapot via item handler")
+            .define("spectrum.teapot_item_handler_enabled", true);
+
+    private static final ModConfigSpec.BooleanValue SPECTRUM_TRASH_CAN_ITEM_HANDLER_ENABLED = BUILDER
+            .comment("Whether Spectrum trash can item handler is enabled", "是否启用垃圾桶节点传输",
+                    "When enabled, Spectrum mod can interact with the trash can via item handler")
+            .define("spectrum.trash_can_item_handler_enabled", true);
+
+    private static final ModConfigSpec.BooleanValue SPECTRUM_BLOCK_PLACER_COMPAT_ENABLED = BUILDER
+            .comment("Whether Spectrum block placer stockpot lid compatibility is enabled", "是否启用方块放置器上盖",
+                    "When enabled, block placer can place stockpot lids on stockpots")
+            .define("spectrum.block_placer_compat_enabled", true);
+
+    private static final ModConfigSpec.BooleanValue SPECTRUM_BLOCK_BREAKER_COMPAT_ENABLED = BUILDER
+            .comment("Whether Spectrum block breaker stockpot lid compatibility is enabled", "是否启用方块破坏器取盖",
+                    "When enabled, block breaker will only break the lid of a stockpot instead of the whole pot")
+            .define("spectrum.block_breaker_compat_enabled", true);
+
+    private static final ModConfigSpec.BooleanValue SPECTRUM_PASTEL_NODE_COMPAT_ENABLED = BUILDER
+            .comment("Whether Spectrum pastel node pot oil compatibility is enabled", "是否启用节点炒锅加油",
+                    "When enabled, pastel nodes can add oil to pots")
+            .define("spectrum.pastel_node_compat_enabled", true);
+
+
     private static final ModConfigSpec.BooleanValue CREATE_COMPAT_ENABLED = BUILDER
-            .comment("Whether Create mod compatibility is enabled", "是否启用机械动力模块兼容",
+            .comment("Whether Create mod compatibility is enabled", "是否启用机械动力兼容模块",
                     "When disabled, all Create compatibility features will not be loaded")
             .define("create.compat_enabled", true);
 
@@ -187,6 +249,18 @@ public class MainConfig {
     public static boolean quarkSickleHarvestFixEnabled = true;
     public static boolean steamingRecipesDisabled = false;
     public static boolean cookingPotGuiDisabled = false;
+    public static boolean millstoneStackingEnabled = true;
+    public static boolean spectrumCompatEnabled = true;
+    public static boolean spectrumMillstoneItemHandlerEnabled = true;
+    public static boolean spectrumBlockPlacerCompatEnabled = true;
+    public static boolean spectrumBlockBreakerCompatEnabled = true;
+    public static boolean spectrumPastelNodeCompatEnabled = true;
+    public static boolean spectrumSteamerItemHandlerEnabled = true;
+    public static boolean spectrumTrashCanItemHandlerEnabled = true;
+    public static boolean spectrumChoppingBoardItemHandlerEnabled = true;
+    public static boolean spectrumTeapotItemHandlerEnabled = true;
+    public static boolean spectrumShawarmaSpitItemHandlerEnabled = true;
+    public static boolean spectrumPotItemHandlerEnabled = true;
 
     @SubscribeEvent
     public static void onLoad(final ModConfigEvent event) {
@@ -231,6 +305,18 @@ public class MainConfig {
         quarkSickleHarvestFixEnabled = QUARK_SICKLE_HARVEST_FIX_ENABLED.get();
         steamingRecipesDisabled = STEAMING_RECIPES_DISABLED.get();
         cookingPotGuiDisabled = COOKING_POT_GUI_DISABLED.get();
+        millstoneStackingEnabled = MILLSTONE_STACKING_ENABLED.get();
+        spectrumCompatEnabled = SPECTRUM_COMPAT_ENABLED.get();
+        spectrumMillstoneItemHandlerEnabled = SPECTRUM_MILLSTONE_ITEM_HANDLER_ENABLED.get();
+        spectrumBlockPlacerCompatEnabled = SPECTRUM_BLOCK_PLACER_COMPAT_ENABLED.get();
+        spectrumBlockBreakerCompatEnabled = SPECTRUM_BLOCK_BREAKER_COMPAT_ENABLED.get();
+        spectrumPastelNodeCompatEnabled = SPECTRUM_PASTEL_NODE_COMPAT_ENABLED.get();
+        spectrumSteamerItemHandlerEnabled = SPECTRUM_STEAMER_ITEM_HANDLER_ENABLED.get();
+        spectrumTrashCanItemHandlerEnabled = SPECTRUM_TRASH_CAN_ITEM_HANDLER_ENABLED.get();
+        spectrumChoppingBoardItemHandlerEnabled = SPECTRUM_CHOPPING_BOARD_ITEM_HANDLER_ENABLED.get();
+        spectrumTeapotItemHandlerEnabled = SPECTRUM_TEAPOT_ITEM_HANDLER_ENABLED.get();
+        spectrumShawarmaSpitItemHandlerEnabled = SPECTRUM_SHAWARMA_SPIT_ITEM_HANDLER_ENABLED.get();
+        spectrumPotItemHandlerEnabled = SPECTRUM_POT_ITEM_HANDLER_ENABLED.get();
     }
 
     private static boolean validateItemName(final Object obj) {

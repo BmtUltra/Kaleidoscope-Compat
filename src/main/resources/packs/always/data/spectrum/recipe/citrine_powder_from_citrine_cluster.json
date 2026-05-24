@@ -1,0 +1,10 @@
+{
+  "type": "kaleidoscope_cookery:millstone",
+  "ingredient": {
+    "item": "spectrum:citrine_cluster"
+  },
+  "result": {
+    "count": 16,
+    "id": "spectrum:citrine_powder"
+  }
+}

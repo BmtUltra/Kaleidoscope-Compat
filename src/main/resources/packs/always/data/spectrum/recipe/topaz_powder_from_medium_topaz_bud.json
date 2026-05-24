@@ -1,0 +1,10 @@
+{
+  "type": "kaleidoscope_cookery:millstone",
+  "ingredient": {
+    "item": "spectrum:medium_topaz_bud"
+  },
+  "result": {
+    "count": 6,
+    "id": "spectrum:topaz_powder"
+  }
+}

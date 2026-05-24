@@ -177,6 +177,7 @@ dependencies {
 //    compileOnly "maven.modrinth:ars-nouveau:5.11.3"
     compileOnly "maven.modrinth:appleskin:3.0.9+mc1.21"
     compileOnly "maven.modrinth:cloth-config:15.0.140+neoforge"
+    compileOnly "maven.modrinth:spectrum:1.11.8-1.21.1-neo"
 
     runtimeOnly "maven.modrinth:farmers-delight:1.21.1-1.3.2"
     runtimeOnly "maven.modrinth:gensokyo-delight-youkais-feasts:1.1.0"
@@ -198,6 +199,8 @@ dependencies {
     runtimeOnly "maven.modrinth:appleskin:3.0.9+mc1.21"
 //    runtimeOnly "maven.modrinth:thirst-was-taken:1.21.1-2.1.5"
     runtimeOnly "maven.modrinth:cloth-config:15.0.140+neoforge"
+    runtimeOnly "maven.modrinth:spectrum:1.11.8-1.21.1-neo"
+    implementation "maven.modrinth:spectrumjei:21.1.9+neoforge"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {

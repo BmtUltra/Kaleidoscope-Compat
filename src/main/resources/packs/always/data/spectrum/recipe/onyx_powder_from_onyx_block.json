@@ -1,0 +1,10 @@
+{
+  "type": "kaleidoscope_cookery:millstone",
+  "ingredient": {
+    "item": "spectrum:onyx_block"
+  },
+  "result": {
+    "count": 1,
+    "id": "spectrum:onyx_powder"
+  }
+}

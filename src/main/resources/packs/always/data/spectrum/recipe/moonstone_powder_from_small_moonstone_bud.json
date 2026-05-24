@@ -1,0 +1,10 @@
+{
+  "type": "kaleidoscope_cookery:millstone",
+  "ingredient": {
+    "item": "spectrum:small_moonstone_bud"
+  },
+  "result": {
+    "count": 4,
+    "id": "spectrum:moonstone_powder"
+  }
+}

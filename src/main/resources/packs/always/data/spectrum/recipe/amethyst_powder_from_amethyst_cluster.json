@@ -1,0 +1,10 @@
+{
+  "type": "kaleidoscope_cookery:millstone",
+  "ingredient": {
+    "item": "minecraft:amethyst_cluster"
+  },
+  "result": {
+    "count": 16,
+    "id": "spectrum:amethyst_powder"
+  }
+}

@@ -57,6 +57,22 @@ public class ClothConfig {
             ConfigCategory kitchenCategory = configBuilder.getOrCreateCategory(
                     Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".category.kitchen"));
 
+            var millstoneSubCategory = entryBuilder.startSubCategory(
+                    Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".kitchen.millstone_subcategory"));
+
+            millstoneSubCategory.add(entryBuilder
+                    .startBooleanToggle(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".millstone.stacking_enabled"),
+                            MainConfig.millstoneStackingEnabled)
+                    .setDefaultValue(true)
+                    .setSaveConsumer(newValue -> MainConfig.millstoneStackingEnabled = newValue)
+                    .setTooltip(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".millstone.stacking_enabled.tooltip.0")
+                    )
+                    .build());
+
+            kitchenCategory.addEntry(millstoneSubCategory.build());
+
             var lunchBagSubCategory = entryBuilder.startSubCategory(
                     Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".kitchen.lunch_bag_subcategory"));
 
@@ -302,6 +318,137 @@ public class ClothConfig {
                             Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".vinery.barrel_disabled.tooltip.0")
                     )
                     .build());
+
+
+            ConfigCategory spectrumCategory = configBuilder.getOrCreateCategory(
+                    Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".category.spectrum"));
+
+            spectrumCategory.addEntry(entryBuilder
+                    .startBooleanToggle(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".spectrum.compat_enabled"),
+                            MainConfig.spectrumCompatEnabled)
+                    .setDefaultValue(true)
+                    .setSaveConsumer(newValue -> MainConfig.spectrumCompatEnabled = newValue)
+                    .setTooltip(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".spectrum.compat_enabled.tooltip.0")
+                    )
+                    .build());
+
+            var pastelNodeSubCategory = entryBuilder.startSubCategory(
+                    Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".spectrum.pastel_node_subcategory"));
+
+            pastelNodeSubCategory.add(entryBuilder
+                    .startBooleanToggle(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".spectrum.pastel_node_compat_enabled"),
+                            MainConfig.spectrumPastelNodeCompatEnabled)
+                    .setDefaultValue(true)
+                    .setSaveConsumer(newValue -> MainConfig.spectrumPastelNodeCompatEnabled = newValue)
+                    .setTooltip(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".spectrum.pastel_node_compat_enabled.tooltip.0")
+                    )
+                    .build());
+
+            pastelNodeSubCategory.add(entryBuilder
+                    .startBooleanToggle(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".spectrum.pot_item_handler_enabled"),
+                            MainConfig.spectrumPotItemHandlerEnabled)
+                    .setDefaultValue(true)
+                    .setSaveConsumer(newValue -> MainConfig.spectrumPotItemHandlerEnabled = newValue)
+                    .setTooltip(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".spectrum.pot_item_handler_enabled.tooltip.0")
+                    )
+                    .build());
+
+            pastelNodeSubCategory.add(entryBuilder
+                    .startBooleanToggle(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".spectrum.millstone_item_handler_enabled"),
+                            MainConfig.spectrumMillstoneItemHandlerEnabled)
+                    .setDefaultValue(true)
+                    .setSaveConsumer(newValue -> MainConfig.spectrumMillstoneItemHandlerEnabled = newValue)
+                    .setTooltip(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".spectrum.millstone_item_handler_enabled.tooltip.0")
+                    )
+                    .build());
+
+            pastelNodeSubCategory.add(entryBuilder
+                    .startBooleanToggle(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".spectrum.shawarma_spit_item_handler_enabled"),
+                            MainConfig.spectrumShawarmaSpitItemHandlerEnabled)
+                    .setDefaultValue(true)
+                    .setSaveConsumer(newValue -> MainConfig.spectrumShawarmaSpitItemHandlerEnabled = newValue)
+                    .setTooltip(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".spectrum.shawarma_spit_item_handler_enabled.tooltip.0")
+                    )
+                    .build());
+
+            pastelNodeSubCategory.add(entryBuilder
+                    .startBooleanToggle(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".spectrum.steamer_item_handler_enabled"),
+                            MainConfig.spectrumSteamerItemHandlerEnabled)
+                    .setDefaultValue(true)
+                    .setSaveConsumer(newValue -> MainConfig.spectrumSteamerItemHandlerEnabled = newValue)
+                    .setTooltip(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".spectrum.steamer_item_handler_enabled.tooltip.0")
+                    )
+                    .build());
+
+            pastelNodeSubCategory.add(entryBuilder
+                    .startBooleanToggle(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".spectrum.teapot_item_handler_enabled"),
+                            MainConfig.spectrumTeapotItemHandlerEnabled)
+                    .setDefaultValue(true)
+                    .setSaveConsumer(newValue -> MainConfig.spectrumTeapotItemHandlerEnabled = newValue)
+                    .setTooltip(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".spectrum.teapot_item_handler_enabled.tooltip.0")
+                    )
+                    .build());
+
+            pastelNodeSubCategory.add(entryBuilder
+                    .startBooleanToggle(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".spectrum.trash_can_item_handler_enabled"),
+                            MainConfig.spectrumTrashCanItemHandlerEnabled)
+                    .setDefaultValue(true)
+                    .setSaveConsumer(newValue -> MainConfig.spectrumTrashCanItemHandlerEnabled = newValue)
+                    .setTooltip(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".spectrum.trash_can_item_handler_enabled.tooltip.0")
+                    )
+                    .build());
+
+            pastelNodeSubCategory.add(entryBuilder
+                    .startBooleanToggle(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".spectrum.chopping_board_item_handler_enabled"),
+                            MainConfig.spectrumChoppingBoardItemHandlerEnabled)
+                    .setDefaultValue(true)
+                    .setSaveConsumer(newValue -> MainConfig.spectrumChoppingBoardItemHandlerEnabled = newValue)
+                    .setTooltip(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".spectrum.chopping_board_item_handler_enabled.tooltip.0")
+                    )
+                    .build());
+
+            spectrumCategory.addEntry(pastelNodeSubCategory.build());
+
+            spectrumCategory.addEntry(entryBuilder
+                    .startBooleanToggle(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".spectrum.block_placer_compat_enabled"),
+                            MainConfig.spectrumBlockPlacerCompatEnabled)
+                    .setDefaultValue(true)
+                    .setSaveConsumer(newValue -> MainConfig.spectrumBlockPlacerCompatEnabled = newValue)
+                    .setTooltip(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".spectrum.block_placer_compat_enabled.tooltip.0")
+                    )
+                    .build());
+
+            spectrumCategory.addEntry(entryBuilder
+                    .startBooleanToggle(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".spectrum.block_breaker_compat_enabled"),
+                            MainConfig.spectrumBlockBreakerCompatEnabled)
+                    .setDefaultValue(true)
+                    .setSaveConsumer(newValue -> MainConfig.spectrumBlockBreakerCompatEnabled = newValue)
+                    .setTooltip(
+                            Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".spectrum.block_breaker_compat_enabled.tooltip.0")
+                    )
+                    .build());
+
 
             ConfigCategory createCategory = configBuilder.getOrCreateCategory(
                     Component.translatable("config." + KaleidoscopeCompat.MOD_ID + ".category.create"));
