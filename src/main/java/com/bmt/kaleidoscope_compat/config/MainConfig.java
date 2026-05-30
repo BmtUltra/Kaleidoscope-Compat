@@ -127,6 +127,11 @@ public class MainConfig {
                     "When enabled, maids can grind ingredients on the millstone")
             .define("little_maid.millstone_enabled", true);
 
+    private static final ModConfigSpec.BooleanValue LITTLE_MAID_PRESSING_TUB_ENABLED = BUILDER
+            .comment("Whether Little Maid pressing tub task is enabled", "是否启用女仆果盘任务",
+                    "When enabled, maids can press ingredients in the pressing tub")
+            .define("little_maid.pressing_tub_enabled", true);
+
     private static final ModConfigSpec.BooleanValue SPECTRUM_COMPAT_ENABLED = BUILDER
             .comment("Whether Spectrum mod compatibility is enabled", "是否启用光谱世界兼容模块",
                     "When disabled, all Spectrum compatibility features will not be loaded")
@@ -279,6 +284,7 @@ public class MainConfig {
     public static boolean littleMaidCompatEnabled = true;
     public static boolean littleMaidChoppingBoardEnabled = true;
     public static boolean littleMaidMillstoneEnabled = true;
+    public static boolean littleMaidPressingTubEnabled = true;
 
     @SubscribeEvent
     public static void onLoad(final ModConfigEvent event) {
@@ -338,6 +344,7 @@ public class MainConfig {
         littleMaidCompatEnabled = LITTLE_MAID_COMPAT_ENABLED.get();
         littleMaidChoppingBoardEnabled = LITTLE_MAID_CHOPPING_BOARD_ENABLED.get();
         littleMaidMillstoneEnabled = LITTLE_MAID_MILLSTONE_ENABLED.get();
+        littleMaidPressingTubEnabled = LITTLE_MAID_PRESSING_TUB_ENABLED.get();
     }
 
     private static boolean validateItemName(final Object obj) {

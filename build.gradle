@@ -183,7 +183,7 @@ dependencies {
     runtimeOnly "maven.modrinth:gensokyo-delight-youkais-feasts:1.1.0"
     runtimeOnly "maven.modrinth:botany-pots:21.1.41"
     runtimeOnly "maven.modrinth:kaleidoscope-nether:1.0.7-neoforge+mc1.21.1"
-    runtimeOnly "maven.modrinth:kaleidoscopetavern:1.1.2-neoforge+mc1.21.1"
+//    runtimeOnly "maven.modrinth:kaleidoscopetavern:1.1.2-neoforge+mc1.21.1"
     runtimeOnly "maven.modrinth:lets-do-vinery:1.5.3"
     runtimeOnly "maven.modrinth:lets-do-farm-charm:1.1.21"
     runtimeOnly "maven.modrinth:quark:4.1-475"
