@@ -23,7 +23,7 @@ public class FoodListFilter {
         filteredItems.clear();
 
         var itemRegistry = BuiltInRegistries.ITEM;
-        for (Holder<Item> itemHolder : itemRegistry.getTagOrEmpty(TagUtil.Items.FILTERED_FROM_FOOD_LIST)) {
+        for (Holder<Item> itemHolder : itemRegistry.getTagOrEmpty(TagUtil.Items.UNITED)) {
             filteredItems.add(itemHolder.value());
         }
         initialized = true;

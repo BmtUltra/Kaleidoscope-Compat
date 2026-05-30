@@ -13,12 +13,9 @@ public class TagUtil {
         public static final TagKey<Item> SMALL_BOTTLE = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_tavern", "small_bottle"));
         public static final TagKey<Item> LARGE_BOTTLE = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_tavern", "large_bottle"));
         public static final TagKey<Item> WINE = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("youkaisfeasts", "wine"));
-        public static final TagKey<Item> HIDDEN_FROM_JEI = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_cookery", "hidden_from_jei"));
-        public static final TagKey<Item> FILTERED_FROM_FOOD_LIST = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_cookery", "filtered_from_food_list"));
         public static final TagKey<Item> BOTTLE_OIL = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_cookery", "bottle_oil"));
         public static final TagKey<Item> BUCKET_OIL = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_cookery", "bucket_oil"));
         public static final TagKey<Item> SCALE_DOWN_IN_CABINET = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_tavern", "scale_down_in_cabinet"));
-        public static final TagKey<Item> REMOVED_FROM_ALL_CREATIVE_TABS = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_cookery", "removed_from_all_creative_tabs"));
         public static final TagKey<Item> POT_INPUT_RECIPE = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_cookery", "pot_input_recipe"));
         public static final TagKey<Item> POT_OUTPUT_RECIPE = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_cookery", "pot_output_recipe"));
         public static final TagKey<Item> CHOPPING_BOARD_INPUT_RECIPE = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_cookery", "chopping_board_input_recipe"));
@@ -31,6 +28,7 @@ public class TagUtil {
         public static final TagKey<Item> STOCKPOT_OUTPUT_RECIPE = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_cookery", "stockpot_output_recipe"));
         public static final TagKey<Item> TEAPOT_INPUT_RECIPE = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_cookery", "teapot_input_recipe"));
         public static final TagKey<Item> TEAPOT_OUTPUT_RECIPE = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_cookery", "teapot_output_recipe"));
+        public static final TagKey<Item> UNITED = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_cookery", "united"));
     }
 
     public static class Blocks {

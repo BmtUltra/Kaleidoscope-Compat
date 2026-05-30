@@ -107,7 +107,7 @@ public class Plugins implements IModPlugin {
         hiddenItems.clear();
         var itemRegistry = Minecraft.getInstance().level.registryAccess().registryOrThrow(BuiltInRegistries.ITEM.key());
 
-        for (Holder<Item> itemHolder : itemRegistry.getTagOrEmpty(TagUtil.Items.HIDDEN_FROM_JEI)) {
+        for (Holder<Item> itemHolder : itemRegistry.getTagOrEmpty(TagUtil.Items.UNITED)) {
             hiddenItems.add(itemHolder.value());
         }
     }

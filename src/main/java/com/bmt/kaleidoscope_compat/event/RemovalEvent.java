@@ -14,13 +14,13 @@ public class RemovalEvent {
     @SubscribeEvent
     public static void onBuildCreativeTabContents(BuildCreativeModeTabContentsEvent event) {
         for (ItemStack entry : event.getParentEntries()) {
-            if (entry.is(TagUtil.Items.REMOVED_FROM_ALL_CREATIVE_TABS)) {
+            if (entry.is(TagUtil.Items.UNITED)) {
                 event.remove(entry, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             }
         }
 
         for (ItemStack entry : event.getSearchEntries()) {
-            if (entry.is(TagUtil.Items.REMOVED_FROM_ALL_CREATIVE_TABS)) {
+            if (entry.is(TagUtil.Items.UNITED)) {
                 event.remove(entry, CreativeModeTab.TabVisibility.SEARCH_TAB_ONLY);
             }
         }
