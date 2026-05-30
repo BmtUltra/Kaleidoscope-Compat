@@ -3,6 +3,7 @@ package com.bmt.kaleidoscope_compat;
 import com.bmt.kaleidoscope_compat.compat.create.CreateCompat;
 import com.bmt.kaleidoscope_compat.compat.farm_and_charm.FarmAndCharmCompat;
 import com.bmt.kaleidoscope_compat.compat.spectrum.SpectrumCompat;
+import com.bmt.kaleidoscope_compat.compat.touhoulittlemaid.LittleMaidCompat;
 import com.bmt.kaleidoscope_compat.compat.vinery.VineryBarrelCompatMain;
 import com.bmt.kaleidoscope_compat.config.ClothConfig;
 import com.bmt.kaleidoscope_compat.config.MainConfig;
@@ -22,6 +23,7 @@ public class KaleidoscopeCompat {
         SpectrumCompat.init(modEventBus);
         FarmAndCharmCompat.init();
         VineryBarrelCompatMain.init();
+        LittleMaidCompat.init();
         if (ModList.get().isLoaded("cloth_config")) {
             if (Environment.get().getDist().isClient()) {
                 ClothConfig.build(modContainer);

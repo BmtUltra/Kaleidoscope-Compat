@@ -36,7 +36,6 @@ repositories {
     maven {
         url "https://cursemaven.com"
     }
-    // Create mod dependencies
     maven {
         name = "Create Maven"
         url "https://maven.createmod.net"
@@ -178,6 +177,7 @@ dependencies {
     compileOnly "maven.modrinth:appleskin:3.0.9+mc1.21"
     compileOnly "maven.modrinth:cloth-config:15.0.140+neoforge"
     compileOnly "maven.modrinth:spectrum:1.11.8-1.21.1-neo"
+    compileOnly "maven.modrinth:touhou-little-maid:1.5.3-neoforge+mc1.21.1"
 
     runtimeOnly "maven.modrinth:farmers-delight:1.21.1-1.3.2"
     runtimeOnly "maven.modrinth:gensokyo-delight-youkais-feasts:1.1.0"
@@ -201,6 +201,7 @@ dependencies {
     runtimeOnly "maven.modrinth:cloth-config:15.0.140+neoforge"
     runtimeOnly "maven.modrinth:spectrum:1.11.8-1.21.1-neo"
     implementation "maven.modrinth:spectrumjei:21.1.9+neoforge"
+    runtimeOnly "maven.modrinth:touhou-little-maid:1.5.3-neoforge+mc1.21.1"
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {

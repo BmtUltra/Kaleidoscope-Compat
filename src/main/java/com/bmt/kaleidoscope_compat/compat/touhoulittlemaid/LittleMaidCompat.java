@@ -1,0 +1,34 @@
+package com.bmt.kaleidoscope_compat.compat.touhoulittlemaid;
+
+import com.bmt.kaleidoscope_compat.compat.touhoulittlemaid.task.TaskChoppingBoard;
+import com.bmt.kaleidoscope_compat.compat.touhoulittlemaid.task.TaskMillstone;
+import com.bmt.kaleidoscope_compat.config.MainConfig;
+import com.github.tartaricacid.touhoulittlemaid.api.ILittleMaid;
+import com.github.tartaricacid.touhoulittlemaid.api.LittleMaidExtension;
+import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskManager;
+import net.neoforged.fml.ModList;
+
+public class LittleMaidCompat {
+    public static final String ID = "touhoulittlemaid";
+    public static boolean IS_LOADED = false;
+
+    public static void init() {
+        if (!MainConfig.littleMaidCompatEnabled) {
+            return;
+        }
+        ModList.get().getModContainerById(ID).ifPresent(modContainer -> IS_LOADED = true);
+    }
+
+    @LittleMaidExtension
+    public static class LittleMaidExtensionImpl implements ILittleMaid {
+        @Override
+        public void addMaidTask(TaskManager manager) {
+            if (MainConfig.littleMaidChoppingBoardEnabled) {
+                manager.add(new TaskChoppingBoard());
+            }
+            if (MainConfig.littleMaidMillstoneEnabled) {
+                manager.add(new TaskMillstone());
+            }
+        }
+    }
+}

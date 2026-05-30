@@ -112,6 +112,21 @@ public class MainConfig {
                     "Format: modid:entity_id (e.g., minecraft:zombie, minecraft:villager)")
             .defineList("effect.blacklist", Collections.emptyList(), MainConfig::validateEntityName);
 
+    private static final ModConfigSpec.BooleanValue LITTLE_MAID_COMPAT_ENABLED = BUILDER
+            .comment("Whether Little Maid mod compatibility is enabled", "是否启用女仆任务拓展模块",
+                    "When disabled, all Little Maid compatibility features will not be loaded")
+            .define("little_maid.compat_enabled", true);
+
+    private static final ModConfigSpec.BooleanValue LITTLE_MAID_CHOPPING_BOARD_ENABLED = BUILDER
+            .comment("Whether Little Maid chopping board task is enabled", "是否启用女仆菜板任务",
+                    "When enabled, maids can cut ingredients on the chopping board")
+            .define("little_maid.chopping_board_enabled", true);
+
+    private static final ModConfigSpec.BooleanValue LITTLE_MAID_MILLSTONE_ENABLED = BUILDER
+            .comment("Whether Little Maid millstone task is enabled", "是否启用女仆石磨任务",
+                    "When enabled, maids can grind ingredients on the millstone")
+            .define("little_maid.millstone_enabled", true);
+
     private static final ModConfigSpec.BooleanValue SPECTRUM_COMPAT_ENABLED = BUILDER
             .comment("Whether Spectrum mod compatibility is enabled", "是否启用光谱世界兼容模块",
                     "When disabled, all Spectrum compatibility features will not be loaded")
@@ -261,6 +276,9 @@ public class MainConfig {
     public static boolean spectrumTeapotItemHandlerEnabled = true;
     public static boolean spectrumShawarmaSpitItemHandlerEnabled = true;
     public static boolean spectrumPotItemHandlerEnabled = true;
+    public static boolean littleMaidCompatEnabled = true;
+    public static boolean littleMaidChoppingBoardEnabled = true;
+    public static boolean littleMaidMillstoneEnabled = true;
 
     @SubscribeEvent
     public static void onLoad(final ModConfigEvent event) {
@@ -317,6 +335,9 @@ public class MainConfig {
         spectrumTeapotItemHandlerEnabled = SPECTRUM_TEAPOT_ITEM_HANDLER_ENABLED.get();
         spectrumShawarmaSpitItemHandlerEnabled = SPECTRUM_SHAWARMA_SPIT_ITEM_HANDLER_ENABLED.get();
         spectrumPotItemHandlerEnabled = SPECTRUM_POT_ITEM_HANDLER_ENABLED.get();
+        littleMaidCompatEnabled = LITTLE_MAID_COMPAT_ENABLED.get();
+        littleMaidChoppingBoardEnabled = LITTLE_MAID_CHOPPING_BOARD_ENABLED.get();
+        littleMaidMillstoneEnabled = LITTLE_MAID_MILLSTONE_ENABLED.get();
     }
 
     private static boolean validateItemName(final Object obj) {

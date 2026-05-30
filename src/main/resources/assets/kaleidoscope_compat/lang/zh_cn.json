@@ -67,6 +67,11 @@
   "config.kaleidoscope_compat.vinery.barrel_disabled": "禁用酿造桶配方",
   "config.kaleidoscope_compat.vinery.barrel_disabled.tooltip.0": "启用后，所有葡园酒香酿造桶配方将无法使用",
 
+  "task.kaleidoscope_compat.chopping_board": "切菜",
+  "task.kaleidoscope_compat.chopping_board.desc": "女仆会寻找周围的菜板，然后切菜",
+  "task.kaleidoscope_compat.millstone": "石磨",
+  "task.kaleidoscope_compat.millstone.desc": "女仆会寻找周围的石磨",
+
   "config.kaleidoscope_compat.category.spectrum": "光谱世界",
   "config.kaleidoscope_compat.spectrum.compat_enabled": "总模块",
   "config.kaleidoscope_compat.spectrum.compat_enabled.tooltip.0": "禁用后，所有光谱世界功能模块将不会加载",
