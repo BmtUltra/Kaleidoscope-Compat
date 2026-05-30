@@ -9,32 +9,32 @@ public class SpectrumCompat {
     public static boolean IS_LOADED = false;
 
     public static void init(IEventBus modEventBus) {
-        if (!MainConfig.spectrumCompatEnabled) {
+        if (!MainConfig.spectrumCompatEnabledValue) {
             return;
         }
 
         ModList.get().getModContainerById(ID).ifPresent(modContainer -> {
             IS_LOADED = true;
-            if (MainConfig.spectrumPastelNodeCompatEnabled) {
-                if (MainConfig.spectrumMillstoneItemHandlerEnabled) {
+            if (MainConfig.spectrumPastelNodeCompatEnabledValue) {
+                if (MainConfig.spectrumMillstoneItemHandlerEnabledValue) {
                     SpectrumMillstoneItemHandler.init(modEventBus);
                 }
-                if (MainConfig.spectrumShawarmaSpitItemHandlerEnabled) {
+                if (MainConfig.spectrumShawarmaSpitItemHandlerEnabledValue) {
                     SpectrumShawarmaSpitItemHandler.init(modEventBus);
                 }
-                if (MainConfig.spectrumPotItemHandlerEnabled) {
+                if (MainConfig.spectrumPotItemHandlerEnabledValue) {
                     SpectrumPotItemHandler.init(modEventBus);
                 }
-                if (MainConfig.spectrumSteamerItemHandlerEnabled) {
+                if (MainConfig.spectrumSteamerItemHandlerEnabledValue) {
                     SpectrumSteamerItemHandler.init(modEventBus);
                 }
-                if (MainConfig.spectrumTrashCanItemHandlerEnabled) {
+                if (MainConfig.spectrumTrashCanItemHandlerEnabledValue) {
                     SpectrumTrashCanItemHandler.init(modEventBus);
                 }
-                if (MainConfig.spectrumChoppingBoardItemHandlerEnabled) {
+                if (MainConfig.spectrumChoppingBoardItemHandlerEnabledValue) {
                     SpectrumChoppingBoardItemHandler.init(modEventBus);
                 }
-                if (MainConfig.spectrumTeapotItemHandlerEnabled) {
+                if (MainConfig.spectrumTeapotItemHandlerEnabledValue) {
                     SpectrumTeapotItemHandler.init(modEventBus);
                 }
             }

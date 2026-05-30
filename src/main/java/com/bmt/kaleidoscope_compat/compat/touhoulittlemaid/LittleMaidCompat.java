@@ -16,7 +16,7 @@ public class LittleMaidCompat {
     public static boolean IS_KALEIDOSCOPE_TAVERN_LOADED = false;
 
     public static void init() {
-        if (!MainConfig.littleMaidCompatEnabled) {
+        if (!MainConfig.littleMaidCompatEnabledValue) {
             return;
         }
         ModList.get().getModContainerById(ID).ifPresent(modContainer -> IS_LOADED = true);
@@ -27,14 +27,14 @@ public class LittleMaidCompat {
     public static class LittleMaidExtensionImpl implements ILittleMaid {
         @Override
         public void addMaidTask(TaskManager manager) {
-            if (MainConfig.littleMaidChoppingBoardEnabled) {
+            if (MainConfig.littleMaidChoppingBoardEnabledValue) {
                 manager.add(new TaskChoppingBoard());
             }
-            if (MainConfig.littleMaidMillstoneEnabled) {
+            if (MainConfig.littleMaidMillstoneEnabledValue) {
                 manager.add(new TaskMillstone());
             }
             if (IS_KALEIDOSCOPE_TAVERN_LOADED) {
-                if (MainConfig.littleMaidPressingTubEnabled) {
+                if (MainConfig.littleMaidPressingTubEnabledValue) {
                     manager.add(new TaskPressingTub());
                 }
             }

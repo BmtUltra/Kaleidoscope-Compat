@@ -20,7 +20,7 @@ public class CookingPotCategoryMixin {
             remap = false
     )
     private void kc$interceptJEICookingPotRecipes(IRecipeLayoutBuilder builder, CookingPotRecipe recipe, IFocusGroup focuses, CallbackInfo ci) {
-        if (MainConfig.farmAndCharmCookingPotRecipesDisabled) {
+        if (MainConfig.farmAndCharmCookingPotRecipesDisabledValue) {
             ci.cancel();
         }
     }

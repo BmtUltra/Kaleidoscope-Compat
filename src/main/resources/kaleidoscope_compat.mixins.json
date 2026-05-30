@@ -56,8 +56,6 @@
     "kaleidoscope_tavern.BarrelRecipeCategoryMixin",
     "quark.SimpleHarvestEventMixin",
     "solcarrot.FoodListMixin",
-    "spectrum.BlockBreakerBlockMixin",
-    "spectrum.BlockPlacerBlockMixin",
     "spectrum.PastelNodeBlockEntityMixin",
     "spectrum.PastelNodeBlockMixin",
     "vinery.FermentationBarrelRecipeMixin",

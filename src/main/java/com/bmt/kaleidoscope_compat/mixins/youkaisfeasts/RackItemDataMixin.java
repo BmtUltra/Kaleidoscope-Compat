@@ -18,7 +18,7 @@ public class RackItemDataMixin {
             cancellable = true
     )
     private void kc$interceptRackItemTick(SteamerBlockEntity be, Level level, double heat, CallbackInfoReturnable<Boolean> cir) {
-        if (MainConfig.steamingRecipesDisabled) {
+        if (MainConfig.steamingRecipesDisabledValue) {
             cir.setReturnValue(false);
         }
     }

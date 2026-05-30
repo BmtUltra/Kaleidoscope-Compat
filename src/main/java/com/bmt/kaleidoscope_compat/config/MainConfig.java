@@ -9,6 +9,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.config.ModConfigEvent;
 import net.neoforged.neoforge.common.ModConfigSpec;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -16,335 +17,395 @@ import java.util.*;
 @SuppressWarnings("deprecation")
 @EventBusSubscriber(modid = KaleidoscopeCompat.MOD_ID)
 public class MainConfig {
-    private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
+    public static final MainConfig CONFIG;
+    public static final ModConfigSpec CONFIG_SPEC;
 
-    private static final ModConfigSpec.EnumValue<DatapackMode> DATAPACK_MODE = BUILDER
-            .comment("NONE: Disable all datapacks except soup", "NONE: 不启用数据兼容",
-                    "COMPAT: Extensive compatibility with other mod items", "COMPAT: 与其他模组物品与配方提供大量兼容",
-                    "UNITE: Duplicate items of the unified module", "UNITE: 统一与其它模组重复的物品")
-            .defineEnum("datapack.mode", DatapackMode.COMPAT);
+    public final ModConfigSpec.EnumValue<DatapackMode> datapackMode;
+    public final ModConfigSpec.BooleanValue soupDatapackEnabled;
 
-    private static final ModConfigSpec.BooleanValue SOUP_DATAPACK_ENABLED = BUILDER
-            .comment("Enable soup base material", "是否启用汤锅材质拓展")
-            .define("datapack.soup_enabled", true);
+    public final ModConfigSpec.BooleanValue millstoneStackingEnabled;
 
-    private static final ModConfigSpec.BooleanValue LUNCH_BAG_BLACKLIST_ENABLED = BUILDER
-            .comment("Whether the lunch bag blacklist is enabled","是否启用嬗变饭袋物品黑名单")
-            .define("transmutationLunchBag.blacklist_enabled", true);
+    public final ModConfigSpec.BooleanValue lunchBagBlacklistEnabled;
+    public final ModConfigSpec.ConfigValue<List<? extends String>> lunchBagBlacklist;
+    public final ModConfigSpec.BooleanValue transmutationLunchBagBackEnabled;
+    public final ModConfigSpec.BooleanValue appleskinCompatEnabled;
 
-    private static final ModConfigSpec.ConfigValue<List<? extends String>> LUNCH_BAG_BLACKLIST = BUILDER
-            .comment("List of item IDs that cannot be put into the Transmutation Lunch Bag","黑名单物品",
-                    "Format: modid:item_id (e.g., artifacts:everlasting_beef, minecraft:apple)")
-            .defineList("transmutationLunchBag.blacklist",
-                    Arrays.asList("artifacts:eternal_steak","kaleidoscope_nether:everlasting_flame_steak"),
-                    MainConfig::validateItemName);
+    public final ModConfigSpec.BooleanValue scarecrowRepelPhantoms;
 
-    private static final ModConfigSpec.BooleanValue TRANSMUTATION_LUNCH_BAG_BACK_ENABLED = BUILDER
-            .comment("Whether the modified Transmutation Lunch Bag behavior is enabled","是否启用嬗变饭袋回调",
-                    "When enabled, the lunch bag will only consume the first food item but apply all effects from all items in the bag",
-                    "When disabled, the original Kaleidoscope Cookery behavior will be used")
-            .define("transmutationLunchBag.back_behavior_enabled", false);
+    public final ModConfigSpec.BooleanValue nourishmentEffectBlockEnabled;
+    public final ModConfigSpec.BooleanValue projectileDodgeTeleportEnabled;
+    public final ModConfigSpec.ConfigValue<Integer> projectileDodgeDurationCost;
+    public final ModConfigSpec.ConfigValue<List<? extends String>> vitalityBlacklist;
 
-    private static final ModConfigSpec.BooleanValue MILLSTONE_STACKING_ENABLED = BUILDER
-            .comment("Whether millstone item stacking is enabled", "是否启用石磨输入限制突破",
-                    "When enabled, you can add more items of the same type while the millstone is working",
-                    "当启用时，部分功能可以在石磨工作时添加同类型的物品进行堆叠")
-            .define("millstone.stacking_enabled", true);
+    public final ModConfigSpec.BooleanValue cookingPotRecipesDisabled;
+    public final ModConfigSpec.BooleanValue cookingPotGuiDisabled;
+    public final ModConfigSpec.BooleanValue cuttingBoardRecipesDisabled;
+    public final ModConfigSpec.BooleanValue richSoilHoeEnabled;
 
-    private static final ModConfigSpec.BooleanValue COOKING_POT_RECIPES_DISABLED = BUILDER
-            .comment("Whether all FarmersDelight cooking pot recipes are disabled","是否禁用农夫乐事厨锅配方",
-                    "When enabled, all cooking pot recipes will not work")
-            .define("farmersdelight.cooking_pot_recipes_disabled", false);
+    public final ModConfigSpec.BooleanValue steamingRecipesDisabled;
 
-    private static final ModConfigSpec.BooleanValue COOKING_POT_GUI_DISABLED = BUILDER
-            .comment("Whether the FarmersDelight cooking pot GUI is disabled", "是否禁用农夫乐事厨锅",
-                    "When enabled, the cooking pot GUI will not open")
-            .define("farmersdelight.cooking_pot_gui_disabled", false);
+    public final ModConfigSpec.BooleanValue farmAndCharmCookingPotRecipesDisabled;
 
-    private static final ModConfigSpec.BooleanValue CUTTING_BOARD_RECIPES_DISABLED = BUILDER
-            .comment("Whether all FarmersDelight cutting board recipes are disabled","是否禁用农夫乐事砧板配方",
-                    "When enabled, all cutting board recipes will not work")
-            .define("farmersdelight.cutting_board_recipes_disabled", false);
+    public final ModConfigSpec.BooleanValue vineryBarrelRecipesDisabled;
 
-    private static final ModConfigSpec.BooleanValue STEAMING_RECIPES_DISABLED = BUILDER
-            .comment("Whether all Youkai's Homecoming steaming recipes are disabled","是否禁用妖怪归家蒸笼配方",
-                    "When enabled, all steaming recipes will not work")
-            .define("youkaisfeasts.steaming_recipes_disabled", false);
+    public final ModConfigSpec.BooleanValue littleMaidCompatEnabled;
+    public final ModConfigSpec.BooleanValue littleMaidChoppingBoardEnabled;
+    public final ModConfigSpec.BooleanValue littleMaidMillstoneEnabled;
+    public final ModConfigSpec.BooleanValue littleMaidPressingTubEnabled;
 
-    private static final ModConfigSpec.BooleanValue RICH_SOIL_HOE_ENABLED = BUILDER
-            .comment("Whether rich soil hoe tilling is enabled", "是否启用水中锄耕农夫乐事沃土功能",
-                    "When enabled, right-clicking rich soil with water above will turn it into rich soil farmland")
-            .define("farmersdelight.hoe_enabled", true);
+    public final ModConfigSpec.BooleanValue spectrumCompatEnabled;
+    public final ModConfigSpec.BooleanValue spectrumPotItemHandlerEnabled;
+    public final ModConfigSpec.BooleanValue spectrumChoppingBoardItemHandlerEnabled;
+    public final ModConfigSpec.BooleanValue spectrumMillstoneItemHandlerEnabled;
+    public final ModConfigSpec.BooleanValue spectrumShawarmaSpitItemHandlerEnabled;
+    public final ModConfigSpec.BooleanValue spectrumSteamerItemHandlerEnabled;
+    public final ModConfigSpec.BooleanValue spectrumTeapotItemHandlerEnabled;
+    public final ModConfigSpec.BooleanValue spectrumTrashCanItemHandlerEnabled;
+    public final ModConfigSpec.BooleanValue spectrumPastelNodeCompatEnabled;
 
-    private static final ModConfigSpec.BooleanValue FARM_AND_CHARM_COOKING_POT_RECIPES_DISABLED = BUILDER
-            .comment("Whether all Farm and Charm cooking pot recipes are disabled","是否禁用沉浸农艺厨锅配方",
-                    "When enabled, all Farm and Charm cooking pot recipes will not work")
-            .define("farm_and_charm.cooking_pot_recipes_disabled", false);
+    public final ModConfigSpec.BooleanValue createCompatEnabled;
+    public final ModConfigSpec.BooleanValue createArmPotEnabled;
+    public final ModConfigSpec.BooleanValue createArmStockpotEnabled;
+    public final ModConfigSpec.BooleanValue createArmSteamerEnabled;
+    public final ModConfigSpec.BooleanValue createArmMillstoneEnabled;
+    public final ModConfigSpec.BooleanValue createArmShawarmaSpitEnabled;
+    public final ModConfigSpec.BooleanValue createArmTeapotEnabled;
 
-    private static final ModConfigSpec.BooleanValue VINERY_BARREL_RECIPES_DISABLED = BUILDER
-            .comment("Whether all Vinery fermentation barrel recipes are disabled","是否禁用葡园酒香酿造桶配方",
-                    "When enabled, all Vinery fermentation barrel recipes will not work")
-            .define("vinery.barrel_recipes_disabled", false);
+    public final ModConfigSpec.BooleanValue farmAndCharmCompatEnabled;
+    public final ModConfigSpec.BooleanValue jeiCompatEnabled;
+    public final ModConfigSpec.BooleanValue thirstCompatEnabled;
+    public final ModConfigSpec.BooleanValue quarkSickleHarvestFixEnabled;
 
-    private static final ModConfigSpec.BooleanValue SCARECROW_REPEL_PHANTOMS = BUILDER
-            .comment("Whether scarecrows can repel phantoms", "稻草人是否可以驱散幻翼",
-                    "When enabled, phantoms will avoid areas near scarecrows with heads")
-            .define("scarecrow.repel_phantoms", true);
-
-    private static final ModConfigSpec.BooleanValue NOURISHMENT_EFFECT_BLOCK_ENABLED = BUILDER
-            .comment("Whether Nourishment effect is blocked when player has Satiated Shield","是否启用滋养和饱腹代偿修复",
-                    "When enabled, FarmersDelight's Nourishment effect will not work if player has Satiated Shield effect")
-            .define("effect.block_enabled", true);
-
-    private static final ModConfigSpec.BooleanValue PROJECTILE_DODGE_TELEPORT_ENABLED = BUILDER
-            .comment("Whether projectile dodge teleport is enabled", "是否启用弹射闪避的传送",
-                    "When enabled, players with Projectile Dodge effect will teleport when hit by projectiles",
-                    "When disabled, projectiles will be cancelled without teleportation")
-            .define("effect.teleport_enabled", false);
-
-    private static final ModConfigSpec.IntValue PROJECTILE_DODGE_DURATION_COST = BUILDER
-            .comment("Duration cost per dodge (in ticks)", "每次闪避消耗的持续时间（tick）",
-                    "Default: 200 ticks (10 seconds)")
-            .defineInRange("effect.duration_cost", 200, 1, Integer.MAX_VALUE);
-
-    private static final ModConfigSpec.ConfigValue<List<? extends String>> VITALITY_BLACKLIST = BUILDER
-            .comment("List of entity IDs that cannot be affected by Vitality effect", "生机效果黑名单实体ID",
-                    "Format: modid:entity_id (e.g., minecraft:zombie, minecraft:villager)")
-            .defineList("effect.blacklist", Collections.emptyList(), MainConfig::validateEntityName);
-
-    private static final ModConfigSpec.BooleanValue LITTLE_MAID_COMPAT_ENABLED = BUILDER
-            .comment("Whether Little Maid mod compatibility is enabled", "是否启用女仆任务拓展模块",
-                    "When disabled, all Little Maid compatibility features will not be loaded")
-            .define("little_maid.compat_enabled", true);
-
-    private static final ModConfigSpec.BooleanValue LITTLE_MAID_CHOPPING_BOARD_ENABLED = BUILDER
-            .comment("Whether Little Maid chopping board task is enabled", "是否启用女仆菜板任务",
-                    "When enabled, maids can cut ingredients on the chopping board")
-            .define("little_maid.chopping_board_enabled", true);
-
-    private static final ModConfigSpec.BooleanValue LITTLE_MAID_MILLSTONE_ENABLED = BUILDER
-            .comment("Whether Little Maid millstone task is enabled", "是否启用女仆石磨任务",
-                    "When enabled, maids can grind ingredients on the millstone")
-            .define("little_maid.millstone_enabled", true);
-
-    private static final ModConfigSpec.BooleanValue LITTLE_MAID_PRESSING_TUB_ENABLED = BUILDER
-            .comment("Whether Little Maid pressing tub task is enabled", "是否启用女仆果盘任务",
-                    "When enabled, maids can press ingredients in the pressing tub")
-            .define("little_maid.pressing_tub_enabled", true);
-
-    private static final ModConfigSpec.BooleanValue SPECTRUM_COMPAT_ENABLED = BUILDER
-            .comment("Whether Spectrum mod compatibility is enabled", "是否启用光谱世界兼容模块",
-                    "When disabled, all Spectrum compatibility features will not be loaded")
-            .define("spectrum.compat_enabled", true);
-
-    private static final ModConfigSpec.BooleanValue SPECTRUM_POT_ITEM_HANDLER_ENABLED = BUILDER
-            .comment("Whether Spectrum pot item handler is enabled", "是否启用炒锅节点传输",
-                    "When enabled, Spectrum mod can interact with the pot via item handler")
-            .define("spectrum.pot_item_handler_enabled", true);
-
-    private static final ModConfigSpec.BooleanValue SPECTRUM_CHOPPING_BOARD_ITEM_HANDLER_ENABLED = BUILDER
-            .comment("Whether Spectrum chopping board item handler is enabled", "是否启用切菜板节点传输",
-                    "When enabled, Spectrum mod can interact with the chopping board via item handler")
-            .define("spectrum.chopping_board_item_handler_enabled", true);
-
-    private static final ModConfigSpec.BooleanValue SPECTRUM_MILLSTONE_ITEM_HANDLER_ENABLED = BUILDER
-            .comment("Whether Spectrum millstone item handler is enabled", "是否启用石磨节点传输",
-                    "When enabled, Spectrum mod can interact with the millstone via item handler")
-            .define("spectrum.millstone_item_handler_enabled", true);
-
-    private static final ModConfigSpec.BooleanValue SPECTRUM_SHAWARMA_SPIT_ITEM_HANDLER_ENABLED = BUILDER
-            .comment("Whether Spectrum shawarma spit item handler is enabled", "是否启用旋风烤肉塔节点传输",
-                    "When enabled, Spectrum mod can interact with the shawarma spit via item handler")
-            .define("spectrum.shawarma_spit_item_handler_enabled", true);
-
-    private static final ModConfigSpec.BooleanValue SPECTRUM_STEAMER_ITEM_HANDLER_ENABLED = BUILDER
-            .comment("Whether Spectrum steamer item handler is enabled", "是否启用蒸笼节点传输",
-                    "When enabled, Spectrum mod can interact with the steamer via item handler")
-            .define("spectrum.steamer_item_handler_enabled", true);
-
-    private static final ModConfigSpec.BooleanValue SPECTRUM_TEAPOT_ITEM_HANDLER_ENABLED = BUILDER
-            .comment("Whether Spectrum teapot item handler is enabled", "是否启用茶壶节点传输",
-                    "When enabled, Spectrum mod can interact with the teapot via item handler")
-            .define("spectrum.teapot_item_handler_enabled", true);
-
-    private static final ModConfigSpec.BooleanValue SPECTRUM_TRASH_CAN_ITEM_HANDLER_ENABLED = BUILDER
-            .comment("Whether Spectrum trash can item handler is enabled", "是否启用垃圾桶节点传输",
-                    "When enabled, Spectrum mod can interact with the trash can via item handler")
-            .define("spectrum.trash_can_item_handler_enabled", true);
-
-    private static final ModConfigSpec.BooleanValue SPECTRUM_BLOCK_PLACER_COMPAT_ENABLED = BUILDER
-            .comment("Whether Spectrum block placer stockpot lid compatibility is enabled", "是否启用方块放置器上盖",
-                    "When enabled, block placer can place stockpot lids on stockpots")
-            .define("spectrum.block_placer_compat_enabled", true);
-
-    private static final ModConfigSpec.BooleanValue SPECTRUM_BLOCK_BREAKER_COMPAT_ENABLED = BUILDER
-            .comment("Whether Spectrum block breaker stockpot lid compatibility is enabled", "是否启用方块破坏器取盖",
-                    "When enabled, block breaker will only break the lid of a stockpot instead of the whole pot")
-            .define("spectrum.block_breaker_compat_enabled", true);
-
-    private static final ModConfigSpec.BooleanValue SPECTRUM_PASTEL_NODE_COMPAT_ENABLED = BUILDER
-            .comment("Whether Spectrum pastel node pot oil compatibility is enabled", "是否启用节点炒锅加油",
-                    "When enabled, pastel nodes can add oil to pots")
-            .define("spectrum.pastel_node_compat_enabled", true);
+    private MainConfig(ModConfigSpec.Builder builder) {
+        builder.push("datapack").comment("数据包设置");
+        this.datapackMode = builder
+                .comment("NONE: Disable all datapacks except soup", "NONE: 不启用数据兼容",
+                        "COMPAT: Extensive compatibility with other mod items", "COMPAT: 与其他模组物品与配方提供大量兼容",
+                        "UNITE: Duplicate items of the unified module", "UNITE: 统一与其它模组重复的物品")
+                .defineEnum("mode", DatapackMode.COMPAT);
+        this.soupDatapackEnabled = builder
+                .comment("Enable soup base material", "是否启用汤锅材质拓展")
+                .define("soup_enabled", true);
+        builder.pop();
 
 
-    private static final ModConfigSpec.BooleanValue CREATE_COMPAT_ENABLED = BUILDER
-            .comment("Whether Create mod compatibility is enabled", "是否启用机械动力兼容模块",
-                    "When disabled, all Create compatibility features will not be loaded")
-            .define("create.compat_enabled", true);
+        builder.push("kitchen");
+        builder.comment("森罗物语：厨房");
 
-    private static final ModConfigSpec.BooleanValue CREATE_ARM_POT_ENABLED = BUILDER
-            .comment("Whether Create mechanical arm pot compatibility is enabled", "是否启用机械动力动力臂炒锅兼容")
-            .define("create.arm_pot_enabled", true);
+        builder.push("millstone").comment("石磨");
+        this.millstoneStackingEnabled = builder
+                .comment("Whether millstone item stacking is enabled", "是否启用石磨输入限制突破",
+                        "When enabled, you can add more items of the same type while the millstone is working",
+                        "当启用时，部分功能可以在石磨工作时添加同类型的物品进行堆叠")
+                .define("stacking_enabled", true);
+        builder.pop();
 
-    private static final ModConfigSpec.BooleanValue CREATE_ARM_STOCKPOT_ENABLED = BUILDER
-            .comment("Whether Create mechanical arm stockpot compatibility is enabled", "是否启用机械动力动力臂汤锅兼容")
-            .define("create.arm_stockpot_enabled", true);
+        builder.push("lunch_bag").comment("嬗变饭袋");
+        this.lunchBagBlacklistEnabled = builder
+                .comment("Whether the lunch bag blacklist is enabled", "是否启用嬗变饭袋物品黑名单")
+                .define("blacklist_enabled", true);
+        this.lunchBagBlacklist = builder
+                .comment("List of item IDs that cannot be put into the Transmutation Lunch Bag", "黑名单物品",
+                        "Format: modid:item_id (e.g., artifacts:everlasting_beef, minecraft:apple)")
+                .defineList("blacklist",
+                        Arrays.asList("artifacts:eternal_steak", "kaleidoscope_nether:everlasting_flame_steak"),
+                        MainConfig::validateItemName);
+        this.transmutationLunchBagBackEnabled = builder
+                .comment("Whether the modified Transmutation Lunch Bag behavior is enabled", "是否启用嬗变饭袋回调",
+                        "When enabled, the lunch bag will only consume the first food item but apply all effects from all items in the bag",
+                        "When disabled, the original Kaleidoscope Cookery behavior will be used")
+                .define("back_behavior_enabled", false);
+        this.appleskinCompatEnabled = builder
+                .comment("Whether AppleSkin mod compatibility is enabled", "是否启用苹果皮和嬗变饭袋的兼容")
+                .define("appleskin_compat_enabled", true);
+        builder.pop();
 
-    private static final ModConfigSpec.BooleanValue CREATE_ARM_STEAMER_ENABLED = BUILDER
-            .comment("Whether Create mechanical arm steamer compatibility is enabled", "是否启用机械动力动力臂蒸笼兼容")
-            .define("create.arm_steamer_enabled", true);
+        builder.push("scarecrow").comment("稻草人");
+        this.scarecrowRepelPhantoms = builder
+                .comment("Whether scarecrows can repel phantoms", "稻草人是否可以驱散幻翼",
+                        "When enabled, phantoms will avoid areas near scarecrows with heads")
+                .define("repel_phantoms", true);
+        builder.pop();
 
-    private static final ModConfigSpec.BooleanValue CREATE_ARM_MILLSTONE_ENABLED = BUILDER
-            .comment("Whether Create mechanical arm millstone compatibility is enabled", "是否启用机械动力动力臂磨盘兼容")
-            .define("create.arm_millstone_enabled", true);
+        builder.push("effect");
+        builder.comment("效果设置");
 
-    private static final ModConfigSpec.BooleanValue CREATE_ARM_SHAWARMA_SPIT_ENABLED = BUILDER
-            .comment("Whether Create mechanical arm shawarma spit compatibility is enabled", "是否启用机械动力动力臂烤肉塔兼容")
-            .define("create.arm_shawarma_spit_enabled", true);
+        this.nourishmentEffectBlockEnabled = builder
+                .comment("Whether Nourishment effect is blocked when player has Satiated Shield", "是否启用滋养和饱腹代偿修复",
+                        "When enabled, FarmersDelight's Nourishment effect will not work if player has Satiated Shield effect")
+                .define("block_enabled", true);
 
-    private static final ModConfigSpec.BooleanValue CREATE_ARM_TEAPOT_ENABLED = BUILDER
-            .comment("Whether Create mechanical arm teapot compatibility is enabled", "是否启用机械动力动力臂茶壶兼容")
-            .define("create.arm_teapot_enabled", true);
+        builder.push("projectile_dodge").comment("弹射闪避");
+        this.projectileDodgeTeleportEnabled = builder
+                .comment("Whether projectile dodge teleport is enabled", "是否启用弹射闪避的传送",
+                        "When enabled, players with Projectile Dodge effect will teleport when hit by projectiles",
+                        "When disabled, projectiles will be cancelled without teleportation")
+                .define("teleport_enabled", false);
+        this.projectileDodgeDurationCost = builder
+                .comment("Duration cost per dodge (in ticks)", "每次闪避消耗的持续时间（tick）",
+                        "Default: 200 ticks (10 seconds)")
+                .defineInRange("duration_cost", 200, 1, Integer.MAX_VALUE);
+        builder.pop();
 
-    private static final ModConfigSpec.BooleanValue APPLESKIN_COMPAT_ENABLED = BUILDER
-            .comment("Whether AppleSkin mod compatibility is enabled", "是否启用苹果皮和嬗变饭袋的兼容")
-            .define("transmutationLunchBag.compat_enabled", true);
+        builder.push("vitality").comment("生机");
+        this.vitalityBlacklist = builder
+                .comment("List of entity IDs that cannot be affected by Vitality effect", "生机效果黑名单实体ID",
+                        "Format: modid:entity_id (e.g., minecraft:zombie, minecraft:villager)")
+                .defineList("blacklist", Collections.emptyList(), MainConfig::validateEntityName);
+        builder.pop();
 
-    private static final ModConfigSpec.BooleanValue FARM_AND_CHARM_COMPAT_ENABLED = BUILDER
-            .comment("Whether Farm and Charm mod compatibility is enabled", "是否启用沉浸农艺锅配方兼容")
-            .define("farm_and_charm.compat_enabled", true);
+        builder.pop();
+        builder.pop();
 
-    private static final ModConfigSpec.BooleanValue JEI_COMPAT_ENABLED = BUILDER
-            .comment("Whether JEI compatibility is enabled", "是否启用旋风烤肉塔JEI")
-            .define("jei.compat_enabled", true);
 
-    private static final ModConfigSpec.BooleanValue THIRST_COMPAT_ENABLED = BUILDER
-            .comment("Whether Thirst mod compatibility is enabled", "是否启用口渴兼容")
-            .define("thirst.compat_enabled", true);
+        builder.push("farmersdelight").comment("农夫乐事");
+        this.cookingPotRecipesDisabled = builder
+                .comment("Whether all FarmersDelight cooking pot recipes are disabled", "是否禁用农夫乐事厨锅配方",
+                        "When enabled, all cooking pot recipes will not work")
+                .define("cooking_pot_recipes_disabled", false);
+        this.cookingPotGuiDisabled = builder
+                .comment("Whether the FarmersDelight cooking pot GUI is disabled", "是否禁用农夫乐事厨锅",
+                        "When enabled, the cooking pot GUI will not open")
+                .define("cooking_pot_gui_disabled", false);
+        this.cuttingBoardRecipesDisabled = builder
+                .comment("Whether all FarmersDelight cutting board recipes are disabled", "是否禁用农夫乐事砧板配方",
+                        "When enabled, all cutting board recipes will not work")
+                .define("cutting_board_recipes_disabled", false);
+        this.richSoilHoeEnabled = builder
+                .comment("Whether rich soil hoe tilling is enabled", "是否启用水中锄耕农夫乐事沃土功能",
+                        "When enabled, right-clicking rich soil with water above will turn it into rich soil farmland")
+                .define("hoe_enabled", true);
+        builder.pop();
 
-    private static final ModConfigSpec.BooleanValue QUARK_SICKLE_HARVEST_FIX_ENABLED = BUILDER
-            .comment("Whether Quark sickle harvest fix is enabled", "是否启用夸克兼容",
-                    "When enabled, sickle items will not trigger Quark's automatic harvest")
-            .define("quark.sickle_harvest_fix_enabled", true);
 
-    public static final ModConfigSpec SPEC = BUILDER.build();
+        builder.push("youkaisfeasts").comment("幻想乡乐事");
+        this.steamingRecipesDisabled = builder
+                .comment("Whether all Youkai's Homecoming steaming recipes are disabled", "是否禁用妖怪归家蒸笼配方",
+                        "When enabled, all steaming recipes will not work")
+                .define("steaming_recipes_disabled", false);
+        builder.pop();
 
-    public static DatapackMode datapackMode = DatapackMode.COMPAT;
-    public static boolean soupDatapackEnabled = true;
-    public static boolean lunchBagBlacklistEnabled = true;
-    public static Set<ResourceLocation> lunchBagBlacklist = new HashSet<>();
-    public static boolean transmutationLunchBagBackEnabled = true;
-    public static boolean cookingPotRecipesDisabled = false;
-    public static boolean cuttingBoardRecipesDisabled = false;
-    public static boolean richSoilHoeEnabled = true;
-    public static boolean farmAndCharmCookingPotRecipesDisabled = false;
-    public static boolean vineryBarrelRecipesDisabled = false;
-    public static boolean scarecrowRepelPhantoms = true;
-    public static boolean nourishmentEffectBlockEnabled = true;
-    public static boolean projectileDodgeTeleportEnabled = false;
-    public static int projectileDodgeDurationCost = 200;
-    public static Set<ResourceLocation> vitalityBlacklist = new HashSet<>();
-    public static boolean createCompatEnabled = true;
-    public static boolean createArmPotEnabled = true;
-    public static boolean createArmStockpotEnabled = true;
-    public static boolean createArmSteamerEnabled = true;
-    public static boolean createArmMillstoneEnabled = true;
-    public static boolean createArmShawarmaSpitEnabled = true;
-    public static boolean createArmTeapotEnabled = true;
-    public static boolean appleskinCompatEnabled = true;
-    public static boolean farmAndCharmCompatEnabled = true;
-    public static boolean jeiCompatEnabled = true;
-    public static boolean thirstCompatEnabled = true;
-    public static boolean quarkSickleHarvestFixEnabled = true;
-    public static boolean steamingRecipesDisabled = false;
-    public static boolean cookingPotGuiDisabled = false;
-    public static boolean millstoneStackingEnabled = true;
-    public static boolean spectrumCompatEnabled = true;
-    public static boolean spectrumMillstoneItemHandlerEnabled = true;
-    public static boolean spectrumBlockPlacerCompatEnabled = true;
-    public static boolean spectrumBlockBreakerCompatEnabled = true;
-    public static boolean spectrumPastelNodeCompatEnabled = true;
-    public static boolean spectrumSteamerItemHandlerEnabled = true;
-    public static boolean spectrumTrashCanItemHandlerEnabled = true;
-    public static boolean spectrumChoppingBoardItemHandlerEnabled = true;
-    public static boolean spectrumTeapotItemHandlerEnabled = true;
-    public static boolean spectrumShawarmaSpitItemHandlerEnabled = true;
-    public static boolean spectrumPotItemHandlerEnabled = true;
-    public static boolean littleMaidCompatEnabled = true;
-    public static boolean littleMaidChoppingBoardEnabled = true;
-    public static boolean littleMaidMillstoneEnabled = true;
-    public static boolean littleMaidPressingTubEnabled = true;
+
+        builder.push("farm_and_charm").comment("沉浸农艺");
+        this.farmAndCharmCookingPotRecipesDisabled = builder
+                .comment("Whether all Farm and Charm cooking pot recipes are disabled", "是否禁用沉浸农艺厨锅配方",
+                        "When enabled, all Farm and Charm cooking pot recipes will not work")
+                .define("cooking_pot_recipes_disabled", false);
+        this.farmAndCharmCompatEnabled = builder
+                .comment("Whether Farm and Charm mod compatibility is enabled", "是否启用沉浸农艺锅配方兼容")
+                .define("farm_and_charm_compat_enabled", true);
+        builder.pop();
+
+
+        builder.push("vinery").comment("葡园酒香");
+        this.vineryBarrelRecipesDisabled = builder
+                .comment("Whether all Vinery fermentation barrel recipes are disabled", "是否禁用葡园酒香酿造桶配方",
+                        "When enabled, all Vinery fermentation barrel recipes will not work")
+                .define("barrel_recipes_disabled", false);
+        builder.pop();
+
+
+        builder.push("little_maid").comment("车万女仆");
+        this.littleMaidCompatEnabled = builder
+                .comment("Whether Little Maid mod compatibility is enabled", "是否启用女仆任务拓展模块",
+                        "When disabled, all Little Maid compatibility features will not be loaded")
+                .define("little_maid_compat_enabled", true);
+        this.littleMaidChoppingBoardEnabled = builder
+                .comment("Whether Little Maid chopping board task is enabled", "是否启用女仆菜板任务",
+                        "When enabled, maids can cut ingredients on the chopping board")
+                .define("chopping_board_enabled", true);
+        this.littleMaidMillstoneEnabled = builder
+                .comment("Whether Little Maid millstone task is enabled", "是否启用女仆石磨任务",
+                        "When enabled, maids can grind ingredients on the millstone")
+                .define("millstone_enabled", true);
+        this.littleMaidPressingTubEnabled = builder
+                .comment("Whether Little Maid pressing tub task is enabled", "是否启用女仆果盘任务",
+                        "When enabled, maids can press ingredients in the pressing tub")
+                .define("pressing_tub_enabled", true);
+        builder.pop();
+
+
+        builder.push("spectrum").comment("光谱世界");
+        this.spectrumCompatEnabled = builder
+                .comment("Whether Spectrum mod compatibility is enabled", "是否启用光谱世界兼容模块",
+                        "When disabled, all Spectrum compatibility features will not be loaded")
+                .define("spectrum_compat_enabled", true);
+        this.spectrumPotItemHandlerEnabled = builder
+                .comment("Whether Spectrum pot item handler is enabled", "是否启用炒锅节点传输",
+                        "When enabled, Spectrum mod can interact with the pot via item handler")
+                .define("pot_item_handler_enabled", true);
+        this.spectrumChoppingBoardItemHandlerEnabled = builder
+                .comment("Whether Spectrum chopping board item handler is enabled", "是否启用切菜板节点传输",
+                        "When enabled, Spectrum mod can interact with the chopping board via item handler")
+                .define("chopping_board_item_handler_enabled", true);
+        this.spectrumMillstoneItemHandlerEnabled = builder
+                .comment("Whether Spectrum millstone item handler is enabled", "是否启用石磨节点传输",
+                        "When enabled, Spectrum mod can interact with the millstone via item handler")
+                .define("millstone_item_handler_enabled", true);
+        this.spectrumShawarmaSpitItemHandlerEnabled = builder
+                .comment("Whether Spectrum shawarma spit item handler is enabled", "是否启用旋风烤肉塔节点传输",
+                        "When enabled, Spectrum mod can interact with the shawarma spit via item handler")
+                .define("shawarma_spit_item_handler_enabled", true);
+        this.spectrumSteamerItemHandlerEnabled = builder
+                .comment("Whether Spectrum steamer item handler is enabled", "是否启用蒸笼节点传输",
+                        "When enabled, Spectrum mod can interact with the steamer via item handler")
+                .define("steamer_item_handler_enabled", true);
+        this.spectrumTeapotItemHandlerEnabled = builder
+                .comment("Whether Spectrum teapot item handler is enabled", "是否启用茶壶节点传输",
+                        "When enabled, Spectrum mod can interact with the teapot via item handler")
+                .define("teapot_item_handler_enabled", true);
+        this.spectrumTrashCanItemHandlerEnabled = builder
+                .comment("Whether Spectrum trash can item handler is enabled", "是否启用垃圾桶节点传输",
+                        "When enabled, Spectrum mod can interact with the trash can via item handler")
+                .define("trash_can_item_handler_enabled", true);
+        this.spectrumPastelNodeCompatEnabled = builder
+                .comment("Whether Spectrum pastel node pot oil compatibility is enabled", "是否启用节点炒锅加油",
+                        "When enabled, pastel nodes can add oil to pots")
+                .define("pastel_node_compat_enabled", true);
+        builder.pop();
+
+
+        builder.push("create").comment("机械动力");
+        this.createCompatEnabled = builder
+                .comment("Whether Create mod compatibility is enabled", "是否启用机械动力兼容模块",
+                        "When disabled, all Create compatibility features will not be loaded")
+                .define("create_compat_enabled", true);
+        this.createArmPotEnabled = builder
+                .comment("Whether Create mechanical arm pot compatibility is enabled", "是否启用机械动力动力臂炒锅兼容")
+                .define("arm_pot_enabled", true);
+        this.createArmStockpotEnabled = builder
+                .comment("Whether Create mechanical arm stockpot compatibility is enabled", "是否启用机械动力动力臂汤锅兼容")
+                .define("arm_stockpot_enabled", true);
+        this.createArmSteamerEnabled = builder
+                .comment("Whether Create mechanical arm steamer compatibility is enabled", "是否启用机械动力动力臂蒸笼兼容")
+                .define("arm_steamer_enabled", true);
+        this.createArmMillstoneEnabled = builder
+                .comment("Whether Create mechanical arm millstone compatibility is enabled", "是否启用机械动力动力臂磨盘兼容")
+                .define("arm_millstone_enabled", true);
+        this.createArmShawarmaSpitEnabled = builder
+                .comment("Whether Create mechanical arm shawarma spit compatibility is enabled", "是否启用机械动力动力臂烤肉塔兼容")
+                .define("arm_shawarma_spit_enabled", true);
+        this.createArmTeapotEnabled = builder
+                .comment("Whether Create mechanical arm teapot compatibility is enabled", "是否启用机械动力动力臂茶壶兼容")
+                .define("arm_teapot_enabled", true);
+        builder.pop();
+
+
+        builder.push("compat").comment("功能设置");
+        this.jeiCompatEnabled = builder
+                .comment("Whether JEI compatibility is enabled", "是否启用旋风烤肉塔JEI")
+                .define("jei_compat_enabled", true);
+        this.thirstCompatEnabled = builder
+                .comment("Whether Thirst mod compatibility is enabled", "是否启用口渴兼容")
+                .define("thirst_compat_enabled", true);
+        this.quarkSickleHarvestFixEnabled = builder
+                .comment("Whether Quark sickle harvest fix is enabled", "是否启用夸克兼容",
+                        "When enabled, sickle items will not trigger Quark's automatic harvest")
+                .define("quark_sickle_harvest_fix_enabled", true);
+        builder.pop();
+    }
+
+    public static DatapackMode datapackModeValue = DatapackMode.COMPAT;
+    public static boolean soupDatapackEnabledValue = true;
+    public static boolean millstoneStackingEnabledValue = true;
+    public static boolean lunchBagBlacklistEnabledValue = true;
+    public static Set<ResourceLocation> lunchBagBlacklistValue = new HashSet<>();
+    public static boolean transmutationLunchBagBackEnabledValue = true;
+    public static boolean appleskinCompatEnabledValue = true;
+    public static boolean scarecrowRepelPhantomsValue = true;
+    public static boolean nourishmentEffectBlockEnabledValue = true;
+    public static boolean projectileDodgeTeleportEnabledValue = false;
+    public static int projectileDodgeDurationCostValue = 200;
+    public static Set<ResourceLocation> vitalityBlacklistValue = new HashSet<>();
+    public static boolean cookingPotRecipesDisabledValue = false;
+    public static boolean cuttingBoardRecipesDisabledValue = false;
+    public static boolean richSoilHoeEnabledValue = true;
+    public static boolean farmAndCharmCookingPotRecipesDisabledValue = false;
+    public static boolean farmAndCharmCompatEnabledValue = true;
+    public static boolean vineryBarrelRecipesDisabledValue = false;
+    public static boolean littleMaidCompatEnabledValue = true;
+    public static boolean littleMaidChoppingBoardEnabledValue = true;
+    public static boolean littleMaidMillstoneEnabledValue = true;
+    public static boolean littleMaidPressingTubEnabledValue = true;
+    public static boolean spectrumCompatEnabledValue = true;
+    public static boolean spectrumMillstoneItemHandlerEnabledValue = true;
+    public static boolean spectrumPastelNodeCompatEnabledValue = true;
+    public static boolean spectrumSteamerItemHandlerEnabledValue = true;
+    public static boolean spectrumTrashCanItemHandlerEnabledValue = true;
+    public static boolean spectrumChoppingBoardItemHandlerEnabledValue = true;
+    public static boolean spectrumTeapotItemHandlerEnabledValue = true;
+    public static boolean spectrumShawarmaSpitItemHandlerEnabledValue = true;
+    public static boolean spectrumPotItemHandlerEnabledValue = true;
+    public static boolean createCompatEnabledValue = true;
+    public static boolean createArmPotEnabledValue = true;
+    public static boolean createArmStockpotEnabledValue = true;
+    public static boolean createArmSteamerEnabledValue = true;
+    public static boolean createArmMillstoneEnabledValue = true;
+    public static boolean createArmShawarmaSpitEnabledValue = true;
+    public static boolean createArmTeapotEnabledValue = true;
+    public static boolean jeiCompatEnabledValue = true;
+    public static boolean thirstCompatEnabledValue = true;
+    public static boolean quarkSickleHarvestFixEnabledValue = true;
+    public static boolean steamingRecipesDisabledValue = false;
+    public static boolean cookingPotGuiDisabledValue = false;
 
     @SubscribeEvent
     public static void onLoad(final ModConfigEvent event) {
-        datapackMode = DATAPACK_MODE.get();
-        soupDatapackEnabled = SOUP_DATAPACK_ENABLED.get();
-        lunchBagBlacklistEnabled = LUNCH_BAG_BLACKLIST_ENABLED.get();
-        transmutationLunchBagBackEnabled = TRANSMUTATION_LUNCH_BAG_BACK_ENABLED.get();
-        lunchBagBlacklist.clear();
-        for (String itemStr : LUNCH_BAG_BLACKLIST.get()) {
+        datapackModeValue = CONFIG.datapackMode.get();
+        soupDatapackEnabledValue = CONFIG.soupDatapackEnabled.get();
+        millstoneStackingEnabledValue = CONFIG.millstoneStackingEnabled.get();
+        lunchBagBlacklistEnabledValue = CONFIG.lunchBagBlacklistEnabled.get();
+        transmutationLunchBagBackEnabledValue = CONFIG.transmutationLunchBagBackEnabled.get();
+        appleskinCompatEnabledValue = CONFIG.appleskinCompatEnabled.get();
+        lunchBagBlacklistValue.clear();
+        for (String itemStr : CONFIG.lunchBagBlacklist.get()) {
             ResourceLocation itemId = ResourceLocation.tryParse(itemStr);
             if (itemId != null) {
-                lunchBagBlacklist.add(itemId);
+                lunchBagBlacklistValue.add(itemId);
             }
         }
-        cookingPotRecipesDisabled = COOKING_POT_RECIPES_DISABLED.get();
-        cuttingBoardRecipesDisabled = CUTTING_BOARD_RECIPES_DISABLED.get();
-        richSoilHoeEnabled = RICH_SOIL_HOE_ENABLED.get();
-        farmAndCharmCookingPotRecipesDisabled = FARM_AND_CHARM_COOKING_POT_RECIPES_DISABLED.get();
-        vineryBarrelRecipesDisabled = VINERY_BARREL_RECIPES_DISABLED.get();
-        scarecrowRepelPhantoms = SCARECROW_REPEL_PHANTOMS.get();
-        nourishmentEffectBlockEnabled = NOURISHMENT_EFFECT_BLOCK_ENABLED.get();
-        projectileDodgeTeleportEnabled = PROJECTILE_DODGE_TELEPORT_ENABLED.get();
-        projectileDodgeDurationCost = PROJECTILE_DODGE_DURATION_COST.get();
-        vitalityBlacklist.clear();
-        for (String entityStr : VITALITY_BLACKLIST.get()) {
+        scarecrowRepelPhantomsValue = CONFIG.scarecrowRepelPhantoms.get();
+        nourishmentEffectBlockEnabledValue = CONFIG.nourishmentEffectBlockEnabled.get();
+        projectileDodgeTeleportEnabledValue = CONFIG.projectileDodgeTeleportEnabled.get();
+        projectileDodgeDurationCostValue = CONFIG.projectileDodgeDurationCost.get();
+        vitalityBlacklistValue.clear();
+        for (String entityStr : CONFIG.vitalityBlacklist.get()) {
             ResourceLocation entityId = ResourceLocation.tryParse(entityStr);
             if (entityId != null) {
-                vitalityBlacklist.add(entityId);
+                vitalityBlacklistValue.add(entityId);
             }
         }
-        createCompatEnabled = CREATE_COMPAT_ENABLED.get();
-        createArmPotEnabled = CREATE_ARM_POT_ENABLED.get();
-        createArmStockpotEnabled = CREATE_ARM_STOCKPOT_ENABLED.get();
-        createArmSteamerEnabled = CREATE_ARM_STEAMER_ENABLED.get();
-        createArmMillstoneEnabled = CREATE_ARM_MILLSTONE_ENABLED.get();
-        createArmShawarmaSpitEnabled = CREATE_ARM_SHAWARMA_SPIT_ENABLED.get();
-        createArmTeapotEnabled = CREATE_ARM_TEAPOT_ENABLED.get();
-        appleskinCompatEnabled = APPLESKIN_COMPAT_ENABLED.get();
-        farmAndCharmCompatEnabled = FARM_AND_CHARM_COMPAT_ENABLED.get();
-        jeiCompatEnabled = JEI_COMPAT_ENABLED.get();
-        thirstCompatEnabled = THIRST_COMPAT_ENABLED.get();
-        quarkSickleHarvestFixEnabled = QUARK_SICKLE_HARVEST_FIX_ENABLED.get();
-        steamingRecipesDisabled = STEAMING_RECIPES_DISABLED.get();
-        cookingPotGuiDisabled = COOKING_POT_GUI_DISABLED.get();
-        millstoneStackingEnabled = MILLSTONE_STACKING_ENABLED.get();
-        spectrumCompatEnabled = SPECTRUM_COMPAT_ENABLED.get();
-        spectrumMillstoneItemHandlerEnabled = SPECTRUM_MILLSTONE_ITEM_HANDLER_ENABLED.get();
-        spectrumBlockPlacerCompatEnabled = SPECTRUM_BLOCK_PLACER_COMPAT_ENABLED.get();
-        spectrumBlockBreakerCompatEnabled = SPECTRUM_BLOCK_BREAKER_COMPAT_ENABLED.get();
-        spectrumPastelNodeCompatEnabled = SPECTRUM_PASTEL_NODE_COMPAT_ENABLED.get();
-        spectrumSteamerItemHandlerEnabled = SPECTRUM_STEAMER_ITEM_HANDLER_ENABLED.get();
-        spectrumTrashCanItemHandlerEnabled = SPECTRUM_TRASH_CAN_ITEM_HANDLER_ENABLED.get();
-        spectrumChoppingBoardItemHandlerEnabled = SPECTRUM_CHOPPING_BOARD_ITEM_HANDLER_ENABLED.get();
-        spectrumTeapotItemHandlerEnabled = SPECTRUM_TEAPOT_ITEM_HANDLER_ENABLED.get();
-        spectrumShawarmaSpitItemHandlerEnabled = SPECTRUM_SHAWARMA_SPIT_ITEM_HANDLER_ENABLED.get();
-        spectrumPotItemHandlerEnabled = SPECTRUM_POT_ITEM_HANDLER_ENABLED.get();
-        littleMaidCompatEnabled = LITTLE_MAID_COMPAT_ENABLED.get();
-        littleMaidChoppingBoardEnabled = LITTLE_MAID_CHOPPING_BOARD_ENABLED.get();
-        littleMaidMillstoneEnabled = LITTLE_MAID_MILLSTONE_ENABLED.get();
-        littleMaidPressingTubEnabled = LITTLE_MAID_PRESSING_TUB_ENABLED.get();
+        cookingPotRecipesDisabledValue = CONFIG.cookingPotRecipesDisabled.get();
+        cuttingBoardRecipesDisabledValue = CONFIG.cuttingBoardRecipesDisabled.get();
+        richSoilHoeEnabledValue = CONFIG.richSoilHoeEnabled.get();
+        farmAndCharmCookingPotRecipesDisabledValue = CONFIG.farmAndCharmCookingPotRecipesDisabled.get();
+        farmAndCharmCompatEnabledValue = CONFIG.farmAndCharmCompatEnabled.get();
+        vineryBarrelRecipesDisabledValue = CONFIG.vineryBarrelRecipesDisabled.get();
+        littleMaidCompatEnabledValue = CONFIG.littleMaidCompatEnabled.get();
+        littleMaidChoppingBoardEnabledValue = CONFIG.littleMaidChoppingBoardEnabled.get();
+        littleMaidMillstoneEnabledValue = CONFIG.littleMaidMillstoneEnabled.get();
+        littleMaidPressingTubEnabledValue = CONFIG.littleMaidPressingTubEnabled.get();
+        spectrumCompatEnabledValue = CONFIG.spectrumCompatEnabled.get();
+        spectrumMillstoneItemHandlerEnabledValue = CONFIG.spectrumMillstoneItemHandlerEnabled.get();
+        spectrumPastelNodeCompatEnabledValue = CONFIG.spectrumPastelNodeCompatEnabled.get();
+        spectrumSteamerItemHandlerEnabledValue = CONFIG.spectrumSteamerItemHandlerEnabled.get();
+        spectrumTrashCanItemHandlerEnabledValue = CONFIG.spectrumTrashCanItemHandlerEnabled.get();
+        spectrumChoppingBoardItemHandlerEnabledValue = CONFIG.spectrumChoppingBoardItemHandlerEnabled.get();
+        spectrumTeapotItemHandlerEnabledValue = CONFIG.spectrumTeapotItemHandlerEnabled.get();
+        spectrumShawarmaSpitItemHandlerEnabledValue = CONFIG.spectrumShawarmaSpitItemHandlerEnabled.get();
+        spectrumPotItemHandlerEnabledValue = CONFIG.spectrumPotItemHandlerEnabled.get();
+        createCompatEnabledValue = CONFIG.createCompatEnabled.get();
+        createArmPotEnabledValue = CONFIG.createArmPotEnabled.get();
+        createArmStockpotEnabledValue = CONFIG.createArmStockpotEnabled.get();
+        createArmSteamerEnabledValue = CONFIG.createArmSteamerEnabled.get();
+        createArmMillstoneEnabledValue = CONFIG.createArmMillstoneEnabled.get();
+        createArmShawarmaSpitEnabledValue = CONFIG.createArmShawarmaSpitEnabled.get();
+        createArmTeapotEnabledValue = CONFIG.createArmTeapotEnabled.get();
+        jeiCompatEnabledValue = CONFIG.jeiCompatEnabled.get();
+        thirstCompatEnabledValue = CONFIG.thirstCompatEnabled.get();
+        quarkSickleHarvestFixEnabledValue = CONFIG.quarkSickleHarvestFixEnabled.get();
+        steamingRecipesDisabledValue = CONFIG.steamingRecipesDisabled.get();
+        cookingPotGuiDisabledValue = CONFIG.cookingPotGuiDisabled.get();
     }
 
     private static boolean validateItemName(final Object obj) {
@@ -355,11 +416,11 @@ public class MainConfig {
     }
 
     public static boolean isItemBlacklisted(Item item) {
-        if (!lunchBagBlacklistEnabled) {
+        if (!lunchBagBlacklistEnabledValue) {
             return false;
         }
         ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(item);
-        return lunchBagBlacklist.contains(itemId);
+        return lunchBagBlacklistValue.contains(itemId);
     }
 
     private static boolean validateEntityName(final Object obj) {
@@ -376,5 +437,11 @@ public class MainConfig {
             return BuiltInRegistries.ITEM.get(itemId);
         }
         return null;
+    }
+
+    static {
+        Pair<MainConfig, ModConfigSpec> pair = new ModConfigSpec.Builder().configure(MainConfig::new);
+        CONFIG = pair.getLeft();
+        CONFIG_SPEC = pair.getRight();
     }
 }

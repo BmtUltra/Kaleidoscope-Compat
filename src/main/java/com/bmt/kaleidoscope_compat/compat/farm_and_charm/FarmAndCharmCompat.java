@@ -14,7 +14,7 @@ public class FarmAndCharmCompat {
     public static boolean IS_LOADED = false;
 
     public static void init() {
-        if (!MainConfig.farmAndCharmCompatEnabled) {
+        if (!MainConfig.farmAndCharmCompatEnabledValue) {
             return;
         }
 

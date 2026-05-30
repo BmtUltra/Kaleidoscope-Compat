@@ -18,7 +18,7 @@ public class FermentationBarrelRecipeMixin {
             cancellable = true
     )
     private void kc$interceptFermentationBarrelRecipes(FermentationBarrelRecipeInput input, Level world, CallbackInfoReturnable<Boolean> cir) {
-        if (MainConfig.vineryBarrelRecipesDisabled) {
+        if (MainConfig.vineryBarrelRecipesDisabledValue) {
             cir.setReturnValue(false);
         }
     }

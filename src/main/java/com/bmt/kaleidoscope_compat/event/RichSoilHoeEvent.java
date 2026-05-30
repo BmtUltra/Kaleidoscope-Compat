@@ -25,7 +25,7 @@ public class RichSoilHoeEvent {
 
     @SubscribeEvent
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
-        if (!MainConfig.richSoilHoeEnabled) {
+        if (!MainConfig.richSoilHoeEnabledValue) {
             return;
         }
 

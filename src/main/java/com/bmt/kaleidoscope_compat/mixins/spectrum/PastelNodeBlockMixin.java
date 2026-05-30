@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class PastelNodeBlockMixin {
     @Inject(method = "canSurvive", at = @At("HEAD"), cancellable = true)
     private void onCanSurvive(BlockState state, LevelReader world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-        if (!MainConfig.spectrumPastelNodeCompatEnabled) {
+        if (!MainConfig.spectrumPastelNodeCompatEnabledValue) {
             return;
         }
 

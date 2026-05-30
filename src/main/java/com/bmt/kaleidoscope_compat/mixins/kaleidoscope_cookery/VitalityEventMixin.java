@@ -23,10 +23,10 @@ public class VitalityEventMixin {
             cancellable = true
     )
     private static void kaleidoscopeCompat$checkBlacklist(LivingDeathEvent event, CallbackInfo ci) {
-        if (!MainConfig.vitalityBlacklist.isEmpty()) {
+        if (!MainConfig.vitalityBlacklistValue.isEmpty()) {
             Entity entity = event.getEntity();
             ResourceLocation entityId = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
-            if (MainConfig.vitalityBlacklist.contains(entityId)) {
+            if (MainConfig.vitalityBlacklistValue.contains(entityId)) {
                 ci.cancel();
             }
         }

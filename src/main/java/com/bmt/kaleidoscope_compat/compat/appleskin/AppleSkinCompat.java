@@ -15,7 +15,7 @@ public final class AppleSkinCompat {
     }
 
     public static boolean isEnabled() {
-        return MainConfig.appleskinCompatEnabled;
+        return MainConfig.appleskinCompatEnabledValue;
     }
 
     public static boolean shouldTreatAsFood(ItemStack stack, Player player) {

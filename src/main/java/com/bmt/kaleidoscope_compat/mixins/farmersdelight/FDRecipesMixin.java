@@ -22,7 +22,7 @@ public class FDRecipesMixin {
             remap = false
     )
     private void kc$interceptJEICookingPotRecipes(CallbackInfoReturnable<List<RecipeHolder<CookingPotRecipe>>> cir) {
-        if (MainConfig.cookingPotRecipesDisabled) {
+        if (MainConfig.cookingPotRecipesDisabledValue) {
             cir.setReturnValue(List.of());
         }
     }
@@ -34,7 +34,7 @@ public class FDRecipesMixin {
             remap = false
     )
     private void kc$interceptJEICuttingBoardRecipes(CallbackInfoReturnable<List<RecipeHolder<CuttingBoardRecipe>>> cir) {
-        if (MainConfig.cuttingBoardRecipesDisabled) {
+        if (MainConfig.cuttingBoardRecipesDisabledValue) {
             cir.setReturnValue(List.of());
         }
     }

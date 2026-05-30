@@ -9,18 +9,18 @@ public class CreateCompat {
     public static boolean IS_LOADED = false;
 
     public static void init(IEventBus modEventBus) {
-        if (!MainConfig.createCompatEnabled) {
+        if (!MainConfig.createCompatEnabledValue) {
             return;
         }
 
         ModList.get().getModContainerById(ID).ifPresent(modContainer -> {
             IS_LOADED = true;
-            if (MainConfig.createArmPotEnabled) {CreatePotArmCompat.init(modEventBus);}
-            if (MainConfig.createArmStockpotEnabled) {CreateStockpotArmCompat.init(modEventBus);}
-            if (MainConfig.createArmSteamerEnabled) {CreateSteamerArmCompat.init(modEventBus);}
-            if (MainConfig.createArmMillstoneEnabled) {CreateMillstoneArmCompat.init(modEventBus);}
-            if (MainConfig.createArmShawarmaSpitEnabled) {CreateShawarmaSpitArmCompat.init(modEventBus);}
-            if (MainConfig.createArmTeapotEnabled) {CreateTeapotArmCompat.init(modEventBus);}
+            if (MainConfig.createArmPotEnabledValue) {CreatePotArmCompat.init(modEventBus);}
+            if (MainConfig.createArmStockpotEnabledValue) {CreateStockpotArmCompat.init(modEventBus);}
+            if (MainConfig.createArmSteamerEnabledValue) {CreateSteamerArmCompat.init(modEventBus);}
+            if (MainConfig.createArmMillstoneEnabledValue) {CreateMillstoneArmCompat.init(modEventBus);}
+            if (MainConfig.createArmShawarmaSpitEnabledValue) {CreateShawarmaSpitArmCompat.init(modEventBus);}
+            if (MainConfig.createArmTeapotEnabledValue) {CreateTeapotArmCompat.init(modEventBus);}
         });
     }
 }

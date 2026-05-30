@@ -18,7 +18,7 @@ public class CookingPotRecipeMixin {
             cancellable = true
     )
     private void kc$interceptCookingPotRecipes(RecipeWrapper inv, Level level, CallbackInfoReturnable<Boolean> cir) {
-        if (MainConfig.cookingPotRecipesDisabled) {
+        if (MainConfig.cookingPotRecipesDisabledValue) {
             cir.setReturnValue(false);
         }
     }
