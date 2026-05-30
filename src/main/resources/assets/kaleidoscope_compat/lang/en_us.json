@@ -75,5 +75,12 @@
   "kaleidoscope_compat.configuration.compat": "Other Settings",
   "kaleidoscope_compat.configuration.jei_compat_enabled": "JEI Compat",
   "kaleidoscope_compat.configuration.thirst_compat_enabled": "Thirst Compat",
-  "kaleidoscope_compat.configuration.quark_sickle_harvest_fix_enabled": "Quark Sickle Fix"
+  "kaleidoscope_compat.configuration.quark_sickle_harvest_fix_enabled": "Quark Sickle Fix",
+
+  "task.kaleidoscope_compat.chopping_board": "Chopping Board",
+  "task.kaleidoscope_compat.chopping_board.desc": "The maid will find a nearby chopping board and cut ingredients",
+  "task.kaleidoscope_compat.millstone": "Millstone",
+  "task.kaleidoscope_compat.millstone.desc": "The maid will find a nearby millstone to grind ingredients",
+  "task.kaleidoscope_compat.pressing_tub": "Pressing Tub",
+  "task.kaleidoscope_compat.pressing_tub.desc": "The maid will find a nearby pressing tub, add ingredients, jump to press, and collect the product with a bucket"
 }

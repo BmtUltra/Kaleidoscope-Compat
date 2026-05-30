@@ -75,5 +75,12 @@
   "kaleidoscope_compat.configuration.compat": "其它设置",
   "kaleidoscope_compat.configuration.jei_compat_enabled": "JEI兼容",
   "kaleidoscope_compat.configuration.thirst_compat_enabled": "口渴兼容",
-  "kaleidoscope_compat.configuration.quark_sickle_harvest_fix_enabled": "夸克镰刀修复"
+  "kaleidoscope_compat.configuration.quark_sickle_harvest_fix_enabled": "夸克镰刀修复",
+
+  "task.kaleidoscope_compat.chopping_board": "切菜",
+  "task.kaleidoscope_compat.chopping_board.desc": "女仆会寻找周围的菜板，然后切菜",
+  "task.kaleidoscope_compat.millstone": "石磨",
+  "task.kaleidoscope_compat.millstone.desc": "女仆会寻找周围的石磨",
+  "task.kaleidoscope_compat.pressing_tub": "果盘",
+  "task.kaleidoscope_compat.pressing_tub.desc": "女仆会寻找周围的果盘，放入原料跳踩压榨，并用桶接取产物"
 }
