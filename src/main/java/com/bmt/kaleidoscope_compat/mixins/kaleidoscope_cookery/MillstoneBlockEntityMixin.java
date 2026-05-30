@@ -1,6 +1,7 @@
 package com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery;
 
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.MillstoneBlockEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -66,6 +67,23 @@ public abstract class MillstoneBlockEntityMixin {
                 world.sendBlockUpdated(blockEntityAccessor.getWorldPosition(), state, state, Block.UPDATE_ALL);
             }
             cir.setReturnValue(true);
+        }
+    }
+
+    @Inject(method = "canBindEntity", at = @At("HEAD"), cancellable = true)
+    private void onCanBindEntity(Mob mob, CallbackInfoReturnable<Boolean> cir) {
+        String className = mob.getClass().getName();
+        if ("com.github.tartaricacid.touhoulittlemaid.entity.passive.EntityMaid".equals(className)) {
+            try {
+                Object task = mob.getClass().getMethod("getTask").invoke(mob);
+                String uid = task.getClass().getMethod("getUid").invoke(task).toString();
+                if (uid.contains("millstone")) {
+                    cir.setReturnValue(true);
+                } else {
+                    cir.setReturnValue(false);
+                }
+            } catch (Exception ignored) {
+            }
         }
     }
 }

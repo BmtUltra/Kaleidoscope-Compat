@@ -60,7 +60,6 @@
     "spectrum.BlockPlacerBlockMixin",
     "spectrum.PastelNodeBlockEntityMixin",
     "spectrum.PastelNodeBlockMixin",
-    "touhoulittlemaid.MillstoneBlockEntityMixin",
     "vinery.FermentationBarrelRecipeMixin",
     "vinery.RecipeManagerMixin",
     "youkaisfeasts.RackItemDataMixin",
