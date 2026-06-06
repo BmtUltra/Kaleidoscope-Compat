@@ -21,7 +21,8 @@ public class CookingPotCompatMixin {
     private static void onTransformRecipe(RecipeHolder<CookingPotRecipe> holder, Level level, CallbackInfoReturnable<RecipeHolder<StockpotRecipe>> cir) {
         RecipeHolder<StockpotRecipe> original = cir.getReturnValue();
         ResourceLocation newId = ResourceLocation.fromNamespaceAndPath(
-                KALEIDOSCOPE_COOKERY_MOD_ID, holder.id().getPath()
+                KALEIDOSCOPE_COOKERY_MOD_ID,
+                "integration/" + holder.id().getNamespace() + "/" + holder.id().getPath()
         );
         cir.setReturnValue(new RecipeHolder<>(newId, original.value()));
     }
