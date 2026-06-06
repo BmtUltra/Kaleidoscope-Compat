@@ -1,0 +1,25 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "carrier": {
+    "tag": "forge:cooked_rice"
+  },
+  "ingredients": [
+    {
+      "tag": "c:foods/raw_eel"
+    },
+    {
+      "tag": "c:foods/raw_eel"
+    },
+    {
+      "tag": "c:crops/rice"
+    },
+    {
+      "item": "youkaisfeasts:soy_sauce_bottle"
+    }
+  ],
+  "result": {
+    "id": "youkaisfeasts:grilled_eel_over_rice"
+  },
+  "stir_fry_count": 3,
+  "time": 200
+}

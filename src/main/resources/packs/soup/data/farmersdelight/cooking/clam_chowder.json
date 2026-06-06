@@ -6,26 +6,19 @@
   "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_white",
   "ingredients": [
     {
-      "item": "kaleidoscope_cookery:raw_meatball"
+      "item": "crabbersdelight:raw_clam_meat"
     },
     {
-      "item": "kaleidoscope_cookery:raw_meatball"
+      "tag": "c:crops/onion"
     },
     {
-      "item": "kaleidoscope_cookery:raw_meatball"
+      "item": "minecraft:potato"
     },
     {
-      "item": "kaleidoscope_cookery:raw_meatball"
-    },
-    {
-      "tag": "c:crops/lettuce"
-    },
-    {
-      "tag": "c:crops/lettuce"
+      "tag": "c:foods/milk"
     }
   ],
   "result": {
-    "count": 3,
-    "id": "kaleidoscope_cookery:beef_meatball_soup"
+    "id": "crabbersdelight:clam_chowder"
   }
 }

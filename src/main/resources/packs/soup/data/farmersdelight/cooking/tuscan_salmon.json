@@ -1,0 +1,25 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "carrier": {
+    "item": "minecraft:bowl"
+  },
+  "ingredients": [
+    {
+      "tag": "c:foods/raw_salmon"
+    },
+    {
+      "tag": "c:crops/tomato"
+    },
+    {
+      "tag": "c:crops/cabbage"
+    },
+    {
+      "item": "youkaisfeasts:bowl_of_cream"
+    }
+  ],
+  "result": {
+    "id": "youkaisfeasts:tuscan_salmon"
+  },
+  "stir_fry_count": 3,
+  "time": 200
+}

@@ -1,0 +1,35 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "carrier": {
+    "item": "minecraft:chest"
+  },
+  "cooking_bubble_color": 16772291,
+  "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+  "finished_bubble_color": 15651223,
+  "finished_texture": "kaleidoscope_cookery:stockpot/rice_moshroom",
+  "ingredients": [
+    {
+      "item": "minecraft:red_mushroom"
+    },
+    {
+      "item": "minecraft:red_mushroom"
+    },
+    {
+      "item": "minecraft:honey_bottle"
+    },
+    {
+      "item": "youkaisfeasts:bowl_of_cream"
+    },
+    {
+      "item": "youkaisfeasts:udumbara_flower"
+    },
+    {
+      "item": "minecraft:purple_banner"
+    }
+  ],
+  "result": {
+    "id": "youkaisfeasts:chest_of_heart_throbbing_surprise"
+  },
+  "soup_base": "minecraft:water",
+  "time": 300
+}

@@ -75,6 +75,7 @@ public class MainConfig {
     public final ModConfigSpec.BooleanValue jeiCompatEnabled;
     public final ModConfigSpec.BooleanValue thirstCompatEnabled;
     public final ModConfigSpec.BooleanValue quarkSickleHarvestFixEnabled;
+    public final ModConfigSpec.BooleanValue suppressTagLoadErrors;
 
     private MainConfig(ModConfigSpec.Builder builder) {
         builder.push("datapack").comment("数据包设置");
@@ -302,6 +303,10 @@ public class MainConfig {
                 .comment("Whether Quark sickle harvest fix is enabled", "是否启用夸克兼容",
                         "When enabled, sickle items will not trigger Quark's automatic harvest")
                 .define("quark_sickle_harvest_fix_enabled", true);
+        this.suppressTagLoadErrors = builder
+                .comment("Whether to suppress tag file loading error logs", "是否禁用错误日志",
+                        "When enabled, tag file loading errors (e.g., empty tag files) will not be logged")
+                .define("suppress_tag_load_errors", false);
         builder.pop();
     }
 
@@ -348,6 +353,7 @@ public class MainConfig {
     public static boolean quarkSickleHarvestFixEnabledValue = true;
     public static boolean steamingRecipesDisabledValue = false;
     public static boolean cookingPotGuiDisabledValue = false;
+    public static boolean suppressTagLoadErrorsValue = true;
 
     @SubscribeEvent
     public static void onLoad(final ModConfigEvent event) {
@@ -406,6 +412,7 @@ public class MainConfig {
         quarkSickleHarvestFixEnabledValue = CONFIG.quarkSickleHarvestFixEnabled.get();
         steamingRecipesDisabledValue = CONFIG.steamingRecipesDisabled.get();
         cookingPotGuiDisabledValue = CONFIG.cookingPotGuiDisabled.get();
+        suppressTagLoadErrorsValue = CONFIG.suppressTagLoadErrors.get();
     }
 
     private static boolean validateItemName(final Object obj) {

@@ -6,19 +6,22 @@
   "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_orange",
   "ingredients": [
     {
-      "item": "farmersdelight:pumpkin_slice"
+      "tag": "crabbersdelight:raw_seafood"
     },
     {
-      "tag": "c:crops/cabbage"
+      "tag": "c:crops/onion"
     },
     {
-      "tag": "c:foods/raw_pork"
+      "tag": "c:crops/rice"
     },
     {
-      "tag": "c:drinks/milk"
+      "item": "minecraft:carrot"
+    },
+    {
+      "tag": "c:foods/milk"
     }
   ],
   "result": {
-    "id": "farmersdelight:pumpkin_soup"
+    "id": "crabbersdelight:bisque"
   }
 }

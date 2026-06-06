@@ -15,7 +15,8 @@ public class CookingPotScreenMixin {
     @Inject(method = "init", at = @At("HEAD"), cancellable = true)
     private void onInit(CallbackInfo ci) {
         if (MainConfig.cookingPotGuiDisabledValue) {
-            if (Minecraft.getInstance().player != null) {Minecraft.getInstance().player.closeContainer();
+            if (Minecraft.getInstance().player != null) {
+                Minecraft.getInstance().player.closeContainer();
             }
             Minecraft.getInstance().setScreen(null);
             ci.cancel();
