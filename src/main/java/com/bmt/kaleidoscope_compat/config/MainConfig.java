@@ -219,7 +219,7 @@ public class MainConfig {
                         "When enabled, maids can grind ingredients on the millstone")
                 .define("millstone_enabled", true);
         this.littleMaidPressingTubEnabled = builder
-                .comment("Whether Little Maid pressing tub task is enabled", "是否启用女仆果盘任务",
+                .comment("Whether Little Maid pressing tub task is enabled", "是否启用女仆果盆任务",
                         "When enabled, maids can press ingredients in the pressing tub")
                 .define("pressing_tub_enabled", true);
         builder.pop();

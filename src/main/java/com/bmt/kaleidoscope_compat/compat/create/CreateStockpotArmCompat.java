@@ -1,7 +1,7 @@
 package com.bmt.kaleidoscope_compat.compat.create;
 
 import com.bmt.kaleidoscope_compat.KaleidoscopeCompat;
-import com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery.StockpotBlockEntityAccessor;
+import com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery.accessor.StockpotBlockEntityAccessor;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.blockentity.IStockpot;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.StockpotBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.StockpotBlockEntity;

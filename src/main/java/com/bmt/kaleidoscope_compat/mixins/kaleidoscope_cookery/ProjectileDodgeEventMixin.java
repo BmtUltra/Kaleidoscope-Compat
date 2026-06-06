@@ -1,6 +1,7 @@
 package com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery;
 
 import com.bmt.kaleidoscope_compat.config.MainConfig;
+import com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery.accessor.MobEffectInstanceAccessor;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.ProjectileDodgeEvent;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModEffects;
 import net.minecraft.world.effect.MobEffectInstance;

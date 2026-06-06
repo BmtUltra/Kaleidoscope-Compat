@@ -1,5 +1,7 @@
 package com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery;
 
+import com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery.accessor.BlockEntityAccessor;
+import com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery.accessor.MillstoneBlockEntityAccessor;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.MillstoneBlockEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;

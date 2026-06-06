@@ -1,5 +1,6 @@
 package com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery;
 
+import com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery.accessor.TeapotBlockEntityAccessor;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.TeapotBlockEntity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;

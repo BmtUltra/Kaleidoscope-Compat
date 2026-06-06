@@ -1,4 +1,4 @@
-package com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery;
+package com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery.accessor;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;

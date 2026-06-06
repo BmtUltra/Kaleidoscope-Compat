@@ -1,7 +1,7 @@
 package com.bmt.kaleidoscope_compat.mixins.spectrum;
 
 import com.bmt.kaleidoscope_compat.config.MainConfig;
-import com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery.PotBlockEntityAccessor;
+import com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery.accessor.PotBlockEntityAccessor;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.PotBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.PotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.container.SimpleInput;

@@ -1,6 +1,6 @@
 package com.bmt.kaleidoscope_compat.compat.spectrum;
 
-import com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery.TeapotBlockEntityAccessor;
+import com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery.accessor.TeapotBlockEntityAccessor;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.blockentity.ITeapot;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.TeapotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.serializer.TeapotRecipeSerializer;

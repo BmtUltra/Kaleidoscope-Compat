@@ -1,4 +1,4 @@
-package com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery;
+package com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery.accessor;
 
 import net.minecraft.world.effect.MobEffectInstance;
 import org.spongepowered.asm.mixin.Mixin;
