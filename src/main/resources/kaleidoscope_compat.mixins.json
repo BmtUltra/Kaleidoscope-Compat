@@ -37,7 +37,7 @@
     "kaleidoscope_cookery.ProjectileDodgeEventMixin",
     "kaleidoscope_cookery.RecipeItemStockpotMixin",
     "kaleidoscope_cookery.RecipeItemTeapotMixin",
-    "kaleidoscope_cookery.RegistryMixin",
+    "kaleidoscope_cookery.InitMixin",
     "kaleidoscope_cookery.SickleItemMixin",
     "kaleidoscope_cookery.SteamerRecipeCategoryMixin",
     "kaleidoscope_cookery.SteamerRecipeMixin",
