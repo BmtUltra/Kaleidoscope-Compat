@@ -18,7 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.client.ICurioRenderer;
 
-public class StrawHatCurioRenderer extends StrawHatModel implements ICurioRenderer {
+public class StrawHatRenderer extends StrawHatModel implements ICurioRenderer {
 
     private static final ResourceLocation STRAW_HAT_TEXTURE =
             ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID,
@@ -28,7 +28,7 @@ public class StrawHatCurioRenderer extends StrawHatModel implements ICurioRender
             ResourceLocation.fromNamespaceAndPath(KaleidoscopeCookery.MOD_ID,
                     "textures/models/armor/straw_hat_flower.png");
 
-    public StrawHatCurioRenderer(ModelPart root) {
+    public StrawHatRenderer(ModelPart root) {
         super(root);
     }
 

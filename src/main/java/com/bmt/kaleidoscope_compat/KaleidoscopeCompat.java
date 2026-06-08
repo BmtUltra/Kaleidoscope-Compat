@@ -4,7 +4,6 @@ import com.bmt.kaleidoscope_compat.compat.create.CreateCompat;
 import com.bmt.kaleidoscope_compat.compat.farm_and_charm.FarmAndCharmCompat;
 import com.bmt.kaleidoscope_compat.compat.spectrum.SpectrumCompat;
 import com.bmt.kaleidoscope_compat.compat.touhoulittlemaid.LittleMaidCompat;
-import com.bmt.kaleidoscope_compat.compat.vinery.VineryBarrelCompatMain;
 import com.bmt.kaleidoscope_compat.config.MainConfig;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -25,7 +24,6 @@ public class KaleidoscopeCompat {
         CreateCompat.init(modEventBus);
         SpectrumCompat.init(modEventBus);
         FarmAndCharmCompat.init();
-        VineryBarrelCompatMain.init();
         LittleMaidCompat.init();
     }
 }

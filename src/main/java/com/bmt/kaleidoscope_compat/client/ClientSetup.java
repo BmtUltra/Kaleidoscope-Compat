@@ -36,7 +36,7 @@ public class ClientSetup {
     private static void registerCurioRenderers() {
         try {
             Class<?> curiosRendererRegistryClass = Class.forName("top.theillusivec4.curios.api.client.CuriosRendererRegistry");
-            Class<?> strawHatCurioRendererClass = Class.forName("com.bmt.kaleidoscope_compat.client.renderer.StrawHatCurioRenderer");
+            Class<?> strawHatCurioRendererClass = Class.forName("com.bmt.kaleidoscope_compat.client.renderer.StrawHatRenderer");
             Method registerMethod = curiosRendererRegistryClass.getMethod("register",
                     net.minecraft.world.item.Item.class, java.util.function.Supplier.class);
 
