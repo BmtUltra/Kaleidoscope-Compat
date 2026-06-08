@@ -1,8 +1,8 @@
-package com.bmt.kaleidoscope_compat.compat.create;
+package com.bmt.kaleidoscope_compat.compat.create.arm;
 
 import com.bmt.kaleidoscope_compat.KaleidoscopeCompat;
+import com.bmt.kaleidoscope_compat.compat.create.PotArmAutomation;
 import com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery.accessor.PotBlockEntityAccessor;
-import com.bmt.kaleidoscope_compat.util.TagUtil;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.blockentity.IPot;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.PotBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.PotBlockEntity;
@@ -30,7 +30,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
-public class CreatePotArmCompat {
+public class CreatePotArm {
     private static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCompat.MOD_ID, "pot");
     private static final int PUT_INGREDIENT_TIME = 60 * 20;
     private static boolean initialized;
@@ -39,7 +39,7 @@ public class CreatePotArmCompat {
         if (initialized) {
             return;
         }
-        modEventBus.addListener(CreatePotArmCompat::register);
+        modEventBus.addListener(CreatePotArm::register);
         initialized = true;
     }
 
@@ -154,7 +154,7 @@ public class CreatePotArmCompat {
                 return remainder;
             }
 
-            if (stack.is(TagMod.OIL) || stack.is(TagUtil.Items.BOTTLE_OIL) || stack.is(TagUtil.Items.BUCKET_OIL)) {
+            if (stack.is(TagMod.OIL)) {
                 Item containerItem = ItemUtils.getContainerItem(stack);
                 if (containerItem != Items.AIR) {
                     if (stack.getCount() != 1) {

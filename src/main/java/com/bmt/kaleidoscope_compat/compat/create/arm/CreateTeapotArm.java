@@ -1,4 +1,4 @@
-package com.bmt.kaleidoscope_compat.compat.create;
+package com.bmt.kaleidoscope_compat.compat.create.arm;
 
 import com.bmt.kaleidoscope_compat.KaleidoscopeCompat;
 import com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery.accessor.TeapotBlockEntityAccessor;
@@ -30,7 +30,7 @@ import net.neoforged.neoforge.registries.RegisterEvent;
 
 import java.util.Optional;
 
-public class CreateTeapotArmCompat {
+public class CreateTeapotArm {
     private static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCompat.MOD_ID, "teapot");
     private static boolean initialized;
 
@@ -38,7 +38,7 @@ public class CreateTeapotArmCompat {
         if (initialized) {
             return;
         }
-        modEventBus.addListener(CreateTeapotArmCompat::register);
+        modEventBus.addListener(CreateTeapotArm::register);
         initialized = true;
     }
 

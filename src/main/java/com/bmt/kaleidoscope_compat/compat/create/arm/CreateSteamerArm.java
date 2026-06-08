@@ -1,4 +1,4 @@
-package com.bmt.kaleidoscope_compat.compat.create;
+package com.bmt.kaleidoscope_compat.compat.create.arm;
 
 import com.bmt.kaleidoscope_compat.KaleidoscopeCompat;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.SteamerBlock;
@@ -21,7 +21,7 @@ import net.neoforged.neoforge.registries.RegisterEvent;
 
 import java.util.Optional;
 
-public class CreateSteamerArmCompat {
+public class CreateSteamerArm {
     private static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCompat.MOD_ID, "steamer");
     private static boolean initialized;
 
@@ -29,7 +29,7 @@ public class CreateSteamerArmCompat {
         if (initialized) {
             return;
         }
-        modEventBus.addListener(CreateSteamerArmCompat::register);
+        modEventBus.addListener(CreateSteamerArm::register);
         initialized = true;
     }
 

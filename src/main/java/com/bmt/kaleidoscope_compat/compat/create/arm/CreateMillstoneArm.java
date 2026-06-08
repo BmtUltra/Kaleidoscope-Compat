@@ -1,4 +1,4 @@
-package com.bmt.kaleidoscope_compat.compat.create;
+package com.bmt.kaleidoscope_compat.compat.create.arm;
 
 import com.bmt.kaleidoscope_compat.KaleidoscopeCompat;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.MillstoneBlockEntity;
@@ -21,7 +21,7 @@ import net.neoforged.neoforge.registries.RegisterEvent;
 
 import java.util.Optional;
 
-public class CreateMillstoneArmCompat {
+public class CreateMillstoneArm {
     private static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCompat.MOD_ID, "millstone");
     private static final int MAX_INPUT_COUNT = 8;
     private static boolean initialized;
@@ -30,7 +30,7 @@ public class CreateMillstoneArmCompat {
         if (initialized) {
             return;
         }
-        modEventBus.addListener(CreateMillstoneArmCompat::register);
+        modEventBus.addListener(CreateMillstoneArm::register);
         initialized = true;
     }
 

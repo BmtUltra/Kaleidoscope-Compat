@@ -1,4 +1,4 @@
-package com.bmt.kaleidoscope_compat.compat.create;
+package com.bmt.kaleidoscope_compat.compat.create.arm;
 
 import com.bmt.kaleidoscope_compat.KaleidoscopeCompat;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.ShawarmaSpitBlock;
@@ -19,7 +19,7 @@ import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
-public class CreateShawarmaSpitArmCompat {
+public class CreateShawarmaSpitArm {
     private static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCompat.MOD_ID, "shawarma_spit");
     private static final int MAX_ITEMS = 8;
     private static boolean initialized;
@@ -28,7 +28,7 @@ public class CreateShawarmaSpitArmCompat {
         if (initialized) {
             return;
         }
-        modEventBus.addListener(CreateShawarmaSpitArmCompat::register);
+        modEventBus.addListener(CreateShawarmaSpitArm::register);
         initialized = true;
     }
 

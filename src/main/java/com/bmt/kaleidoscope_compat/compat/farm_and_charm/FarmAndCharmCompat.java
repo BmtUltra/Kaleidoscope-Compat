@@ -10,22 +10,18 @@ import net.neoforged.neoforge.common.NeoForge;
 import java.util.List;
 
 public class FarmAndCharmCompat {
-    public static final String ID = "farm_and_charm";
-    public static boolean IS_LOADED = false;
-
     public static void init() {
         if (!MainConfig.farmAndCharmCompatEnabledValue) {
             return;
         }
 
-        ModList.get().getModContainerById(ID).ifPresent(modContainer -> {
-            IS_LOADED = true;
+        ModList.get().getModContainerById("farm_and_charm").ifPresent(modContainer -> {
             NeoForge.EVENT_BUS.addListener(CookingPotCompat::afterStockpotRecipeMatch);
         });
     }
 
     public static void getTransformRecipeForJei(Level level, List<RecipeHolder<StockpotRecipe>> recipes) {
-        if (IS_LOADED) {
+        if (ModList.get().isLoaded("farm_and_charm")) {
             CookingPotCompat.getTransformRecipeForJei(level, recipes);
         }
     }

@@ -33,10 +33,6 @@ public class AdvanceBlockMatchToolMixin {
         if (this.slot != EquipmentSlot.HEAD) {
             return;
         }
-        if (!CuriosIntegration.isLoaded()) {
-            return;
-        }
-
         if (context.hasParam(LootContextParams.THIS_ENTITY)) {
             Entity entity = context.getParam(LootContextParams.THIS_ENTITY);
             if (entity instanceof LivingEntity livingEntity) {

@@ -13,8 +13,6 @@ public class TagUtil {
         public static final TagKey<Item> SMALL_BOTTLE = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_tavern", "small_bottle"));
         public static final TagKey<Item> LARGE_BOTTLE = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_tavern", "large_bottle"));
         public static final TagKey<Item> WINE = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("youkaisfeasts", "wine"));
-        public static final TagKey<Item> BOTTLE_OIL = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_cookery", "bottle_oil"));
-        public static final TagKey<Item> BUCKET_OIL = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_cookery", "bucket_oil"));
         public static final TagKey<Item> SCALE_DOWN_IN_CABINET = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_tavern", "scale_down_in_cabinet"));
         public static final TagKey<Item> POT_INPUT_RECIPE = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_cookery", "pot_input_recipe"));
         public static final TagKey<Item> POT_OUTPUT_RECIPE = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_cookery", "pot_output_recipe"));
