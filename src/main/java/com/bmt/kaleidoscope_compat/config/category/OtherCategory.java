@@ -14,18 +14,6 @@ import com.teamresourceful.resourcefulconfig.api.types.options.EntryType;
         links = {
                 @ConfigInfo.Link(
                         value = "https://github.com/your-repo/kaleidoscope-compat",
-                        icon = "curseforge",
-                        text = "CurseForge",
-                        textTranslation = "config.kaleidoscope_compat.links.curseforge"
-                ),
-                @ConfigInfo.Link(
-                        value = "https://github.com/your-repo/kaleidoscope-compat",
-                        icon = "modrinth",
-                        text = "Modrinth",
-                        textTranslation = "config.kaleidoscope_compat.links.modrinth"
-                ),
-                @ConfigInfo.Link(
-                        value = "https://github.com/your-repo/kaleidoscope-compat",
                         icon = "clipboard_list",
                         text = "GitHub",
                         textTranslation = "config.kaleidoscope_compat.links.github"
