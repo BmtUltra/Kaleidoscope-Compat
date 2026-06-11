@@ -139,6 +139,7 @@
   "config.kaleidoscope_compat.kitchen.effect.vitality.blacklist": "生机效果黑名单",
   "config.kaleidoscope_compat.kitchen.effect.vitality.blacklist.comment": "不受生机效果影响的实体",
 
+  "config.kaleidoscope_compat.category.farmersdelight.description": "农夫乐事相关功能的设置",
   "config.kaleidoscope_compat.farmersdelight.cooking_pot_recipes_disabled": "禁用厨锅配方",
   "config.kaleidoscope_compat.farmersdelight.cooking_pot_gui_disabled": "禁用厨锅",
   "config.kaleidoscope_compat.farmersdelight.cutting_board_recipes_disabled": "禁用砧板配方",
@@ -181,7 +182,7 @@
 
 
   "config.kaleidoscope_compat.category.create.description": "机械动力模组的兼容设置",
-  "config.kaleidoscope_compat.category.farmersdelight.description": "农夫乐事模组的兼容设置",
+
   "config.kaleidoscope_compat.category.youkaisfeasts.description": "幻想乡乐事模组的兼容设置",
   "config.kaleidoscope_compat.category.farm_and_charm.description": "沉浸农艺模组的兼容设置",
   "config.kaleidoscope_compat.category.vinery.description": "葡园酒香模组的兼容设置",

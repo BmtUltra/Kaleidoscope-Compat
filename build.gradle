@@ -201,6 +201,12 @@ dependencies {
     runtimeOnly "maven.modrinth:touhou-little-maid:1.5.3-neoforge+mc1.21.1"
     runtimeOnly "maven.modrinth:patchouli:1.21.1-93-neoforge"
     implementation "maven.modrinth:resourceful-config:3.0.11"
+    jarJar("maven.modrinth:resourceful-config:3.0.11") {
+        version {
+            strictly "[3.0.11,)"
+            prefer "3.0.11"
+        }
+    }
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {

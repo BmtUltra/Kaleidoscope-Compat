@@ -10,7 +10,27 @@ import com.teamresourceful.resourcefulconfig.api.types.options.EntryType;
 @ConfigInfo(
         titleTranslation = "config.kaleidoscope_compat.category.spectrum",
         descriptionTranslation = "config.kaleidoscope_compat.category.spectrum.description",
-        icon = "sparkles"
+        icon = "sparkles",
+links = {
+@ConfigInfo.Link(
+        value = "https://github.com/your-repo/kaleidoscope-compat",
+        icon = "curseforge",
+        text = "CurseForge",
+        textTranslation = "config.kaleidoscope_compat.links.curseforge"
+),
+@ConfigInfo.Link(
+        value = "https://github.com/your-repo/kaleidoscope-compat",
+        icon = "modrinth",
+        text = "Modrinth",
+        textTranslation = "config.kaleidoscope_compat.links.modrinth"
+),
+@ConfigInfo.Link(
+        value = "https://github.com/your-repo/kaleidoscope-compat",
+        icon = "clipboard_list",
+        text = "GitHub",
+        textTranslation = "config.kaleidoscope_compat.links.github"
+)
+        }
 )
 public final class SpectrumCategory {
 

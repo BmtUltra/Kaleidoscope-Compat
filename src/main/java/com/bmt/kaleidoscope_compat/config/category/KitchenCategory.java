@@ -18,19 +18,19 @@ import com.teamresourceful.resourcefulconfig.api.types.options.EntryType;
         icon = "utensils",
 links = {
 @ConfigInfo.Link(
-        value = "https://github.com/your-repo/kaleidoscope-compat",
+        value = "https://www.curseforge.com/minecraft/mc-mods/kaleidoscope-cookery",
         icon = "curseforge",
         text = "CurseForge",
         textTranslation = "config.kaleidoscope_compat.links.curseforge"
 ),
 @ConfigInfo.Link(
-        value = "https://github.com/your-repo/kaleidoscope-compat",
+        value = "https://modrinth.com/mod/kaleidoscope-cookery",
         icon = "modrinth",
         text = "Modrinth",
         textTranslation = "config.kaleidoscope_compat.links.modrinth"
 ),
 @ConfigInfo.Link(
-        value = "https://github.com/your-repo/kaleidoscope-compat",
+        value = "https://github.com/KaleidoscopeMods/KaleidoscopeCookery",
         icon = "clipboard_list",
         text = "GitHub",
         textTranslation = "config.kaleidoscope_compat.links.github"
