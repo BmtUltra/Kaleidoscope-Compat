@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "item": "create:wheat_flour"
+    }
+  ],
+  "processingTime": 50,
+  "results": [
+    {
+      "id": "kaleidoscope_cookery:flour"
+    }
+  ]
+}

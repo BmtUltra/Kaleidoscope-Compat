@@ -1,0 +1,30 @@
+{
+  "type": "bakeries:blender",
+  "ingredients": [
+    {
+      "tag": "c:flour"
+    },
+    {
+      "tag": "c:flour"
+    },
+    {
+      "tag": "c:flour"
+    },
+    {
+      "tag": "c:flour"
+    },
+    {
+      "item": "minecraft:water_bucket"
+    },
+    {
+      "item": "bakeries:bottle_yeast"
+    },
+    {
+      "tag": "c:salt"
+    }
+  ],
+  "output": {
+    "count": 1,
+    "id": "bakeries:salted_dough"
+  }
+}

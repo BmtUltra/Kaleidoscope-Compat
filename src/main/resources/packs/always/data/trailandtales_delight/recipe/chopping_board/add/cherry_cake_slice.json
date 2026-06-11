@@ -1,0 +1,12 @@
+{
+  "type": "kaleidoscope_cookery:chopping_board",
+  "cut_count": 2,
+  "ingredient": {
+    "item": "trailandtales_delight:cherry_cake"
+  },
+  "model_id": "kaleidoscope_compat:trailandtales_delight/cherry_cake",
+  "result": {
+    "count": 4,
+    "id": "trailandtales_delight:cherry_cake_slice"
+  }
+}

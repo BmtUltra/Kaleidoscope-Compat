@@ -1,0 +1,22 @@
+{
+  "type": "farm_and_charm:stove",
+  "ingredients": [
+    {
+      "tag": "farm_and_charm:pasta"
+    },
+    {
+      "tag": "c:foods/raw_chicken"
+    },
+    {
+      "tag": "candlelight:all_effects"
+    }
+  ],
+  "result": {
+    "id": "candlelight:chicken_alfredo",
+    "count": 2
+  },
+  "experience": 0.5,
+  "requiresLearning": false
+}
+
+

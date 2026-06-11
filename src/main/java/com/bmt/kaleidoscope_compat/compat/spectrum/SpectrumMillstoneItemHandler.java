@@ -47,7 +47,13 @@ public class SpectrumMillstoneItemHandler {
             if (slot == 0) {
                 return millstone.getInput();
             } else if (slot == 1) {
-                return millstone.getOutput();
+                for (int i = 0; i < millstone.getOutputs().getSlots(); i++) {
+                    ItemStack stack = millstone.getOutputs().getStackInSlot(i);
+                    if (!stack.isEmpty()) {
+                        return stack;
+                    }
+                }
+                return ItemStack.EMPTY;
             }
             return ItemStack.EMPTY;
         }
@@ -59,7 +65,7 @@ public class SpectrumMillstoneItemHandler {
                 return stack;
             }
 
-            if (!millstone.getOutput().isEmpty()) {
+            if (!millstone.isOutputEmpty()) {
                 return stack;
             }
 
@@ -90,7 +96,17 @@ public class SpectrumMillstoneItemHandler {
                 return ItemStack.EMPTY;
             }
 
-            ItemStack output = millstone.getOutput();
+            ItemStack output = ItemStack.EMPTY;
+            int outputSlot = -1;
+            for (int i = 0; i < millstone.getOutputs().getSlots(); i++) {
+                ItemStack stack = millstone.getOutputs().getStackInSlot(i);
+                if (!stack.isEmpty()) {
+                    output = stack;
+                    outputSlot = i;
+                    break;
+                }
+            }
+
             if (output.isEmpty()) {
                 return ItemStack.EMPTY;
             }
@@ -101,6 +117,9 @@ public class SpectrumMillstoneItemHandler {
             if (!simulate) {
                 output.shrink(extractAmount);
                 if (output.isEmpty()) {
+                    millstone.getOutputs().extractItem(outputSlot, 1, false);
+                }
+                if (millstone.isOutputEmpty()) {
                     millstone.resetWhenTakeout();
                 }
             }

@@ -1,0 +1,10 @@
+{
+  "type": "kaleidoscope_cookery:millstone",
+  "ingredient": {
+    "item": "farmersdelight:rice_panicle"
+  },
+  "result": {
+    "count": 3,
+    "id": "farmersdelight:rice"
+  }
+}

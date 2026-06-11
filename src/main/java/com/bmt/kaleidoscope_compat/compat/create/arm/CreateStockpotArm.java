@@ -6,9 +6,12 @@ import com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery.accessor.Stockpot
 import com.github.ysbbbbbb.kaleidoscopecookery.api.blockentity.IStockpot;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.StockpotBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.StockpotBlockEntity;
+import com.github.ysbbbbbb.kaleidoscopecookery.crafting.container.StockpotInput;
+import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.StockpotRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.serializer.StockpotRecipeSerializer;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.soupbase.SoupBaseManager;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.ModRecipes;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModSoupBases;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.RecipeItem;
@@ -26,10 +29,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.RegisterEvent;
+import org.spongepowered.asm.mixin.Unique;
 
 public class CreateStockpotArm {
     private static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCompat.MOD_ID, "stockpot");
@@ -118,7 +124,7 @@ public class CreateStockpotArm {
             }
 
             if (!stockpot.hasLid() && stockpot.getStatus() == IStockpot.FINISHED
-                    && stockpot.recipe.value().carrier().isEmpty() && !stockpot.getResult().isEmpty()
+                    && getCarrier(stockpot).isEmpty() && !stockpot.getResult().isEmpty()
                     && stockpot.getTakeoutCount() > 0) {
                 int extractCount = amount > 0 ? Math.min(amount, stockpot.getTakeoutCount()) : stockpot.getTakeoutCount();
                 ItemStack result = stockpot.getResult().copyWithCount(extractCount);
@@ -143,12 +149,33 @@ public class CreateStockpotArm {
             }
 
             if (!stockpot.hasLid() && stockpot.getStatus() == IStockpot.FINISHED
-                    && stockpot.recipe.value().carrier().isEmpty() && !stockpot.getResult().isEmpty()
+                    && getCarrier(stockpot).isEmpty() && !stockpot.getResult().isEmpty()
                     && stockpot.getTakeoutCount() > 0) {
                 return 1;
             }
 
             return 0;
+        }
+
+        @Unique
+        private Ingredient getCarrier(StockpotBlockEntity stockpot) {
+            StockpotBlockEntityAccessor accessor = (StockpotBlockEntityAccessor) stockpot;
+            ResourceLocation recipeId = accessor.kaleidoscopeCompat$getRecipeId();
+            if (recipeId == null || recipeId.equals(StockpotRecipeSerializer.EMPTY_ID)) {
+                return Ingredient.EMPTY;
+            }
+
+            RecipeManager recipeManager = level.getRecipeManager();
+            RecipeHolder<StockpotRecipe> recipeHolder = recipeManager.getRecipeFor(
+                    ModRecipes.STOCKPOT_RECIPE,
+                    new StockpotInput(stockpot.getInputs(), accessor.kaleidoscopeCompat$getSoupBaseId()),
+                    level
+            ).orElse(null);
+
+            if (recipeHolder != null) {
+                return recipeHolder.value().carrier();
+            }
+            return Ingredient.EMPTY;
         }
 
         private ItemStack tryInsertSoupBase(StockpotBlockEntity stockpot, ItemStack stack, boolean simulate) {
@@ -233,7 +260,7 @@ public class CreateStockpotArm {
                 return stack;
             }
 
-            Ingredient carrier = stockpot.recipe.value().carrier();
+            Ingredient carrier = getCarrier(stockpot);
             if (carrier.isEmpty() || !carrier.test(stack)) {
                 return stack;
             }
@@ -272,7 +299,6 @@ public class CreateStockpotArm {
 
             stockpot.setStatus(IStockpot.PUT_SOUP_BASE);
             stockpot.getInputs().clear();
-            stockpot.recipe = StockpotRecipeSerializer.getEmptyRecipe();
             accessor.kaleidoscopeCompat$setRecipeId(StockpotRecipeSerializer.EMPTY_ID);
             accessor.kaleidoscopeCompat$setSoupBaseId(ModSoupBases.WATER);
             accessor.kaleidoscopeCompat$setResult(ItemStack.EMPTY);

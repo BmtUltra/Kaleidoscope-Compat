@@ -24,15 +24,20 @@ public class MillstoneRecipeCategoryMixin {
             MillstoneRecipe recipe = holder.value();
             boolean shouldFilter = false;
 
-            for (ItemStack input : recipe.getIngredient().getItems()) {
+            for (ItemStack input : recipe.ingredient().getItems()) {
                 if (input.is(TagUtil.Items.MILLSTONE_INPUT_RECIPE)) {
                     shouldFilter = true;
                     break;
                 }
             }
 
-            if (!shouldFilter && recipe.getResult().is(TagUtil.Items.MILLSTONE_OUTPUT_RECIPE)) {
-                shouldFilter = true;
+            if (!shouldFilter) {
+                for (var output : recipe.results()) {
+                    if (output.stack().is(TagUtil.Items.MILLSTONE_OUTPUT_RECIPE)) {
+                        shouldFilter = true;
+                        break;
+                    }
+                }
             }
 
             if (!shouldFilter) {

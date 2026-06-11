@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    [
+      {
+        "tag": "c:crops/tomato"
+      },
+      {
+        "item": "farmersdelight:rotten_tomato"
+      }
+    ]
+  ],
+  "result": {
+    "count": 1,
+    "id": "farmersdelight:tomato_seeds"
+  }
+}

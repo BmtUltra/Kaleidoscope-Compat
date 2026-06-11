@@ -1,0 +1,10 @@
+{
+  "type": "bakeries:flour_sieve",
+  "ingredient": {
+    "tag": "c:flours/wheat"
+  },
+  "output": {
+    "count": 1,
+    "id": "kaleidoscope_cookery:flour"
+  }
+}

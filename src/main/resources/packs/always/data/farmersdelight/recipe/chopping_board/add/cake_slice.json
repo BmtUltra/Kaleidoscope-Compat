@@ -1,0 +1,12 @@
+{
+  "type": "kaleidoscope_cookery:chopping_board",
+  "cut_count": 2,
+  "ingredient": {
+    "item": "minecraft:cake"
+  },
+  "model_id": "kaleidoscope_compat:farmersdelight/cake",
+  "result": {
+    "count": 7,
+    "id": "farmersdelight:cake_slice"
+  }
+}

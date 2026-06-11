@@ -1,0 +1,12 @@
+{
+  "type": "kaleidoscope_cookery:chopping_board",
+  "cut_count": 2,
+  "ingredient": {
+    "item": "farmersdelight:chocolate_pie"
+  },
+  "model_id": "kaleidoscope_compat:farmersdelight/chocolate_pie",
+  "result": {
+    "count": 4,
+    "id": "farmersdelight:chocolate_pie_slice"
+  }
+}

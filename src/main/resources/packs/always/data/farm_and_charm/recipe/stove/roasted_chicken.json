@@ -1,0 +1,20 @@
+{
+  "type": "farm_and_charm:stove",
+  "ingredients": [
+    {
+      "tag": "farm_and_charm:pasta"
+    },
+    {
+      "tag": "c:foods/raw_chicken"
+    },
+    {
+      "item": "minecraft:carrot"
+    }
+  ],
+  "result": {
+    "id": "farm_and_charm:roasted_chicken",
+    "count": 3
+  },
+  "experience": 0.3,
+  "requiresLearning": false
+}

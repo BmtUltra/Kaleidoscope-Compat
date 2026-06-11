@@ -1,0 +1,8 @@
+{
+  "values": [
+    {
+      "id":"farm_and_charm:lettuce",
+      "required":false
+    }
+  ]
+}

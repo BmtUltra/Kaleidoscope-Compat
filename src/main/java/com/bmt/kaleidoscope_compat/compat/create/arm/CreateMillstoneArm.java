@@ -2,8 +2,8 @@ package com.bmt.kaleidoscope_compat.compat.create.arm;
 
 import com.bmt.kaleidoscope_compat.KaleidoscopeCompat;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.MillstoneBlockEntity;
+import com.github.ysbbbbbb.kaleidoscopecookery.crafting.container.SimpleInput;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.MillstoneRecipe;
-import com.github.ysbbbbbb.kaleidoscopecookery.init.ModRecipes;
 import com.simibubi.create.api.registry.CreateBuiltInRegistries;
 import com.simibubi.create.content.kinetics.mechanicalArm.AllArmInteractionPointTypes.TopFaceArmInteractionPoint;
 import com.simibubi.create.content.kinetics.mechanicalArm.ArmBlockEntity;
@@ -13,12 +13,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
+import java.util.List;
 import java.util.Optional;
 
 public class CreateMillstoneArm {
@@ -61,17 +61,14 @@ public class CreateMillstoneArm {
         @Override
         public ItemStack insert(ArmBlockEntity armBlockEntity, ItemStack stack, boolean simulate) {
             MillstoneBlockEntity millstone = getMillstone();
-            if (millstone == null || stack.isEmpty() || !millstone.getInput().isEmpty() || !millstone.getOutput().isEmpty()) {
+            if (millstone == null || stack.isEmpty() || !millstone.getInput().isEmpty() || !millstone.isOutputEmpty()) {
                 return stack;
             }
 
             int insertCount = Math.min(stack.getCount(), MAX_INPUT_COUNT);
             ItemStack toInsert = stack.copyWithCount(insertCount);
-            Optional<RecipeHolder<MillstoneRecipe>> recipe = level.getRecipeManager().getRecipeFor(
-                    ModRecipes.MILLSTONE_RECIPE,
-                    new SingleRecipeInput(toInsert),
-                    level
-            );
+            SimpleInput simpleInput = new SimpleInput(List.of(toInsert));
+            Optional<RecipeHolder<MillstoneRecipe>> recipe = millstone.matchRecipe(simpleInput, level);
             if (recipe.isEmpty()) {
                 return stack;
             }
@@ -88,11 +85,11 @@ public class CreateMillstoneArm {
         @Override
         public ItemStack extract(ArmBlockEntity armBlockEntity, int slot, int amount, boolean simulate) {
             MillstoneBlockEntity millstone = getMillstone();
-            if (millstone == null || slot != 0 || millstone.getOutput().isEmpty()) {
+            if (millstone == null || slot != 0 || millstone.isOutputEmpty()) {
                 return ItemStack.EMPTY;
             }
 
-            ItemStack result = millstone.getOutput().copy();
+            ItemStack result = millstone.getOutputs().getStackInSlot(0).copy();
             if (!simulate) {
                 millstone.resetWhenTakeout();
             }
@@ -102,7 +99,7 @@ public class CreateMillstoneArm {
         @Override
         public int getSlotCount(ArmBlockEntity armBlockEntity) {
             MillstoneBlockEntity millstone = getMillstone();
-            return millstone != null && !millstone.getOutput().isEmpty() ? 1 : 0;
+            return millstone != null && !millstone.isOutputEmpty() ? 1 : 0;
         }
 
         private MillstoneBlockEntity getMillstone() {

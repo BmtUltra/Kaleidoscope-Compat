@@ -1,0 +1,25 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "create"
+    }
+  ],
+  "type": "create:milling",
+  "ingredients": [
+    {
+      "item": "kaleidoscope_cookery:rice_panicle"
+    }
+  ],
+  "results": [
+    {
+      "id": "kaleidoscope_cookery:rice",
+      "count": 1
+    },
+    {
+      "id": "farmersdelight:straw",
+      "count": 1
+    }
+  ],
+  "processing_time": 50
+}

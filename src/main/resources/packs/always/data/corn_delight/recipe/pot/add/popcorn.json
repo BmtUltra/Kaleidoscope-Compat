@@ -1,0 +1,11 @@
+{
+  "type": "kaleidoscope_cookery:pot",
+  "ingredients": [
+    {
+      "item": "corn_delight:corn_seeds"
+    }
+  ],
+  "result": {
+    "id": "corn_delight:popcorn"
+  }
+}

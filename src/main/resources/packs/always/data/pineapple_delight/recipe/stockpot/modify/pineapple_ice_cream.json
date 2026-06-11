@@ -1,0 +1,28 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+      "carrier": {
+    "item": "minecraft:glass_bottle"
+  },
+  "ingredients": [
+    {
+      "item": "pineapple_delight:pineapple_side"
+    },
+    {
+      "item": "pineapple_delight:pineapple_side"
+    },
+    {
+      "tag": "c:foods/milk"
+    },
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "item": "minecraft:snowball"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "pineapple_delight:pineapple_ice_cream"
+  },
+  "soup_base": "minecraft:milk"
+}

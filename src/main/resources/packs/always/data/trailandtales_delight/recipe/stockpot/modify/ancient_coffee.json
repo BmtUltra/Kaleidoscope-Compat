@@ -1,0 +1,20 @@
+{
+  "type": "kaleidoscope_cookery:stockpot",
+  "carrier": {
+    "item": "minecraft:glass_bottle"
+  },
+  "ingredients": [
+    {
+      "item": "trailandtales_delight:baked_torchflower_seeds"
+    },
+    {
+      "item": "trailandtales_delight:baked_pitcher_pod"
+    },
+    {
+      "item": "minecraft:sugar"
+    }
+  ],
+  "result": {
+    "id": "trailandtales_delight:ancient_coffee"
+  }
+}

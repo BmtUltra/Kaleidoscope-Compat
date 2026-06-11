@@ -1,0 +1,36 @@
+{
+  "type": "bakeries:blender",
+  "ingredients": [
+    {
+      "tag": "c:flour"
+    },
+    {
+      "tag": "c:flour"
+    },
+    {
+      "tag": "c:flour"
+    },
+    {
+      "item": "bakeries:cocoa_powder"
+    },
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "tag": "c:foods/milk"
+    },
+    {
+      "item": "bakeries:bottle_yeast"
+    },
+    {
+      "tag": "c:salt"
+    },
+    {
+      "tag": "c:butter"
+    }
+  ],
+  "output": {
+    "count": 1,
+    "id": "bakeries:cocoa_dough"
+  }
+}

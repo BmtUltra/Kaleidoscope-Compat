@@ -4,6 +4,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.api.event.StockpotMatchRecipeEven
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.StockpotRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.serializer.StockpotRecipeSerializer;
 import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
@@ -47,10 +48,10 @@ public class CookingPotCompat {
 
     @SubscribeEvent
     static void afterStockpotRecipeMatch(StockpotMatchRecipeEvent.Post event) {
-        RecipeHolder<StockpotRecipe> rawOutput = event.getRawOutput();
+        ResourceLocation rawOutput = event.getRawOutput();
         RecipeManager recipeManager = event.getLevel().getRecipeManager();
 
-        if (rawOutput.id() != StockpotRecipeSerializer.EMPTY_ID) {
+        if (rawOutput != StockpotRecipeSerializer.EMPTY_ID) {
             return;
         }
 

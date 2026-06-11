@@ -145,14 +145,16 @@ public abstract class RecipeItemTeapotMixin {
             TeapotRecipe teapotRecipe = recipe.value();
             ItemStack resultItem = teapotRecipe.assemble(container, level.registryAccess());
             setRecipe(recordStack, new RecipeItem.RecipeRecord(
-                    List.of(input.copy()), 
+                    List.of(input.copy()),
                     resultItem,
-                    kaleidoscope_Compat_1_21_1_NeoForge$TEAPOT
+                    kaleidoscope_Compat_1_21_1_NeoForge$TEAPOT,
+                    false  // 新增的 boolean 参数
             ));
         }, () -> setRecipe(recordStack, new RecipeItem.RecipeRecord(
                 List.of(input.copy()),
                 input.copy(),
-                kaleidoscope_Compat_1_21_1_NeoForge$TEAPOT
+                kaleidoscope_Compat_1_21_1_NeoForge$TEAPOT,
+                false  // 新增的 boolean 参数
         )));
         player.setItemInHand(hand, recordStack);
         return InteractionResult.SUCCESS;

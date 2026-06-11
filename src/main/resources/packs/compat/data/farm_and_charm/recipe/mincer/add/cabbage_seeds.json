@@ -1,0 +1,11 @@
+{
+  "type": "farm_and_charm:mincer",
+  "ingredient": {
+    "item": "farmersdelight:cabbage"
+  },
+  "recipe_type": "MEAT",
+  "result": {
+    "id": "farmersdelight:cabbage_seeds",
+    "count": 4
+  }
+}

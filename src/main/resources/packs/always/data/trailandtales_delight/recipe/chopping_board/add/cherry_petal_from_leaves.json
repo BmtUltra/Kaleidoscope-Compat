@@ -1,0 +1,12 @@
+{
+  "type": "kaleidoscope_cookery:chopping_board",
+  "cut_count": 0,
+  "ingredient": {
+    "item": "minecraft:pink_petals"
+  },
+  "model_id": "kaleidoscope_compat:trailandtales_delight/cherry_petal_from_petals",
+  "result": {
+    "count": 1,
+    "id": "trailandtales_delight:cherry_petal"
+  }
+}

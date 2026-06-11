@@ -1,0 +1,8 @@
+{
+  "values": [
+    {
+      "id":"bakeries:flour",
+      "required":false
+    }
+  ]
+}

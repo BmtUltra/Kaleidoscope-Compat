@@ -1,7 +1,0 @@
-{
-  "type": "kaleidoscope_tavern:pressing_tub",
-  "fluid": "kaleidoscope_tavern:green_grape_juice",
-  "ingredient": {
-    "tag": "vinery:white_grape"
-  }
-}

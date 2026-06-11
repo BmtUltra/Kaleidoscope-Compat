@@ -11,8 +11,14 @@ import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.StockpotBlock
 @Mixin(StockpotBlockEntity.class)
 public interface StockpotBlockEntityAccessor {
     @Accessor("recipeId")
+    ResourceLocation kaleidoscopeCompat$getRecipeId();
+
+    @Accessor("recipeId")
     @Mutable
     void kaleidoscopeCompat$setRecipeId(ResourceLocation recipeId);
+
+    @Accessor("soupBaseId")
+    ResourceLocation kaleidoscopeCompat$getSoupBaseId();
 
     @Accessor("soupBaseId")
     @Mutable

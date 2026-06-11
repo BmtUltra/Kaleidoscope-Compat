@@ -24,6 +24,7 @@ public class TagUtil {
         public static final TagKey<Item> STEAMER_OUTPUT_RECIPE = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_cookery", "steamer_output_recipe"));
         public static final TagKey<Item> STOCKPOT_INPUT_RECIPE = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_cookery", "stockpot_input_recipe"));
         public static final TagKey<Item> STOCKPOT_OUTPUT_RECIPE = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_cookery", "stockpot_output_recipe"));
+        public static final TagKey<Item> ONLY_STOCKPOT_OUTPUT_RECIPE = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_cookery", "only_stockpot_output_recipe"));
         public static final TagKey<Item> TEAPOT_INPUT_RECIPE = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_cookery", "teapot_input_recipe"));
         public static final TagKey<Item> TEAPOT_OUTPUT_RECIPE = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_cookery", "teapot_output_recipe"));
         public static final TagKey<Item> UNITED = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_cookery", "united"));
