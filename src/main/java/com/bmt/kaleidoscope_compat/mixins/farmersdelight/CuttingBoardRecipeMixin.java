@@ -18,7 +18,7 @@ public class CuttingBoardRecipeMixin {
             cancellable = true
     )
     private void kc$interceptCuttingBoardRecipes(CuttingBoardRecipeInput input, Level level, CallbackInfoReturnable<Boolean> cir) {
-        if (MainConfig.cuttingBoardRecipesDisabledValue) {
+        if (MainConfig.cuttingBoardRecipesDisabled) {
             cir.setReturnValue(false);
         }
     }

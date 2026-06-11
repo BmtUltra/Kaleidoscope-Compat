@@ -28,7 +28,7 @@ public class SimpleHarvestEventMixin {
             SimpleHarvestEvent.ActionType originalActionType,
             CallbackInfo ci
     ) {
-        if (!MainConfig.quarkSickleHarvestFixEnabledValue) return;
+        if (!MainConfig.quarkSickleHarvestFixEnabled) return;
 
         if (entity instanceof Player player && hand != null) {
             ItemStack heldItem = player.getItemInHand(hand);

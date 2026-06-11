@@ -26,7 +26,7 @@ public class ProjectileDodgeEventMixin {
             cancellable = true
     )
     private static void kaleidoscopeCompat$disableTeleport(ProjectileImpactEvent event, CallbackInfo ci) {
-        if (!MainConfig.projectileDodgeTeleportEnabledValue) {
+        if (!MainConfig.projectileDodgeTeleportEnabled) {
             HitResult hit = event.getRayTraceResult();
             if (hit instanceof EntityHitResult hitResult
                     && hitResult.getEntity() instanceof LivingEntity living
@@ -35,7 +35,7 @@ public class ProjectileDodgeEventMixin {
                 MobEffectInstance instance = living.getEffect(ModEffects.PROJECTILE_DODGE);
                 if (instance != null && !instance.isInfiniteDuration()) {
                     MobEffectInstanceAccessor accessor = (MobEffectInstanceAccessor) instance;
-                    int newDuration = accessor.getDuration() - MainConfig.projectileDodgeDurationCostValue;
+                    int newDuration = accessor.getDuration() - MainConfig.projectileDodgeDurationCost;
                     if (newDuration <= 0) {
                         living.removeEffect(ModEffects.PROJECTILE_DODGE);
                     } else {

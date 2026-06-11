@@ -11,7 +11,7 @@ import java.util.List;
 
 public class FarmAndCharmCompat {
     public static void init() {
-        if (!MainConfig.farmAndCharmCompatEnabledValue) {
+        if (!MainConfig.farmAndCharmCompatEnabled) {
             return;
         }
 

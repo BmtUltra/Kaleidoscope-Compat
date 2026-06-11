@@ -18,7 +18,7 @@ public class TagLoaderMixin {
             )
     )
     private void onTagLoadError(Logger logger, String message, Object[] args) {
-        if (!MainConfig.suppressTagLoadErrorsValue) {
+        if (!MainConfig.suppressTagLoadErrors) {
             logger.error(message, args);
         }
     }

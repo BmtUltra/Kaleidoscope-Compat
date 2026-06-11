@@ -41,7 +41,7 @@ public abstract class MillstoneBlockEntityMixin {
         }
 
         if (accessor.getProgress() > 0 && !accessor.getInput().isEmpty()) {
-            if (!com.bmt.kaleidoscope_compat.config.MainConfig.millstoneStackingEnabledValue) {
+            if (!com.bmt.kaleidoscope_compat.config.MainConfig.millstoneStackingEnabled) {
                 cir.setReturnValue(false);
                 return;
             }

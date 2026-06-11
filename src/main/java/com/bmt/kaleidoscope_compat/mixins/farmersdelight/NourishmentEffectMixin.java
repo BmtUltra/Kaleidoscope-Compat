@@ -24,7 +24,7 @@ public abstract class NourishmentEffectMixin extends MobEffect {
             cancellable = true
     )
     public void onApplyEffectTick(LivingEntity entity, int amplifier, CallbackInfoReturnable<Boolean> cir) {
-        if (!MainConfig.nourishmentEffectBlockEnabledValue) {
+        if (!MainConfig.nourishmentEffectBlockEnabled) {
             return;
         }
 

@@ -28,7 +28,7 @@ public class PastelNodeBlockEntityMixin {
 
     @Inject(method = "getTransferFilterTo", at = @At("HEAD"), cancellable = true)
     private void onGetTransferFilterTo(PastelNodeBlockEntity other, CallbackInfoReturnable<Predicate<ItemStack>> cir) {
-        if (!MainConfig.spectrumPotItemHandlerEnabledValue) {
+        if (!MainConfig.spectrumPotItemHandlerEnabled) {
             return;
         }
 

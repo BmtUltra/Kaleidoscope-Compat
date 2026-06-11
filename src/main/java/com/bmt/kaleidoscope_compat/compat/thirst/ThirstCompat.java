@@ -48,7 +48,7 @@ public class ThirstCompat {
 
     @SubscribeEvent
     public static void onCommonSetup(FMLCommonSetupEvent event) {
-        if (!ModList.get().isLoaded("thirst") || !MainConfig.thirstCompatEnabledValue) {
+        if (!ModList.get().isLoaded("thirst") || !MainConfig.thirstCompatEnabled) {
             return;
         }
         event.enqueueWork(ThirstCompat::registerItems);

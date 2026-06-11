@@ -45,7 +45,7 @@ public class Plugins implements IModPlugin {
 
     @Override
     public void registerCategories(@NotNull IRecipeCategoryRegistration registration) {
-        if (!MainConfig.jeiCompatEnabledValue) return;
+        if (!MainConfig.jeiCompatEnabled) return;
         registration.addRecipeCategories(
                 new WhirlwindBarbecueCategory(registration.getJeiHelpers().getGuiHelper())
         );
@@ -53,13 +53,13 @@ public class Plugins implements IModPlugin {
 
     @Override
     public void registerRecipes(@NotNull IRecipeRegistration registration) {
-        if (!MainConfig.jeiCompatEnabledValue) return;
+        if (!MainConfig.jeiCompatEnabled) return;
         registerBarbecueRecipes(registration);
     }
 
     @Override
     public void registerRecipeCatalysts(@NotNull IRecipeCatalystRegistration registration) {
-        if (!MainConfig.jeiCompatEnabledValue) return;
+        if (!MainConfig.jeiCompatEnabled) return;
         registration.addRecipeCatalyst(
                 new ItemStack(ModBlocks.SHAWARMA_SPIT.get()),
                 WhirlwindBarbecueCategory.RECIPE_TYPE
@@ -68,13 +68,13 @@ public class Plugins implements IModPlugin {
 
     @Override
     public void registerAdvanced(@NotNull IAdvancedRegistration registration) {
-        if (!MainConfig.jeiCompatEnabledValue) return;
+        if (!MainConfig.jeiCompatEnabled) return;
         registration.addRecipeManagerPlugin(new RecipeHiding());
     }
 
     @Override
     public void onRuntimeAvailable(@NotNull IJeiRuntime jeiRuntime) {
-        if (!MainConfig.jeiCompatEnabledValue) return;
+        if (!MainConfig.jeiCompatEnabled) return;
         this.jeiRuntime = jeiRuntime;
         updateHiddenItems();
         hideTaggedItems();

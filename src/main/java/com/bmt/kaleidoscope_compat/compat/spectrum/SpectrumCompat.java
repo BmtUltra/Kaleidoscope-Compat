@@ -6,18 +6,18 @@ import net.neoforged.fml.ModList;
 
 public class SpectrumCompat {
     public static void init(IEventBus modEventBus) {
-        if (!MainConfig.spectrumCompatEnabledValue) {
+        if (!MainConfig.spectrumCompatEnabled) {
             return;
         }
         ModList.get().getModContainerById("spectrum").ifPresent(modContainer -> {
-            if (MainConfig.spectrumPastelNodeCompatEnabledValue) {
-                if (MainConfig.spectrumMillstoneItemHandlerEnabledValue) {SpectrumMillstoneItemHandler.init(modEventBus);}
-                if (MainConfig.spectrumShawarmaSpitItemHandlerEnabledValue) {SpectrumShawarmaSpitItemHandler.init(modEventBus);}
-                if (MainConfig.spectrumPotItemHandlerEnabledValue) {SpectrumPotItemHandler.init(modEventBus);}
-                if (MainConfig.spectrumSteamerItemHandlerEnabledValue) {SpectrumSteamerItemHandler.init(modEventBus);}
-                if (MainConfig.spectrumTrashCanItemHandlerEnabledValue) {SpectrumTrashCanItemHandler.init(modEventBus);}
-                if (MainConfig.spectrumChoppingBoardItemHandlerEnabledValue) {SpectrumChoppingBoardItemHandler.init(modEventBus);}
-                if (MainConfig.spectrumTeapotItemHandlerEnabledValue) {SpectrumTeapotItemHandler.init(modEventBus);}
+            if (MainConfig.spectrumPastelNodeCompatEnabled) {
+                if (MainConfig.spectrumMillstoneItemHandlerEnabled) {SpectrumMillstoneItemHandler.init(modEventBus);}
+                if (MainConfig.spectrumShawarmaSpitItemHandlerEnabled) {SpectrumShawarmaSpitItemHandler.init(modEventBus);}
+                if (MainConfig.spectrumPotItemHandlerEnabled) {SpectrumPotItemHandler.init(modEventBus);}
+                if (MainConfig.spectrumSteamerItemHandlerEnabled) {SpectrumSteamerItemHandler.init(modEventBus);}
+                if (MainConfig.spectrumTrashCanItemHandlerEnabled) {SpectrumTrashCanItemHandler.init(modEventBus);}
+                if (MainConfig.spectrumChoppingBoardItemHandlerEnabled) {SpectrumChoppingBoardItemHandler.init(modEventBus);}
+                if (MainConfig.spectrumTeapotItemHandlerEnabled) {SpectrumTeapotItemHandler.init(modEventBus);}
             }
         });
     }

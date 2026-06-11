@@ -44,7 +44,7 @@ public abstract class TransmutationLunchBagItemMixin {
             cancellable = true
     )
     public void kaleidoscopeCompat$finishUsingItem(ItemStack bag, Level level, LivingEntity entity, CallbackInfoReturnable<ItemStack> cir) {
-        if (!MainConfig.transmutationLunchBagBackEnabledValue) {
+        if (!MainConfig.transmutationLunchBagBackEnabled) {
             return;
         }
 

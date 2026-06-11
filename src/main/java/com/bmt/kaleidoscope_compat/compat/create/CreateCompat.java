@@ -7,21 +7,21 @@ import net.neoforged.fml.ModList;
 
 public class CreateCompat {
     public static void init(IEventBus modEventBus) {
-        if (!MainConfig.createCompatEnabledValue) {
+        if (!MainConfig.createCompatEnabled) {
             return;
         }
         ModList.get().getModContainerById("create").ifPresent(modContainer -> {
-            if (MainConfig.createArmPotEnabledValue) {
+            if (MainConfig.createArmPotEnabled) {
                 CreatePotArm.init(modEventBus);}
-            if (MainConfig.createArmStockpotEnabledValue) {
+            if (MainConfig.createArmStockpotEnabled) {
                 CreateStockpotArm.init(modEventBus);}
-            if (MainConfig.createArmSteamerEnabledValue) {
+            if (MainConfig.createArmSteamerEnabled) {
                 CreateSteamerArm.init(modEventBus);}
-            if (MainConfig.createArmMillstoneEnabledValue) {
+            if (MainConfig.createArmMillstoneEnabled) {
                 CreateMillstoneArm.init(modEventBus);}
-            if (MainConfig.createArmShawarmaSpitEnabledValue) {
+            if (MainConfig.createArmShawarmaSpitEnabled) {
                 CreateShawarmaSpitArm.init(modEventBus);}
-            if (MainConfig.createArmTeapotEnabledValue) {
+            if (MainConfig.createArmTeapotEnabled) {
                 CreateTeapotArm.init(modEventBus);}
         });
     }

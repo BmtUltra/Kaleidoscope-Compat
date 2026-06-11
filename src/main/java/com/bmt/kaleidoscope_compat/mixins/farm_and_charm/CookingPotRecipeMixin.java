@@ -18,7 +18,7 @@ public class CookingPotRecipeMixin {
             cancellable = true
     )
     private void kc$interceptFarmAndCharmCookingPotRecipes(RecipeInput recipeInput, Level level, CallbackInfoReturnable<Boolean> cir) {
-        if (MainConfig.farmAndCharmCookingPotRecipesDisabledValue) {
+        if (MainConfig.farmAndCharmCookingPotRecipesDisabled) {
             cir.setReturnValue(false);
         }
     }

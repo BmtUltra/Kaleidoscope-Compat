@@ -18,42 +18,42 @@ public class DatapackLoader {
     @SubscribeEvent
     public static void onDatapackLoad(AddPackFindersEvent event) {
         if (event.getPackType() == PackType.SERVER_DATA) {
-            if (MainConfig.datapackModeValue == DatapackMode.NONE) {
-                if (MainConfig.soupDatapackEnabledValue) {
+            if (MainConfig.datapackMode == DatapackMode.NONE) {
+                if (MainConfig.soupDatapackEnabled) {
                     addDatapack(event, "soup");
                 }
                 return;
             }
             addDatapack(event, "always");
 
-            String mainPackName = switch (MainConfig.datapackModeValue) {
+            String mainPackName = switch (MainConfig.datapackMode) {
                 case COMPAT -> "compat";
                 case UNITE -> "unite";
-                default -> throw new IllegalStateException("Unexpected value: " + MainConfig.datapackModeValue);
+                default -> throw new IllegalStateException("Unexpected value: " + MainConfig.datapackMode);
             };
             addDatapack(event, mainPackName);
 
-            if (MainConfig.soupDatapackEnabledValue) {
+            if (MainConfig.soupDatapackEnabled) {
                 addDatapack(event, "soup");
             }
 
-            if (MainConfig.cookingPotRecipesDisabledValue) {
+            if (MainConfig.cookingPotRecipesDisabled) {
                 addDatapack(event, "disable_farmersdelight_cooking_pot");
             }
-            if (MainConfig.cuttingBoardRecipesDisabledValue) {
+            if (MainConfig.cuttingBoardRecipesDisabled) {
                 addDatapack(event, "disable_farmersdelight_cutting_board");
             }
-            if (MainConfig.farmAndCharmCookingPotRecipesDisabledValue) {
+            if (MainConfig.farmAndCharmCookingPotRecipesDisabled) {
                 addDatapack(event, "disable_farm_and_charm_cooking_pot");
             }
-            if (MainConfig.vineryBarrelRecipesDisabledValue) {
+            if (MainConfig.vineryBarrelRecipesDisabled) {
                 addDatapack(event, "disable_vinery_fermentation_barrel");
             }
-            if (MainConfig.steamingRecipesDisabledValue) {
+            if (MainConfig.steamingRecipesDisabled) {
                 addDatapack(event, "disable_youkaisfeasts_steamer_pot");
             }
 
-            if (MainConfig.datapackModeValue == DatapackMode.UNITE) {
+            if (MainConfig.datapackMode == DatapackMode.UNITE) {
                 if (ModList.get().isLoaded("farm_and_charm")) {
                     addDatapack(event, "unite_farm_and_charm");
                 }

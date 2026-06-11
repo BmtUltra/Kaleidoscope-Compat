@@ -39,7 +39,7 @@ public abstract class PhantomMixin extends LivingEntity {
             at = @At("HEAD")
     )
     private void checkScarecrowNearby(CallbackInfo ci) {
-        if (!MainConfig.scarecrowRepelPhantomsValue) {
+        if (!MainConfig.scarecrowRepelPhantoms) {
             return;
         }
 

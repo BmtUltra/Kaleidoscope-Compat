@@ -22,7 +22,7 @@ public class RecipeManagerMixin {
     private <T extends net.minecraft.world.item.crafting.Recipe<?>> void kc$interceptVineryBarrelRecipes(
             RecipeType<T> recipeType, CallbackInfoReturnable<List<RecipeHolder<T>>> cir) {
 
-        if (recipeType.toString().contains("wine_fermentation") && MainConfig.vineryBarrelRecipesDisabledValue) {
+        if (recipeType.toString().contains("wine_fermentation") && MainConfig.vineryBarrelRecipesDisabled) {
             cir.setReturnValue(List.of());
         }
     }
