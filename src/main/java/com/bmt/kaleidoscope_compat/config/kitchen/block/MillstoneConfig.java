@@ -13,5 +13,5 @@ public final class MillstoneConfig {
             value = "Whether millstone item stacking is enabled",
             translation = "config.kaleidoscope_compat.kitchen.millstone.stacking_enabled.comment"
     )
-    public static boolean stackingEnabled = true;
+    public static boolean stackingEnabled = false;
 }

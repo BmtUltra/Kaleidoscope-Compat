@@ -13,7 +13,7 @@ public final class ProjectileDodgeConfig {
             value = "Whether projectile dodge teleport is enabled",
             translation = "config.kaleidoscope_compat.kitchen.effect.projectile_dodge.teleport_enabled.comment"
     )
-    public static boolean teleportEnabled = false;
+    public static boolean teleportEnabled = true;
 
     @ConfigEntry(id = "duration_cost", type = EntryType.INTEGER, translation = "config.kaleidoscope_compat.kitchen.effect.projectile_dodge.duration_cost")
     @Comment(
