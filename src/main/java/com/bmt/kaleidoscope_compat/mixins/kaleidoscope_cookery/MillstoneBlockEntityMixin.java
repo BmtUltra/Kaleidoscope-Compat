@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(MillstoneBlockEntity.class)
 public abstract class MillstoneBlockEntityMixin {
     @Shadow
-    public abstract ItemStack getOutput();
+    public abstract boolean isOutputEmpty();
 
     @Unique
     private MillstoneBlockEntityAccessor kaleidoscope_Compat_1_21_1_NeoForge$getAccessor() {
@@ -36,7 +36,7 @@ public abstract class MillstoneBlockEntityMixin {
         MillstoneBlockEntityAccessor accessor = kaleidoscope_Compat_1_21_1_NeoForge$getAccessor();
         BlockEntityAccessor blockEntityAccessor = kaleidoscope_Compat_1_21_1_NeoForge$getBlockEntityAccessor();
 
-        if (!this.getOutput().isEmpty()) {
+        if (!this.isOutputEmpty()) {
             cir.setReturnValue(false);
             return;
         }
