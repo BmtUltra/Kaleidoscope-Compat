@@ -1,6 +1,6 @@
 package com.bmt.kaleidoscope_compat.mixins.farm_and_charm;
 
-import com.bmt.kaleidoscope_compat.config.MainConfig;
+import com.bmt.kaleidoscope_compat.config.category.FarmAndCharmCategory;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.recipe.IFocusGroup;
 import net.satisfy.farm_and_charm.core.compat.jei.category.CookingPotCategory;
@@ -20,7 +20,7 @@ public class CookingPotCategoryMixin {
             remap = false
     )
     private void kc$interceptJEICookingPotRecipes(IRecipeLayoutBuilder builder, CookingPotRecipe recipe, IFocusGroup focuses, CallbackInfo ci) {
-        if (MainConfig.farmAndCharmCookingPotRecipesDisabled) {
+        if (FarmAndCharmCategory.farmAndCharmCookingPotRecipesDisabled) {
             ci.cancel();
         }
     }

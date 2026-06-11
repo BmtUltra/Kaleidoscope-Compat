@@ -1,6 +1,7 @@
 package com.bmt.kaleidoscope_compat.config;
 
 import com.bmt.kaleidoscope_compat.config.category.*;
+import com.bmt.kaleidoscope_compat.config.kitchen.item.LunchBagConfig;
 import com.bmt.kaleidoscope_compat.datapack.DatapackMode;
 import com.teamresourceful.resourcefulconfig.api.annotations.*;
 import com.teamresourceful.resourcefulconfig.api.types.options.EntryType;
@@ -73,59 +74,15 @@ public final class MainConfig {
     )
     public static boolean soupDatapackEnabled = true;
 
-    public static boolean millstoneStackingEnabled = KitchenCategory.millstone.stackingEnabled;
-    public static boolean lunchBagBlacklistEnabled = KitchenCategory.lunchBag.blacklistEnabled;
-    public static String lunchBagBlacklist = KitchenCategory.lunchBag.blacklist;
-    public static boolean transmutationLunchBagBackEnabled = KitchenCategory.lunchBag.backBehaviorEnabled;
-    public static boolean appleskinCompatEnabled = KitchenCategory.lunchBag.appleskinCompatEnabled;
-    public static boolean scarecrowRepelPhantoms = KitchenCategory.scarecrow.repelPhantoms;
-    public static boolean nourishmentEffectBlockEnabled = KitchenCategory.blockEnabled;
-    public static boolean projectileDodgeTeleportEnabled = KitchenCategory.projectileDodge.teleportEnabled;
-    public static int projectileDodgeDurationCost = KitchenCategory.projectileDodge.durationCost;
-    public static String vitalityBlacklist = KitchenCategory.vitality.blacklist;
-    public static boolean cookingPotRecipesDisabled = FarmersDelightCategory.cookingPotRecipesDisabled;
-    public static boolean cookingPotGuiDisabled = FarmersDelightCategory.cookingPotGuiDisabled;
-    public static boolean cuttingBoardRecipesDisabled = FarmersDelightCategory.cuttingBoardRecipesDisabled;
-    public static boolean richSoilHoeEnabled = FarmersDelightCategory.richSoilHoeEnabled;
-    public static boolean steamingRecipesDisabled = YoukaisFeastsCategory.steamingRecipesDisabled;
-    public static boolean farmAndCharmCookingPotRecipesDisabled = FarmAndCharmCategory.farmAndCharmCookingPotRecipesDisabled;
-    public static boolean farmAndCharmCompatEnabled = FarmAndCharmCategory.farmAndCharmCompatEnabled;
-    public static boolean vineryBarrelRecipesDisabled = VineryCategory.vineryBarrelRecipesDisabled;
-    public static boolean littleMaidCompatEnabled = LittleMaidCategory.littleMaidCompatEnabled;
-    public static boolean littleMaidChoppingBoardEnabled = LittleMaidCategory.littleMaidChoppingBoardEnabled;
-    public static boolean littleMaidMillstoneEnabled = LittleMaidCategory.littleMaidMillstoneEnabled;
-    public static boolean littleMaidPressingTubEnabled = LittleMaidCategory.littleMaidPressingTubEnabled;
-    public static boolean spectrumCompatEnabled = SpectrumCategory.spectrumCompatEnabled;
-    public static boolean spectrumPotItemHandlerEnabled = SpectrumCategory.spectrumPotItemHandlerEnabled;
-    public static boolean spectrumChoppingBoardItemHandlerEnabled = SpectrumCategory.spectrumChoppingBoardItemHandlerEnabled;
-    public static boolean spectrumMillstoneItemHandlerEnabled = SpectrumCategory.spectrumMillstoneItemHandlerEnabled;
-    public static boolean spectrumShawarmaSpitItemHandlerEnabled = SpectrumCategory.spectrumShawarmaSpitItemHandlerEnabled;
-    public static boolean spectrumSteamerItemHandlerEnabled = SpectrumCategory.spectrumSteamerItemHandlerEnabled;
-    public static boolean spectrumTeapotItemHandlerEnabled = SpectrumCategory.spectrumTeapotItemHandlerEnabled;
-    public static boolean spectrumTrashCanItemHandlerEnabled = SpectrumCategory.spectrumTrashCanItemHandlerEnabled;
-    public static boolean spectrumPastelNodeCompatEnabled = SpectrumCategory.spectrumPastelNodeCompatEnabled;
-    public static boolean createCompatEnabled = CreateCategory.createCompatEnabled;
-    public static boolean createArmPotEnabled = CreateCategory.createArmPotEnabled;
-    public static boolean createArmStockpotEnabled = CreateCategory.createArmStockpotEnabled;
-    public static boolean createArmSteamerEnabled = CreateCategory.createArmSteamerEnabled;
-    public static boolean createArmMillstoneEnabled = CreateCategory.createArmMillstoneEnabled;
-    public static boolean createArmShawarmaSpitEnabled = CreateCategory.createArmShawarmaSpitEnabled;
-    public static boolean createArmTeapotEnabled = CreateCategory.createArmTeapotEnabled;
-    public static boolean jeiCompatEnabled = OtherCategory.jeiCompatEnabled;
-    public static boolean thirstCompatEnabled = OtherCategory.thirstCompatEnabled;
-    public static boolean quarkSickleHarvestFixEnabled = OtherCategory.quarkSickleHarvestFixEnabled;
-    public static boolean suppressTagLoadErrors = OtherCategory.suppressTagLoadErrors;
-
     public static boolean isItemBlacklisted(Item item) {
-        if (!KitchenCategory.lunchBag.blacklistEnabled ||
-                KitchenCategory.lunchBag.blacklist == null ||
-                KitchenCategory.lunchBag.blacklist.isEmpty()) {
+        if (!LunchBagConfig.blacklistEnabled ||
+                LunchBagConfig.blacklist == null ||
+                LunchBagConfig.blacklist.isEmpty()) {
             return false;
         }
         ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(item);
-        if (itemId == null) return false;
         String itemIdStr = itemId.toString();
-        for (String id : KitchenCategory.lunchBag.blacklist.split(",")) {
+        for (String id : LunchBagConfig.blacklist.split(",")) {
             if (id.trim().equals(itemIdStr)) {
                 return true;
             }

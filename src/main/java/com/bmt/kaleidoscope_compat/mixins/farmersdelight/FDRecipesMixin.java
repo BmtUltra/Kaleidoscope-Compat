@@ -1,6 +1,6 @@
 package com.bmt.kaleidoscope_compat.mixins.farmersdelight;
 
-import com.bmt.kaleidoscope_compat.config.MainConfig;
+import com.bmt.kaleidoscope_compat.config.category.FarmersDelightCategory;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,7 +22,7 @@ public class FDRecipesMixin {
             remap = false
     )
     private void kc$interceptJEICookingPotRecipes(CallbackInfoReturnable<List<RecipeHolder<CookingPotRecipe>>> cir) {
-        if (MainConfig.cookingPotRecipesDisabled) {
+        if (FarmersDelightCategory.cookingPotRecipesDisabled) {
             cir.setReturnValue(List.of());
         }
     }
@@ -34,7 +34,7 @@ public class FDRecipesMixin {
             remap = false
     )
     private void kc$interceptJEICuttingBoardRecipes(CallbackInfoReturnable<List<RecipeHolder<CuttingBoardRecipe>>> cir) {
-        if (MainConfig.cuttingBoardRecipesDisabled) {
+        if (FarmersDelightCategory.cuttingBoardRecipesDisabled) {
             cir.setReturnValue(List.of());
         }
     }

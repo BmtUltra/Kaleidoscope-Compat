@@ -1,6 +1,6 @@
 package com.bmt.kaleidoscope_compat.mixins.youkaisfeasts;
 
-import com.bmt.kaleidoscope_compat.config.MainConfig;
+import com.bmt.kaleidoscope_compat.config.category.YoukaisFeastsCategory;
 import dev.xkmc.youkaishomecoming.content.pot.steamer.RackItemData;
 import dev.xkmc.youkaishomecoming.content.pot.steamer.SteamerBlockEntity;
 import net.minecraft.world.level.Level;
@@ -18,7 +18,7 @@ public class RackItemDataMixin {
             cancellable = true
     )
     private void kc$interceptRackItemTick(SteamerBlockEntity be, Level level, double heat, CallbackInfoReturnable<Boolean> cir) {
-        if (MainConfig.steamingRecipesDisabled) {
+        if (YoukaisFeastsCategory.steamingRecipesDisabled) {
             cir.setReturnValue(false);
         }
     }

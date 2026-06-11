@@ -1,6 +1,6 @@
 package com.bmt.kaleidoscope_compat.mixins.farm_and_charm;
 
-import com.bmt.kaleidoscope_compat.config.MainConfig;
+import com.bmt.kaleidoscope_compat.config.category.FarmAndCharmCategory;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -18,7 +18,7 @@ public class CookingPotRecipeMixin {
             cancellable = true
     )
     private void kc$interceptFarmAndCharmCookingPotRecipes(RecipeInput recipeInput, Level level, CallbackInfoReturnable<Boolean> cir) {
-        if (MainConfig.farmAndCharmCookingPotRecipesDisabled) {
+        if (FarmAndCharmCategory.farmAndCharmCookingPotRecipesDisabled) {
             cir.setReturnValue(false);
         }
     }

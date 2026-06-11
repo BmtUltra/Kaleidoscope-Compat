@@ -1,5 +1,6 @@
 package com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery;
 
+import com.bmt.kaleidoscope_compat.config.kitchen.block.MillstoneConfig;
 import com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery.accessor.BlockEntityAccessor;
 import com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery.accessor.MillstoneBlockEntityAccessor;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.MillstoneBlockEntity;
@@ -41,7 +42,7 @@ public abstract class MillstoneBlockEntityMixin {
         }
 
         if (accessor.getProgress() > 0 && !accessor.getInput().isEmpty()) {
-            if (!com.bmt.kaleidoscope_compat.config.MainConfig.millstoneStackingEnabled) {
+            if (!MillstoneConfig.stackingEnabled) {
                 cir.setReturnValue(false);
                 return;
             }

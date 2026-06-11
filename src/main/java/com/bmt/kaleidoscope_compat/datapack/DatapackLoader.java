@@ -2,6 +2,10 @@ package com.bmt.kaleidoscope_compat.datapack;
 
 import com.bmt.kaleidoscope_compat.KaleidoscopeCompat;
 import com.bmt.kaleidoscope_compat.config.MainConfig;
+import com.bmt.kaleidoscope_compat.config.category.FarmAndCharmCategory;
+import com.bmt.kaleidoscope_compat.config.category.FarmersDelightCategory;
+import com.bmt.kaleidoscope_compat.config.category.VineryCategory;
+import com.bmt.kaleidoscope_compat.config.category.YoukaisFeastsCategory;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
@@ -37,19 +41,19 @@ public class DatapackLoader {
                 addDatapack(event, "soup");
             }
 
-            if (MainConfig.cookingPotRecipesDisabled) {
+            if (FarmersDelightCategory.cookingPotRecipesDisabled) {
                 addDatapack(event, "disable_farmersdelight_cooking_pot");
             }
-            if (MainConfig.cuttingBoardRecipesDisabled) {
+            if (FarmersDelightCategory.cuttingBoardRecipesDisabled) {
                 addDatapack(event, "disable_farmersdelight_cutting_board");
             }
-            if (MainConfig.farmAndCharmCookingPotRecipesDisabled) {
+            if (FarmAndCharmCategory.farmAndCharmCookingPotRecipesDisabled) {
                 addDatapack(event, "disable_farm_and_charm_cooking_pot");
             }
-            if (MainConfig.vineryBarrelRecipesDisabled) {
+            if (VineryCategory.vineryBarrelRecipesDisabled) {
                 addDatapack(event, "disable_vinery_fermentation_barrel");
             }
-            if (MainConfig.steamingRecipesDisabled) {
+            if (YoukaisFeastsCategory.steamingRecipesDisabled) {
                 addDatapack(event, "disable_youkaisfeasts_steamer_pot");
             }
 

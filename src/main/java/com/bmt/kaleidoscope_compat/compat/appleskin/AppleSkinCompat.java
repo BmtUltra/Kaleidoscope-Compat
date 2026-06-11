@@ -1,6 +1,6 @@
 package com.bmt.kaleidoscope_compat.compat.appleskin;
 
-import com.bmt.kaleidoscope_compat.config.MainConfig;
+import com.bmt.kaleidoscope_compat.config.kitchen.item.LunchBagConfig;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.TransmutationLunchBagItem;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.player.Player;
@@ -10,12 +10,9 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 
 import java.util.Optional;
 
-public final class AppleSkinCompat {
-    private AppleSkinCompat() {
-    }
-
+public class AppleSkinCompat {
     public static boolean isEnabled() {
-        return !MainConfig.appleskinCompatEnabled;
+        return !LunchBagConfig.appleskinCompatEnabled;
     }
 
     public static boolean shouldTreatAsFood(ItemStack stack, Player player) {

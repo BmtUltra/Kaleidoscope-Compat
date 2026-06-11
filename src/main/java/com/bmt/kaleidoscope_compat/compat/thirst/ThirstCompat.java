@@ -1,6 +1,6 @@
 package com.bmt.kaleidoscope_compat.compat.thirst;
 
-import com.bmt.kaleidoscope_compat.config.MainConfig;
+import com.bmt.kaleidoscope_compat.config.category.OtherCategory;
 import dev.ghen.thirst.api.ThirstHelper;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -48,7 +48,7 @@ public class ThirstCompat {
 
     @SubscribeEvent
     public static void onCommonSetup(FMLCommonSetupEvent event) {
-        if (!ModList.get().isLoaded("thirst") || !MainConfig.thirstCompatEnabled) {
+        if (!ModList.get().isLoaded("thirst") || !OtherCategory.thirstCompatEnabled) {
             return;
         }
         event.enqueueWork(ThirstCompat::registerItems);

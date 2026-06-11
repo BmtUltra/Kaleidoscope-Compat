@@ -1,6 +1,6 @@
 package com.bmt.kaleidoscope_compat.mixins.spectrum;
 
-import com.bmt.kaleidoscope_compat.config.MainConfig;
+import com.bmt.kaleidoscope_compat.config.category.SpectrumCategory;
 import com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery.accessor.PotBlockEntityAccessor;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.PotBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.PotBlockEntity;
@@ -28,7 +28,7 @@ public class PastelNodeBlockEntityMixin {
 
     @Inject(method = "getTransferFilterTo", at = @At("HEAD"), cancellable = true)
     private void onGetTransferFilterTo(PastelNodeBlockEntity other, CallbackInfoReturnable<Predicate<ItemStack>> cir) {
-        if (!MainConfig.spectrumPotItemHandlerEnabled) {
+        if (!SpectrumCategory.spectrumPotItemHandlerEnabled) {
             return;
         }
 

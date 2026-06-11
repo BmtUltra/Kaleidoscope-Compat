@@ -1,27 +1,27 @@
 package com.bmt.kaleidoscope_compat.compat.create;
 
 import com.bmt.kaleidoscope_compat.compat.create.arm.*;
-import com.bmt.kaleidoscope_compat.config.MainConfig;
+import com.bmt.kaleidoscope_compat.config.category.CreateCategory;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModList;
 
 public class CreateCompat {
     public static void init(IEventBus modEventBus) {
-        if (!MainConfig.createCompatEnabled) {
+        if (!CreateCategory.createCompatEnabled) {
             return;
         }
         ModList.get().getModContainerById("create").ifPresent(modContainer -> {
-            if (MainConfig.createArmPotEnabled) {
+            if (CreateCategory.createArmPotEnabled) {
                 CreatePotArm.init(modEventBus);}
-            if (MainConfig.createArmStockpotEnabled) {
+            if (CreateCategory.createArmStockpotEnabled) {
                 CreateStockpotArm.init(modEventBus);}
-            if (MainConfig.createArmSteamerEnabled) {
+            if (CreateCategory.createArmSteamerEnabled) {
                 CreateSteamerArm.init(modEventBus);}
-            if (MainConfig.createArmMillstoneEnabled) {
+            if (CreateCategory.createArmMillstoneEnabled) {
                 CreateMillstoneArm.init(modEventBus);}
-            if (MainConfig.createArmShawarmaSpitEnabled) {
+            if (CreateCategory.createArmShawarmaSpitEnabled) {
                 CreateShawarmaSpitArm.init(modEventBus);}
-            if (MainConfig.createArmTeapotEnabled) {
+            if (CreateCategory.createArmTeapotEnabled) {
                 CreateTeapotArm.init(modEventBus);}
         });
     }

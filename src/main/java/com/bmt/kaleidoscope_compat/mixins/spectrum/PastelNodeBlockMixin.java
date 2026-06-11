@@ -1,6 +1,6 @@
 package com.bmt.kaleidoscope_compat.mixins.spectrum;
 
-import com.bmt.kaleidoscope_compat.config.MainConfig;
+import com.bmt.kaleidoscope_compat.config.category.SpectrumCategory;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.ChoppingBoardBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.PotBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.TeapotBlock;
@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class PastelNodeBlockMixin {
     @Inject(method = "canSurvive", at = @At("HEAD"), cancellable = true)
     private void onCanSurvive(BlockState state, LevelReader world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-        if (!MainConfig.spectrumPastelNodeCompatEnabled) {
+        if (!SpectrumCategory.spectrumPastelNodeCompatEnabled) {
             return;
         }
 

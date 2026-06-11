@@ -1,6 +1,6 @@
 package com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery;
 
-import com.bmt.kaleidoscope_compat.config.MainConfig;
+import com.bmt.kaleidoscope_compat.config.kitchen.entity.ScarecrowConfig;
 import com.github.ysbbbbbb.kaleidoscopecookery.entity.ScarecrowEntity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -39,7 +39,7 @@ public abstract class PhantomMixin extends LivingEntity {
             at = @At("HEAD")
     )
     private void checkScarecrowNearby(CallbackInfo ci) {
-        if (!MainConfig.scarecrowRepelPhantoms) {
+        if (!ScarecrowConfig.repelPhantoms) {
             return;
         }
 

@@ -1,6 +1,6 @@
 package com.bmt.kaleidoscope_compat.compat.farm_and_charm;
 
-import com.bmt.kaleidoscope_compat.config.MainConfig;
+import com.bmt.kaleidoscope_compat.config.category.FarmAndCharmCategory;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.StockpotRecipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class FarmAndCharmCompat {
     public static void init() {
-        if (!MainConfig.farmAndCharmCompatEnabled) {
+        if (!FarmAndCharmCategory.farmAndCharmCompatEnabled) {
             return;
         }
 

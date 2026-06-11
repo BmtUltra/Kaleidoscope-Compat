@@ -1,6 +1,6 @@
 package com.bmt.kaleidoscope_compat.mixins.quark;
 
-import com.bmt.kaleidoscope_compat.config.MainConfig;
+import com.bmt.kaleidoscope_compat.config.category.OtherCategory;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.SickleItem;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
@@ -28,7 +28,7 @@ public class SimpleHarvestEventMixin {
             SimpleHarvestEvent.ActionType originalActionType,
             CallbackInfo ci
     ) {
-        if (!MainConfig.quarkSickleHarvestFixEnabled) return;
+        if (!OtherCategory.quarkSickleHarvestFixEnabled) return;
 
         if (entity instanceof Player player && hand != null) {
             ItemStack heldItem = player.getItemInHand(hand);

@@ -1,6 +1,6 @@
 package com.bmt.kaleidoscope_compat.mixins.vinery;
 
-import com.bmt.kaleidoscope_compat.config.MainConfig;
+import com.bmt.kaleidoscope_compat.config.category.VineryCategory;
 import net.minecraft.world.level.Level;
 import net.satisfy.vinery.core.recipe.FermentationBarrelRecipe;
 import net.satisfy.vinery.core.recipe.input.FermentationBarrelRecipeInput;
@@ -18,7 +18,7 @@ public class FermentationBarrelRecipeMixin {
             cancellable = true
     )
     private void kc$interceptFermentationBarrelRecipes(FermentationBarrelRecipeInput input, Level world, CallbackInfoReturnable<Boolean> cir) {
-        if (MainConfig.vineryBarrelRecipesDisabled) {
+        if (VineryCategory.vineryBarrelRecipesDisabled) {
             cir.setReturnValue(false);
         }
     }

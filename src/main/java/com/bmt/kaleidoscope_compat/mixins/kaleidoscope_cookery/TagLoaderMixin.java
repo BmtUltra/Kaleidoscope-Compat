@@ -1,6 +1,6 @@
 package com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery;
 
-import com.bmt.kaleidoscope_compat.config.MainConfig;
+import com.bmt.kaleidoscope_compat.config.category.OtherCategory;
 import net.minecraft.tags.TagLoader;
 import org.slf4j.Logger;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,7 +18,7 @@ public class TagLoaderMixin {
             )
     )
     private void onTagLoadError(Logger logger, String message, Object[] args) {
-        if (!MainConfig.suppressTagLoadErrors) {
+        if (!OtherCategory.suppressTagLoadErrors) {
             logger.error(message, args);
         }
     }

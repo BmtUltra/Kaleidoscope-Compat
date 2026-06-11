@@ -1,6 +1,7 @@
 package com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery;
 
 import com.bmt.kaleidoscope_compat.config.MainConfig;
+import com.bmt.kaleidoscope_compat.config.kitchen.item.LunchBagConfig;
 import com.github.ysbbbbbb.kaleidoscopecookery.advancements.critereon.ModEventTriggerType;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTrigger;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.TransmutationLunchBagItem;
@@ -44,7 +45,7 @@ public abstract class TransmutationLunchBagItemMixin {
             cancellable = true
     )
     public void kaleidoscopeCompat$finishUsingItem(ItemStack bag, Level level, LivingEntity entity, CallbackInfoReturnable<ItemStack> cir) {
-        if (!MainConfig.transmutationLunchBagBackEnabled) {
+        if (!LunchBagConfig.backBehaviorEnabled) {
             return;
         }
 

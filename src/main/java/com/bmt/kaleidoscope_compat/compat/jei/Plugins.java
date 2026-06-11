@@ -1,7 +1,7 @@
 package com.bmt.kaleidoscope_compat.compat.jei;
 
 import com.bmt.kaleidoscope_compat.KaleidoscopeCompat;
-import com.bmt.kaleidoscope_compat.config.MainConfig;
+import com.bmt.kaleidoscope_compat.config.category.OtherCategory;
 import com.bmt.kaleidoscope_compat.util.TagUtil;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import mezz.jei.api.IModPlugin;
@@ -45,7 +45,7 @@ public class Plugins implements IModPlugin {
 
     @Override
     public void registerCategories(@NotNull IRecipeCategoryRegistration registration) {
-        if (!MainConfig.jeiCompatEnabled) return;
+        if (!OtherCategory.jeiCompatEnabled) return;
         registration.addRecipeCategories(
                 new WhirlwindBarbecueCategory(registration.getJeiHelpers().getGuiHelper())
         );
@@ -53,13 +53,13 @@ public class Plugins implements IModPlugin {
 
     @Override
     public void registerRecipes(@NotNull IRecipeRegistration registration) {
-        if (!MainConfig.jeiCompatEnabled) return;
+        if (!OtherCategory.jeiCompatEnabled) return;
         registerBarbecueRecipes(registration);
     }
 
     @Override
     public void registerRecipeCatalysts(@NotNull IRecipeCatalystRegistration registration) {
-        if (!MainConfig.jeiCompatEnabled) return;
+        if (!OtherCategory.jeiCompatEnabled) return;
         registration.addRecipeCatalyst(
                 new ItemStack(ModBlocks.SHAWARMA_SPIT.get()),
                 WhirlwindBarbecueCategory.RECIPE_TYPE
@@ -68,13 +68,13 @@ public class Plugins implements IModPlugin {
 
     @Override
     public void registerAdvanced(@NotNull IAdvancedRegistration registration) {
-        if (!MainConfig.jeiCompatEnabled) return;
+        if (!OtherCategory.jeiCompatEnabled) return;
         registration.addRecipeManagerPlugin(new RecipeHiding());
     }
 
     @Override
     public void onRuntimeAvailable(@NotNull IJeiRuntime jeiRuntime) {
-        if (!MainConfig.jeiCompatEnabled) return;
+        if (!OtherCategory.jeiCompatEnabled) return;
         this.jeiRuntime = jeiRuntime;
         updateHiddenItems();
         hideTaggedItems();

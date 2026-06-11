@@ -1,6 +1,6 @@
 package com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery;
 
-import com.bmt.kaleidoscope_compat.config.MainConfig;
+import com.bmt.kaleidoscope_compat.config.kitchen.effect.VitalityConfig;
 import com.github.ysbbbbbb.kaleidoscopecookery.event.effect.VitalityEvent;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -23,10 +23,10 @@ public class VitalityEventMixin {
             cancellable = true
     )
     private static void kaleidoscopeCompat$checkBlacklist(LivingDeathEvent event, CallbackInfo ci) {
-        if (!MainConfig.vitalityBlacklist.isEmpty()) {
+        if (!VitalityConfig.blacklist.isEmpty()) {
             Entity entity = event.getEntity();
             ResourceLocation entityId = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
-            if (MainConfig.vitalityBlacklist.contains(entityId.toString())) {
+            if (VitalityConfig.blacklist.contains(entityId.toString())) {
                 ci.cancel();
             }
         }
