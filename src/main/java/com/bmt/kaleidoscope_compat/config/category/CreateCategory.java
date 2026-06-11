@@ -13,25 +13,26 @@ import com.teamresourceful.resourcefulconfig.api.types.options.EntryType;
         icon = "cog",
 links = {
 @ConfigInfo.Link(
-        value = "https://github.com/your-repo/kaleidoscope-compat",
+        value = "https://www.curseforge.com/minecraft/mc-mods/create",
         icon = "curseforge",
         text = "CurseForge",
         textTranslation = "config.kaleidoscope_compat.links.curseforge"
 ),
 @ConfigInfo.Link(
-        value = "https://github.com/your-repo/kaleidoscope-compat",
+        value = "https://modrinth.com/mod/create",
         icon = "modrinth",
         text = "Modrinth",
         textTranslation = "config.kaleidoscope_compat.links.modrinth"
 ),
 @ConfigInfo.Link(
-        value = "https://github.com/your-repo/kaleidoscope-compat",
+        value = "https://github.com/Creators-of-Create/Create",
         icon = "clipboard_list",
         text = "GitHub",
         textTranslation = "config.kaleidoscope_compat.links.github"
 )
         }
 )
+@SuppressWarnings("all")
 public final class CreateCategory {
 
     @ConfigEntry(id = "compat_enabled", type = EntryType.BOOLEAN, translation = "config.kaleidoscope_compat.create.compat_enabled")

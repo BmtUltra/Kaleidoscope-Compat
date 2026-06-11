@@ -167,6 +167,7 @@
   "config.kaleidoscope_compat.spectrum.trash_can_item_handler_enabled": "垃圾桶节点传输",
   "config.kaleidoscope_compat.spectrum.pastel_node_compat_enabled": "节点炒锅加油",
 
+  "config.kaleidoscope_compat.category.create.description": "机械动力相关功能的设置",
   "config.kaleidoscope_compat.create.compat_enabled": "总模块",
   "config.kaleidoscope_compat.create.arm_pot_enabled": "动力臂炒锅交互",
   "config.kaleidoscope_compat.create.arm_stockpot_enabled": "动力臂汤锅交互",
@@ -174,6 +175,13 @@
   "config.kaleidoscope_compat.create.arm_millstone_enabled": "动力臂磨盘交互",
   "config.kaleidoscope_compat.create.arm_shawarma_spit_enabled": "动力臂烤肉塔交互",
   "config.kaleidoscope_compat.create.arm_teapot_enabled": "动力臂茶壶交互",
+  "config.kaleidoscope_compat.create.compat_enabled.comment": "是否启用总模块",
+  "config.kaleidoscope_compat.create.arm_pot_enabled.comment": "是否启用动力臂炒锅交互",
+  "config.kaleidoscope_compat.create.arm_stockpot_enabled.comment": "是否启用动力臂汤锅交互",
+  "config.kaleidoscope_compat.create.arm_steamer_enabled.comment": "是否启用动力臂蒸笼交互",
+  "config.kaleidoscope_compat.create.arm_millstone_enabled.comment": "是否启用动力臂磨盘交互",
+  "config.kaleidoscope_compat.create.arm_shawarma_spit_enabled.comment": "是否启用动力臂烤肉塔交互",
+  "config.kaleidoscope_compat.create.arm_teapot_enabled.comment": "是否启用动力臂茶壶交互",
 
   "config.kaleidoscope_compat.compat.jei_compat_enabled": "JEI兼容",
   "config.kaleidoscope_compat.compat.thirst_compat_enabled": "口渴兼容",
@@ -181,7 +189,7 @@
   "config.kaleidoscope_compat.compat.suppress_tag_load_errors": "禁用错误日志",
 
 
-  "config.kaleidoscope_compat.category.create.description": "机械动力模组的兼容设置",
+
 
   "config.kaleidoscope_compat.category.youkaisfeasts.description": "幻想乡乐事模组的兼容设置",
   "config.kaleidoscope_compat.category.farm_and_charm.description": "沉浸农艺模组的兼容设置",
