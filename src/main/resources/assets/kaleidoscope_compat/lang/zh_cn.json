@@ -1,90 +1,4 @@
 {
-  "jei.category.kaleidoscope_compat.shawarma_spit": "旋风烤肉塔",
-  "tip.kaleidoscope_compat.pot_arm_recipe_set": "已为动力臂设置炒锅配方：%s",
-  "tip.kaleidoscope_compat.stockpot_arm_recipe_set": "已为动力臂设置汤锅配方：%s",
-  "tooltip.kaleidoscope_compat.recipe_item.pot_arm_recipe": "按住 Shift 右键炒锅以设置动力臂配方",
-  "tooltip.kaleidoscope_compat.recipe_item.stockpot_arm_recipe": "按住 Shift 右键汤锅以设置动力臂配方",
-
-  "config.kaleidoscope_compat.title": "森罗物语:兼容",
-
-  "kaleidoscope_compat.configuration.datapack": "数据包设置",
-  "kaleidoscope_compat.configuration.mode": "数据包模式",
-  "kaleidoscope_compat.configuration.soup_enabled": "启用汤锅材质",
-
-  "kaleidoscope_compat.configuration.kitchen": "森罗物语：厨房",
-  "kaleidoscope_compat.configuration.millstone": "石磨",
-  "kaleidoscope_compat.configuration.stacking_enabled": "石磨输入限制突破",
-  "kaleidoscope_compat.configuration.lunch_bag": "嬗变饭袋",
-  "kaleidoscope_compat.configuration.blacklist_enabled": "启用黑名单",
-  "kaleidoscope_compat.configuration.blacklist": "黑名单",
-  "kaleidoscope_compat.configuration.back_behavior_enabled": "回调行为",
-  "kaleidoscope_compat.configuration.appleskin_compat_enabled": "苹果皮显示",
-  "kaleidoscope_compat.configuration.scarecrow": "稻草人",
-  "kaleidoscope_compat.configuration.repel_phantoms": "驱散幻翼",
-  "kaleidoscope_compat.configuration.effect": "效果设置",
-  "kaleidoscope_compat.configuration.block_enabled": "阻断滋养效果",
-  "kaleidoscope_compat.configuration.projectile_dodge": "弹射闪避",
-  "kaleidoscope_compat.configuration.teleport_enabled": "启用传送",
-  "kaleidoscope_compat.configuration.duration_cost": "持续时间消耗（tick）",
-  "kaleidoscope_compat.configuration.vitality": "生机",
-
-  "kaleidoscope_compat.configuration.farmersdelight": "农夫乐事",
-  "kaleidoscope_compat.configuration.cooking_pot_recipes_disabled": "禁用厨锅配方",
-  "kaleidoscope_compat.configuration.cooking_pot_gui_disabled": "禁用厨锅",
-  "kaleidoscope_compat.configuration.cutting_board_recipes_disabled": "禁用砧板配方",
-  "kaleidoscope_compat.configuration.hoe_enabled": "水中沃土锄耕",
-
-  "kaleidoscope_compat.configuration.youkaisfeasts": "幻想乡乐事",
-  "kaleidoscope_compat.configuration.steaming_recipes_disabled": "禁用蒸笼配方",
-
-  "kaleidoscope_compat.configuration.farm_and_charm": "沉浸农艺",
-  "kaleidoscope_compat.configuration.farm_and_charm_cooking_pot_recipes_disabled": "禁用厨锅配方",
-  "kaleidoscope_compat.configuration.farm_and_charm_compat_enabled": "启用汤锅配方兼容",
-
-  "kaleidoscope_compat.configuration.vinery": "葡园酒香",
-  "kaleidoscope_compat.configuration.barrel_recipes_disabled": "禁用酿造桶配方",
-
-  "kaleidoscope_compat.configuration.little_maid": "车万女仆",
-  "kaleidoscope_compat.configuration.little_maid_compat_enabled": "总模块",
-  "kaleidoscope_compat.configuration.chopping_board_enabled": "女仆菜板任务",
-  "kaleidoscope_compat.configuration.millstone_enabled": "女仆石磨任务",
-  "kaleidoscope_compat.configuration.pressing_tub_enabled": "女仆果盘任务",
-
-  "kaleidoscope_compat.configuration.spectrum": "光谱世界",
-  "kaleidoscope_compat.configuration.spectrum_compat_enabled": "总模块",
-  "kaleidoscope_compat.configuration.pot_item_handler_enabled": "炒锅节点传输",
-  "kaleidoscope_compat.configuration.chopping_board_item_handler_enabled": "切菜板节点传输",
-  "kaleidoscope_compat.configuration.millstone_item_handler_enabled": "石磨节点传输",
-  "kaleidoscope_compat.configuration.shawarma_spit_item_handler_enabled": "烤肉塔节点传输",
-  "kaleidoscope_compat.configuration.steamer_item_handler_enabled": "蒸笼节点传输",
-  "kaleidoscope_compat.configuration.teapot_item_handler_enabled": "茶壶节点传输",
-  "kaleidoscope_compat.configuration.trash_can_item_handler_enabled": "垃圾桶节点传输",
-  "kaleidoscope_compat.configuration.block_placer_compat_enabled": "方块放置器兼容",
-  "kaleidoscope_compat.configuration.block_breaker_compat_enabled": "方块破坏器兼容",
-  "kaleidoscope_compat.configuration.pastel_node_compat_enabled": "节点炒锅加油",
-
-  "kaleidoscope_compat.configuration.create": "机械动力",
-  "kaleidoscope_compat.configuration.create_compat_enabled": "总模块",
-  "kaleidoscope_compat.configuration.arm_pot_enabled": "动力臂炒锅交互",
-  "kaleidoscope_compat.configuration.arm_stockpot_enabled": "动力臂汤锅交互",
-  "kaleidoscope_compat.configuration.arm_steamer_enabled": "动力臂蒸笼交互",
-  "kaleidoscope_compat.configuration.arm_millstone_enabled": "动力臂磨盘交互",
-  "kaleidoscope_compat.configuration.arm_shawarma_spit_enabled": "动力臂烤肉塔交互",
-  "kaleidoscope_compat.configuration.arm_teapot_enabled": "动力臂茶壶交互",
-
-  "kaleidoscope_compat.configuration.compat": "其它设置",
-  "kaleidoscope_compat.configuration.jei_compat_enabled": "JEI兼容",
-  "kaleidoscope_compat.configuration.thirst_compat_enabled": "口渴兼容",
-  "kaleidoscope_compat.configuration.quark_sickle_harvest_fix_enabled": "夸克镰刀修复",
-
-  "task.kaleidoscope_compat.chopping_board": "切菜",
-  "task.kaleidoscope_compat.chopping_board.desc": "女仆会寻找周围的菜板，然后切菜",
-  "task.kaleidoscope_compat.millstone": "石磨",
-  "task.kaleidoscope_compat.millstone.desc": "女仆会寻找周围的石磨",
-  "task.kaleidoscope_compat.pressing_tub": "果盆",
-  "task.kaleidoscope_compat.pressing_tub.desc": "女仆会寻找周围的果盆，放入原料跳踩压榨，并用桶接取产物",
-
-
   "config.kaleidoscope_compat.title": "森罗物语:兼容",
   "config.kaleidoscope_compat.description": "为森罗物语系列带来新体验",
 
@@ -144,19 +58,36 @@
   "config.kaleidoscope_compat.farmersdelight.cooking_pot_gui_disabled": "禁用厨锅",
   "config.kaleidoscope_compat.farmersdelight.cutting_board_recipes_disabled": "禁用砧板配方",
   "config.kaleidoscope_compat.farmersdelight.hoe_enabled": "水中沃土锄耕",
+  "config.kaleidoscope_compat.farmersdelight.cooking_pot_recipes_disabled.comment": "是否禁用所有农夫乐事厨锅配方",
+  "config.kaleidoscope_compat.farmersdelight.cooking_pot_gui_disabled.comment": "禁用后，厨锅无法使用",
+  "config.kaleidoscope_compat.farmersdelight.cutting_board_recipes_disabled.comment": "是否禁用所有农夫乐事砧板配方",
+  "config.kaleidoscope_compat.farmersdelight.hoe_enabled.comment": "启用后，可以锄耕在水中的沃土",
 
+  "config.kaleidoscope_compat.category.youkaisfeasts.description": "幻想乡乐事相关功能的设置",
   "config.kaleidoscope_compat.youkaisfeasts.steaming_recipes_disabled": "禁用蒸笼配方",
+  "config.kaleidoscope_compat.youkaisfeasts.steaming_recipes_disabled.comment": "是否禁用所有幻想乡乐事蒸笼配方",
 
+  "config.kaleidoscope_compat.category.farm_and_charm.description": "沉浸农艺相关功能的设置",
   "config.kaleidoscope_compat.farm_and_charm.cooking_pot_recipes_disabled": "禁用厨锅配方",
-  "config.kaleidoscope_compat.farm_and_charm.compat_enabled": "启用汤锅配方兼容",
+  "config.kaleidoscope_compat.farm_and_charm.compat_enabled": "启用汤锅配方读取",
+  "config.kaleidoscope_compat.farm_and_charm.cooking_pot_recipes_disabled.comment": "是否禁用所有沉浸农艺厨锅配方",
+  "config.kaleidoscope_compat.farm_and_charm.compat_enabled.comment": "启用后，汤锅将读取厨锅的配方",
 
+  "config.kaleidoscope_compat.category.vinery.description": "葡园酒香相关功能的设置",
   "config.kaleidoscope_compat.vinery.barrel_recipes_disabled": "禁用酿造桶配方",
+  "config.kaleidoscope_compat.vinery.barrel_recipes_disabled.comment": "是否禁用所有葡园酒香酿造桶配方",
 
+  "config.kaleidoscope_compat.category.little_maid.description": "车万女仆相关功能的设置",
   "config.kaleidoscope_compat.little_maid.compat_enabled": "总模块",
   "config.kaleidoscope_compat.little_maid.chopping_board_enabled": "女仆菜板任务",
   "config.kaleidoscope_compat.little_maid.millstone_enabled": "女仆石磨任务",
   "config.kaleidoscope_compat.little_maid.pressing_tub_enabled": "女仆果盘任务",
+  "config.kaleidoscope_compat.little_maid.compat_enabled.comment": "是否启用总模块",
+  "config.kaleidoscope_compat.little_maid.chopping_board_enabled.comment": "是否启用女仆菜板任务",
+  "config.kaleidoscope_compat.little_maid.millstone_enabled.comment": "是否启用女仆石磨任务",
+  "config.kaleidoscope_compat.little_maid.pressing_tub_enabled.comment": "是否启用女仆果盘任务",
 
+  "config.kaleidoscope_compat.category.spectrum.description": "光谱世界相关功能的设置",
   "config.kaleidoscope_compat.spectrum.compat_enabled": "总模块",
   "config.kaleidoscope_compat.spectrum.pot_item_handler_enabled": "炒锅节点传输",
   "config.kaleidoscope_compat.spectrum.chopping_board_item_handler_enabled": "切菜板节点传输",
@@ -166,6 +97,15 @@
   "config.kaleidoscope_compat.spectrum.teapot_item_handler_enabled": "茶壶节点传输",
   "config.kaleidoscope_compat.spectrum.trash_can_item_handler_enabled": "垃圾桶节点传输",
   "config.kaleidoscope_compat.spectrum.pastel_node_compat_enabled": "节点炒锅加油",
+  "config.kaleidoscope_compat.spectrum.compat_enabled.comment": "是否启用总模块",
+  "config.kaleidoscope_compat.spectrum.pot_item_handler_enabled.comment": "是否启用炒锅节点传输",
+  "config.kaleidoscope_compat.spectrum.chopping_board_item_handler_enabled.comment": "是否启用切菜板节点传输",
+  "config.kaleidoscope_compat.spectrum.millstone_item_handler_enabled.comment": "是否启用石磨节点传输",
+  "config.kaleidoscope_compat.spectrum.shawarma_spit_item_handler_enabled.comment": "是否启用烤肉塔节点传输",
+  "config.kaleidoscope_compat.spectrum.steamer_item_handler_enabled.comment": "是否启用蒸笼节点传输",
+  "config.kaleidoscope_compat.spectrum.teapot_item_handler_enabled.comment": "是否启用茶壶节点传输",
+  "config.kaleidoscope_compat.spectrum.trash_can_item_handler_enabled.comment": "是否启用垃圾桶节点传输",
+  "config.kaleidoscope_compat.spectrum.pastel_node_compat_enabled.comment": "是否启用节点炒锅加油",
 
   "config.kaleidoscope_compat.category.create.description": "机械动力相关功能的设置",
   "config.kaleidoscope_compat.create.compat_enabled": "总模块",
@@ -183,24 +123,15 @@
   "config.kaleidoscope_compat.create.arm_shawarma_spit_enabled.comment": "是否启用动力臂烤肉塔交互",
   "config.kaleidoscope_compat.create.arm_teapot_enabled.comment": "是否启用动力臂茶壶交互",
 
-  "config.kaleidoscope_compat.compat.jei_compat_enabled": "JEI兼容",
+  "config.kaleidoscope_compat.category.other.description": "杂项功能设置",
+  "config.kaleidoscope_compat.compat.jei_compat_enabled": "旋风烤肉塔JEI",
   "config.kaleidoscope_compat.compat.thirst_compat_enabled": "口渴兼容",
   "config.kaleidoscope_compat.compat.quark_sickle_harvest_fix_enabled": "夸克镰刀修复",
   "config.kaleidoscope_compat.compat.suppress_tag_load_errors": "禁用错误日志",
-
-
-
-
-  "config.kaleidoscope_compat.category.youkaisfeasts.description": "幻想乡乐事模组的兼容设置",
-  "config.kaleidoscope_compat.category.farm_and_charm.description": "沉浸农艺模组的兼容设置",
-  "config.kaleidoscope_compat.category.vinery.description": "葡园酒香模组的兼容设置",
-  "config.kaleidoscope_compat.category.little_maid.description": "车万女仆模组的兼容设置",
-  "config.kaleidoscope_compat.category.spectrum.description": "光谱世界模组的兼容设置",
-  "config.kaleidoscope_compat.category.other.description": "杂项功能设置",
-
-
-
-
+  "config.kaleidoscope_compat.compat.jei_compat_enabled.comment": "是否启用旋风烤肉塔JEI",
+  "config.kaleidoscope_compat.compat.thirst_compat_enabled.comment": "是否启用口渴兼容",
+  "config.kaleidoscope_compat.compat.quark_sickle_harvest_fix_enabled.comment": "启用后，手持镰刀不会触发夸克的收获",
+  "config.kaleidoscope_compat.compat.suppress_tag_load_errors.comment": "启用后，抑制所有标签的红色日志",
 
   "config.kaleidoscope_compat.category.farmersdelight": "农夫乐事",
   "config.kaleidoscope_compat.category.youkaisfeasts": "幻想乡乐事",
@@ -261,5 +192,18 @@
   "config.kaleidoscope_compat.compat.jei_compat_enabled": "JEI兼容",
   "config.kaleidoscope_compat.compat.thirst_compat_enabled": "口渴兼容",
   "config.kaleidoscope_compat.compat.quark_sickle_harvest_fix_enabled": "夸克镰刀修复",
-  "config.kaleidoscope_compat.compat.suppress_tag_load_errors": "禁用错误日志"
+  "config.kaleidoscope_compat.compat.suppress_tag_load_errors": "禁用错误日志",
+
+  "task.kaleidoscope_compat.chopping_board": "切菜",
+  "task.kaleidoscope_compat.chopping_board.desc": "女仆会寻找周围的菜板，然后切菜",
+  "task.kaleidoscope_compat.millstone": "石磨",
+  "task.kaleidoscope_compat.millstone.desc": "女仆会寻找周围的石磨",
+  "task.kaleidoscope_compat.pressing_tub": "果盆",
+  "task.kaleidoscope_compat.pressing_tub.desc": "女仆会寻找周围的果盆，放入原料跳踩压榨，并用桶接取产物",
+
+  "jei.category.kaleidoscope_compat.shawarma_spit": "旋风烤肉塔",
+  "tip.kaleidoscope_compat.pot_arm_recipe_set": "已为动力臂设置炒锅配方：%s",
+  "tip.kaleidoscope_compat.stockpot_arm_recipe_set": "已为动力臂设置汤锅配方：%s",
+  "tooltip.kaleidoscope_compat.recipe_item.pot_arm_recipe": "按住 Shift 右键炒锅以设置动力臂配方",
+  "tooltip.kaleidoscope_compat.recipe_item.stockpot_arm_recipe": "按住 Shift 右键汤锅以设置动力臂配方"
 }

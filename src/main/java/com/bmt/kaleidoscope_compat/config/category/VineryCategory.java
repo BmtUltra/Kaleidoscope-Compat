@@ -11,30 +11,34 @@ import com.teamresourceful.resourcefulconfig.api.types.options.EntryType;
         titleTranslation = "config.kaleidoscope_compat.category.vinery",
         descriptionTranslation = "config.kaleidoscope_compat.category.vinery.description",
         icon = "wine-bottle",
-links = {
-@ConfigInfo.Link(
-        value = "https://github.com/your-repo/kaleidoscope-compat",
-        icon = "curseforge",
-        text = "CurseForge",
-        textTranslation = "config.kaleidoscope_compat.links.curseforge"
-),
-@ConfigInfo.Link(
-        value = "https://github.com/your-repo/kaleidoscope-compat",
-        icon = "modrinth",
-        text = "Modrinth",
-        textTranslation = "config.kaleidoscope_compat.links.modrinth"
-),
-@ConfigInfo.Link(
-        value = "https://github.com/your-repo/kaleidoscope-compat",
-        icon = "clipboard_list",
-        text = "GitHub",
-        textTranslation = "config.kaleidoscope_compat.links.github"
-)
+        links = {
+                @ConfigInfo.Link(
+                        value = "https://github.com/your-repo/kaleidoscope-compat",
+                        icon = "curseforge",
+                        text = "CurseForge",
+                        textTranslation = "config.kaleidoscope_compat.links.curseforge"
+                ),
+                @ConfigInfo.Link(
+                        value = "https://github.com/your-repo/kaleidoscope-compat",
+                        icon = "modrinth",
+                        text = "Modrinth",
+                        textTranslation = "config.kaleidoscope_compat.links.modrinth"
+                ),
+                @ConfigInfo.Link(
+                        value = "https://github.com/your-repo/kaleidoscope-compat",
+                        icon = "clipboard_list",
+                        text = "GitHub",
+                        textTranslation = "config.kaleidoscope_compat.links.github"
+                )
         }
 )
+@SuppressWarnings("all")
 public final class VineryCategory {
 
     @ConfigEntry(id = "barrel_recipes_disabled", type = EntryType.BOOLEAN, translation = "config.kaleidoscope_compat.vinery.barrel_recipes_disabled")
-    @Comment("Whether all Vinery fermentation barrel recipes are disabled")
+    @Comment(
+            value = "Whether all Vinery fermentation barrel recipes are disabled",
+            translation = "config.kaleidoscope_compat.vinery.barrel_recipes_disabled.comment"
+    )
     public static boolean vineryBarrelRecipesDisabled = false;
 }

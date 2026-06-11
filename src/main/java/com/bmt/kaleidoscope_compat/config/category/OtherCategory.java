@@ -11,42 +11,55 @@ import com.teamresourceful.resourcefulconfig.api.types.options.EntryType;
         titleTranslation = "config.kaleidoscope_compat.category.other",
         descriptionTranslation = "config.kaleidoscope_compat.category.other.description",
         icon = "settings",
-links = {
-@ConfigInfo.Link(
-        value = "https://github.com/your-repo/kaleidoscope-compat",
-        icon = "curseforge",
-        text = "CurseForge",
-        textTranslation = "config.kaleidoscope_compat.links.curseforge"
-),
-@ConfigInfo.Link(
-        value = "https://github.com/your-repo/kaleidoscope-compat",
-        icon = "modrinth",
-        text = "Modrinth",
-        textTranslation = "config.kaleidoscope_compat.links.modrinth"
-),
-@ConfigInfo.Link(
-        value = "https://github.com/your-repo/kaleidoscope-compat",
-        icon = "clipboard_list",
-        text = "GitHub",
-        textTranslation = "config.kaleidoscope_compat.links.github"
-)
+        links = {
+                @ConfigInfo.Link(
+                        value = "https://github.com/your-repo/kaleidoscope-compat",
+                        icon = "curseforge",
+                        text = "CurseForge",
+                        textTranslation = "config.kaleidoscope_compat.links.curseforge"
+                ),
+                @ConfigInfo.Link(
+                        value = "https://github.com/your-repo/kaleidoscope-compat",
+                        icon = "modrinth",
+                        text = "Modrinth",
+                        textTranslation = "config.kaleidoscope_compat.links.modrinth"
+                ),
+                @ConfigInfo.Link(
+                        value = "https://github.com/your-repo/kaleidoscope-compat",
+                        icon = "clipboard_list",
+                        text = "GitHub",
+                        textTranslation = "config.kaleidoscope_compat.links.github"
+                )
         }
 )
+@SuppressWarnings("all")
 public final class OtherCategory {
 
     @ConfigEntry(id = "jei_compat_enabled", type = EntryType.BOOLEAN, translation = "config.kaleidoscope_compat.compat.jei_compat_enabled")
-    @Comment("Whether JEI compatibility is enabled")
+    @Comment(
+            value = "Whether JEI compatibility is enabled",
+            translation = "config.kaleidoscope_compat.compat.jei_compat_enabled.comment"
+    )
     public static boolean jeiCompatEnabled = true;
 
     @ConfigEntry(id = "thirst_compat_enabled", type = EntryType.BOOLEAN, translation = "config.kaleidoscope_compat.compat.thirst_compat_enabled")
-    @Comment("Whether Thirst mod compatibility is enabled")
+    @Comment(
+            value = "Whether Thirst mod compatibility is enabled",
+            translation = "config.kaleidoscope_compat.compat.thirst_compat_enabled.comment"
+    )
     public static boolean thirstCompatEnabled = true;
 
     @ConfigEntry(id = "quark_sickle_harvest_fix_enabled", type = EntryType.BOOLEAN, translation = "config.kaleidoscope_compat.compat.quark_sickle_harvest_fix_enabled")
-    @Comment("Whether Quark sickle harvest fix is enabled")
+    @Comment(
+            value = "Whether Quark sickle harvest fix is enabled",
+            translation = "config.kaleidoscope_compat.compat.quark_sickle_harvest_fix_enabled.comment"
+    )
     public static boolean quarkSickleHarvestFixEnabled = true;
 
     @ConfigEntry(id = "suppress_tag_load_errors", type = EntryType.BOOLEAN, translation = "config.kaleidoscope_compat.compat.suppress_tag_load_errors")
-    @Comment("Whether to suppress tag file loading error logs")
+    @Comment(
+            value = "Whether to suppress tag file loading error logs",
+            translation = "config.kaleidoscope_compat.compat.suppress_tag_load_errors.comment"
+    )
     public static boolean suppressTagLoadErrors = false;
 }

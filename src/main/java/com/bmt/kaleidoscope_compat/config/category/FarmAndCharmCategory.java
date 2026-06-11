@@ -11,34 +11,41 @@ import com.teamresourceful.resourcefulconfig.api.types.options.EntryType;
         titleTranslation = "config.kaleidoscope_compat.category.farm_and_charm",
         descriptionTranslation = "config.kaleidoscope_compat.category.farm_and_charm.description",
         icon = "shovel",
-links = {
-@ConfigInfo.Link(
-        value = "https://github.com/your-repo/kaleidoscope-compat",
-        icon = "curseforge",
-        text = "CurseForge",
-        textTranslation = "config.kaleidoscope_compat.links.curseforge"
-),
-@ConfigInfo.Link(
-        value = "https://github.com/your-repo/kaleidoscope-compat",
-        icon = "modrinth",
-        text = "Modrinth",
-        textTranslation = "config.kaleidoscope_compat.links.modrinth"
-),
-@ConfigInfo.Link(
-        value = "https://github.com/your-repo/kaleidoscope-compat",
-        icon = "clipboard_list",
-        text = "GitHub",
-        textTranslation = "config.kaleidoscope_compat.links.github"
-)
+        links = {
+                @ConfigInfo.Link(
+                        value = "https://github.com/your-repo/kaleidoscope-compat",
+                        icon = "curseforge",
+                        text = "CurseForge",
+                        textTranslation = "config.kaleidoscope_compat.links.curseforge"
+                ),
+                @ConfigInfo.Link(
+                        value = "https://github.com/your-repo/kaleidoscope-compat",
+                        icon = "modrinth",
+                        text = "Modrinth",
+                        textTranslation = "config.kaleidoscope_compat.links.modrinth"
+                ),
+                @ConfigInfo.Link(
+                        value = "https://github.com/your-repo/kaleidoscope-compat",
+                        icon = "clipboard_list",
+                        text = "GitHub",
+                        textTranslation = "config.kaleidoscope_compat.links.github"
+                )
         }
 )
+@SuppressWarnings("all")
 public final class FarmAndCharmCategory {
 
     @ConfigEntry(id = "cooking_pot_recipes_disabled", type = EntryType.BOOLEAN, translation = "config.kaleidoscope_compat.farm_and_charm.cooking_pot_recipes_disabled")
-    @Comment("Whether all Farm and Charm cooking pot recipes are disabled")
+    @Comment(
+            value = "Whether all Farm and Charm cooking pot recipes are disabled",
+            translation = "config.kaleidoscope_compat.farm_and_charm.cooking_pot_recipes_disabled.comment"
+    )
     public static boolean farmAndCharmCookingPotRecipesDisabled = false;
 
     @ConfigEntry(id = "farm_and_charm_compat_enabled", type = EntryType.BOOLEAN, translation = "config.kaleidoscope_compat.farm_and_charm.compat_enabled")
-    @Comment("Whether Farm and Charm mod compatibility is enabled")
+    @Comment(
+            value = "Whether Farm and Charm mod compatibility is enabled",
+            translation = "config.kaleidoscope_compat.farm_and_charm.compat_enabled.comment"
+    )
     public static boolean farmAndCharmCompatEnabled = true;
 }
