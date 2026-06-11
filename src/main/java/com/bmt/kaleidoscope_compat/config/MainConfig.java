@@ -30,13 +30,13 @@ import net.minecraft.world.item.Item;
                         value = "https://github.com/your-repo/kaleidoscope-compat",
                         icon = "curseforge",
                         text = "CurseForge",
-                        textTranslation = "config.kaleidoscope_compat.links.github"
+                        textTranslation = "config.kaleidoscope_compat.links.curseforge"
                 ),
                 @ConfigInfo.Link(
                         value = "https://github.com/your-repo/kaleidoscope-compat",
                         icon = "modrinth",
                         text = "Modrinth",
-                        textTranslation = "config.kaleidoscope_compat.links.github"
+                        textTranslation = "config.kaleidoscope_compat.links.modrinth"
                 ),
                 @ConfigInfo.Link(
                         value = "https://github.com/your-repo/kaleidoscope-compat",
@@ -46,9 +46,9 @@ import net.minecraft.world.item.Item;
                 ),
                 @ConfigInfo.Link(
                         value = "https://github.com/your-repo/kaleidoscope-compat",
-                        icon = "bibi",
-                        text = "BiBi",
-                        textTranslation = "config.kaleidoscope_compat.links.github"
+                        icon = "wiki",
+                        text = "Wiki",
+                        textTranslation = "config.kaleidoscope_compat.links.wiki"
                 )
         }
 )
@@ -79,10 +79,10 @@ public final class MainConfig {
     public static boolean transmutationLunchBagBackEnabled = KitchenCategory.lunchBag.backBehaviorEnabled;
     public static boolean appleskinCompatEnabled = KitchenCategory.lunchBag.appleskinCompatEnabled;
     public static boolean scarecrowRepelPhantoms = KitchenCategory.scarecrow.repelPhantoms;
-    public static boolean nourishmentEffectBlockEnabled = KitchenCategory.effect.blockEnabled;
-    public static boolean projectileDodgeTeleportEnabled = KitchenCategory.effect.projectileDodgeTeleportEnabled;
-    public static int projectileDodgeDurationCost = KitchenCategory.effect.projectileDodgeDurationCost;
-    public static String vitalityBlacklist = KitchenCategory.effect.vitalityBlacklist;
+    public static boolean nourishmentEffectBlockEnabled = KitchenCategory.blockEnabled;
+    public static boolean projectileDodgeTeleportEnabled = KitchenCategory.projectileDodge.teleportEnabled;
+    public static int projectileDodgeDurationCost = KitchenCategory.projectileDodge.durationCost;
+    public static String vitalityBlacklist = KitchenCategory.vitality.blacklist;
     public static boolean cookingPotRecipesDisabled = FarmersDelightCategory.cookingPotRecipesDisabled;
     public static boolean cookingPotGuiDisabled = FarmersDelightCategory.cookingPotGuiDisabled;
     public static boolean cuttingBoardRecipesDisabled = FarmersDelightCategory.cuttingBoardRecipesDisabled;

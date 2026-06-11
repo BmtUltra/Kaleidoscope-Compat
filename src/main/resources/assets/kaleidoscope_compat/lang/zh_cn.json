@@ -86,12 +86,16 @@
 
 
   "config.kaleidoscope_compat.title": "森罗物语:兼容",
-  "config.kaleidoscope_compat.description": "森罗物语系列模组的兼容性模组",
+  "config.kaleidoscope_compat.description": "为森罗物语系列带来新体验",
+
+  "config.kaleidoscope_compat.links.curseforge": "CurseForge",
+  "config.kaleidoscope_compat.links.modrinth": "Modrinth",
   "config.kaleidoscope_compat.links.github": "GitHub",
-  "config.kaleidoscope_compat.links.discord": "Discord",
+  "config.kaleidoscope_compat.links.wiki": "维基",
 
   "config.kaleidoscope_compat.category.datapack": "数据包",
   "config.kaleidoscope_compat.category.datapack.description": "控制数据包加载模式",
+
   "config.kaleidoscope_compat.datapack.mode": "数据包模式",
   "datapack_mode.kaleidoscope_compat.none": "不启用",
   "datapack_mode.kaleidoscope_compat.compat": "兼容模式",
@@ -99,25 +103,41 @@
   "config.kaleidoscope_compat.datapack.mode.comment": "不启用: 不启用数据兼容\n兼容模式: 与其他模组物品与配方提供大量兼容\n统一模式: 统一与其它模组重复的物品",
   "config.kaleidoscope_compat.datapack.soup_enabled": "启用汤锅材质",
   "config.kaleidoscope_compat.datapack.soup_enabled.comment": "让汤锅拥有五颜六色的汤底材质",
-  "config.kaleidoscope_compat.links.datapack_docs": "维基",
+
+  "config.kaleidoscope_compat.category.kitchen": "森罗物语:厨房",
+  "config.kaleidoscope_compat.category.kitchen.description": "森罗厨房相关功能的设置",
 
   "config.kaleidoscope_compat.kitchen.millstone": "石磨",
+  "config.kaleidoscope_compat.kitchen.millstone.comment": "石磨相关设置",
   "config.kaleidoscope_compat.kitchen.lunch_bag": "嬗变饭袋",
+  "config.kaleidoscope_compat.kitchen.lunch_bag.comment": "嬗变饭袋相关设置",
   "config.kaleidoscope_compat.kitchen.scarecrow": "稻草人",
-  "config.kaleidoscope_compat.kitchen.effect": "效果设置",
+  "config.kaleidoscope_compat.kitchen.scarecrow.comment": "稻草人相关设置",
   "config.kaleidoscope_compat.kitchen.effect.projectile_dodge": "弹射闪避",
+  "config.kaleidoscope_compat.kitchen.effect.projectile_dodge.comment": "弹射闪避相关设置",
   "config.kaleidoscope_compat.kitchen.effect.vitality": "生机",
+  "config.kaleidoscope_compat.kitchen.effect.vitality.comment": "生机效果相关设置",
+  "config.kaleidoscope_compat.kitchen.effect.block_enabled.comment": "拥有饱腹代偿时是否使滋养不生效",
 
   "config.kaleidoscope_compat.kitchen.millstone.stacking_enabled": "石磨输入限制突破",
+  "config.kaleidoscope_compat.kitchen.millstone.stacking_enabled.comment": "启用时，部分功能可以在石磨工作时添加同类型的物品进行堆叠",
   "config.kaleidoscope_compat.kitchen.lunch_bag.blacklist_enabled": "启用黑名单",
+  "config.kaleidoscope_compat.kitchen.lunch_bag.blacklist_enabled.comment": "是否启用嬗变饭袋黑名单",
   "config.kaleidoscope_compat.kitchen.lunch_bag.blacklist": "黑名单",
+  "config.kaleidoscope_compat.kitchen.lunch_bag.blacklist.comment": "无法放入嬗变饭袋的物品",
   "config.kaleidoscope_compat.kitchen.lunch_bag.back_behavior_enabled": "回调行为",
+  "config.kaleidoscope_compat.kitchen.lunch_bag.back_behavior_enabled.comment": "将嬗变饭袋的功能回调到最初代",
   "config.kaleidoscope_compat.kitchen.lunch_bag.appleskin_compat_enabled": "苹果皮显示",
+  "config.kaleidoscope_compat.kitchen.lunch_bag.appleskin_compat_enabled.comment": "手持饭袋时显示苹果皮的功能",
   "config.kaleidoscope_compat.kitchen.scarecrow.repel_phantoms": "驱散幻翼",
+  "config.kaleidoscope_compat.kitchen.scarecrow.repel_phantoms.comment": "稻草人是否能驱散附近的幻翼",
   "config.kaleidoscope_compat.kitchen.effect.block_enabled": "阻断滋养效果",
   "config.kaleidoscope_compat.kitchen.effect.projectile_dodge.teleport_enabled": "启用传送",
+  "config.kaleidoscope_compat.kitchen.effect.projectile_dodge.teleport_enabled.comment": "是否启用弹射闪避的传送",
   "config.kaleidoscope_compat.kitchen.effect.projectile_dodge.duration_cost": "持续时间消耗（tick）",
+  "config.kaleidoscope_compat.kitchen.effect.projectile_dodge.duration_cost.comment": "每次闪避消耗的持续时间（刻）",
   "config.kaleidoscope_compat.kitchen.effect.vitality.blacklist": "生机效果黑名单",
+  "config.kaleidoscope_compat.kitchen.effect.vitality.blacklist.comment": "不受生机效果影响的实体",
 
   "config.kaleidoscope_compat.farmersdelight.cooking_pot_recipes_disabled": "禁用厨锅配方",
   "config.kaleidoscope_compat.farmersdelight.cooking_pot_gui_disabled": "禁用厨锅",
@@ -159,7 +179,7 @@
   "config.kaleidoscope_compat.compat.quark_sickle_harvest_fix_enabled": "夸克镰刀修复",
   "config.kaleidoscope_compat.compat.suppress_tag_load_errors": "禁用错误日志",
 
-  "config.kaleidoscope_compat.category.kitchen.description": "森罗厨房相关功能的设置",
+
   "config.kaleidoscope_compat.category.create.description": "机械动力模组的兼容设置",
   "config.kaleidoscope_compat.category.farmersdelight.description": "农夫乐事模组的兼容设置",
   "config.kaleidoscope_compat.category.youkaisfeasts.description": "幻想乡乐事模组的兼容设置",
@@ -172,7 +192,7 @@
 
 
 
-  "config.kaleidoscope_compat.category.kitchen": "森罗物语:厨房",
+
   "config.kaleidoscope_compat.category.farmersdelight": "农夫乐事",
   "config.kaleidoscope_compat.category.youkaisfeasts": "幻想乡乐事",
   "config.kaleidoscope_compat.category.farm_and_charm": "沉浸农艺",

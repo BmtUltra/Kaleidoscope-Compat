@@ -15,30 +15,51 @@ import com.teamresourceful.resourcefulconfig.api.types.options.EntryType;
 public final class CreateCategory {
 
     @ConfigEntry(id = "compat_enabled", type = EntryType.BOOLEAN, translation = "config.kaleidoscope_compat.create.compat_enabled")
-    @Comment("Whether Create mod compatibility is enabled")
+    @Comment(
+            value = "Whether Create mod compatibility is enabled",
+            translation = "config.kaleidoscope_compat.create.compat_enabled.comment"
+    )
     public static boolean createCompatEnabled = true;
 
     @ConfigEntry(id = "arm_pot_enabled", type = EntryType.BOOLEAN, translation = "config.kaleidoscope_compat.create.arm_pot_enabled")
-    @Comment("Whether Create mechanical arm pot compatibility is enabled")
+    @Comment(
+            value = "Whether Create mechanical arm pot compatibility is enabled",
+            translation = "config.kaleidoscope_compat.create.arm_pot_enabled.comment"
+    )
     public static boolean createArmPotEnabled = true;
 
     @ConfigEntry(id = "arm_stockpot_enabled", type = EntryType.BOOLEAN, translation = "config.kaleidoscope_compat.create.arm_stockpot_enabled")
-    @Comment("Whether Create mechanical arm stockpot compatibility is enabled")
+    @Comment(
+            value = "Whether Create mechanical arm stockpot compatibility is enabled",
+            translation = "config.kaleidoscope_compat.create.arm_stockpot_enabled.comment"
+    )
     public static boolean createArmStockpotEnabled = true;
 
     @ConfigEntry(id = "arm_steamer_enabled", type = EntryType.BOOLEAN, translation = "config.kaleidoscope_compat.create.arm_steamer_enabled")
-    @Comment("Whether Create mechanical arm steamer compatibility is enabled")
+    @Comment(
+            value = "Whether Create mechanical arm steamer compatibility is enabled",
+            translation = "config.kaleidoscope_compat.create.arm_steamer_enabled.comment"
+    )
     public static boolean createArmSteamerEnabled = true;
 
     @ConfigEntry(id = "arm_millstone_enabled", type = EntryType.BOOLEAN, translation = "config.kaleidoscope_compat.create.arm_millstone_enabled")
-    @Comment("Whether Create mechanical arm millstone compatibility is enabled")
+    @Comment(
+            value = "Whether Create mechanical arm millstone compatibility is enabled",
+            translation = "config.kaleidoscope_compat.create.arm_millstone_enabled.comment"
+    )
     public static boolean createArmMillstoneEnabled = true;
 
     @ConfigEntry(id = "arm_shawarma_spit_enabled", type = EntryType.BOOLEAN, translation = "config.kaleidoscope_compat.create.arm_shawarma_spit_enabled")
-    @Comment("Whether Create mechanical arm shawarma spit compatibility is enabled")
+    @Comment(
+            value = "Whether Create mechanical arm shawarma spit compatibility is enabled",
+            translation = "config.kaleidoscope_compat.create.arm_shawarma_spit_enabled.comment"
+    )
     public static boolean createArmShawarmaSpitEnabled = true;
 
     @ConfigEntry(id = "arm_teapot_enabled", type = EntryType.BOOLEAN, translation = "config.kaleidoscope_compat.create.arm_teapot_enabled")
-    @Comment("Whether Create mechanical arm teapot compatibility is enabled")
+    @Comment(
+            value = "Whether Create mechanical arm teapot compatibility is enabled",
+            translation = "config.kaleidoscope_compat.create.arm_teapot_enabled.comment"
+    )
     public static boolean createArmTeapotEnabled = true;
 }
