@@ -44,6 +44,9 @@ repositories {
         name = "EngineRoom Maven"
         url "https://maven.engine-room.dev/releases"
     }
+    flatDir {
+        dir 'libs'
+    }
 }
 
 base {
@@ -138,7 +141,8 @@ configurations {
 
 dependencies {
     implementation "maven.modrinth:kaleidoscope-cookery:1.4.0-neoforge+mc1.21.1"
-    implementation "curse.maven:jei-238222:7420587"
+    compileOnly "curse.maven:jei-238222:7420587"
+    runtimeOnly "curse.maven:jei-238222:7420587"
     implementation "maven.modrinth:artifacts:13.2.0"
 
     compileOnly "maven.modrinth:curios:9.5.1+1.21.1"
@@ -200,13 +204,15 @@ dependencies {
 //    implementation "maven.modrinth:spectrumjei:21.1.9+neoforge"
     runtimeOnly "maven.modrinth:touhou-little-maid:1.5.3-neoforge+mc1.21.1"
     runtimeOnly "maven.modrinth:patchouli:1.21.1-93-neoforge"
-    implementation "maven.modrinth:resourceful-config:3.0.11"
-    jarJar("maven.modrinth:resourceful-config:3.0.11") {
-        version {
-            strictly "[3.0.11,)"
-            prefer "3.0.11"
-        }
-    }
+    implementation fileTree("libs")
+            jarJar(implementation("blank:resourcefulconfig:neoforge-1.21-3.0.11"))
+//    implementation "maven.modrinth:resourceful-config:3.0.11"
+//    jarJar("maven.modrinth:resourceful-config:3.0.11") {
+//        version {
+//            strictly "[3.0.11,)"
+//            prefer "3.0.11"
+//        }
+//    }
 }
 
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {

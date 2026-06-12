@@ -1,23 +1,36 @@
 package com.bmt.kaleidoscope_compat.client;
 
 import com.bmt.kaleidoscope_compat.KaleidoscopeCompat;
+import com.bmt.kaleidoscope_compat.config.MainConfig;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.model.StrawHatModel;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
+import com.teamresourceful.resourcefulconfig.client.ConfigScreen;
 import net.minecraft.client.Minecraft;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
 import java.lang.reflect.Method;
 
 @EventBusSubscriber(modid = KaleidoscopeCompat.MOD_ID, value = Dist.CLIENT)
-public class ClientSetup {
+public class MainClient {
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
+            ModContainer modContainer = ModList.get()
+                    .getModContainerById(KaleidoscopeCompat.MOD_ID)
+                    .orElseThrow(() -> new RuntimeException("Failed to get mod container for " + KaleidoscopeCompat.MOD_ID));
+
+            modContainer.registerExtensionPoint(
+                    IConfigScreenFactory.class,
+                    (container, screen) -> new ConfigScreen(screen, KaleidoscopeCompat.CONFIGURATOR.getConfig(MainConfig.class))
+            );
             if (isCuriosLoaded()) {
                 registerCurioRenderers();
             }

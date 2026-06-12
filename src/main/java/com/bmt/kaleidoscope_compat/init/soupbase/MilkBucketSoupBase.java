@@ -1,5 +1,6 @@
 package com.bmt.kaleidoscope_compat.init.soupbase;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.api.client.render.ISoupBaseRender;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.recipe.soupbase.ISoupBase;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.render.soupbase.SimpleSoupBaseRender;
 import net.minecraft.resources.ResourceLocation;
@@ -52,7 +53,7 @@ public class MilkBucketSoupBase implements ISoupBase {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public com.github.ysbbbbbb.kaleidoscopecookery.api.client.render.ISoupBaseRender getRender() {
+    public ISoupBaseRender getRender() {
         return new SimpleSoupBaseRender(MILK_TEXTURE);
     }
 }
