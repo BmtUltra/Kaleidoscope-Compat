@@ -33,6 +33,8 @@
   "config.kaleidoscope_compat.kitchen.effect.vitality": "Vitality",
   "config.kaleidoscope_compat.kitchen.effect.vitality.comment": "Vitality effect-related settings",
   "config.kaleidoscope_compat.kitchen.effect.block_enabled.comment": "Whether Nourishment does not take effect when Satiety Compensation is active",
+  "config.kaleidoscope_compat.kitchen.fuzzy_recipes_enabled": "Fuzzy Recipes",
+  "config.kaleidoscope_compat.kitchen.fuzzy_recipes_enabled.comment": "Whether to enable the fuzzy recipe mechanism for Pot and Stockpot",
 
   "config.kaleidoscope_compat.kitchen.millstone.stacking_enabled": "Millstone Input Limit Break",
   "config.kaleidoscope_compat.kitchen.millstone.stacking_enabled.comment": "When enabled, some features allow stacking items of the same type while the millstone is working",

@@ -16,29 +16,36 @@ import com.teamresourceful.resourcefulconfig.api.types.options.EntryType;
         titleTranslation = "config.kaleidoscope_compat.category.kitchen",
         descriptionTranslation = "config.kaleidoscope_compat.category.kitchen.description",
         icon = "utensils",
-links = {
-@ConfigInfo.Link(
-        value = "https://www.curseforge.com/minecraft/mc-mods/kaleidoscope-cookery",
-        icon = "curseforge",
-        text = "CurseForge",
-        textTranslation = "config.kaleidoscope_compat.links.curseforge"
-),
-@ConfigInfo.Link(
-        value = "https://modrinth.com/mod/kaleidoscope-cookery",
-        icon = "modrinth",
-        text = "Modrinth",
-        textTranslation = "config.kaleidoscope_compat.links.modrinth"
-),
-@ConfigInfo.Link(
-        value = "https://github.com/KaleidoscopeMods/KaleidoscopeCookery",
-        icon = "clipboard_list",
-        text = "GitHub",
-        textTranslation = "config.kaleidoscope_compat.links.github"
-)
+        links = {
+                @ConfigInfo.Link(
+                        value = "https://www.curseforge.com/minecraft/mc-mods/kaleidoscope-cookery",
+                        icon = "curseforge",
+                        text = "CurseForge",
+                        textTranslation = "config.kaleidoscope_compat.links.curseforge"
+                ),
+                @ConfigInfo.Link(
+                        value = "https://modrinth.com/mod/kaleidoscope-cookery",
+                        icon = "modrinth",
+                        text = "Modrinth",
+                        textTranslation = "config.kaleidoscope_compat.links.modrinth"
+                ),
+                @ConfigInfo.Link(
+                        value = "https://github.com/KaleidoscopeMods/KaleidoscopeCookery",
+                        icon = "clipboard_list",
+                        text = "GitHub",
+                        textTranslation = "config.kaleidoscope_compat.links.github"
+                )
         }
 )
 @SuppressWarnings("all")
 public final class KitchenCategory {
+
+    @ConfigEntry(id = "fuzzy_recipes_enabled", type = EntryType.BOOLEAN, translation = "config.kaleidoscope_compat.kitchen.fuzzy_recipes_enabled")
+    @Comment(
+            value = "Enable fuzzy recipes (FlexPotRecipe and FlexStockpotRecipe)",
+            translation = "config.kaleidoscope_compat.kitchen.fuzzy_recipes_enabled.comment"
+    )
+    public static boolean fuzzyRecipesEnabled = true;
 
     @ConfigEntry(id = "block_enabled", type = EntryType.BOOLEAN, translation = "config.kaleidoscope_compat.kitchen.effect.block_enabled")
     @Comment(

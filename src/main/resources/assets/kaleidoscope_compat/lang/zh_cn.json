@@ -33,6 +33,8 @@
   "config.kaleidoscope_compat.kitchen.effect.vitality": "生机",
   "config.kaleidoscope_compat.kitchen.effect.vitality.comment": "生机效果相关设置",
   "config.kaleidoscope_compat.kitchen.effect.block_enabled.comment": "拥有饱腹代偿时是否使滋养不生效",
+  "config.kaleidoscope_compat.kitchen.fuzzy_recipes_enabled": "模糊配方",
+  "config.kaleidoscope_compat.kitchen.fuzzy_recipes_enabled.comment": "是否启用炒锅与汤锅的模糊配方机制",
 
   "config.kaleidoscope_compat.kitchen.millstone.stacking_enabled": "石磨输入限制突破",
   "config.kaleidoscope_compat.kitchen.millstone.stacking_enabled.comment": "启用时，部分功能可以在石磨工作时添加同类型的物品进行堆叠",
