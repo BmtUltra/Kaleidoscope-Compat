@@ -142,7 +142,12 @@ configurations {
 dependencies {
     implementation "maven.modrinth:kaleidoscope-cookery:1.4.0-neoforge+mc1.21.1"
     compileOnly "curse.maven:jei-238222:7420587"
-    runtimeOnly "curse.maven:jei-238222:7420587"
+//    runtimeOnly "curse.maven:jei-238222:7420587"
+    compileOnly "maven.modrinth:emi:1.1.24+1.21.1+neoforge"
+//    runtimeOnly "maven.modrinth:emi:1.1.24+1.21.1+neoforge"
+    compileOnly "maven.modrinth:rei:16.0.799+neoforge"
+    runtimeOnly "maven.modrinth:rei:16.0.799+neoforge"
+    implementation "maven.modrinth:architectury-api:13.0.8+neoforge"
     implementation "maven.modrinth:artifacts:13.2.0"
 
     compileOnly "maven.modrinth:curios:9.5.1+1.21.1"

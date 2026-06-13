@@ -152,6 +152,7 @@
   "task.kaleidoscope_compat.pressing_tub.desc": "The maid will look for nearby pressing tubs, add ingredients, jump to press, and collect the product with a bucket",
 
   "jei.category.kaleidoscope_compat.shawarma_spit": "Whirlwind Shawarma Spit",
+  "emi.category.kaleidoscope_compat.shawarma_spit": "Whirlwind Barbecue Spit",
   "tip.kaleidoscope_compat.pot_arm_recipe_set": "Wok recipe set for mechanical arm: %s",
   "tip.kaleidoscope_compat.stockpot_arm_recipe_set": "Stockpot recipe set for mechanical arm: %s",
   "tooltip.kaleidoscope_compat.recipe_item.pot_arm_recipe": "Shift + Right-click the wok to set the mechanical arm recipe",

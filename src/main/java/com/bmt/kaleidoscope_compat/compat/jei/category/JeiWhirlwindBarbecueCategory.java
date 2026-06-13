@@ -1,4 +1,4 @@
-package com.bmt.kaleidoscope_compat.compat.jei;
+package com.bmt.kaleidoscope_compat.compat.jei.category;
 
 import com.bmt.kaleidoscope_compat.KaleidoscopeCompat;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 @SuppressWarnings("removal")
-public class WhirlwindBarbecueCategory implements IRecipeCategory<CampfireCookingRecipe> {
+public class JeiWhirlwindBarbecueCategory implements IRecipeCategory<CampfireCookingRecipe> {
     
     public static final RecipeType<CampfireCookingRecipe> RECIPE_TYPE =
         RecipeType.create(KaleidoscopeCompat.MOD_ID, "shawarma_spit", CampfireCookingRecipe.class);
@@ -30,7 +30,7 @@ public class WhirlwindBarbecueCategory implements IRecipeCategory<CampfireCookin
     private final IDrawable background;
     private final IDrawable icon;
     
-    public WhirlwindBarbecueCategory(IGuiHelper guiHelper) {
+    public JeiWhirlwindBarbecueCategory(IGuiHelper guiHelper) {
         this.background = guiHelper.createDrawable(TEXTURE, 0, 0, 170, 100);
 
         this.icon = guiHelper.createDrawableItemStack(
@@ -62,7 +62,7 @@ public class WhirlwindBarbecueCategory implements IRecipeCategory<CampfireCookin
     
     @Override
     public void setRecipe(@NotNull IRecipeLayoutBuilder builder, @NotNull CampfireCookingRecipe recipe, @NotNull IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 56, 36)
+        builder.addSlot(RecipeIngredientRole.INPUT, 57, 36)
             .addIngredients(recipe.getIngredients().getFirst());
         
         builder.addSlot(RecipeIngredientRole.OUTPUT, 123, 36)

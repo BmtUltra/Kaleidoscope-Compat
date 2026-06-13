@@ -1,11 +1,11 @@
 package com.bmt.kaleidoscope_compat.compat.jei;
 
 import com.bmt.kaleidoscope_compat.KaleidoscopeCompat;
+import com.bmt.kaleidoscope_compat.compat.jei.category.JeiWhirlwindBarbecueCategory;
 import com.bmt.kaleidoscope_compat.config.category.OtherCategory;
 import com.bmt.kaleidoscope_compat.util.TagUtil;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import mezz.jei.api.IModPlugin;
-import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.registration.IAdvancedRegistration;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
@@ -29,8 +29,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@JeiPlugin
-public class Plugins implements IModPlugin {
+@mezz.jei.api.JeiPlugin
+public class JeiPlugin implements IModPlugin {
 
     private static final ResourceLocation PLUGIN_ID =
             ResourceLocation.fromNamespaceAndPath(KaleidoscopeCompat.MOD_ID, "jei_plugin");
@@ -47,7 +47,7 @@ public class Plugins implements IModPlugin {
     public void registerCategories(@NotNull IRecipeCategoryRegistration registration) {
         if (!OtherCategory.jeiCompatEnabled) return;
         registration.addRecipeCategories(
-                new WhirlwindBarbecueCategory(registration.getJeiHelpers().getGuiHelper())
+                new JeiWhirlwindBarbecueCategory(registration.getJeiHelpers().getGuiHelper())
         );
     }
 
@@ -62,7 +62,7 @@ public class Plugins implements IModPlugin {
         if (!OtherCategory.jeiCompatEnabled) return;
         registration.addRecipeCatalyst(
                 new ItemStack(ModBlocks.SHAWARMA_SPIT.get()),
-                WhirlwindBarbecueCategory.RECIPE_TYPE
+                JeiWhirlwindBarbecueCategory.RECIPE_TYPE
         );
     }
 
@@ -96,7 +96,7 @@ public class Plugins implements IModPlugin {
                 .map(RecipeHolder::value)
                 .collect(Collectors.toList());
 
-        registration.addRecipes(WhirlwindBarbecueCategory.RECIPE_TYPE, campfireRecipes);
+        registration.addRecipes(JeiWhirlwindBarbecueCategory.RECIPE_TYPE, campfireRecipes);
     }
 
     private void updateHiddenItems() {
