@@ -135,11 +135,11 @@
 
   "config.kaleidoscope_compat.category.other": "其它",
   "config.kaleidoscope_compat.category.other.description": "杂项功能设置",
-  "config.kaleidoscope_compat.compat.jei_compat_enabled": "JEI兼容",
+  "config.kaleidoscope_compat.compat.jei_compat_enabled": "旋风烤肉塔配方显示",
   "config.kaleidoscope_compat.compat.thirst_compat_enabled": "口渴兼容",
   "config.kaleidoscope_compat.compat.quark_sickle_harvest_fix_enabled": "夸克镰刀修复",
   "config.kaleidoscope_compat.compat.suppress_tag_load_errors": "禁用错误日志",
-  "config.kaleidoscope_compat.compat.jei_compat_enabled.comment": "是否启用旋风烤肉塔JEI",
+  "config.kaleidoscope_compat.compat.jei_compat_enabled.comment": "启用后,旋风烤肉塔的配方将会在JEI,REI,EMI中显示",
   "config.kaleidoscope_compat.compat.thirst_compat_enabled.comment": "是否启用口渴兼容",
   "config.kaleidoscope_compat.compat.quark_sickle_harvest_fix_enabled.comment": "启用后，手持镰刀不会触发夸克的收获",
   "config.kaleidoscope_compat.compat.suppress_tag_load_errors.comment": "启用后，抑制所有标签的红色日志",
