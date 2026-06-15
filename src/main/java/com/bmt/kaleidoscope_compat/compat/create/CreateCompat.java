@@ -4,6 +4,7 @@ import com.bmt.kaleidoscope_compat.compat.create.arm.*;
 import com.bmt.kaleidoscope_compat.config.category.CreateCategory;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModList;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 
 public class CreateCompat {
     public static void init(IEventBus modEventBus) {
@@ -23,6 +24,12 @@ public class CreateCompat {
                 CreateShawarmaSpitArm.init(modEventBus);}
             if (CreateCategory.createArmTeapotEnabled) {
                 CreateTeapotArm.init(modEventBus);}
+
+            modEventBus.addListener(CreateCompat::onCommonSetup);
         });
+    }
+
+    private static void onCommonSetup(FMLCommonSetupEvent event) {
+        CreatePotMovingInteraction.init();
     }
 }
