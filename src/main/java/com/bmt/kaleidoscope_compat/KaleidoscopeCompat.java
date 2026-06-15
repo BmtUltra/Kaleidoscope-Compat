@@ -6,6 +6,7 @@ import com.bmt.kaleidoscope_compat.compat.spectrum.SpectrumCompat;
 import com.bmt.kaleidoscope_compat.compat.touhoulittlemaid.LittleMaidCompat;
 import com.bmt.kaleidoscope_compat.config.MainConfig;
 import com.teamresourceful.resourcefulconfig.api.loader.Configurator;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 
@@ -13,6 +14,10 @@ import net.neoforged.fml.common.Mod;
 public class KaleidoscopeCompat {
     public static final String MOD_ID = "kaleidoscope_compat";
     public static Configurator CONFIGURATOR;
+
+    public static ResourceLocation id(String path) {
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+    }
 
     public KaleidoscopeCompat(IEventBus modEventBus) {
         CONFIGURATOR = new Configurator(MOD_ID);

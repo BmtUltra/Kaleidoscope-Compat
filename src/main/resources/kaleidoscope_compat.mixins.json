@@ -10,6 +10,7 @@
     "solcarrot.FoodItemsMixin"
   ],
   "mixins": [
+    "create.accessor.ContraptionAccessor",
     "accessories.AdvanceBlockMatchToolMixin",
     "curios.AdvanceBlockMatchToolMixin",
     "farm_and_charm.CookingPotCategoryMixin",
