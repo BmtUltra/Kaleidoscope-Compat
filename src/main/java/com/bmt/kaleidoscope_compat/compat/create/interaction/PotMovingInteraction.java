@@ -1,5 +1,6 @@
 package com.bmt.kaleidoscope_compat.compat.create.interaction;
 
+import com.bmt.kaleidoscope_compat.compat.create.util.ContraptionUtil;
 import com.github.ysbbbbbb.kaleidoscopecookery.advancements.critereon.ModEventTriggerType;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.PotBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.container.SimpleInput;
@@ -20,13 +21,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
@@ -50,8 +48,6 @@ import static com.github.ysbbbbbb.kaleidoscopecookery.init.registry.FoodBiteRegi
 public class PotMovingInteraction extends BaseMovingInteraction {
 
     private static final int PUT_INGREDIENT_TIME = 60 * 20;
-    private static final int TAKEOUT_TIME = 40 * 20;
-    private static final int BURNT_TIME = 20 * 20;
     private static final double DURABILITY_COST_PROBABILITY = 0.25;
 
     @Override
@@ -66,8 +62,8 @@ public class PotMovingInteraction extends BaseMovingInteraction {
         ItemStack itemInHand = player.getItemInHand(activeHand);
         CompoundTag nbt = getOrCreateNbt(info);
         int status = nbt.getInt(STATUS);
-
-        // 1. 取出配菜（空手或 INGREDIENT_CONTAINER）
+        
+        // 1. 取出配菜
         if ((itemInHand.isEmpty() || itemInHand.is(TagMod.INGREDIENT_CONTAINER)) &&
             removeIngredient(player, contraptionEntity, localPos, state, nbt, info)) {
             return true;
@@ -80,18 +76,16 @@ public class PotMovingInteraction extends BaseMovingInteraction {
 
         // 3. 检查热源
         if (!hasHeatSource(contraptionEntity, localPos)) {
-            sendActionBar(player, "tip.kaleidoscope_cookery.pot.need_lit_stove");
+            sendActionBarMessage(player, "tip.kaleidoscope_cookery.pot.need_lit_stove");
             return true;
         }
 
-        // 4. 检查油
+        // 4. 检查是否有油脂
         if (!state.getValue(HAS_OIL)) {
-            if (onPlaceOil(player, contraptionEntity, localPos, state, nbt, itemInHand, info)) {
-                return true;
-            } else {
-                sendActionBar(player, "tip.kaleidoscope_cookery.pot.need_oil");
-                return true;
+            if (!onPlaceOil(player, contraptionEntity, localPos, state, nbt, itemInHand, info)) {
+                sendActionBarMessage(player, "tip.kaleidoscope_cookery.pot.need_oil");
             }
+            return false;
         }
 
         // 4.5 锅铲翻炒
@@ -123,17 +117,17 @@ public class PotMovingInteraction extends BaseMovingInteraction {
     private boolean onPlaceOil(Player player, AbstractContraptionEntity contraptionEntity, BlockPos localPos,
                                BlockState state, CompoundTag nbt, ItemStack stack, StructureBlockInfo info) {
         if (stack.is(TagMod.OIL)) {
-            placeOil(contraptionEntity, localPos, state, nbt, player, info);
+            placeOil(contraptionEntity, localPos, state, nbt, info);
             if (!player.isCreative()) stack.shrink(1);
             ModTrigger.EVENT.get().trigger(player, ModEventTriggerType.PUT_OIL_IN_POT);
             return true;
         } else if (stack.is(ModItems.KITCHEN_SHOVEL.get()) && KitchenShovelItem.hasOil(stack)) {
-            placeOil(contraptionEntity, localPos, state, nbt, player, info);
+            placeOil(contraptionEntity, localPos, state, nbt, info);
             KitchenShovelItem.setHasOil(stack, false);
             ModTrigger.EVENT.get().trigger(player, ModEventTriggerType.PUT_OIL_IN_POT);
             return true;
         } else if (stack.is(ModItems.OIL_POT.get()) && OilPotItem.hasOil(stack)) {
-            placeOil(contraptionEntity, localPos, state, nbt, player, info);
+            placeOil(contraptionEntity, localPos, state, nbt, info);
             OilPotItem.shrinkOilCount(stack);
             ModTrigger.EVENT.get().trigger(player, ModEventTriggerType.PUT_OIL_IN_POT);
             return true;
@@ -142,7 +136,7 @@ public class PotMovingInteraction extends BaseMovingInteraction {
     }
 
     private void placeOil(AbstractContraptionEntity contraptionEntity, BlockPos localPos, BlockState state,
-                          CompoundTag nbt, Player player, StructureBlockInfo info) {
+                          CompoundTag nbt, StructureBlockInfo info) {
         if (contraptionEntity.level().isClientSide) return;
 
         CompoundTag newNbt = nbt.copy();
@@ -164,7 +158,7 @@ public class PotMovingInteraction extends BaseMovingInteraction {
         if (itemStack.is(TagMod.INGREDIENT_BLOCKLIST)) return false;
 
         RegistryAccess registryAccess = contraptionEntity.level().registryAccess();
-        NonNullList<ItemStack> inputs = readInputs(nbt, registryAccess);
+        NonNullList<ItemStack> inputs = ContraptionUtil.readInputs(nbt, registryAccess, PotRecipe.RECIPES_SIZE);
 
         for (int i = 0; i < inputs.size(); i++) {
             ItemStack item = inputs.get(i);
@@ -177,7 +171,7 @@ public class PotMovingInteraction extends BaseMovingInteraction {
 
                 if (!contraptionEntity.level().isClientSide) {
                     CompoundTag newNbt = nbt.copy();
-                    saveInputs(newNbt, inputs, registryAccess);
+                    ContraptionUtil.saveInputs(newNbt, inputs, registryAccess);
                     updateData(contraptionEntity, localPos, new StructureBlockInfo(info.pos(), state, newNbt));
                 }
 
@@ -194,7 +188,7 @@ public class PotMovingInteraction extends BaseMovingInteraction {
         if (status != PUT_INGREDIENT) return false;
 
         RegistryAccess registryAccess = contraptionEntity.level().registryAccess();
-        NonNullList<ItemStack> inputs = readInputs(nbt, registryAccess);
+        NonNullList<ItemStack> inputs = ContraptionUtil.readInputs(nbt, registryAccess, PotRecipe.RECIPES_SIZE);
 
         for (int i = inputs.size() - 1; i >= 0; i--) {
             ItemStack stack = inputs.get(i);
@@ -207,7 +201,7 @@ public class PotMovingInteraction extends BaseMovingInteraction {
                 ItemUtils.getItemToLivingEntity(player, stack);
 
                 CompoundTag newNbt = nbt.copy();
-                saveInputs(newNbt, inputs, registryAccess);
+                ContraptionUtil.saveInputs(newNbt, inputs, registryAccess);
                 updateData(contraptionEntity, localPos, new StructureBlockInfo(info.pos(), state, newNbt));
             }
 
@@ -243,22 +237,23 @@ public class PotMovingInteraction extends BaseMovingInteraction {
             CompoundTag newNbt = nbt.copy();
             newNbt.putLong(SEED, System.currentTimeMillis());
 
-            if (status == PUT_INGREDIENT && !isEmpty(newNbt, contraptionEntity.level().registryAccess())) {
+            if (status == PUT_INGREDIENT && !ContraptionUtil.areInputsEmpty(newNbt, contraptionEntity.level().registryAccess(), PotRecipe.RECIPES_SIZE)) {
                 startCooking(contraptionEntity, localPos, state, newNbt, info);
                 ModTrigger.EVENT.get().trigger(user, ModEventTriggerType.STIR_FRY_IN_POT);
             }
 
+            StructureBlockInfo newInfo = new StructureBlockInfo(info.pos(), state, newNbt);
             if (status == COOKING) {
                 int stirFryCount = newNbt.getInt(POT_STIR_FRY_COUNT);
                 if (stirFryCount > 0) {
                     newNbt.putInt(POT_STIR_FRY_COUNT, stirFryCount - 1);
                 }
-                updateData(contraptionEntity, localPos, new StructureBlockInfo(info.pos(), state, newNbt));
+                updateData(contraptionEntity, localPos, newInfo);
                 ModTrigger.EVENT.get().trigger(user, ModEventTriggerType.STIR_FRY_IN_POT);
             }
 
             if (status == FINISHED || status == BURNT) {
-                updateData(contraptionEntity, localPos, new StructureBlockInfo(info.pos(), state, newNbt));
+                updateData(contraptionEntity, localPos, newInfo);
             }
         }
     }
@@ -266,7 +261,7 @@ public class PotMovingInteraction extends BaseMovingInteraction {
     private void startCooking(AbstractContraptionEntity contraptionEntity, BlockPos localPos, BlockState state,
                               CompoundTag nbt, StructureBlockInfo info) {
         RegistryAccess registryAccess = contraptionEntity.level().registryAccess();
-        NonNullList<ItemStack> inputs = readInputs(nbt, registryAccess);
+        NonNullList<ItemStack> inputs = ContraptionUtil.readInputs(nbt, registryAccess, PotRecipe.RECIPES_SIZE);
         SimpleInput simpleInput = new SimpleInput(inputs);
 
         CompoundTag newNbt = nbt.copy();
@@ -275,7 +270,7 @@ public class PotMovingInteraction extends BaseMovingInteraction {
         var potRecipeOpt = contraptionEntity.level().getRecipeManager().getRecipeFor(ModRecipes.POT_RECIPE, simpleInput, contraptionEntity.level());
         if (potRecipeOpt.isPresent()) {
             RecipeHolder<PotRecipe> holder = potRecipeOpt.get();
-            applyPotRecipe(contraptionEntity, localPos, state, newNbt, simpleInput, holder.value(), holder.id());
+            applyPotRecipe(contraptionEntity, localPos, state, newNbt, simpleInput, holder.value());
             return;
         }
 
@@ -290,9 +285,9 @@ public class PotMovingInteraction extends BaseMovingInteraction {
     }
 
     private void applyPotRecipe(AbstractContraptionEntity contraptionEntity, BlockPos localPos, BlockState state,
-                                CompoundTag newNbt, SimpleInput input, PotRecipe recipe, ResourceLocation recipeId) {
+                                CompoundTag newNbt, SimpleInput input, PotRecipe recipe) {
         RegistryAccess registryAccess = contraptionEntity.level().registryAccess();
-        saveCarrier(newNbt, recipe.carrier(), registryAccess);
+        ContraptionUtil.saveCarrier(newNbt, recipe.carrier(), CARRIER);
         newNbt.put(RESULT, recipe.assemble(input, registryAccess).saveOptional(registryAccess));
         newNbt.putInt(CURRENT_TICK, recipe.time());
         newNbt.putInt(POT_STIR_FRY_COUNT, recipe.stirFryCount());
@@ -302,7 +297,7 @@ public class PotMovingInteraction extends BaseMovingInteraction {
     private void applyFlexRecipe(AbstractContraptionEntity contraptionEntity, BlockPos localPos, BlockState state,
                                  CompoundTag newNbt, SimpleInput input, FlexPotRecipe recipe, NonNullList<ItemStack> inputs, ResourceLocation recipeId) {
         RegistryAccess registryAccess = contraptionEntity.level().registryAccess();
-        saveCarrier(newNbt, recipe.carrier(), registryAccess);
+        ContraptionUtil.saveCarrier(newNbt, recipe.carrier(), CARRIER);
         ItemStack result = recipe.assemble(input, registryAccess);
 
         if (contraptionEntity.level() instanceof net.minecraft.server.level.ServerLevel serverLevel) {
@@ -318,7 +313,7 @@ public class PotMovingInteraction extends BaseMovingInteraction {
 
     private void applySuspiciousRecipe(AbstractContraptionEntity contraptionEntity, BlockPos localPos, BlockState state,
                                        CompoundTag newNbt, RegistryAccess registryAccess, StructureBlockInfo info) {
-        saveCarrier(newNbt, Ingredient.of(Items.BOWL), registryAccess);
+        ContraptionUtil.saveCarrier(newNbt, Ingredient.of(Items.BOWL), CARRIER);
         newNbt.put(RESULT, new ItemStack(getItem(SUSPICIOUS_STIR_FRY)).saveOptional(registryAccess));
         newNbt.putInt(CURRENT_TICK, 10 * 20);
         newNbt.putInt(POT_STIR_FRY_COUNT, 0);
@@ -333,46 +328,45 @@ public class PotMovingInteraction extends BaseMovingInteraction {
         RegistryAccess registryAccess = contraptionEntity.level().registryAccess();
         ItemStack finallyResult = status == FINISHED ? readResult(nbt, registryAccess) : new ItemStack(getItem(DARK_CUISINE));
 
-        Ingredient carrier = readCarrier(nbt, registryAccess);
+        Ingredient carrier = readCarrier(nbt);
         if (!carrier.isEmpty()) {
-            return takeOutWithCarrier(player, contraptionEntity, localPos, state, nbt, stack, finallyResult, carrier, info);
+            return takeOutWithCarrier(player, contraptionEntity, localPos, state, stack, finallyResult, carrier, info);
         } else {
-            return takeOutWithoutCarrier(player, contraptionEntity, localPos, state, nbt, stack, finallyResult, info);
+            return takeOutWithoutCarrier(player, contraptionEntity, localPos, state, stack, finallyResult, info);
         }
     }
 
     private boolean takeOutWithoutCarrier(Player player, AbstractContraptionEntity contraptionEntity, BlockPos localPos,
-                                          BlockState state, CompoundTag nbt, ItemStack stack, ItemStack finallyResult, StructureBlockInfo info) {
+                                          BlockState state, ItemStack stack, ItemStack finallyResult, StructureBlockInfo info) {
         if (stack.is(TagMod.KITCHEN_SHOVEL)) {
             if (!player.isSecondaryUseActive()) return false;
             if (!contraptionEntity.level().isClientSide) {
                 ItemUtils.getItemToLivingEntity(player, finallyResult);
-                reset(contraptionEntity, localPos, state, nbt, info);
+                reset(contraptionEntity, localPos, state, info);
             }
-            return true;
         } else {
             if (hasHeatSource(contraptionEntity, localPos)) {
                 player.hurt(contraptionEntity.level().damageSources().inFire(), 1);
                 ModTrigger.EVENT.get().trigger(player, ModEventTriggerType.HURT_WHEN_TAKEOUT_FROM_POT);
             }
-            sendActionBar(player, "tip.kaleidoscope_cookery.pot.need_kitchen_shovel");
-            return true;
+            sendActionBarMessage(player, "tip.kaleidoscope_cookery.pot.need_kitchen_shovel");
         }
+        return true;
     }
 
     private boolean takeOutWithCarrier(Player player, AbstractContraptionEntity contraptionEntity, BlockPos localPos,
-                                       BlockState state, CompoundTag nbt, ItemStack mainHandItem,
+                                       BlockState state, ItemStack mainHandItem,
                                        ItemStack finallyResult, Ingredient carrier, StructureBlockInfo info) {
         net.minecraft.network.chat.Component carrierName = carrier.getItems()[0].getHoverName();
         if (carrier.test(mainHandItem)) {
             if (mainHandItem.getCount() < finallyResult.getCount()) {
-                sendActionBar(player, "tip.kaleidoscope_cookery.pot.carrier_count_not_enough", finallyResult.getCount(), carrierName);
+                sendActionBarMessage(player, "tip.kaleidoscope_cookery.pot.carrier_count_not_enough", finallyResult.getCount(), carrierName);
                 return false;
             } else {
                 if (!contraptionEntity.level().isClientSide) {
                     mainHandItem.shrink(finallyResult.getCount());
                     ItemUtils.getItemToLivingEntity(player, finallyResult);
-                    reset(contraptionEntity, localPos, state, nbt, info);
+                    reset(contraptionEntity, localPos, state, info);
                 }
                 return true;
             }
@@ -382,20 +376,20 @@ public class PotMovingInteraction extends BaseMovingInteraction {
                 player.hurt(contraptionEntity.level().damageSources().inFire(), 1);
                 ModTrigger.EVENT.get().trigger(player, ModEventTriggerType.HURT_WHEN_TAKEOUT_FROM_POT);
             }
-            sendActionBar(player, "tip.kaleidoscope_cookery.pot.need_carrier", carrierName);
+            sendActionBarMessage(player, "tip.kaleidoscope_cookery.pot.need_carrier", carrierName);
             return true;
         }
         return false;
     }
 
     private void reset(AbstractContraptionEntity contraptionEntity, BlockPos localPos, BlockState state,
-                       CompoundTag nbt, StructureBlockInfo info) {
+                       StructureBlockInfo info) {
         if (contraptionEntity.level().isClientSide) return;
 
         RegistryAccess registryAccess = contraptionEntity.level().registryAccess();
         CompoundTag newNbt = new CompoundTag();
-        newNbt.put(INPUTS, ContainerHelper.saveAllItems(new CompoundTag(), NonNullList.withSize(PotRecipe.RECIPES_SIZE, ItemStack.EMPTY), registryAccess));
-        saveCarrier(newNbt, Ingredient.EMPTY, registryAccess);
+        ContraptionUtil.saveInputs(newNbt, NonNullList.withSize(PotRecipe.RECIPES_SIZE, ItemStack.EMPTY), registryAccess);
+        ContraptionUtil.saveCarrier(newNbt, Ingredient.EMPTY, CARRIER);
         newNbt.put(RESULT, ItemStack.EMPTY.saveOptional(registryAccess));
         newNbt.putInt(STATUS, PUT_INGREDIENT);
         newNbt.putInt(CURRENT_TICK, 0);
@@ -408,41 +402,26 @@ public class PotMovingInteraction extends BaseMovingInteraction {
 
 
     private boolean isEmpty(CompoundTag nbt, RegistryAccess registryAccess) {
-        NonNullList<ItemStack> inputs = readInputs(nbt, registryAccess);
-        for (ItemStack stack : inputs) {
-            if (!stack.isEmpty()) return false;
-        }
-        return true;
+        return ContraptionUtil.areInputsEmpty(nbt, registryAccess, PotRecipe.RECIPES_SIZE);
     }
 
     NonNullList<ItemStack> readInputs(CompoundTag nbt, RegistryAccess registryAccess) {
-        NonNullList<ItemStack> inputs = NonNullList.withSize(PotRecipe.RECIPES_SIZE, ItemStack.EMPTY);
-        if (nbt.contains(INPUTS, Tag.TAG_COMPOUND)) {
-            ContainerHelper.loadAllItems(nbt.getCompound(INPUTS), inputs, registryAccess);
-        }
-        return inputs;
+        return ContraptionUtil.readInputs(nbt, registryAccess, PotRecipe.RECIPES_SIZE);
     }
 
     private void saveInputs(CompoundTag nbt, NonNullList<ItemStack> inputs, RegistryAccess registryAccess) {
-        nbt.put(INPUTS, ContainerHelper.saveAllItems(new CompoundTag(), inputs, registryAccess));
+        ContraptionUtil.saveInputs(nbt, inputs, registryAccess);
     }
 
-    private Ingredient readCarrier(CompoundTag nbt, RegistryAccess registryAccess) {
-        if (nbt.contains(CARRIER, Tag.TAG_COMPOUND)) {
-            CompoundTag compound = nbt.getCompound(CARRIER);
-            return Ingredient.CODEC.decode(NbtOps.INSTANCE, compound).getOrThrow().getFirst();
-        }
-        return Ingredient.EMPTY;
+    private Ingredient readCarrier(CompoundTag nbt) {
+        return ContraptionUtil.readCarrier(nbt, CARRIER, Ingredient.EMPTY);
     }
 
-    private void saveCarrier(CompoundTag nbt, Ingredient carrier, RegistryAccess registryAccess) {
-        nbt.put(CARRIER, Ingredient.CODEC.encodeStart(NbtOps.INSTANCE, carrier).getOrThrow());
+    private void saveCarrier(CompoundTag nbt, Ingredient carrier) {
+        ContraptionUtil.saveCarrier(nbt, carrier, CARRIER);
     }
 
     private ItemStack readResult(CompoundTag nbt, RegistryAccess registryAccess) {
-        if (nbt.contains(RESULT, Tag.TAG_COMPOUND)) {
-            return ItemStack.parseOptional(registryAccess, nbt.getCompound(RESULT));
-        }
-        return ItemStack.EMPTY;
+        return ContraptionUtil.readResult(nbt, registryAccess);
     }
 }

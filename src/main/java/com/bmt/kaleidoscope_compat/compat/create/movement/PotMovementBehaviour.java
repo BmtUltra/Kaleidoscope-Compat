@@ -6,21 +6,24 @@ import com.github.ysbbbbbb.kaleidoscopecookery.crafting.container.SimpleInput;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.PotRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModParticles;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModRecipes;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
 import com.simibubi.create.content.contraptions.behaviour.MovementContext;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraft.world.phys.Vec3;
 
 import static com.bmt.kaleidoscope_compat.compat.create.util.ContraptionNbtKeys.*;
@@ -32,11 +35,9 @@ import static com.github.ysbbbbbb.kaleidoscopecookery.init.registry.FoodBiteRegi
 
 /**
  * 炒锅在动态结构上的移动行为
- * 负责 tick 烹饪逻辑
  */
 public class PotMovementBehaviour extends BaseMovementBehaviour {
 
-    private static final int PUT_INGREDIENT_TIME = 60 * 20;
     private static final int TAKEOUT_TIME = 40 * 20;
     private static final int BURNT_TIME = 20 * 20;
 
@@ -62,16 +63,16 @@ public class PotMovementBehaviour extends BaseMovementBehaviour {
             if (currentTick % 5 == 0) {
                 CompoundTag newNbt = nbt.copy();
                 newNbt.putInt(CURRENT_TICK, currentTick);
-                updateNbt(context, newNbt, false);
+                updateNbt(context, newNbt);
             }
             if (currentTick % 20 == 0) {
-                playSound(context, SoundEvents.FIRE_AMBIENT, 0.5f + random.nextFloat() / 0.5f, 0.8f + random.nextFloat() / 0.5f);
+                playSound(context, SoundEvents.FIRE_AMBIENT, SoundSource.BLOCKS, 0.5f + random.nextFloat() / 0.5f, 0.8f + random.nextFloat() / 0.5f);
             }
         }
 
         switch (status) {
             case PUT_INGREDIENT -> statusChanged = tickPutIngredient(context, state, nbt, currentTick, random);
-            case COOKING -> statusChanged = tickCooking(context, state, nbt, currentTick, random);
+            case COOKING -> statusChanged = tickCooking(context, state, nbt, currentTick);
             case FINISHED -> statusChanged = tickFinished(context, state, nbt, currentTick, random);
             case BURNT -> statusChanged = tickBurnt(context, state, nbt, currentTick, random);
         }
@@ -81,7 +82,9 @@ public class PotMovementBehaviour extends BaseMovementBehaviour {
             if (updatedInfo != null && updatedInfo.nbt() != null) {
                 int newStatus = updatedInfo.nbt().getInt(STATUS);
                 if (newStatus != status) {
-                    ContraptionUtil.updateContraptionData(context.contraption.entity, context.localPos, updatedInfo);
+                    if (context.contraption.entity != null) {
+                        ContraptionUtil.updateContraptionData(context.contraption.entity, context.localPos, updatedInfo);
+                    }
                 }
             }
         }
@@ -89,19 +92,18 @@ public class PotMovementBehaviour extends BaseMovementBehaviour {
 
     private boolean tickPutIngredient(MovementContext context, BlockState state, CompoundTag nbt,
                                       int currentTick, RandomSource random) {
-        if (currentTick % 10 == 0 && context.world instanceof ServerLevel sl) {
-            Vec3 gp = getGlobalPos(context);
-            sl.sendParticles(ModParticles.COOKING.get(),
-                    gp.x + random.nextDouble() / 5 * (random.nextBoolean() ? 1 : -1),
-                    gp.y - 0.4 + random.nextDouble() / 3,
-                    gp.z + random.nextDouble() / 5 * (random.nextBoolean() ? 1 : -1),
+        if (currentTick % 10 == 0) {
+            ContraptionUtil.spawnParticle(context, ModParticles.COOKING.get(),
+                    random.nextDouble() / 5 * (random.nextBoolean() ? 1 : -1),
+                    0.1 + random.nextDouble() / 3,
+                    random.nextDouble() / 5 * (random.nextBoolean() ? 1 : -1),
                     1, 0, 0, 0, 0);
         }
 
         if (currentTick == 0) {
-            if (isEmpty(nbt, context.world.registryAccess())) {
-                resetPot(context, state, nbt);
-                playSound(context, SoundEvents.FIRE_EXTINGUISH, 1F, 1F);
+            if (ContraptionUtil.areInputsEmpty(nbt, context.world.registryAccess(), PotRecipe.RECIPES_SIZE)) {
+                resetPot(context, state);
+                playSound(context, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1F, 1F);
             } else {
                 startCooking(context, state, nbt);
             }
@@ -109,15 +111,15 @@ public class PotMovementBehaviour extends BaseMovementBehaviour {
         } else {
             CompoundTag newNbt = nbt.copy();
             newNbt.putInt(CURRENT_TICK, currentTick);
-            updateNbt(context, newNbt, false);
+            updateNbt(context, newNbt);
             return false;
         }
     }
 
     private boolean tickCooking(MovementContext context, BlockState state, CompoundTag nbt,
-                                int currentTick, RandomSource random) {
+                                int currentTick) {
         if (currentTick == 0) {
-            playSound(context, SoundEvents.FIRE_EXTINGUISH, 1F, 1F);
+            playSound(context, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1F, 1F);
 
             RegistryAccess registryAccess = context.world.registryAccess();
             CompoundTag newNbt = nbt.copy();
@@ -125,43 +127,41 @@ public class PotMovementBehaviour extends BaseMovementBehaviour {
 
             int stirFryCount = newNbt.getInt(POT_STIR_FRY_COUNT);
             if (stirFryCount > 0) {
-                saveCarrier(newNbt, Ingredient.of(Items.BOWL), registryAccess);
+                ContraptionUtil.saveCarrier(newNbt, Ingredient.of(Items.BOWL), CARRIER);
                 newNbt.put(RESULT, new ItemStack(getItem(SUSPICIOUS_STIR_FRY)).saveOptional(registryAccess));
             }
 
             newNbt.putInt(CURRENT_TICK, TAKEOUT_TIME);
             BlockState newState = state.setValue(SHOW_OIL, false);
-            updateData(context, newState, newNbt, true);
+            updateData(context, newState, newNbt);
             return true;
         } else {
-            CompoundTag newNbt = nbt.copy();
+            CompoundTag newNbt = nbt.copy();                                                
             newNbt.putInt(CURRENT_TICK, currentTick);
-            updateNbt(context, newNbt, false);
+            updateNbt(context, newNbt);
             return false;
         }
     }
 
     private boolean tickFinished(MovementContext context, BlockState state, CompoundTag nbt,
                                  int currentTick, RandomSource random) {
-        if (currentTick % 10 == 0 && context.world instanceof ServerLevel sl) {
-            Vec3 gp = getGlobalPos(context);
-            sl.sendParticles(ModParticles.COOKING.get(),
-                    gp.x + random.nextDouble() / 5 * (random.nextBoolean() ? 1 : -1),
-                    gp.y - 0.4 + random.nextDouble() / 2,
-                    gp.z + random.nextDouble() / 5 * (random.nextBoolean() ? 1 : -1),
+        if (currentTick % 10 == 0) {
+            ContraptionUtil.spawnParticle(context, ModParticles.COOKING.get(),
+                    random.nextDouble() / 5 * (random.nextBoolean() ? 1 : -1),
+                    0.1 + random.nextDouble() / 2,
+                    random.nextDouble() / 5 * (random.nextBoolean() ? 1 : -1),
                     1, 0, 0, 0, 0);
         }
 
+        CompoundTag newNbt = nbt.copy();
         if (currentTick == 0) {
-            CompoundTag newNbt = nbt.copy();
             newNbt.putInt(STATUS, BURNT);
             newNbt.putInt(CURRENT_TICK, BURNT_TIME);
-            updateData(context, state, newNbt, true);
+            updateData(context, state, newNbt);
             return true;
         } else {
-            CompoundTag newNbt = nbt.copy();
             newNbt.putInt(CURRENT_TICK, currentTick);
-            updateNbt(context, newNbt, false);
+            updateNbt(context, newNbt);
             return false;
         }
     }
@@ -169,42 +169,40 @@ public class PotMovementBehaviour extends BaseMovementBehaviour {
     private boolean tickBurnt(MovementContext context, BlockState state, CompoundTag nbt,
                               int currentTick, RandomSource random) {
         int particleCount = 10 - currentTick / 5;
-        if (currentTick % 2 == 0 && context.world instanceof ServerLevel sl) {
-            Vec3 gp = getGlobalPos(context);
-            sl.sendParticles(ParticleTypes.SMOKE,
-                    gp.x + random.nextDouble() / 3 * (random.nextBoolean() ? 1 : -1),
-                    gp.y - 0.25 + random.nextDouble() / 3,
-                    gp.z + random.nextDouble() / 3 * (random.nextBoolean() ? 1 : -1),
+        if (currentTick % 2 == 0) {
+            ContraptionUtil.spawnParticle(context, ParticleTypes.SMOKE,
+                    random.nextDouble() / 3 * (random.nextBoolean() ? 1 : -1),
+                    0.25 + random.nextDouble() / 3,
+                    random.nextDouble() / 3 * (random.nextBoolean() ? 1 : -1),
                     particleCount, 0, 0, 0, 0.05);
         }
 
         if (currentTick == 0) {
-            resetPot(context, state, nbt);
-            playSound(context, SoundEvents.FIRE_EXTINGUISH, 1F, 1F);
-            if (context.world instanceof ServerLevel sl) {
+            resetPot(context, state);
+            playSound(context, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1F, 1F);
+            ContraptionUtil.spawnParticle(context, ParticleTypes.SMOKE,
+                    random.nextDouble() / 3 * (random.nextBoolean() ? 1 : -1),
+                    0.25 + random.nextDouble() / 3,
+                    random.nextDouble() / 3 * (random.nextBoolean() ? 1 : -1),
+                    8, 0, 0, 0, 0.05);
+            if (context.world instanceof ServerLevel) {
                 Vec3 gp = getGlobalPos(context);
-                sl.sendParticles(ParticleTypes.SMOKE,
-                        gp.x + random.nextDouble() / 3 * (random.nextBoolean() ? 1 : -1),
-                        gp.y - 0.25 + random.nextDouble() / 3,
-                        gp.z + random.nextDouble() / 3 * (random.nextBoolean() ? 1 : -1),
-                        8, 0, 0, 0, 0.05);
                 int count = 1 + random.nextInt(3);
-                net.minecraft.world.level.block.Block.popResource(context.world, net.minecraft.core.BlockPos.containing(gp),
+                Block.popResource(context.world, BlockPos.containing(gp),
                         new ItemStack(Items.CHARCOAL, count));
             }
             return true;
         } else {
             CompoundTag newNbt = nbt.copy();
             newNbt.putInt(CURRENT_TICK, currentTick);
-            boolean needSync = currentTick % 25 == 0;
-            updateNbt(context, newNbt, needSync);
+            updateNbt(context, newNbt);
             return false;
         }
     }
 
     private void startCooking(MovementContext context, BlockState state, CompoundTag nbt) {
         RegistryAccess registryAccess = context.world.registryAccess();
-        NonNullList<ItemStack> inputs = readInputs(nbt, registryAccess);
+        NonNullList<ItemStack> inputs = ContraptionUtil.readInputs(nbt, registryAccess, PotRecipe.RECIPES_SIZE);
         SimpleInput input = new SimpleInput(inputs);
 
         var recipeOpt = context.world.getRecipeManager().getRecipeFor(ModRecipes.POT_RECIPE, input, context.world);
@@ -214,51 +212,99 @@ public class PotMovementBehaviour extends BaseMovementBehaviour {
 
         recipeOpt.ifPresentOrElse(holder -> {
             PotRecipe recipe = holder.value();
-            saveCarrier(newNbt, recipe.carrier(), registryAccess);
+            ContraptionUtil.saveCarrier(newNbt, recipe.carrier(), CARRIER);
             newNbt.put(RESULT, recipe.assemble(input, registryAccess).saveOptional(registryAccess));
             newNbt.putInt(CURRENT_TICK, recipe.time());
             newNbt.putInt(POT_STIR_FRY_COUNT, recipe.stirFryCount());
         }, () -> {
-            saveCarrier(newNbt, Ingredient.of(Items.BOWL), registryAccess);
+            ContraptionUtil.saveCarrier(newNbt, Ingredient.of(Items.BOWL), CARRIER);
             newNbt.put(RESULT, new ItemStack(getItem(SUSPICIOUS_STIR_FRY)).saveOptional(registryAccess));
             newNbt.putInt(CURRENT_TICK, 10 * 20);
             newNbt.putInt(POT_STIR_FRY_COUNT, 0);
         });
 
-        updateData(context, state, newNbt, true);
+        updateData(context, state, newNbt);
     }
 
-    private void resetPot(MovementContext context, BlockState state, CompoundTag nbt) {
+    private void resetPot(MovementContext context, BlockState state) {
         RegistryAccess registryAccess = context.world.registryAccess();
         CompoundTag newNbt = new CompoundTag();
-        newNbt.put(INPUTS, ContainerHelper.saveAllItems(new CompoundTag(), NonNullList.withSize(PotRecipe.RECIPES_SIZE, ItemStack.EMPTY), registryAccess));
-        saveCarrier(newNbt, Ingredient.EMPTY, registryAccess);
+        ContraptionUtil.saveInputs(newNbt, NonNullList.withSize(PotRecipe.RECIPES_SIZE, ItemStack.EMPTY), registryAccess);
+        ContraptionUtil.saveCarrier(newNbt, Ingredient.EMPTY, CARRIER);
         newNbt.put(RESULT, ItemStack.EMPTY.saveOptional(registryAccess));
         newNbt.putInt(STATUS, PUT_INGREDIENT);
         newNbt.putInt(CURRENT_TICK, 0);
         newNbt.putInt(POT_STIR_FRY_COUNT, 0);
 
         BlockState newState = state.setValue(HAS_OIL, false);
-        updateData(context, newState, newNbt, true);
+        updateData(context, newState, newNbt);
     }
 
-    NonNullList<ItemStack> readInputs(CompoundTag nbt, RegistryAccess registryAccess) {
-        NonNullList<ItemStack> inputs = NonNullList.withSize(PotRecipe.RECIPES_SIZE, ItemStack.EMPTY);
-        if (nbt.contains(INPUTS, Tag.TAG_COMPOUND)) {
-            ContainerHelper.loadAllItems(nbt.getCompound(INPUTS), inputs, registryAccess);
+    @Override
+    public void stopMoving(MovementContext context) {
+        if (context.world.isClientSide)
+            return;
+
+        StructureBlockInfo info = context.contraption.getBlocks().get(context.localPos);
+        if (info == null || !(info.state().getBlock() instanceof PotBlock)) {
+            return;
         }
-        return inputs;
-    }
 
-    private boolean isEmpty(CompoundTag nbt, RegistryAccess registryAccess) {
-        NonNullList<ItemStack> inputs = readInputs(nbt, registryAccess);
-        for (ItemStack stack : inputs) {
-            if (!stack.isEmpty()) return false;
+        CompoundTag nbt = info.nbt();
+        if (nbt == null)
+            return;
+
+        RegistryAccess registryAccess = context.world.registryAccess();
+        Vec3 globalPos = context.contraption.entity.toGlobalVector(Vec3.atCenterOf(context.localPos), 1.0f);
+        int status = nbt.getInt(STATUS);
+
+        java.util.List<ItemStack> drops = new java.util.ArrayList<>();
+
+        if (status == PUT_INGREDIENT) {
+            // 返回 inputs 中的食材
+            NonNullList<ItemStack> inputs = ContraptionUtil.readInputs(nbt, registryAccess, PotRecipe.RECIPES_SIZE);
+            for (ItemStack item : inputs) {
+                if (!item.isEmpty()) {
+                    drops.add(item);
+                }
+            }
+        } else {
+            // COOKING / FINISHED / BURNT：返回成品
+            ItemStack result = ContraptionUtil.readResult(nbt, registryAccess);
+            if (!result.isEmpty()) {
+                drops.add(result);
+            }
+            // 同时返回 inputs 中未处理的食材
+            NonNullList<ItemStack> inputs = ContraptionUtil.readInputs(nbt, registryAccess, PotRecipe.RECIPES_SIZE);
+            for (ItemStack item : inputs) {
+                if (!item.isEmpty()) {
+                    drops.add(item);
+                }
+            }
         }
-        return true;
-    }
 
-    void saveCarrier(CompoundTag nbt, Ingredient carrier, RegistryAccess registryAccess) {
-        nbt.put(CARRIER, Ingredient.CODEC.encodeStart(NbtOps.INSTANCE, carrier).getOrThrow());
+        // 查找最近玩家
+        Player nearestPlayer = null;
+        double closestDist = Double.MAX_VALUE;
+        for (Player player : context.world.players()) {
+            double dist = player.position().distanceTo(globalPos);
+            if (dist < closestDist) {
+                closestDist = dist;
+                nearestPlayer = player;
+            }
+        }
+
+        if (nearestPlayer != null && closestDist < 10.0) {
+            for (ItemStack drop : drops) {
+                if (!drop.isEmpty()) {
+                    ItemUtils.getItemToLivingEntity(nearestPlayer, drop);
+                }
+            }
+        } else {
+            ContraptionUtil.spawnItemDrops(context.world, globalPos, drops);
+        }
+
+        // 重置状态
+        resetPot(context, info.state());
     }
 }

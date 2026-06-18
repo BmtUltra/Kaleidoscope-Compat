@@ -15,6 +15,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
 import java.lang.reflect.Method;
@@ -23,8 +24,15 @@ import java.lang.reflect.Method;
 public class MainClient {
 
     @SubscribeEvent
+    public static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {
+        event.register(KeyMappings.TAKE_KITCHEN_ITEM);
+    }
+
+    @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
+            KeyMappings.init();
+
             ModContainer modContainer = ModList.get()
                     .getModContainerById(KaleidoscopeCompat.MOD_ID)
                     .orElseThrow(() -> new RuntimeException("Failed to get mod container for " + KaleidoscopeCompat.MOD_ID));

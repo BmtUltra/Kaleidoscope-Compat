@@ -24,7 +24,7 @@ public abstract class BaseMovementBehaviour implements MovementBehaviour {
         if (!isValidBlock(info.state())) return;
 
         CompoundTag nbt = info.nbt();
-        if (nbt == null) return;
+        if (nbt == null && requiresNbt()) return;
 
         if (!shouldTick(context, info.state(), nbt)) return;
 
@@ -42,9 +42,18 @@ public abstract class BaseMovementBehaviour implements MovementBehaviour {
     protected abstract boolean shouldTick(MovementContext context, BlockState state, CompoundTag nbt);
 
     /**
-     * 检测热源
+     * 是否需要 NBT 才能 tick
+     * 返回 true（默认）：nbt 为 null 时跳过 tick
+     * 返回 false：即使 nbt 为 null 也会执行 tick
      */
-    protected boolean hasHeatSource(MovementContext context) {
+    protected boolean requiresNbt() {
+        return true;
+    }
+
+    /**
+     * 检测是否没有热源
+     */
+    protected boolean hasNoHeatSource(MovementContext context) {
         return !ContraptionUtil.hasHeatSource(context);
     }
 
@@ -52,8 +61,6 @@ public abstract class BaseMovementBehaviour implements MovementBehaviour {
      * 有热源时的 tick 逻辑
      */
     protected abstract void tickWithHeat(MovementContext context, BlockState state, CompoundTag nbt);
-
-    // ====== 提供的工具方法 ======
 
     /**
      * 获取全局位置
@@ -65,28 +72,29 @@ public abstract class BaseMovementBehaviour implements MovementBehaviour {
     /**
      * 播放音效
      */
-    protected void playSound(MovementContext context, SoundEvent sound, float volume, float pitch) {
-        ContraptionUtil.playSound(context, sound, volume, pitch);
-    }
-
-    /**
-     * 播放音效（带 SoundSource）
-     */
     protected void playSound(MovementContext context, SoundEvent sound, SoundSource source, float volume, float pitch) {
-        ContraptionUtil.playSound(context, sound, source, volume, pitch);
+        if (context.contraption.entity == null) return;
+        ContraptionUtil.playSound(context.contraption.entity, context.localPos, sound, source, volume, pitch);
     }
 
     /**
      * 更新 NBT
      */
-    protected void updateNbt(MovementContext context, CompoundTag newNbt, boolean needSync) {
-        ContraptionUtil.updateContraptionNbt(context, newNbt, needSync);
+    protected void updateNbt(MovementContext context, CompoundTag newNbt) {
+        if (context.contraption.entity == null) return;
+        var contraption = context.contraption;
+        var existingInfo = contraption.getBlocks().get(context.localPos);
+        if (existingInfo == null) return;
+        var newInfo = new StructureBlockInfo(context.localPos, existingInfo.state(), newNbt);
+        ContraptionUtil.updateContraptionData(context.contraption.entity, context.localPos, newInfo);
     }
 
     /**
      * 更新完整数据
      */
-    protected void updateData(MovementContext context, BlockState newState, CompoundTag newNbt, boolean needSync) {
-        ContraptionUtil.updateContraptionData(context, newState, newNbt, needSync);
+    protected void updateData(MovementContext context, BlockState newState, CompoundTag newNbt) {
+        if (context.contraption.entity == null) return;
+        StructureBlockInfo newInfo = new StructureBlockInfo(context.localPos, newState, newNbt);
+        ContraptionUtil.updateContraptionData(context.contraption.entity, context.localPos, newInfo);
     }
 }

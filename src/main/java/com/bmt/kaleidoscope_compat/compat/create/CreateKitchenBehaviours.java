@@ -1,10 +1,7 @@
 package com.bmt.kaleidoscope_compat.compat.create;
 
 import com.bmt.kaleidoscope_compat.compat.create.interaction.*;
-import com.bmt.kaleidoscope_compat.compat.create.movement.PotMovementBehaviour;
-import com.bmt.kaleidoscope_compat.compat.create.movement.SteamerMovementBehaviour;
-import com.bmt.kaleidoscope_compat.compat.create.movement.StockpotMovementBehaviour;
-import com.bmt.kaleidoscope_compat.compat.create.movement.TeapotMovementBehaviour;
+import com.bmt.kaleidoscope_compat.compat.create.movement.*;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.simibubi.create.api.behaviour.interaction.MovingInteractionBehaviour;
 import com.simibubi.create.api.behaviour.movement.MovementBehaviour;
@@ -29,7 +26,7 @@ public class CreateKitchenBehaviours {
 
         // 灶台
         BEHAVIOUR_MAP.put(ModBlocks.STOVE.get(), new BehaviourPair(
-                null, StoveMovingInteraction::new));
+                StoveMovementBehaviour::new, StoveMovingInteraction::new));
 
         // 汤锅
         BEHAVIOUR_MAP.put(ModBlocks.STOCKPOT.get(), new BehaviourPair(
@@ -42,6 +39,38 @@ public class CreateKitchenBehaviours {
         // 茶壶
         BEHAVIOUR_MAP.put(ModBlocks.TEAPOT.get(), new BehaviourPair(
                 TeapotMovementBehaviour::new, TeapotMovingInteraction::new));
+
+        //水果篮
+        BEHAVIOUR_MAP.put(ModBlocks.FRUIT_BASKET.get(), new BehaviourPair(
+                FruitBasketMovementBehaviour::new, FruitBasketMovingInteraction::new));
+
+        // 砧板
+        BEHAVIOUR_MAP.put(ModBlocks.CHOPPING_BOARD.get(), new BehaviourPair(
+                ChoppingBoardMovementBehaviour::new, ChoppingBoardMovingInteraction::new));
+
+        // 搪瓷盆
+        BEHAVIOUR_MAP.put(ModBlocks.ENAMEL_BASIN.get(), new BehaviourPair(
+                EnamelBasinMovementBehaviour::new, EnamelBasinMovingInteraction::new));
+
+        // 厨具架
+        BEHAVIOUR_MAP.put(ModBlocks.KITCHENWARE_RACKS.get(), new BehaviourPair(
+                KitchenwareRacksMovementBehaviour::new, KitchenwareRacksMovingInteraction::new));
+
+        // 石磨
+        BEHAVIOUR_MAP.put(ModBlocks.MILLSTONE.get(), new BehaviourPair(
+                MillstoneMovementBehaviour::new, MillstoneMovingInteraction::new));
+
+        // 油壶
+        BEHAVIOUR_MAP.put(ModBlocks.OIL_POT.get(), new BehaviourPair(
+                OilPotMovementBehaviour::new, OilPotMovingInteraction::new));
+
+        // 烤肉架
+        BEHAVIOUR_MAP.put(ModBlocks.SHAWARMA_SPIT.get(), new BehaviourPair(
+                ShawarmaSpitMovementBehaviour::new, ShawarmaSpitMovingInteraction::new));
+
+        // 垃圾桶
+        BEHAVIOUR_MAP.put(ModBlocks.TRASH_CAN.get(), new BehaviourPair(
+                TrashCanMovementBehaviour::new, TrashCanMovingInteraction::new));
     }
 
     public static void register() {
