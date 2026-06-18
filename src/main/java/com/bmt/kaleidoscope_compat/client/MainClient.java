@@ -2,6 +2,7 @@ package com.bmt.kaleidoscope_compat.client;
 
 import com.bmt.kaleidoscope_compat.KaleidoscopeCompat;
 import com.bmt.kaleidoscope_compat.client.gui.overlay.ContraptionPotOverlay;
+import com.bmt.kaleidoscope_compat.datamap.StockpotVisualOverrideManager;
 import com.bmt.kaleidoscope_compat.config.MainConfig;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.model.StrawHatModel;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
@@ -17,15 +18,22 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
 
 import java.lang.reflect.Method;
 
 @EventBusSubscriber(modid = KaleidoscopeCompat.MOD_ID, value = Dist.CLIENT)
 public class MainClient {
+    private static final StockpotVisualOverrideManager STOCKPOT_VISUAL_MANAGER = new StockpotVisualOverrideManager();
 
     @SubscribeEvent
     public static void onRegisterKeyMappings(RegisterKeyMappingsEvent event) {
         event.register(KeyMappings.TAKE_KITCHEN_ITEM);
+    }
+
+    @SubscribeEvent
+    public static void onAddReloadListener(AddReloadListenerEvent event) {
+        event.addListener(STOCKPOT_VISUAL_MANAGER);
     }
 
     @SubscribeEvent

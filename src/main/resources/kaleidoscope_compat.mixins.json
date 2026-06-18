@@ -10,8 +10,8 @@
     "solcarrot.FoodItemsMixin"
   ],
   "mixins": [
-    "create.accessor.ContraptionAccessor",
     "accessories.AdvanceBlockMatchToolMixin",
+    "create.accessor.ContraptionAccessor",
     "curios.AdvanceBlockMatchToolMixin",
     "farm_and_charm.CookingPotCategoryMixin",
     "farm_and_charm.CookingPotRecipeMixin",
@@ -60,6 +60,7 @@
     "kaleidoscope_cookery.SteamerRecipeCategoryMixin",
     "kaleidoscope_cookery.SteamerRecipeMixin",
     "kaleidoscope_cookery.StockpotBlockEntityArmRecipeMixin",
+    "kaleidoscope_cookery.StockpotBlockEntityVisualsMixin",
     "kaleidoscope_cookery.StockpotRecipeCategoryDrawMixin",
     "kaleidoscope_cookery.StockpotRecipeCategoryMixin",
     "kaleidoscope_cookery.StockpotRecipeCategoryTitleMixin",

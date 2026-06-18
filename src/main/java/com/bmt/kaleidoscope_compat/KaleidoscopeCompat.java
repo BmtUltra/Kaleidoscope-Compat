@@ -2,6 +2,7 @@ package com.bmt.kaleidoscope_compat;
 
 import com.bmt.kaleidoscope_compat.compat.create.CreateCompat;
 import com.bmt.kaleidoscope_compat.compat.farm_and_charm.FarmAndCharmCompat;
+import com.bmt.kaleidoscope_compat.datamap.StockpotVisualOverrideManager;
 import com.bmt.kaleidoscope_compat.compat.spectrum.SpectrumCompat;
 import com.bmt.kaleidoscope_compat.compat.touhoulittlemaid.LittleMaidCompat;
 import com.bmt.kaleidoscope_compat.config.MainConfig;
@@ -9,11 +10,15 @@ import com.teamresourceful.resourcefulconfig.api.loader.Configurator;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
 
 @Mod(KaleidoscopeCompat.MOD_ID)
 public class KaleidoscopeCompat {
     public static final String MOD_ID = "kaleidoscope_compat";
     public static Configurator CONFIGURATOR;
+
+    private static final StockpotVisualOverrideManager STOCKPOT_VISUAL_MANAGER = new StockpotVisualOverrideManager();
 
     public static ResourceLocation id(String path) {
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
@@ -27,5 +32,10 @@ public class KaleidoscopeCompat {
         SpectrumCompat.init(modEventBus);
         FarmAndCharmCompat.init();
         LittleMaidCompat.init();
+        NeoForge.EVENT_BUS.addListener(this::onAddReloadListener);
+    }
+
+    private void onAddReloadListener(AddReloadListenerEvent event) {
+        event.addListener(STOCKPOT_VISUAL_MANAGER);
     }
 }

@@ -1,0 +1,16 @@
+[
+    {
+        "recipe_id": "kaleidoscope_cookery:stockpot/mushroom_stew",
+        "cooking_texture": "kaleidoscope_cookery:stockpot/mushroom_cooking",
+        "finished_texture": "kaleidoscope_cookery:stockpot/mushroom_finished",
+        "cooking_bubble_color": 16777215,
+        "finished_bubble_color": 16776960
+    },
+    {
+        "recipe_id": "kaleidoscope_cookery:stockpot/pork_bone_soup",
+        "cooking_texture": "minecraft:block/beetroots_stage3",
+        "finished_texture": "minecraft:block/beetroots_stage3",
+        "cooking_bubble_color": 19999999,
+        "finished_bubble_color": 19999999
+    }
+]
