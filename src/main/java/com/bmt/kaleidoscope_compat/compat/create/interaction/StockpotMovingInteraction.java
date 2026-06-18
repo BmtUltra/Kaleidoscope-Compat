@@ -1,9 +1,11 @@
 package com.bmt.kaleidoscope_compat.compat.create.interaction;
 
+import com.bmt.kaleidoscope_compat.compat.create.util.ContraptionUtil;
 import com.github.ysbbbbbb.kaleidoscopecookery.advancements.critereon.ModEventTriggerType;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.recipe.soupbase.ISoupBase;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.StockpotBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.StockpotRecipe;
+import com.github.ysbbbbbb.kaleidoscopecookery.crafting.soupbase.FluidSoupBase;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.soupbase.SoupBaseManager;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModSoupBases;
@@ -16,8 +18,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -53,6 +53,11 @@ public class StockpotMovingInteraction extends BaseMovingInteraction {
         BlockState state = info.state();
         CompoundTag nbt = getOrCreateNbt(info);
         ItemStack itemInHand = player.getItemInHand(activeHand);
+
+        if (itemInHand.isEmpty()) {
+            return false;
+        }
+
         int status = nbt.getInt(STATUS);
         boolean hasLid = state.getValue(HAS_LID);
 
@@ -71,7 +76,7 @@ public class StockpotMovingInteraction extends BaseMovingInteraction {
             return true;
         }
 
-        // 4. 状态：放入汤底
+        // 4. 放入汤底
         if (status == PUT_SOUP_BASE) {
             if (addSoupBase(player, contraptionEntity, localPos, state, nbt, itemInHand, info)) {
                 return true;
@@ -79,7 +84,7 @@ public class StockpotMovingInteraction extends BaseMovingInteraction {
             return true;
         }
 
-        // 6. 取出汤底（还没放食材时）
+        // 6. 取出汤底
         if (status == PUT_INGREDIENT && isEmpty(nbt, contraptionEntity.level().registryAccess())) {
             if (removeSoupBase(player, contraptionEntity, localPos, state, nbt, itemInHand, info)) {
                 return true;
@@ -88,19 +93,17 @@ public class StockpotMovingInteraction extends BaseMovingInteraction {
 
         // 7. 放入/取出食材
         if (status == PUT_INGREDIENT) {
-            // 先尝试取出
             if ((itemInHand.isEmpty() || itemInHand.is(TagMod.INGREDIENT_CONTAINER)) &&
-                removeIngredient(player, contraptionEntity, localPos, state, nbt, itemInHand, info)) {
+                removeIngredient(player, contraptionEntity, localPos, state, nbt, info)) {
                 return true;
             }
-            // 再尝试放入
             if (addIngredient(player, contraptionEntity, localPos, state, nbt, itemInHand, info)) {
                 return true;
             }
             return true;
         }
 
-        // 8. 烹饪中/已完成 - 只读状态
+        // 8. 烹饪中/已完成
         return status == COOKING || status == FINISHED;
     }
 
@@ -213,7 +216,7 @@ public class StockpotMovingInteraction extends BaseMovingInteraction {
         if (itemStack.is(TagMod.INGREDIENT_BLOCKLIST)) return false;
 
         RegistryAccess registryAccess = contraptionEntity.level().registryAccess();
-        NonNullList<ItemStack> inputs = readInputs(nbt, registryAccess);
+        NonNullList<ItemStack> inputs = ContraptionUtil.readInputs(nbt, registryAccess, StockpotRecipe.RECIPES_SIZE);
 
         for (int i = 0; i < inputs.size(); i++) {
             ItemStack item = inputs.get(i);
@@ -226,7 +229,7 @@ public class StockpotMovingInteraction extends BaseMovingInteraction {
 
                 if (!contraptionEntity.level().isClientSide) {
                     CompoundTag newNbt = nbt.copy();
-                    saveInputs(newNbt, inputs, registryAccess);
+                    ContraptionUtil.saveInputs(newNbt, inputs, registryAccess);
                     updateData(contraptionEntity, localPos, new StructureBlockInfo(info.pos(), state, newNbt));
                 }
 
@@ -239,12 +242,12 @@ public class StockpotMovingInteraction extends BaseMovingInteraction {
     }
 
     private boolean removeIngredient(Player player, AbstractContraptionEntity contraptionEntity, BlockPos localPos,
-                                     BlockState state, CompoundTag nbt, ItemStack itemStack, StructureBlockInfo info) {
+                                     BlockState state, CompoundTag nbt, StructureBlockInfo info) {
         int status = nbt.getInt(STATUS);
         if (status != PUT_INGREDIENT) return false;
 
         RegistryAccess registryAccess = contraptionEntity.level().registryAccess();
-        NonNullList<ItemStack> inputs = readInputs(nbt, registryAccess);
+        NonNullList<ItemStack> inputs = ContraptionUtil.readInputs(nbt, registryAccess, StockpotRecipe.RECIPES_SIZE);
 
         for (int i = inputs.size() - 1; i >= 0; i--) {
             ItemStack stack = inputs.get(i);
@@ -257,7 +260,7 @@ public class StockpotMovingInteraction extends BaseMovingInteraction {
                 ItemUtils.getItemToLivingEntity(player, stack.copy());
 
                 CompoundTag newNbt = nbt.copy();
-                saveInputs(newNbt, inputs, registryAccess);
+                ContraptionUtil.saveInputs(newNbt, inputs, registryAccess);
                 updateData(contraptionEntity, localPos, new StructureBlockInfo(info.pos(), state, newNbt));
             }
 
@@ -265,7 +268,7 @@ public class StockpotMovingInteraction extends BaseMovingInteraction {
                 ResourceLocation soupBaseId = ResourceLocation.tryParse(nbt.getString(STOCKPOT_SOUP_BASE_ID));
                 if (soupBaseId != null) {
                     ISoupBase soupBase = SoupBaseManager.getSoupBase(soupBaseId);
-                    if (soupBase instanceof com.github.ysbbbbbb.kaleidoscopecookery.crafting.soupbase.FluidSoupBase fluidSoupBase
+                    if (soupBase instanceof FluidSoupBase fluidSoupBase
                             && fluidSoupBase.getFluid().getFluidType().getTemperature() > 500) {
                         player.hurt(contraptionEntity.level().damageSources().inFire(), 1);
                         ModTrigger.EVENT.get().trigger(player, ModEventTriggerType.HURT_WHEN_TAKEOUT_FROM_STOCKPOT);
@@ -284,7 +287,7 @@ public class StockpotMovingInteraction extends BaseMovingInteraction {
             player.getMainHandItem().shrink(1);
             return true;
         }
-        sendActionBar(player, "tip.kaleidoscope_cookery.kitchen.remove_ingredient.need_container",
+        sendActionBarMessage(player, "tip.kaleidoscope_cookery.kitchen.remove_ingredient.need_container",
                 containerItem.getDefaultInstance().getHoverName());
         return false;
     }
@@ -299,11 +302,11 @@ public class StockpotMovingInteraction extends BaseMovingInteraction {
         ItemStack result = readResult(nbt, registryAccess);
         if (result.isEmpty()) return false;
 
-        Ingredient carrier = readCarrier(nbt, registryAccess);
+        Ingredient carrier = readCarrier(nbt);
 
         if (!carrier.isEmpty() && !carrier.test(stack)) {
             Component carrierName = carrier.getItems()[0].getHoverName();
-            sendActionBar(player, "tip.kaleidoscope_cookery.pot.need_carrier", carrierName);
+            sendActionBarMessage(player, "tip.kaleidoscope_cookery.pot.need_carrier", carrierName);
             return true;
         }
 
@@ -330,43 +333,23 @@ public class StockpotMovingInteraction extends BaseMovingInteraction {
             }
 
             updateData(contraptionEntity, localPos, new StructureBlockInfo(info.pos(), state, newNbt));
+
+            playSound(contraptionEntity, localPos, SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.2F,
+                    ((contraptionEntity.level().random.nextFloat() - contraptionEntity.level().random.nextFloat()) * 0.7F + 1.0F) * 2.0F);
         }
         return true;
-    }
-
-    private NonNullList<ItemStack> readInputs(CompoundTag nbt, RegistryAccess registryAccess) {
-        NonNullList<ItemStack> inputs = NonNullList.withSize(StockpotRecipe.RECIPES_SIZE, ItemStack.EMPTY);
-        if (nbt.contains(INPUTS, Tag.TAG_COMPOUND)) {
-            ContainerHelper.loadAllItems(nbt.getCompound(INPUTS), inputs, registryAccess);
-        }
-        return inputs;
-    }
-
-    private void saveInputs(CompoundTag nbt, NonNullList<ItemStack> inputs, RegistryAccess registryAccess) {
-        nbt.put(INPUTS, ContainerHelper.saveAllItems(new CompoundTag(), inputs, registryAccess));
     }
 
     private boolean isEmpty(CompoundTag nbt, RegistryAccess registryAccess) {
-        NonNullList<ItemStack> inputs = readInputs(nbt, registryAccess);
-        for (ItemStack stack : inputs) {
-            if (!stack.isEmpty()) return false;
-        }
-        return true;
+        return ContraptionUtil.areInputsEmpty(nbt, registryAccess, StockpotRecipe.RECIPES_SIZE);
     }
 
     private ItemStack readResult(CompoundTag nbt, RegistryAccess registryAccess) {
-        if (nbt.contains(RESULT, Tag.TAG_COMPOUND)) {
-            return ItemStack.parseOptional(registryAccess, nbt.getCompound(RESULT));
-        }
-        return ItemStack.EMPTY;
+        return ContraptionUtil.readResult(nbt, registryAccess);
     }
 
-    private Ingredient readCarrier(CompoundTag nbt, RegistryAccess registryAccess) {
-        if (nbt.contains(STOCKPOT_CARRIER, Tag.TAG_COMPOUND)) {
-            CompoundTag compound = nbt.getCompound(STOCKPOT_CARRIER);
-            return Ingredient.CODEC.decode(NbtOps.INSTANCE, compound).getOrThrow().getFirst();
-        }
-        return Ingredient.of(Items.BOWL);
+    private Ingredient readCarrier(CompoundTag nbt) {
+        return ContraptionUtil.readCarrier(nbt, STOCKPOT_CARRIER, Ingredient.of(Items.BOWL));
     }
 
 }

@@ -17,6 +17,7 @@ import com.simibubi.create.content.contraptions.Contraption;
 import com.simibubi.create.content.contraptions.behaviour.MovementContext;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -25,8 +26,10 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
@@ -73,11 +76,10 @@ public class StoveMovingInteraction extends BaseMovingInteraction {
         }
 
         // 处理放置 TeapotBlock
-        if (handleKitchenBlockPlacement(player, localPos, contraptionEntity, itemInHand, TeapotBlock.class,
+        if (player.isSecondaryUseActive() && handleTeapotPlacement(player, localPos, contraptionEntity, itemInHand,
                 () -> ModBlocks.TEAPOT.get().defaultBlockState()
-                        .setValue(BlockStateProperties.FACING, player.getDirection().getOpposite())
-                        .setValue(TeapotBlock.VARIANT, 1),
-                this::createTeapotNbt,
+                        .setValue(HorizontalDirectionalBlock.FACING, player.getDirection().getOpposite())
+                        .setValue(TeapotBlock.VARIANT, TeapotBlock.COMMON),
                 () -> { if (state.getValue(BlockStateProperties.LIT)) ModTrigger.EVENT.get().trigger(player, ModEventTriggerType.LIT_THE_STOVE); })) {
             return true;
         }
@@ -126,8 +128,76 @@ public class StoveMovingInteraction extends BaseMovingInteraction {
     }
 
     /**
+     * 茶壶放置方法
+     */
+    private boolean handleTeapotPlacement(Player player, BlockPos stoveLocalPos,
+                                          AbstractContraptionEntity contraptionEntity,
+                                          ItemStack itemInHand,
+                                          java.util.function.Supplier<BlockState> defaultStateSupplier,
+                                          Runnable onSuccess) {
+        Block heldBlock = Block.byItem(itemInHand.getItem());
+        if (!(heldBlock instanceof TeapotBlock)) {
+            return false;
+        }
+
+        BlockPos abovePos = stoveLocalPos.above();
+        Contraption contraption = contraptionEntity.getContraption();
+
+        StructureTemplate.StructureBlockInfo aboveInfo = contraption.getBlocks().get(abovePos);
+        if (aboveInfo != null && !aboveInfo.state().isAir()) {
+            return false;
+        }
+
+        if (!contraptionEntity.level().isClientSide) {
+            BlockState newState = defaultStateSupplier.get();
+
+            CompoundTag nbt;
+            CustomData customData = itemInHand.get(DataComponents.BLOCK_ENTITY_DATA);
+            if (customData != null && !customData.isEmpty()) {
+                nbt = customData.copyTag();
+            } else {
+                nbt = createTeapotNbt();
+            }
+
+            StructureTemplate.StructureBlockInfo newInfo = new StructureTemplate.StructureBlockInfo(abovePos, newState, nbt);
+
+            contraption.getBlocks().put(abovePos, newInfo);
+            ((ContraptionAccessor) contraption).getUpdateTags().put(abovePos, nbt.copy());
+
+            MovingInteractionBehaviour interactionBehaviour = MovingInteractionBehaviour.REGISTRY.get(newState);
+            if (interactionBehaviour != null) {
+                contraption.getInteractors().put(abovePos, interactionBehaviour);
+            }
+
+            MovementBehaviour movementBehaviour = MovementBehaviour.REGISTRY.get(newState);
+            if (movementBehaviour != null) {
+                var actors = contraption.getActors();
+                boolean exists = actors.stream().anyMatch(actor -> actor.getLeft().pos().equals(abovePos));
+                if (!exists) {
+                    MovementContext context = new MovementContext(contraptionEntity.level(), newInfo, contraption);
+                    actors.add(MutablePair.of(newInfo, context));
+                }
+            }
+
+            AABB newBounds = ContraptionBoundsUtil.recalculateBounds(contraption);
+            ContraptionUtil.syncBlockChange(contraptionEntity, abovePos, newState, nbt, newBounds);
+
+            contraption.invalidateColliders();
+
+            if (!player.isCreative()) {
+                itemInHand.shrink(1);
+            }
+
+            playSound(contraptionEntity, abovePos, newState.getSoundType(contraptionEntity.level(), abovePos, null).getPlaceSound(), SoundSource.BLOCKS, 1.0F, 0.8F);
+
+            if (onSuccess != null) onSuccess.run();
+        }
+
+        return true;
+    }
+
+    /**
      * 通用的厨房方块放置方法
-     * 消除了 handlePotBlockPlacement/handleStockpotBlockPlacement/handleSteamerBlockPlacement 的重复代码
      */
     private <T extends Block> boolean handleKitchenBlockPlacement(Player player, BlockPos stoveLocalPos,
                                                                    AbstractContraptionEntity contraptionEntity,
@@ -151,7 +221,7 @@ public class StoveMovingInteraction extends BaseMovingInteraction {
 
         if (!contraptionEntity.level().isClientSide) {
             BlockState newState = defaultStateSupplier.get()
-                    .setValue(BlockStateProperties.FACING, player.getDirection().getOpposite());
+                    .setValue(HorizontalDirectionalBlock.FACING, player.getDirection().getOpposite());
 
             if (newState.hasProperty(PotBlock.HAS_BASE)) {
                 newState = newState.setValue(PotBlock.HAS_BASE, false);
@@ -181,11 +251,14 @@ public class StoveMovingInteraction extends BaseMovingInteraction {
             AABB newBounds = ContraptionBoundsUtil.recalculateBounds(contraption);
             ContraptionUtil.syncBlockChange(contraptionEntity, abovePos, newState, nbt, newBounds);
 
+            // 更新碰撞体
+            contraption.invalidateColliders();
+
             if (!player.isCreative()) {
                 itemInHand.shrink(1);
             }
 
-            playSound(contraptionEntity, abovePos, newState.getSoundType().getPlaceSound(), SoundSource.BLOCKS, 1.0F, 0.8F);
+            playSound(contraptionEntity, abovePos, newState.getSoundType(contraptionEntity.level(), abovePos, null).getPlaceSound(), SoundSource.BLOCKS, 1.0F, 0.8F);
 
             if (onSuccess != null) onSuccess.run();
         }
@@ -222,7 +295,7 @@ public class StoveMovingInteraction extends BaseMovingInteraction {
         return nbt;
     }
 
-    private CompoundTag createTeapotNbt(AbstractContraptionEntity entity) {
+    private CompoundTag createTeapotNbt() {
         CompoundTag nbt = new CompoundTag();
         nbt.putString("TeaFluidId", "minecraft:empty");
         nbt.putInt("Status", 0);

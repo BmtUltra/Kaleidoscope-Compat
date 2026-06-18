@@ -7,7 +7,6 @@ public final class ContraptionNbtKeys {
 
     private ContraptionNbtKeys() {}
 
-    // ====== 通用 NBT 键 ======
     public static final String STATUS = "Status";
     public static final String CURRENT_TICK = "CurrentTick";
     public static final String SEED = "Seed";
@@ -15,23 +14,41 @@ public final class ContraptionNbtKeys {
     public static final String RESULT = "Result";
     public static final String CARRIER = "Carrier";
 
-    // ====== Pot 炒锅专用 NBT 键 ======
     public static final String POT_STIR_FRY_COUNT = "StirFryCount";
 
-    // ====== Stockpot 汤锅专用 NBT 键 ======
     public static final String STOCKPOT_RECIPE_ID = "RecipeId";
     public static final String STOCKPOT_SOUP_BASE_ID = "SoupBaseId";
     public static final String STOCKPOT_TAKEOUT_COUNT = "TakeoutCount";
     public static final String STOCKPOT_LID_ITEM = "LidItem";
     public static final String STOCKPOT_CARRIER = "StockpotCarrier";
 
-    // ====== Steamer 蒸笼专用 NBT 键 ======
-    public static final String STEAMER_ITEMS = "Items";
     public static final String STEAMER_COOKING_PROGRESS = "CookingProgress";
     public static final String STEAMER_COOKING_TIME = "CookingTime";
     public static final String STEAMER_LIT_LEVEL = "LitLevel";
 
-    // ====== Pot 炒锅状态常量 ======
+    public static final String TEA_FLUID_ID = "TeaFluidId";
+    public static final String TEAPOT_INPUT = "Input";
+
+    public static final String CHOPPING_BOARD_CURRENT_CUT_STACK = "CurrentCutStack";
+    public static final String CHOPPING_BOARD_RESULT_ITEM = "ResultItem";
+    public static final String CHOPPING_BOARD_MAX_CUT_COUNT = "MaxCutCount";
+    public static final String CHOPPING_BOARD_CURRENT_CUT_COUNT = "CurrentCutCount";
+    public static final String CHOPPING_BOARD_MODEL_ID = "ModelId";
+
+    public static final String ENAMEL_BASIN_HAS_LID = "HasLid";
+    public static final String ENAMEL_BASIN_OIL_COUNT = "OilCount";
+
+    public static final String OIL_POT_OIL_COUNT = "OilCount";
+
+    public static final String SHAWARMA_SPIT_COOKING_ITEM = "CookingItem";
+    public static final String SHAWARMA_SPIT_COOKED_ITEM = "CookedItem";
+    public static final String SHAWARMA_SPIT_COOK_TIME = "CookTime";
+
+    public static final String TRASH_CAN_ITEMS = "TrashCanItems";
+
+    public static final String KITCHENWARE_RACKS_LEFT_ITEM = "LeftItem";
+    public static final String KITCHENWARE_RACKS_RIGHT_ITEM = "RightItem";
+
     public static final class PotStatus {
         public static final int PUT_INGREDIENT = 0;
         public static final int COOKING = 1;
@@ -41,7 +58,6 @@ public final class ContraptionNbtKeys {
         private PotStatus() {}
     }
 
-    // ====== Stockpot 汤锅状态常量 ======
     public static final class StockpotStatus {
         public static final int PUT_SOUP_BASE = 0;
         public static final int PUT_INGREDIENT = 1;
@@ -49,5 +65,13 @@ public final class ContraptionNbtKeys {
         public static final int FINISHED = 3;
 
         private StockpotStatus() {}
+    }
+
+    public static final class TeapotStatus {
+        public static final int PUT_INGREDIENT = 0;
+        public static final int PROCESSING = 1;
+        public static final int FINISHED = 2;
+
+        private TeapotStatus() {}
     }
 }

@@ -1,5 +1,7 @@
 package com.bmt.kaleidoscope_compat.compat.create.movement;
 
+import com.bmt.kaleidoscope_compat.compat.create.util.ContraptionNbtKeys;
+import com.bmt.kaleidoscope_compat.compat.create.util.ContraptionUtil;
 import com.github.ysbbbbbb.kaleidoscopecookery.api.recipe.soupbase.ISoupBase;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.StockpotBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.particle.StockpotParticleOptions;
@@ -10,26 +12,28 @@ import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.StockpotVisuals;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.soupbase.SoupBaseManager;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModParticles;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModRecipes;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.ModSounds;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModSoupBases;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.quality.Quality;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.quality.QualityEvaluator;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.quality.QualityUtils;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
 import com.simibubi.create.content.contraptions.behaviour.MovementContext;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraft.world.phys.Vec3;
 
 import static com.bmt.kaleidoscope_compat.compat.create.util.ContraptionNbtKeys.*;
@@ -56,31 +60,34 @@ public class StockpotMovementBehaviour extends BaseMovementBehaviour {
 
     @Override
     protected void tickWithHeat(MovementContext context, BlockState state, CompoundTag nbt) {
+        if (hasNoHeatSource(context)) {
+            return;
+        }
+
         int status = nbt.getInt(STATUS);
         boolean hasLid = state.getValue(HAS_LID);
         RandomSource random = context.world.random;
+
+        if (context.world.getGameTime() % 15 == 0) {
+            float volume = hasLid ? 0.075f : 0.2f;
+            float pitch = hasLid ? 0.1f + random.nextFloat() * 0.05f : 1f + random.nextFloat() * 0.1f;
+            playSound(context, ModSounds.BLOCK_STOCKPOT.get(), SoundSource.BLOCKS, volume, pitch);
+        }
 
         if (!hasLid) {
             spawnParticleWithoutLid(context, nbt, random);
             return;
         }
 
-        if (context.world instanceof ServerLevel sl && random.nextFloat() < 0.05F) {
-            Vec3 gp = getGlobalPos(context);
-            sl.sendParticles(ModParticles.COOKING.get(),
-                    gp.x + random.nextDouble() / 3 * (random.nextBoolean() ? 1 : -1),
-                    gp.y - 0.125 + random.nextDouble() / 3,
-                    gp.z + random.nextDouble() / 3 * (random.nextBoolean() ? 1 : -1),
+        if (random.nextFloat() < 0.05F) {
+            ContraptionUtil.spawnParticle(context, ModParticles.COOKING.get(),
+                    random.nextDouble() / 3 * (random.nextBoolean() ? 1 : -1),
+                    0.375 + random.nextDouble() / 3,
+                    random.nextDouble() / 3 * (random.nextBoolean() ? 1 : -1),
                     1, 0, 0, 0, 0.05);
         }
 
-        if (context.world.getGameTime() % 15 == 0) {
-            float volume = 0.075f;
-            float pitch = 0.1f + random.nextFloat() * 0.05f;
-            playSound(context, SoundEvents.FIRE_AMBIENT, volume, pitch);
-        }
-
-        if (status == PUT_INGREDIENT && context.world.getGameTime() % 5 == 0 && !isEmpty(nbt, context.world.registryAccess())) {
+        if (status == PUT_INGREDIENT && context.world.getGameTime() % 5 == 0 && !ContraptionUtil.areInputsEmpty(nbt, context.world.registryAccess(), StockpotRecipe.RECIPES_SIZE)) {
             matchRecipe(context, state, nbt);
             return;
         }
@@ -90,7 +97,7 @@ public class StockpotMovementBehaviour extends BaseMovementBehaviour {
             if (currentTick > 0) {
                 CompoundTag newNbt = nbt.copy();
                 newNbt.putInt(CURRENT_TICK, currentTick - 1);
-                updateNbt(context, newNbt, false);
+                updateNbt(context, newNbt);
                 return;
             }
             finishCooking(context, state, nbt);
@@ -98,15 +105,13 @@ public class StockpotMovementBehaviour extends BaseMovementBehaviour {
     }
 
     private void spawnParticleWithoutLid(MovementContext context, CompoundTag nbt, RandomSource random) {
-        if (!(context.world instanceof ServerLevel sl)) return;
-        if (sl.random.nextFloat() >= 0.25F) return;
+        if (random.nextFloat() >= 0.25F) return;
 
         int color = getBubbleColor(nbt, context.world);
-        Vec3 gp = getGlobalPos(context);
-        sl.sendParticles(new StockpotParticleOptions(Vec3.fromRGB24(color).toVector3f(), 1f),
-                gp.x - 0.25 + (random.nextFloat() * 0.5F),
-                gp.y - 0.125,
-                gp.z - 0.25 + (random.nextFloat() * 0.5F),
+        ContraptionUtil.spawnParticle(context, new StockpotParticleOptions(Vec3.fromRGB24(color).toVector3f(), 1f),
+                0.25 + (random.nextFloat() * 0.5F),
+                0.375,
+                0.25 + (random.nextFloat() * 0.5F),
                 2,
                 (random.nextFloat() - 0.5) * 0.1F,
                 0,
@@ -148,8 +153,8 @@ public class StockpotMovementBehaviour extends BaseMovementBehaviour {
 
     private void matchRecipe(MovementContext context, BlockState state, CompoundTag nbt) {
         RegistryAccess registryAccess = context.world.registryAccess();
-        NonNullList<ItemStack> inputs = readInputs(nbt, registryAccess);
-        ResourceLocation soupBaseId = ResourceLocation.tryParse(nbt.getString(STOCKPOT_SOUP_BASE_ID));
+        NonNullList<ItemStack> inputs = ContraptionUtil.readInputs(nbt, registryAccess, StockpotRecipe.RECIPES_SIZE);
+        ResourceLocation soupBaseId = ResourceLocation.tryParse(nbt.getString(ContraptionNbtKeys.STOCKPOT_SOUP_BASE_ID));
         StockpotInput input = new StockpotInput(inputs, soupBaseId != null ? soupBaseId : ModSoupBases.WATER);
 
         CompoundTag newNbt = nbt.copy();
@@ -170,26 +175,26 @@ public class StockpotMovementBehaviour extends BaseMovementBehaviour {
     }
 
     private void applyRecipe(MovementContext context, BlockState state, CompoundTag newNbt,
-                             StockpotInput input, net.minecraft.world.item.crafting.RecipeHolder<StockpotRecipe> recipe,
+                             StockpotInput input, RecipeHolder<StockpotRecipe> recipe,
                              RegistryAccess registryAccess) {
         StockpotRecipe value = recipe.value();
         ItemStack resultItem = value.assemble(input, registryAccess);
 
-        newNbt.putString(STOCKPOT_RECIPE_ID, recipe.id().toString());
-        saveCarrier(newNbt, value.carrier(), registryAccess);
-        newNbt.put(RESULT, resultItem.saveOptional(registryAccess));
-        newNbt.putInt(CURRENT_TICK, value.time());
-        newNbt.putInt(STATUS, COOKING);
-        newNbt.putInt(STOCKPOT_TAKEOUT_COUNT, Math.min(resultItem.getCount(), MAX_TAKEOUT_COUNT));
+        newNbt.putString(ContraptionNbtKeys.STOCKPOT_RECIPE_ID, recipe.id().toString());
+        ContraptionUtil.saveCarrier(newNbt, value.carrier(), ContraptionNbtKeys.STOCKPOT_CARRIER);
+        newNbt.put(ContraptionNbtKeys.RESULT, resultItem.saveOptional(registryAccess));
+        newNbt.putInt(ContraptionNbtKeys.CURRENT_TICK, value.time());
+        newNbt.putInt(ContraptionNbtKeys.STATUS, ContraptionNbtKeys.StockpotStatus.COOKING);
+        newNbt.putInt(ContraptionNbtKeys.STOCKPOT_TAKEOUT_COUNT, Math.min(resultItem.getCount(), MAX_TAKEOUT_COUNT));
 
-        updateData(context, state, newNbt, true);
+        updateData(context, state, newNbt);
     }
 
     private void applyFlexRecipe(MovementContext context, BlockState state, CompoundTag newNbt,
-                                 StockpotInput input, net.minecraft.world.item.crafting.RecipeHolder<FlexStockpotRecipe> recipe,
+                                 StockpotInput input, RecipeHolder<FlexStockpotRecipe> recipe,
                                  RegistryAccess registryAccess) {
         FlexStockpotRecipe value = recipe.value();
-        NonNullList<ItemStack> inputs = readInputs(newNbt, registryAccess);
+        NonNullList<ItemStack> inputs = ContraptionUtil.readInputs(newNbt, registryAccess, StockpotRecipe.RECIPES_SIZE);
         ItemStack resultItem = value.assemble(input, registryAccess);
 
         if (context.world instanceof ServerLevel sl) {
@@ -197,54 +202,102 @@ public class StockpotMovementBehaviour extends BaseMovementBehaviour {
             QualityUtils.setQuality(resultItem, quality);
         }
 
-        newNbt.putString(STOCKPOT_RECIPE_ID, recipe.id().toString());
-        saveCarrier(newNbt, value.carrier(), registryAccess);
-        newNbt.put(RESULT, resultItem.saveOptional(registryAccess));
-        newNbt.putInt(CURRENT_TICK, value.time());
-        newNbt.putInt(STATUS, COOKING);
-        newNbt.putInt(STOCKPOT_TAKEOUT_COUNT, Math.min(resultItem.getCount(), MAX_TAKEOUT_COUNT));
+        newNbt.putString(ContraptionNbtKeys.STOCKPOT_RECIPE_ID, recipe.id().toString());
+        ContraptionUtil.saveCarrier(newNbt, value.carrier(), ContraptionNbtKeys.STOCKPOT_CARRIER);
+        newNbt.put(ContraptionNbtKeys.RESULT, resultItem.saveOptional(registryAccess));
+        newNbt.putInt(ContraptionNbtKeys.CURRENT_TICK, value.time());
+        newNbt.putInt(ContraptionNbtKeys.STATUS, ContraptionNbtKeys.StockpotStatus.COOKING);
+        newNbt.putInt(ContraptionNbtKeys.STOCKPOT_TAKEOUT_COUNT, Math.min(resultItem.getCount(), MAX_TAKEOUT_COUNT));
 
-        updateData(context, state, newNbt, true);
+        updateData(context, state, newNbt);
     }
 
     private void applySuspiciousRecipe(MovementContext context, BlockState state, CompoundTag newNbt, RegistryAccess registryAccess) {
-        newNbt.putString(STOCKPOT_RECIPE_ID, "");
-        saveCarrier(newNbt, Ingredient.of(Items.BOWL), registryAccess);
-        newNbt.put(RESULT, Items.SUSPICIOUS_STEW.getDefaultInstance().saveOptional(registryAccess));
-        newNbt.putInt(CURRENT_TICK, 20 * 20);
-        newNbt.putInt(STATUS, COOKING);
-        newNbt.putInt(STOCKPOT_TAKEOUT_COUNT, 1);
+        newNbt.putString(ContraptionNbtKeys.STOCKPOT_RECIPE_ID, "");
+        ContraptionUtil.saveCarrier(newNbt, Ingredient.of(Items.BOWL), ContraptionNbtKeys.STOCKPOT_CARRIER);
+        newNbt.put(ContraptionNbtKeys.RESULT, Items.SUSPICIOUS_STEW.getDefaultInstance().saveOptional(registryAccess));
+        newNbt.putInt(ContraptionNbtKeys.CURRENT_TICK, 20 * 20);
+        newNbt.putInt(ContraptionNbtKeys.STATUS, ContraptionNbtKeys.StockpotStatus.COOKING);
+        newNbt.putInt(ContraptionNbtKeys.STOCKPOT_TAKEOUT_COUNT, 1);
 
-        updateData(context, state, newNbt, true);
+        updateData(context, state, newNbt);
     }
 
     private void finishCooking(MovementContext context, BlockState state, CompoundTag nbt) {
         CompoundTag newNbt = nbt.copy();
-        newNbt.putInt(STATUS, FINISHED);
-        newNbt.putInt(CURRENT_TICK, -1);
-        newNbt.put(INPUTS, ContainerHelper.saveAllItems(new CompoundTag(), NonNullList.withSize(StockpotRecipe.RECIPES_SIZE, ItemStack.EMPTY), context.world.registryAccess()));
+        newNbt.putInt(ContraptionNbtKeys.STATUS, ContraptionNbtKeys.StockpotStatus.FINISHED);
+        newNbt.putInt(ContraptionNbtKeys.CURRENT_TICK, -1);
+        ContraptionUtil.saveInputs(newNbt, NonNullList.withSize(StockpotRecipe.RECIPES_SIZE, ItemStack.EMPTY), context.world.registryAccess());
 
-        updateData(context, state, newNbt, true);
+        updateData(context, state, newNbt);
     }
 
-    private NonNullList<ItemStack> readInputs(CompoundTag nbt, RegistryAccess registryAccess) {
-        NonNullList<ItemStack> inputs = NonNullList.withSize(StockpotRecipe.RECIPES_SIZE, ItemStack.EMPTY);
-        if (nbt.contains(INPUTS, Tag.TAG_COMPOUND)) {
-            ContainerHelper.loadAllItems(nbt.getCompound(INPUTS), inputs, registryAccess);
+    @Override
+    public void stopMoving(MovementContext context) {
+        if (context.world.isClientSide)
+            return;
+
+        StructureBlockInfo info = context.contraption.getBlocks().get(context.localPos);
+        if (info == null || !(info.state().getBlock() instanceof StockpotBlock)) {
+            return;
         }
-        return inputs;
-    }
 
-    private boolean isEmpty(CompoundTag nbt, RegistryAccess registryAccess) {
-        NonNullList<ItemStack> inputs = readInputs(nbt, registryAccess);
-        for (ItemStack stack : inputs) {
-            if (!stack.isEmpty()) return false;
+        CompoundTag nbt = info.nbt();
+        if (nbt == null)
+            return;
+
+        RegistryAccess registryAccess = context.world.registryAccess();
+        Vec3 globalPos = context.contraption.entity.toGlobalVector(Vec3.atCenterOf(context.localPos), 1.0f);
+        int status = nbt.getInt(ContraptionNbtKeys.STATUS);
+
+        java.util.List<ItemStack> drops = new java.util.ArrayList<>();
+
+        // 返回 inputs 中的食材
+        NonNullList<ItemStack> inputs = ContraptionUtil.readInputs(nbt, registryAccess, StockpotRecipe.RECIPES_SIZE);
+        for (ItemStack item : inputs) {
+            if (!item.isEmpty()) {
+                drops.add(item);
+            }
         }
-        return true;
-    }
 
-    void saveCarrier(CompoundTag nbt, Ingredient carrier, RegistryAccess registryAccess) {
-        nbt.put(STOCKPOT_CARRIER, Ingredient.CODEC.encodeStart(NbtOps.INSTANCE, carrier).getOrThrow());
-    }
+        // 返回成品（已完成时）
+        if (status == ContraptionNbtKeys.StockpotStatus.FINISHED) {
+            ItemStack result = ContraptionUtil.readResult(nbt, registryAccess);
+            if (!result.isEmpty()) {
+                drops.add(result);
+            }
+        }
 
+        // 返回盖子（如果有）
+        ItemStack lid = ItemStack.parseOptional(registryAccess, nbt.getCompound(ContraptionNbtKeys.STOCKPOT_LID_ITEM));
+        if (!lid.isEmpty()) {
+            drops.add(lid);
+        }
+
+        // 查找最近玩家
+        Player nearestPlayer = null;
+        double closestDist = Double.MAX_VALUE;
+        for (Player player : context.world.players()) {
+            double dist = player.position().distanceTo(globalPos);
+            if (dist < closestDist) {
+                closestDist = dist;
+                nearestPlayer = player;
+            }
+        }
+
+        if (nearestPlayer != null && closestDist < 10.0) {
+            for (ItemStack drop : drops) {
+                if (!drop.isEmpty()) {
+                    ItemUtils.getItemToLivingEntity(nearestPlayer, drop);
+                }
+            }
+        } else {
+            ContraptionUtil.spawnItemDrops(context.world, globalPos, drops);
+        }
+
+        // 清空内容物
+        ContraptionUtil.saveInputs(nbt, NonNullList.withSize(StockpotRecipe.RECIPES_SIZE, ItemStack.EMPTY), registryAccess);
+        nbt.remove(ContraptionNbtKeys.STOCKPOT_LID_ITEM);
+        updateNbt(context, nbt);
+    }
 }

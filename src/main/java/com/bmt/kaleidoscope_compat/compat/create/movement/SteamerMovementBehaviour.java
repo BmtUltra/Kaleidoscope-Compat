@@ -1,22 +1,23 @@
 package com.bmt.kaleidoscope_compat.compat.create.movement;
 
+import com.bmt.kaleidoscope_compat.compat.create.util.ContraptionUtil;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.SteamerBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModParticles;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModRecipes;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
+import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
 import com.simibubi.create.content.contraptions.behaviour.MovementContext;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraft.world.phys.Vec3;
 
@@ -40,17 +41,21 @@ public class SteamerMovementBehaviour extends BaseMovementBehaviour {
     }
 
     @Override
-    protected boolean shouldTick(MovementContext context, BlockState state, CompoundTag nbt) {
-        return hasAnyItem(nbt, context.world.registryAccess());
-    }
-
-    @Override
     protected void tickWithHeat(MovementContext context, BlockState state, CompoundTag nbt) {
         if (context.world.getGameTime() % 5 == 0) {
             int litLevel = calculateLitLevel(context);
             CompoundTag newNbt = nbt.copy();
             newNbt.putInt(STEAMER_LIT_LEVEL, litLevel);
-            updateNbt(context, newNbt, false);
+            updateNbt(context, newNbt);
+
+            // 检查是否有蒸熟的物品，释放熟粒粒子
+            int[] cookingTime = ContraptionUtil.readIntArray(nbt, STEAMER_COOKING_TIME, SLOT_COUNT);
+            for (int j : cookingTime) {
+                if (j == -1) {
+                    makeRipeParticles(context, state);
+                    break;
+                }
+            }
         }
 
         int litLevel = nbt.getInt(STEAMER_LIT_LEVEL);
@@ -100,16 +105,16 @@ public class SteamerMovementBehaviour extends BaseMovementBehaviour {
 
         if (belowInfo != null) {
             BlockState belowState = belowInfo.state();
-            if (belowState.hasProperty(net.minecraft.world.level.block.state.properties.BlockStateProperties.LIT)) {
-                return belowState.getValue(net.minecraft.world.level.block.state.properties.BlockStateProperties.LIT);
+            if (belowState.hasProperty(BlockStateProperties.LIT)) {
+                return belowState.getValue(BlockStateProperties.LIT);
             }
-            return belowState.is(com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod.HEAT_SOURCE_BLOCKS_WITHOUT_LIT);
+            return belowState.is(TagMod.HEAT_SOURCE_BLOCKS_WITHOUT_LIT);
         }
         return false;
     }
 
     /**
-     * 检查上方是否是蒸笼（用于判断是否释放粒子和烹饪）
+     * 检查上方是否是蒸笼
      */
     private boolean isAboveSteamer(MovementContext context) {
         Map<BlockPos, StructureBlockInfo> blocks = context.contraption.getBlocks();
@@ -119,16 +124,16 @@ public class SteamerMovementBehaviour extends BaseMovementBehaviour {
 
     private void cookingTick(MovementContext context, BlockState state, CompoundTag nbt) {
         RegistryAccess registryAccess = context.world.registryAccess();
-        NonNullList<ItemStack> items = readItems(nbt, registryAccess);
-        int[] cookingProgress = readIntArray(nbt, STEAMER_COOKING_PROGRESS);
-        int[] cookingTime = readIntArray(nbt, STEAMER_COOKING_TIME);
+        NonNullList<ItemStack> items = ContraptionUtil.readItems(nbt, registryAccess, SLOT_COUNT);
+        int[] cookingProgress = ContraptionUtil.readIntArray(nbt, STEAMER_COOKING_PROGRESS, SLOT_COUNT);
+        int[] cookingTime = ContraptionUtil.readIntArray(nbt, STEAMER_COOKING_TIME, SLOT_COUNT);
         boolean half = state.getValue(HALF);
         int endIndex = half ? 4 : 8;
 
         boolean aboveIsSteamer = isAboveSteamer(context);
 
         if (!aboveIsSteamer) {
-            spawnCookingParticles(context, state, nbt);
+            makeCookingParticles(context, state);
             if (!state.getValue(HAS_LID)) {
                 return;
             }
@@ -138,16 +143,19 @@ public class SteamerMovementBehaviour extends BaseMovementBehaviour {
 
         for (int i = 0; i < endIndex; i++) {
             ItemStack stack = items.get(i);
-            if (stack.isEmpty()) continue;
+            if (stack.isEmpty())
+                continue;
 
-            if (cookingTime[i] == -1) continue;
+            if (cookingTime[i] == -1)
+                continue;
 
             changed = true;
             cookingProgress[i]++;
 
             if (cookingProgress[i] >= cookingTime[i]) {
                 SingleRecipeInput input = new SingleRecipeInput(stack);
-                var recipe = context.world.getRecipeManager().getRecipeFor(ModRecipes.STEAMER_RECIPE, input, context.world);
+                var recipe = context.world.getRecipeManager().getRecipeFor(ModRecipes.STEAMER_RECIPE, input,
+                        context.world);
                 ItemStack resultStack = recipe.map(r -> r.value().assemble(input, registryAccess)).orElse(stack);
 
                 if (!resultStack.isEmpty()) {
@@ -159,17 +167,16 @@ public class SteamerMovementBehaviour extends BaseMovementBehaviour {
 
         if (changed) {
             CompoundTag newNbt = nbt.copy();
-            saveItems(newNbt, items, registryAccess);
-            saveIntArray(newNbt, STEAMER_COOKING_PROGRESS, cookingProgress);
-            saveIntArray(newNbt, STEAMER_COOKING_TIME, cookingTime);
-            updateNbt(context, newNbt, true);
+            ContraptionUtil.saveItems(newNbt, items, registryAccess);
+            ContraptionUtil.saveIntArray(newNbt, STEAMER_COOKING_PROGRESS, cookingProgress);
+            ContraptionUtil.saveIntArray(newNbt, STEAMER_COOKING_TIME, cookingTime);
+            updateNbt(context, newNbt);
         }
     }
 
     private void cooldownTick(MovementContext context, BlockState state, CompoundTag nbt) {
-        RegistryAccess registryAccess = context.world.registryAccess();
-        int[] cookingProgress = readIntArray(nbt, STEAMER_COOKING_PROGRESS);
-        int[] cookingTime = readIntArray(nbt, STEAMER_COOKING_TIME);
+        int[] cookingProgress = ContraptionUtil.readIntArray(nbt, STEAMER_COOKING_PROGRESS, SLOT_COUNT);
+        int[] cookingTime = ContraptionUtil.readIntArray(nbt, STEAMER_COOKING_TIME, SLOT_COUNT);
         boolean half = state.getValue(HALF);
         int endIndex = half ? 4 : 8;
         boolean changed = false;
@@ -183,76 +190,108 @@ public class SteamerMovementBehaviour extends BaseMovementBehaviour {
 
         if (changed) {
             CompoundTag newNbt = nbt.copy();
-            saveIntArray(newNbt, STEAMER_COOKING_PROGRESS, cookingProgress);
-            saveIntArray(newNbt, STEAMER_COOKING_TIME, cookingTime);
-            updateNbt(context, newNbt, true);
+            ContraptionUtil.saveIntArray(newNbt, STEAMER_COOKING_PROGRESS, cookingProgress);
+            ContraptionUtil.saveIntArray(newNbt, STEAMER_COOKING_TIME, cookingTime);
+            updateNbt(context, newNbt);
         }
     }
 
-    private void spawnCookingParticles(MovementContext context, BlockState state, CompoundTag nbt) {
-        if (!(context.world instanceof ServerLevel sl)) return;
-        if (sl.random.nextFloat() >= 0.1F) return;
+    /**
+     * 烹饪粒子：蒸笼正在烹饪时产生的蒸汽
+     */
+    private void makeCookingParticles(MovementContext context, BlockState state) {
+        if (!(context.world instanceof net.minecraft.server.level.ServerLevel serverLevel)) return;
+        if (serverLevel.random.nextFloat() >= 0.1F) return;
+
+        boolean half = state.getValue(HALF);
+        double yOffset = half ? 0.5 : 1.0;
+        net.minecraft.util.RandomSource random = serverLevel.random;
+
+        Vec3 globalPos = context.contraption.entity.toGlobalVector(
+                net.minecraft.world.phys.Vec3.atCenterOf(context.localPos), 1.0f);
+
+        serverLevel.sendParticles(ModParticles.COOKING.get(),
+                globalPos.x + random.nextDouble() / 2 * (random.nextBoolean() ? 1 : -1),
+                globalPos.y - 0.5 + yOffset + random.nextDouble() / 2,
+                globalPos.z + random.nextDouble() / 2 * (random.nextBoolean() ? 1 : -1),
+                1, 0, 0, 0, 0.05);
+    }
+
+    /**
+     * 熟粒粒子：食物蒸熟后产生的粒子
+     */
+    private void makeRipeParticles(MovementContext context, BlockState state) {
+        if (!(context.world instanceof net.minecraft.server.level.ServerLevel serverLevel)) return;
+        if (serverLevel.random.nextFloat() >= 0.5F) return;
+
+        boolean half = state.getValue(HALF);
+        double yOffset = half ? 0.25 : 0.75;
+        net.minecraft.util.RandomSource random = serverLevel.random;
+
+        Vec3 globalPos = context.contraption.entity.toGlobalVector(
+                net.minecraft.world.phys.Vec3.atCenterOf(context.localPos), 1.0f);
+
+        serverLevel.sendParticles(ModParticles.COOKING.get(),
+                globalPos.x + random.nextDouble() / 1.25 * (random.nextBoolean() ? 1 : -1),
+                globalPos.y - 0.5 + yOffset + random.nextDouble() / 2,
+                globalPos.z + random.nextDouble() / 1.25 * (random.nextBoolean() ? 1 : -1),
+                1, 0, 0, 0, 0.05);
+    }
+
+    @Override
+    protected boolean shouldTick(MovementContext context, BlockState state, CompoundTag nbt) {
+        return ContraptionUtil.hasAnyItem(nbt, context.world.registryAccess(), SLOT_COUNT);
+    }
+
+    @Override
+    public void stopMoving(MovementContext context) {
+        if (context.world.isClientSide)
+            return;
+
+        StructureBlockInfo info = context.contraption.getBlocks().get(context.localPos);
+        if (info == null || !(info.state().getBlock() instanceof SteamerBlock)) {
+            return;
+        }
+
+        CompoundTag nbt = info.nbt();
+        if (nbt == null)
+            return;
 
         RegistryAccess registryAccess = context.world.registryAccess();
-        NonNullList<ItemStack> items = readItems(nbt, registryAccess);
-        int[] cookingTime = readIntArray(nbt, STEAMER_COOKING_TIME);
-        boolean half = state.getValue(HALF);
-        int endIndex = half ? 4 : 8;
+        Vec3 globalPos = context.contraption.entity.toGlobalVector(Vec3.atCenterOf(context.localPos), 1.0f);
 
-        boolean hasRipe = false;
-        for (int i = 0; i < endIndex; i++) {
-            if (cookingTime[i] == -1 && !items.get(i).isEmpty()) {
-                hasRipe = true;
-                break;
+        // 收集内容物
+        NonNullList<ItemStack> items = ContraptionUtil.readItems(nbt, registryAccess, SLOT_COUNT);
+        java.util.List<ItemStack> drops = new java.util.ArrayList<>();
+        for (ItemStack item : items) {
+            if (!item.isEmpty()) {
+                drops.add(item);
             }
         }
 
-        Vec3 gp = getGlobalPos(context);
-        RandomSource random = sl.random;
+        // 查找最近玩家
+        Player nearestPlayer = null;
+        double closestDist = Double.MAX_VALUE;
+        for (Player player : context.world.players()) {
+            double dist = player.position().distanceTo(globalPos);
+            if (dist < closestDist) {
+                closestDist = dist;
+                nearestPlayer = player;
+            }
+        }
 
-        if (hasRipe) {
-            double yOffset = half ? 0.25 : 0.5;
-            sl.sendParticles(ModParticles.COOKING.get(),
-                    gp.x + random.nextDouble() / 1.25 * (random.nextBoolean() ? 1 : -1),
-                    gp.y + yOffset + random.nextDouble() / 2,
-                    gp.z + random.nextDouble() / 1.25 * (random.nextBoolean() ? 1 : -1),
-                    1, 0, 0, 0, 0.05);
+        if (nearestPlayer != null && closestDist < 10.0) {
+            for (ItemStack drop : drops) {
+                if (!drop.isEmpty()) {
+                    ItemUtils.getItemToLivingEntity(nearestPlayer, drop);
+                }
+            }
         } else {
-            double yOffset = half ? 0.25 : 0.5;
-            sl.sendParticles(ModParticles.COOKING.get(),
-                    gp.x + random.nextDouble() / 2 * (random.nextBoolean() ? 1 : -1),
-                    gp.y + yOffset + random.nextDouble() / 2,
-                    gp.z + random.nextDouble() / 2 * (random.nextBoolean() ? 1 : -1),
-                    1, 0, 0, 0, 0.05);
+            ContraptionUtil.spawnItemDrops(context.world, globalPos, drops);
         }
-    }
 
-    private NonNullList<ItemStack> readItems(CompoundTag nbt, RegistryAccess registryAccess) {
-        NonNullList<ItemStack> items = NonNullList.withSize(SLOT_COUNT, ItemStack.EMPTY);
-        ContainerHelper.loadAllItems(nbt, items, registryAccess);
-        return items;
-    }
-
-    private void saveItems(CompoundTag nbt, NonNullList<ItemStack> items, RegistryAccess registryAccess) {
-        ContainerHelper.saveAllItems(nbt, items, true, registryAccess);
-    }
-
-    private int[] readIntArray(CompoundTag nbt, String key) {
-        if (nbt.contains(key, Tag.TAG_INT_ARRAY)) {
-            return nbt.getIntArray(key);
-        }
-        return new int[SLOT_COUNT];
-    }
-
-    private void saveIntArray(CompoundTag nbt, String key, int[] array) {
-        nbt.putIntArray(key, array);
-    }
-
-    private boolean hasAnyItem(CompoundTag nbt, RegistryAccess registryAccess) {
-        NonNullList<ItemStack> items = readItems(nbt, registryAccess);
-        for (ItemStack stack : items) {
-            if (!stack.isEmpty()) return true;
-        }
-        return false;
+        // 清空内容物
+        ContraptionUtil.saveItems(nbt, NonNullList.withSize(SLOT_COUNT, ItemStack.EMPTY), registryAccess);
+        updateNbt(context, nbt);
     }
 }

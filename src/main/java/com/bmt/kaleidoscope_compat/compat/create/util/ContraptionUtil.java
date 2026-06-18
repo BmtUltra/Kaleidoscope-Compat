@@ -7,12 +7,21 @@ import com.simibubi.create.content.contraptions.AbstractContraptionEntity;
 import com.simibubi.create.content.contraptions.Contraption;
 import com.simibubi.create.content.contraptions.behaviour.MovementContext;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.game.ClientboundSetActionBarTextPacket;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.Tag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -23,308 +32,72 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * 动态结构工具类
  */
 public class ContraptionUtil {
-
-    /**
-     * 检测动态结构上某位置下方是否有热源
-     */
     public static boolean hasHeatSource(AbstractContraptionEntity contraptionEntity, BlockPos localPos) {
         Contraption contraption = contraptionEntity.getContraption();
-        Map<BlockPos, StructureBlockInfo> blocks = contraption.getBlocks();
         BlockPos belowPos = localPos.below();
-        StructureBlockInfo belowInfo = blocks.get(belowPos);
-        if (belowInfo == null) {
-            return false;
-        }
-        BlockState belowState = belowInfo.state();
-        if (belowState.hasProperty(BlockStateProperties.LIT)) {
-            return belowState.getValue(BlockStateProperties.LIT);
-        }
-        return belowState.is(TagMod.HEAT_SOURCE_BLOCKS_WITHOUT_LIT);
-    }
-
-    /**
-     * 更新动态结构上方块的数据（BlockState + NBT）
-     * 同时更新 blocks map、updateTags 和 actors，并同步到客户端
-     */
-    public static void updateContraptionData(AbstractContraptionEntity contraptionEntity, BlockPos localPos,
-                                             StructureBlockInfo newInfo) {
-        Contraption contraption = contraptionEntity.getContraption();
-        
-        contraption.getBlocks().put(localPos, newInfo);
-
-        if (newInfo.nbt() != null) {
-            ((ContraptionAccessor) contraption).getUpdateTags().put(localPos, newInfo.nbt().copy());
+        StructureBlockInfo belowInfo = contraption.getBlocks().get(belowPos);
+        if (belowInfo != null) {
+            return checkHeatSourceState(belowInfo.state());
         }
 
-        for (MutablePair<StructureBlockInfo, ?> actor : contraption.getActors()) {
-            if (actor.getLeft().pos().equals(localPos)) {
-                actor.setLeft(newInfo);
-                break;
-            }
-        }
-
-        if (!contraptionEntity.level().isClientSide) {
-            syncBlockChange(contraptionEntity, localPos, newInfo.state(), newInfo.nbt(), null);
-        }
+        Vec3 globalPos = contraptionEntity.toGlobalVector(Vec3.atCenterOf(localPos), 1.0f);
+        BlockPos worldPos = new BlockPos((int) globalPos.x, (int) globalPos.y, (int) globalPos.z);
+        BlockState worldBelowState = contraptionEntity.level().getBlockState(worldPos.below());
+        return checkHeatSourceState(worldBelowState);
     }
 
-    /**
-     * 更新数据并指定 bounds
-     */
-    public static void updateContraptionData(AbstractContraptionEntity contraptionEntity, BlockPos localPos,
-                                             StructureBlockInfo newInfo, AABB updatedBounds) {
-        Contraption contraption = contraptionEntity.getContraption();
-        
-        contraption.getBlocks().put(localPos, newInfo);
-
-        if (newInfo.nbt() != null) {
-            ((ContraptionAccessor) contraption).getUpdateTags().put(localPos, newInfo.nbt().copy());
-        }
-
-        for (MutablePair<StructureBlockInfo, ?> actor : contraption.getActors()) {
-            if (actor.getLeft().pos().equals(localPos)) {
-                actor.setLeft(newInfo);
-                break;
-            }
-        }
-
-        if (!contraptionEntity.level().isClientSide) {
-            syncBlockChange(contraptionEntity, localPos, newInfo.state(), newInfo.nbt(), updatedBounds);
-        }
-    }
-
-    /**
-     * 仅更新 NBT（不改变 BlockState）
-     */
-    public static void updateContraptionNbt(AbstractContraptionEntity contraptionEntity, BlockPos localPos,
-                                            CompoundTag newNbt, boolean needSync) {
-        Contraption contraption = contraptionEntity.getContraption();
-        StructureBlockInfo existingInfo = contraption.getBlocks().get(localPos);
-        if (existingInfo == null) return;
-
-        BlockState state = existingInfo.state();
-
-        StructureBlockInfo newInfo = new StructureBlockInfo(localPos, state, newNbt);
-        contraption.getBlocks().put(localPos, newInfo);
-
-        if (newNbt != null) {
-            ((ContraptionAccessor) contraption).getUpdateTags().put(localPos, newNbt.copy());
-        }
-
-        for (MutablePair<StructureBlockInfo, ?> actor : contraption.getActors()) {
-            if (actor.getLeft().pos().equals(localPos)) {
-                actor.setLeft(newInfo);
-                break;
-            }
-        }
-
-        if (needSync && !contraptionEntity.level().isClientSide) {
-            syncBlockChange(contraptionEntity, localPos, state, newNbt, null);
-        }
-    }
-
-    /**
-     * 发送 ActionBar 消息
-     */
-    public static void sendActionBar(net.minecraft.world.entity.player.Player player, String key, Object... args) {
-        if (player instanceof ServerPlayer serverPlayer) {
-            Component message = Component.translatable(key, args);
-            serverPlayer.connection.send(new ClientboundSetActionBarTextPacket(message));
-        }
-    }
-
-    /**
-     * 将全局坐标转换为 Vec3（用于音效播放，保留 .5 精度）
-     */
-    public static Vec3 getGlobalSoundVec(MovementContext context) {
-        return context.contraption.entity.toGlobalVector(Vec3.atCenterOf(context.localPos), 1.0f);
-    }
-
-    /**
-     * 将全局坐标转换为 Vec3（用于音效播放，保留 .5 精度）
-     */
-    public static Vec3 getGlobalSoundVec(AbstractContraptionEntity contraptionEntity, BlockPos localPos) {
-        return contraptionEntity.toGlobalVector(Vec3.atCenterOf(localPos), 1.0f);
-    }
-
-    /**
-     * 播放音效（考虑动态结构位置，保留精确坐标）
-     */
-    public static void playSound(AbstractContraptionEntity contraptionEntity, BlockPos localPos,
-                                 SoundEvent sound, float volume, float pitch) {
-        Vec3 soundPos = getGlobalSoundVec(contraptionEntity, localPos);
-        contraptionEntity.level().playSound(null, soundPos.x, soundPos.y, soundPos.z, sound, SoundSource.BLOCKS, volume, pitch);
-    }
-
-    /**
-     * 播放音效（使用 SoundSource 参数，保留精确坐标）
-     */
-    public static void playSound(AbstractContraptionEntity contraptionEntity, BlockPos localPos,
-                                 SoundEvent sound, SoundSource source, float volume, float pitch) {
-        Vec3 soundPos = getGlobalSoundVec(contraptionEntity, localPos);
-        contraptionEntity.level().playSound(null, soundPos.x, soundPos.y, soundPos.z, sound, source, volume, pitch);
-    }
-
-    /**
-     * 从 Contraption 中移除一个方块（从 blocks、interactors、actors 中移除）
-     */
-    public static void removeBlockFromContraption(AbstractContraptionEntity contraptionEntity, BlockPos localPos) {
-        Contraption contraption = contraptionEntity.getContraption();
-        contraption.getBlocks().remove(localPos);
-        contraption.getInteractors().remove(localPos);
-        contraption.getActors().removeIf(actor -> actor.getLeft().pos().equals(localPos));
-    }
-
-    /**
-     * 同步方块移除到客户端（发送空气状态包 + 更新 bounds）
-     */
-    public static void syncBlockRemoval(AbstractContraptionEntity contraptionEntity, BlockPos localPos, AABB updatedBounds) {
-        if (contraptionEntity.level().isClientSide) return;
-
-        PacketDistributor.sendToPlayersTrackingEntity(
-                contraptionEntity,
-                new ContraptionBlockChangePayload(
-                        contraptionEntity.getId(),
-                        localPos,
-                        Blocks.AIR.defaultBlockState(),
-                        null,
-                        updatedBounds
-                )
-        );
-    }
-
-    /**
-     * 同步方块变更到客户端（BlockState + NBT + 可选 bounds）
-     */
-    public static void syncBlockChange(AbstractContraptionEntity contraptionEntity, BlockPos localPos,
-                                       BlockState state, @Nullable CompoundTag nbt, @Nullable AABB updatedBounds) {
-        if (contraptionEntity.level().isClientSide) return;
-
-        PacketDistributor.sendToPlayersTrackingEntity(
-                contraptionEntity,
-                new ContraptionBlockChangePayload(
-                        contraptionEntity.getId(),
-                        localPos,
-                        state,
-                        nbt,
-                        updatedBounds
-                )
-        );
-    }
-
-    /**
-     * 播放方块的破坏音效
-     */
-    public static void playBreakSound(AbstractContraptionEntity contraptionEntity, BlockPos localPos, BlockState state) {
-        playSound(contraptionEntity, localPos, state.getSoundType().getBreakSound(), SoundSource.BLOCKS, 1.0F, 0.8F);
-    }
-
-    /**
-     * 检测热源
-     */
     public static boolean hasHeatSource(MovementContext context) {
         Contraption contraption = context.contraption;
         BlockPos belowLocalPos = context.localPos.below();
 
         StructureBlockInfo belowInfo = contraption.getBlocks().get(belowLocalPos);
         if (belowInfo != null) {
-            BlockState belowState = belowInfo.state();
-            if (belowState.hasProperty(BlockStateProperties.LIT)) {
-                return belowState.getValue(BlockStateProperties.LIT);
-            }
-            return belowState.is(TagMod.HEAT_SOURCE_BLOCKS_WITHOUT_LIT);
+            return checkHeatSourceState(belowInfo.state());
         }
 
         if (context.contraption.entity == null) return false;
 
         Vec3 globalPos = context.contraption.entity.toGlobalVector(Vec3.atCenterOf(context.localPos), 1.0f);
         BlockPos worldPos = new BlockPos((int) globalPos.x, (int) globalPos.y, (int) globalPos.z);
-        BlockPos worldBelowPos = worldPos.below();
-
-        BlockState worldBelowState = context.world.getBlockState(worldBelowPos);
-        if (worldBelowState.hasProperty(BlockStateProperties.LIT)) {
-            return worldBelowState.getValue(BlockStateProperties.LIT);
-        }
-        return worldBelowState.is(TagMod.HEAT_SOURCE_BLOCKS_WITHOUT_LIT);
+        BlockState worldBelowState = context.world.getBlockState(worldPos.below());
+        return checkHeatSourceState(worldBelowState);
     }
 
-    /**
-     * 更新 MovementContext 的 NBT 数据
-     * @param context MovementContext
-     * @param newNbt 新的 NBT 数据
-     * @param needSync 是否需要同步到客户端
-     */
-    public static void updateContraptionNbt(MovementContext context, CompoundTag newNbt, boolean needSync) {
-        StructureBlockInfo existingInfo = context.contraption.getBlocks().get(context.localPos);
-        if (existingInfo == null) return;
+    private static boolean checkHeatSourceState(BlockState state) {
+        if (state.hasProperty(BlockStateProperties.LIT)) {
+            return state.getValue(BlockStateProperties.LIT);
+        }
+        return state.is(TagMod.HEAT_SOURCE_BLOCKS_WITHOUT_LIT);
+    }
 
-        BlockState state = existingInfo.state();
-        StructureBlockInfo newInfo = new StructureBlockInfo(context.localPos, state, newNbt);
+    public static void updateContraptionData(AbstractContraptionEntity contraptionEntity, BlockPos localPos,
+                                             StructureBlockInfo newInfo) {
+        Contraption contraption = contraptionEntity.getContraption();
 
-        context.contraption.getBlocks().put(context.localPos, newInfo);
+        contraption.getBlocks().put(localPos, newInfo);
 
-        if (newNbt != null) {
-            ((ContraptionAccessor) context.contraption).getUpdateTags().put(context.localPos, newNbt.copy());
+        if (newInfo.nbt() != null) {
+            ((ContraptionAccessor) contraption).getUpdateTags().put(localPos, newInfo.nbt().copy());
         }
 
-        for (MutablePair<StructureBlockInfo, ?> actor : context.contraption.getActors()) {
-            if (actor.getLeft().pos().equals(context.localPos)) {
+        for (MutablePair<StructureBlockInfo, ?> actor : contraption.getActors()) {
+            if (actor.getLeft().pos().equals(localPos)) {
                 actor.setLeft(newInfo);
                 break;
             }
         }
 
-        if (needSync && !context.world.isClientSide && context.contraption.entity != null) {
-            syncBlockChange(context.contraption.entity, context.localPos, state, newNbt, null);
-        }
+        syncBlockChange(contraptionEntity, localPos, newInfo.state(), newInfo.nbt(), null);
     }
 
     /**
-     * 更新 MovementContext 的完整数据
-     * @param context MovementContext
-     * @param newState 新的 BlockState
-     * @param newNbt 新的 NBT 数据
-     * @param needSync 是否需要同步到客户端
-     */
-    public static void updateContraptionData(MovementContext context, BlockState newState, CompoundTag newNbt, boolean needSync) {
-        StructureBlockInfo newInfo = new StructureBlockInfo(context.localPos, newState, newNbt);
-
-        context.contraption.getBlocks().put(context.localPos, newInfo);
-
-        if (newNbt != null) {
-            ((ContraptionAccessor) context.contraption).getUpdateTags().put(context.localPos, newNbt.copy());
-        }
-
-        for (MutablePair<StructureBlockInfo, ?> actor : context.contraption.getActors()) {
-            if (actor.getLeft().pos().equals(context.localPos)) {
-                actor.setLeft(newInfo);
-                break;
-            }
-        }
-
-        if (needSync && !context.world.isClientSide && context.contraption.entity != null) {
-            syncBlockChange(context.contraption.entity, context.localPos, newState, newNbt, null);
-        }
-    }
-
-    /**
-     * 获取全局位置（用于粒子效果、音效）
-     */
-    public static Vec3 getGlobalPos(MovementContext context) {
-        if (context.contraption.entity == null) {
-            return Vec3.atCenterOf(context.localPos);
-        }
-        return context.contraption.entity.toGlobalVector(Vec3.atCenterOf(context.localPos), 1.0f);
-    }
-
-    /**
-     * 获取全局位置（AbstractContraptionEntity 版本）
+     * 获取全局位置
      */
     public static Vec3 getGlobalPos(AbstractContraptionEntity entity, BlockPos localPos) {
         if (entity == null) {
@@ -334,20 +107,195 @@ public class ContraptionUtil {
     }
 
     /**
-     * 播放音效（MovementContext 版本，保留精确坐标）
+     * 获取全局位置
      */
-    public static void playSound(MovementContext context, SoundEvent sound, float volume, float pitch) {
-        if (context.contraption.entity == null) return;
-        Vec3 soundPos = getGlobalSoundVec(context);
-        context.world.playSound(null, soundPos.x, soundPos.y, soundPos.z, sound, SoundSource.BLOCKS, volume, pitch);
+    public static Vec3 getGlobalPos(MovementContext context) {
+        if (context.contraption.entity == null) {
+            return Vec3.atCenterOf(context.localPos);
+        }
+        return context.contraption.entity.toGlobalVector(Vec3.atCenterOf(context.localPos), 1.0f);
     }
 
     /**
-     * 播放音效（MovementContext 版本，带 SoundSource，保留精确坐标）
+     * 播放音效
      */
-    public static void playSound(MovementContext context, SoundEvent sound, SoundSource source, float volume, float pitch) {
-        if (context.contraption.entity == null) return;
-        Vec3 soundPos = getGlobalSoundVec(context);
-        context.world.playSound(null, soundPos.x, soundPos.y, soundPos.z, sound, source, volume, pitch);
+    public static void playSound(AbstractContraptionEntity contraptionEntity, BlockPos localPos,
+                                 SoundEvent sound, SoundSource source, float volume, float pitch) {
+        Vec3 soundPos = getGlobalPos(contraptionEntity, localPos);
+        contraptionEntity.level().playSound(null, soundPos.x, soundPos.y, soundPos.z, sound, source, volume, pitch);
+    }
+
+    /**
+     * 从 Contraption 中移除一个方块
+     */
+    public static void removeBlockFromContraption(AbstractContraptionEntity contraptionEntity, BlockPos localPos, boolean sync) {
+        Contraption contraption = contraptionEntity.getContraption();
+        contraption.getBlocks().remove(localPos);
+        contraption.getInteractors().remove(localPos);
+        contraption.getActors().removeIf(actor -> actor.getLeft().pos().equals(localPos));
+
+        if (sync) {
+            AABB updatedBounds = ContraptionBoundsUtil.recalculateBounds(contraption);
+            syncBlockChange(contraptionEntity, localPos, Blocks.AIR.defaultBlockState(), null, updatedBounds);
+            contraption.invalidateColliders();
+        }
+    }
+
+    /**
+     * 同步方块变更到客户端
+     */
+    public static void syncBlockChange(AbstractContraptionEntity contraptionEntity, BlockPos localPos,
+                                       BlockState state, @Nullable CompoundTag nbt, @Nullable AABB updatedBounds) {
+        if (contraptionEntity.level().isClientSide) return;
+
+        ContraptionBlockChangePayload payload = new ContraptionBlockChangePayload(
+                contraptionEntity.getId(),
+                localPos,
+                state,
+                nbt,
+                updatedBounds
+        );
+
+        PacketDistributor.sendToPlayersTrackingEntity(contraptionEntity, payload);
+    }
+
+    /**
+     * 发送粒子
+     */
+    public static void spawnParticle(MovementContext context, ParticleOptions particle,
+                                      double xOffset, double yOffset, double zOffset,
+                                      int count, double speedX, double speedY, double speedZ, double speedSpread) {
+        if (!(context.world instanceof ServerLevel sl)) return;
+
+        Vec3 gp = getGlobalPos(context);
+        sl.sendParticles(particle,
+                gp.x - 0.5 + xOffset,
+                gp.y - 0.5 + yOffset,
+                gp.z - 0.5 + zOffset,
+                count, speedX, speedY, speedZ, speedSpread);
+    }
+
+    /**
+     * 从 NBT 中读取 Inputs 列表
+     */
+    public static NonNullList<ItemStack> readInputs(CompoundTag nbt, RegistryAccess registryAccess, int size) {
+        NonNullList<ItemStack> inputs = NonNullList.withSize(size, ItemStack.EMPTY);
+        if (nbt.contains(ContraptionNbtKeys.INPUTS, Tag.TAG_COMPOUND)) {
+            ContainerHelper.loadAllItems(nbt.getCompound(ContraptionNbtKeys.INPUTS), inputs, registryAccess);
+        }
+        return inputs;
+    }
+
+    /**
+     * 将 Inputs 列表保存到 NBT
+     */
+    public static void saveInputs(CompoundTag nbt, NonNullList<ItemStack> inputs, RegistryAccess registryAccess) {
+        nbt.put(ContraptionNbtKeys.INPUTS, ContainerHelper.saveAllItems(new CompoundTag(), inputs, registryAccess));
+    }
+
+    /**
+     * 检查 Inputs 是否为空
+     */
+    public static boolean areInputsEmpty(CompoundTag nbt, RegistryAccess registryAccess, int size) {
+        NonNullList<ItemStack> inputs = readInputs(nbt, registryAccess, size);
+        for (ItemStack stack : inputs) {
+            if (!stack.isEmpty()) return false;
+        }
+        return true;
+    }
+
+    /**
+     * 保存 Carrier (容器) 到 NBT
+     */
+    public static void saveCarrier(CompoundTag nbt, Ingredient carrier, String key) {
+        nbt.put(key, Ingredient.CODEC.encodeStart(NbtOps.INSTANCE, carrier).getOrThrow());
+    }
+
+    /**
+     * 从 NBT 中读取 Carrier (容器)
+     */
+    public static Ingredient readCarrier(CompoundTag nbt, String key, Ingredient defaultCarrier) {
+        if (nbt.contains(key, Tag.TAG_COMPOUND)) {
+            CompoundTag compound = nbt.getCompound(key);
+            return Ingredient.CODEC.decode(NbtOps.INSTANCE, compound).getOrThrow().getFirst();
+        }
+        return defaultCarrier;
+    }
+
+    /**
+     * 从 NBT 中读取 ItemStack 列表
+     */
+    public static NonNullList<ItemStack> readItems(CompoundTag nbt, RegistryAccess registryAccess, int size) {
+        NonNullList<ItemStack> items = NonNullList.withSize(size, ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(nbt, items, registryAccess);
+        return items;
+    }
+
+    /**
+     * 将 ItemStack 列表保存到 NBT
+     */
+    public static void saveItems(CompoundTag nbt, NonNullList<ItemStack> items, RegistryAccess registryAccess) {
+        ContainerHelper.saveAllItems(nbt, items, true, registryAccess);
+    }
+
+    /**
+     * 检查 Items 列表中是否有任何物品
+     */
+    public static boolean hasAnyItem(CompoundTag nbt, RegistryAccess registryAccess, int size) {
+        NonNullList<ItemStack> items = readItems(nbt, registryAccess, size);
+        for (ItemStack stack : items) {
+            if (!stack.isEmpty()) return true;
+        }
+        return false;
+    }
+
+    /**
+     * 从 NBT 中读取 int 数组
+     */
+    public static int[] readIntArray(CompoundTag nbt, String key, int size) {
+        if (nbt.contains(key, Tag.TAG_INT_ARRAY)) {
+            return nbt.getIntArray(key);
+        }
+        return new int[size];
+    }
+
+    /**
+     * 将 int 数组保存到 NBT
+     */
+    public static void saveIntArray(CompoundTag nbt, String key, int[] array) {
+        nbt.putIntArray(key, array);
+    }
+
+    /**
+     * 从 NBT 中读取 Result
+     */
+    public static ItemStack readResult(CompoundTag nbt, RegistryAccess registryAccess) {
+        if (nbt.contains(ContraptionNbtKeys.RESULT, Tag.TAG_COMPOUND)) {
+            return ItemStack.parseOptional(registryAccess, nbt.getCompound(ContraptionNbtKeys.RESULT));
+        }
+        return ItemStack.EMPTY;
+    }
+
+    /**
+     * 将物品掉落物添加到世界中
+     */
+    public static void spawnItemDrops(Level world, Vec3 position, List<ItemStack> items) {
+        if (world.isClientSide) return;
+        for (ItemStack drop : items) {
+            if (!drop.isEmpty()) {
+                ItemEntity itemEntity = new ItemEntity(world, position.x, position.y, position.z, drop);
+                itemEntity.setDeltaMovement(0, 0.2, 0);
+                world.addFreshEntity(itemEntity);
+            }
+        }
+    }
+
+    /**
+     * 将物品给予玩家
+     */
+    public static void giveItemToPlayer(Player player, ItemStack stack) {
+        if (!player.getInventory().add(stack)) {
+            player.drop(stack, false);
+        }
     }
 }

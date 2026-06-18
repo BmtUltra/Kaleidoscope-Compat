@@ -156,5 +156,8 @@
   "tip.kaleidoscope_compat.pot_arm_recipe_set": "Wok recipe set for mechanical arm: %s",
   "tip.kaleidoscope_compat.stockpot_arm_recipe_set": "Stockpot recipe set for mechanical arm: %s",
   "tooltip.kaleidoscope_compat.recipe_item.pot_arm_recipe": "Shift + Right-click the wok to set the mechanical arm recipe",
-  "tooltip.kaleidoscope_compat.recipe_item.stockpot_arm_recipe": "Shift + Right-click the stockpot to set the mechanical arm recipe"
+  "tooltip.kaleidoscope_compat.recipe_item.stockpot_arm_recipe": "Shift + Right-click the stockpot to set the mechanical arm recipe",
+
+  "key.category.kaleidoscope_compat": "Kaleidoscope: Compat",
+  "key.kaleidoscope_compat.take_kitchen_item": "Take Kitchen Item from Contraption"
 }

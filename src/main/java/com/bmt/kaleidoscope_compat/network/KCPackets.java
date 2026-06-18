@@ -18,6 +18,11 @@ public class KCPackets {
                 ContraptionBlockChangePayload.STREAM_CODEC,
                 ContraptionBlockChangePayload::handle
         );
+        registrar.playToServer(
+                ContraptionTakePayload.TYPE,
+                ContraptionTakePayload.STREAM_CODEC,
+                ContraptionTakePayload::handle
+        );
     }
 
     @SubscribeEvent

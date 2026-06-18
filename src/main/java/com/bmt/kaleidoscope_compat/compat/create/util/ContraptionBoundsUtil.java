@@ -7,7 +7,6 @@ import net.minecraft.world.phys.AABB;
 
 /**
  * Contraption 边界计算工具类
- * 用于在动态添加/移除方块时重新计算 Contraption 的 bounds
  */
 public class ContraptionBoundsUtil {
 
@@ -31,12 +30,13 @@ public class ContraptionBoundsUtil {
     }
 
     /**
-     * 计算所有方块的 minmax bounds
+     * 计算所有方块的 minmax bounds 并更新 contraption.bounds
      */
     private static void calculateMinMaxBounds(Contraption contraption) {
         AABB newBounds = new AABB(BlockPos.ZERO);
         for (BlockPos pos : contraption.getBlocks().keySet()) {
             newBounds = newBounds.minmax(new AABB(pos));
         }
+        contraption.bounds = newBounds;
     }
 }

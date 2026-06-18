@@ -29,7 +29,6 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * 动态结构方块变更包
- * 用于在服务端修改 Contraption 方块数据后，同步到客户端重新渲染
  */
 public record ContraptionBlockChangePayload(
         int contraptionEntityId,
@@ -174,7 +173,7 @@ public record ContraptionBlockChangePayload(
                             break;
                         }
                     }
-                    if (!exists && !level.isClientSide) {
+                    if (!exists) {
                         MovementContext ctx = new MovementContext(level, newInfo, contraption);
                         actors.add(MutablePair.of(newInfo, ctx));
                     }
@@ -190,18 +189,48 @@ public record ContraptionBlockChangePayload(
             }
 
             if (updatedBounds != null) {
+                // 检查 Y 轴范围是否变化，如果变化需要重建 ClientContraption
+                // 因为 VirtualRenderWorld 的 Y 范围在创建时固定
+                var clientContraptionRef = ((ContraptionAccessor) contraption).getClientContraption();
+                var currentClientContraption = clientContraptionRef.getAcquire();
+                boolean boundsChangedY = currentClientContraption != null &&
+                        (updatedBounds.minY < contraption.bounds.minY || updatedBounds.maxY > contraption.bounds.maxY);
+
                 contraption.bounds = updatedBounds;
+
+                if (boundsChangedY) {
+                    // Y 范围变化，重置 ClientContraption 以重建 VirtualRenderWorld
+                    clientContraptionRef.set(null);
+                }
             }
 
             if (isBlockRemoved) {
-                contraption.invalidateClientContraptionStructure();
+                // 方块移除：更新VirtualRenderWorld并触发渲染更新
+                var clientContraption = contraption.getOrCreateClientContraptionLazy();
+                if (clientContraption != null) {
+                    clientContraption.getRenderLevel().setBlock(localPos, Blocks.AIR.defaultBlockState(), 0);
+                    clientContraption.invalidateStructure();
+                }
+                contraption.invalidateColliders();
             } else if (isNewBlock) {
-                contraption.resetClientContraption();
+                // 新方块：更新VirtualRenderWorld并触发渲染更新
+                var clientContraption = contraption.getOrCreateClientContraptionLazy();
+                if (clientContraption != null) {
+                    clientContraption.getRenderLevel().setBlock(localPos, state, 0);
+                    clientContraption.invalidateStructure();
+                }
+                contraption.invalidateColliders();
             } else {
                 boolean blockStateChanged = !existingInfo.state().equals(state);
 
                 if (blockStateChanged) {
-                    contraption.resetClientContraption();
+                    // 方块状态变化：更新VirtualRenderWorld并触发渲染更新
+                    var clientContraption = contraption.getOrCreateClientContraptionLazy();
+                    if (clientContraption != null) {
+                        clientContraption.getRenderLevel().setBlock(localPos, state, 0);
+                        clientContraption.invalidateStructure();
+                    }
+                    contraption.invalidateColliders();
                 } else if (nbt != null) {
                     var clientContraption = contraption.getOrCreateClientContraptionLazy();
                     if (clientContraption != null) {
