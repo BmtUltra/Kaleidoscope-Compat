@@ -1,12 +1,11 @@
 package com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery.accessor;
 
+import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.StockpotBlockEntity;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.gen.Accessor;
-
-import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.StockpotBlockEntity;
 
 @Mixin(StockpotBlockEntity.class)
 public interface StockpotBlockEntityAccessor {

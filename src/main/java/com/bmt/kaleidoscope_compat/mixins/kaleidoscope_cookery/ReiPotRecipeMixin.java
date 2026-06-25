@@ -1,6 +1,5 @@
 package com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery;
 
-import com.bmt.kaleidoscope_compat.config.category.KitchenCategory;
 import com.bmt.kaleidoscope_compat.util.TagUtil;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.rei.ReiUtil;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.rei.category.ReiPotRecipeCategory;

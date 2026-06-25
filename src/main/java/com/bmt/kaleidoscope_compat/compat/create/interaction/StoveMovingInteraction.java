@@ -1,6 +1,5 @@
 package com.bmt.kaleidoscope_compat.compat.create.interaction;
 
-import com.bmt.kaleidoscope_compat.compat.create.util.ContraptionBoundsUtil;
 import com.bmt.kaleidoscope_compat.compat.create.util.ContraptionNbtKeys;
 import com.bmt.kaleidoscope_compat.compat.create.util.ContraptionUtil;
 import com.bmt.kaleidoscope_compat.mixins.create.accessor.ContraptionAccessor;
@@ -26,8 +25,8 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -179,7 +178,7 @@ public class StoveMovingInteraction extends BaseMovingInteraction {
                 }
             }
 
-            AABB newBounds = ContraptionBoundsUtil.recalculateBounds(contraption);
+            AABB newBounds = ContraptionUtil.recalculateBounds(contraption);
             ContraptionUtil.syncBlockChange(contraptionEntity, abovePos, newState, nbt, newBounds);
 
             contraption.invalidateColliders();
@@ -248,7 +247,7 @@ public class StoveMovingInteraction extends BaseMovingInteraction {
                 }
             }
 
-            AABB newBounds = ContraptionBoundsUtil.recalculateBounds(contraption);
+            AABB newBounds = ContraptionUtil.recalculateBounds(contraption);
             ContraptionUtil.syncBlockChange(contraptionEntity, abovePos, newState, nbt, newBounds);
 
             // 更新碰撞体

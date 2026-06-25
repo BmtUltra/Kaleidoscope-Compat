@@ -1,15 +1,16 @@
 package com.bmt.kaleidoscope_compat.compat.create.movement;
 
-import com.bmt.kaleidoscope_compat.compat.create.util.ContraptionUtil;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.StoveBlock;
 import com.simibubi.create.content.contraptions.behaviour.MovementContext;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
@@ -35,7 +36,7 @@ public class StoveMovementBehaviour extends BaseMovementBehaviour {
     }
 
     @Override
-    protected void tickWithHeat(MovementContext context, BlockState state, CompoundTag nbt) {
+    protected void doTick(MovementContext context, BlockState state, CompoundTag nbt) {
         RandomSource random = context.world.random;
 
         // 熄灭检测：雨水
@@ -59,28 +60,28 @@ public class StoveMovementBehaviour extends BaseMovementBehaviour {
         }
 
         // 火焰粒子
-        if (context.world instanceof ServerLevel && random.nextFloat() < 0.15F) {
+        if (context.world instanceof ServerLevel sl && random.nextFloat() < 0.15F) {
             BlockState blockState = context.contraption.getBlocks().get(context.localPos).state();
-            net.minecraft.core.Direction direction = blockState.getValue(net.minecraft.world.level.block.HorizontalDirectionalBlock.FACING);
-            net.minecraft.core.Direction.Axis axis = direction.getAxis();
+            Direction direction = blockState.getValue(HorizontalDirectionalBlock.FACING);
+            Direction.Axis axis = direction.getAxis();
             double offsetRandom = random.nextDouble() * 0.6 - 0.3;
-            double xOffset = axis == net.minecraft.core.Direction.Axis.X ? (double) direction.getStepX() * 0.52 : offsetRandom;
+            double xOffset = axis == Direction.Axis.X ? (double) direction.getStepX() * 0.52 : offsetRandom;
             double yOffset = 0.25 + random.nextDouble() * 6.0 / 16.0;
-            double zOffset = axis == net.minecraft.core.Direction.Axis.Z ? (double) direction.getStepZ() * 0.52 : offsetRandom;
-
-            ContraptionUtil.spawnParticle(context, ParticleTypes.FLAME,
-                    0.5 + xOffset, yOffset, 0.5 + zOffset,
+            double zOffset = axis == Direction.Axis.Z ? (double) direction.getStepZ() * 0.52 : offsetRandom;
+            Vec3 gp = getGlobalPos(context);
+            sl.sendParticles(ParticleTypes.FLAME,
+                    gp.x + xOffset, gp.y + yOffset - 0.5, gp.z + zOffset,
                     1, 0, 0, 0, 0);
         }
 
         // 烟雾粒子
-        if (context.world instanceof ServerLevel && random.nextFloat() < 0.1F) {
+        if (context.world instanceof ServerLevel sl && random.nextFloat() < 0.1F) {
             double xRand = random.nextDouble() / 3 * (random.nextBoolean() ? 1 : -1);
             double yRand = 0.5 + random.nextDouble() / 3;
             double zRand = random.nextDouble() / 3 * (random.nextBoolean() ? 1 : -1);
-
-            ContraptionUtil.spawnParticle(context, ParticleTypes.SMOKE,
-                    0.5 + xRand, yRand, 0.5 + zRand,
+            Vec3 gp = getGlobalPos(context);
+            sl.sendParticles(ParticleTypes.SMOKE,
+                    gp.x+ xRand, gp.y + yRand, gp.z + zRand,
                     1, 0, 0.02, 0, 0);
         }
 

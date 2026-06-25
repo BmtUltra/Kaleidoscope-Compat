@@ -3,6 +3,7 @@ package com.bmt.kaleidoscope_compat.network;
 
 import com.bmt.kaleidoscope_compat.KaleidoscopeCompat;
 import com.bmt.kaleidoscope_compat.mixins.create.accessor.ContraptionAccessor;
+import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.PotBlock;
 import com.simibubi.create.api.behaviour.interaction.MovingInteractionBehaviour;
 import com.simibubi.create.api.behaviour.movement.MovementBehaviour;
 import com.simibubi.create.content.contraptions.AbstractContraptionEntity;
@@ -139,109 +140,143 @@ public record ContraptionBlockChangePayload(
             Contraption contraption = contraptionEntity.getContraption();
             if (contraption == null) return;
 
-            boolean isBlockRemoved = state.is(Blocks.AIR);
-
             var existingInfo = contraption.getBlocks().get(localPos);
-            boolean isNewBlock = (existingInfo == null) || existingInfo.state().isAir();
+            ChangeType changeType = determineChangeType(existingInfo);
 
-            if (isBlockRemoved) {
-                contraption.getBlocks().remove(localPos);
-                contraption.getInteractors().remove(localPos);
-                contraption.getActors().removeIf(actor -> actor.getLeft().pos().equals(localPos));
-                ((ContraptionAccessor) contraption).getUpdateTags().remove(localPos);
+            if (changeType == ChangeType.REMOVE) {
+                removeBlock(contraption);
             } else {
-                StructureTemplate.StructureBlockInfo newInfo = new StructureTemplate.StructureBlockInfo(
-                        localPos, state, nbt);
-                contraption.getBlocks().put(localPos, newInfo);
-
-                if (nbt != null) {
-                    ((ContraptionAccessor) contraption).getUpdateTags().put(localPos, nbt.copy());
-                }
-
-                MovingInteractionBehaviour interactionBehaviour = MovingInteractionBehaviour.REGISTRY.get(state);
-                if (interactionBehaviour != null) {
-                    contraption.getInteractors().put(localPos, interactionBehaviour);
-                }
-
-                MovementBehaviour movementBehaviour = MovementBehaviour.REGISTRY.get(state);
-                if (movementBehaviour != null) {
-                    var actors = contraption.getActors();
-                    boolean exists = false;
-                    for (var actor : actors) {
-                        if (actor.getLeft().pos().equals(localPos)) {
-                            exists = true;
-                            break;
-                        }
-                    }
-                    if (!exists) {
-                        MovementContext ctx = new MovementContext(level, newInfo, contraption);
-                        actors.add(MutablePair.of(newInfo, ctx));
-                    }
-                }
-
-                for (var actor : contraption.getActors()) {
-                    if (actor.getLeft().pos().equals(localPos)) {
-                        actor.setLeft(newInfo);
-                        break;
-                    }
-                }
-
+                updateBlock(contraption, existingInfo, changeType, level);
             }
 
-            if (updatedBounds != null) {
-                // 检查 Y 轴范围是否变化，如果变化需要重建 ClientContraption
-                // 因为 VirtualRenderWorld 的 Y 范围在创建时固定
-                var clientContraptionRef = ((ContraptionAccessor) contraption).getClientContraption();
-                var currentClientContraption = clientContraptionRef.getAcquire();
-                boolean boundsChangedY = currentClientContraption != null &&
-                        (updatedBounds.minY < contraption.bounds.minY || updatedBounds.maxY > contraption.bounds.maxY);
-
-                contraption.bounds = updatedBounds;
-
-                if (boundsChangedY) {
-                    // Y 范围变化，重置 ClientContraption 以重建 VirtualRenderWorld
-                    clientContraptionRef.set(null);
-                }
-            }
-
-            if (isBlockRemoved) {
-                // 方块移除：更新VirtualRenderWorld并触发渲染更新
-                var clientContraption = contraption.getOrCreateClientContraptionLazy();
-                if (clientContraption != null) {
-                    clientContraption.getRenderLevel().setBlock(localPos, Blocks.AIR.defaultBlockState(), 0);
-                    clientContraption.invalidateStructure();
-                }
-                contraption.invalidateColliders();
-            } else if (isNewBlock) {
-                // 新方块：更新VirtualRenderWorld并触发渲染更新
-                var clientContraption = contraption.getOrCreateClientContraptionLazy();
-                if (clientContraption != null) {
-                    clientContraption.getRenderLevel().setBlock(localPos, state, 0);
-                    clientContraption.invalidateStructure();
-                }
-                contraption.invalidateColliders();
-            } else {
-                boolean blockStateChanged = !existingInfo.state().equals(state);
-
-                if (blockStateChanged) {
-                    // 方块状态变化：更新VirtualRenderWorld并触发渲染更新
-                    var clientContraption = contraption.getOrCreateClientContraptionLazy();
-                    if (clientContraption != null) {
-                        clientContraption.getRenderLevel().setBlock(localPos, state, 0);
-                        clientContraption.invalidateStructure();
-                    }
-                    contraption.invalidateColliders();
-                } else if (nbt != null) {
-                    var clientContraption = contraption.getOrCreateClientContraptionLazy();
-                    if (clientContraption != null) {
-                        var blockEntityClient = clientContraption.getBlockEntity(localPos);
-                        if (blockEntityClient != null) {
-                            blockEntityClient.loadWithComponents(nbt, level.registryAccess());
-                        }
-                    }
-                    contraption.invalidateClientContraptionChildren();
-                }
-            }
+            updateBounds(contraption);
+            handleClientContraptionUpdate(contraption, existingInfo, changeType, level);
         }).exceptionally(e -> null);
+    }
+
+    private enum ChangeType {
+        REMOVE,      // 方块被移除
+        NEW_BLOCK,   // 新方块
+        STATE_CHANGE, // 方块状态变化
+        NBT_ONLY     // 仅 NBT 变化
+    }
+
+    private ChangeType determineChangeType(StructureTemplate.StructureBlockInfo existingInfo) {
+        if (state.is(Blocks.AIR)) return ChangeType.REMOVE;
+        if (existingInfo == null || existingInfo.state().isAir()) return ChangeType.NEW_BLOCK;
+        if (!existingInfo.state().equals(state)) return ChangeType.STATE_CHANGE;
+        if (nbt != null) return ChangeType.NBT_ONLY;
+        return ChangeType.NBT_ONLY;
+    }
+
+    private void removeBlock(Contraption contraption) {
+        contraption.getBlocks().remove(localPos);
+        contraption.getInteractors().remove(localPos);
+        contraption.getActors().removeIf(actor -> actor.getLeft().pos().equals(localPos));
+        ((ContraptionAccessor) contraption).getUpdateTags().remove(localPos);
+    }
+
+    private void updateBlock(Contraption contraption, StructureTemplate.StructureBlockInfo existingInfo,
+                             ChangeType changeType, net.minecraft.world.level.Level level) {
+        StructureTemplate.StructureBlockInfo newInfo = new StructureTemplate.StructureBlockInfo(localPos, state, nbt);
+        contraption.getBlocks().put(localPos, newInfo);
+
+        if (nbt != null) {
+            ((ContraptionAccessor) contraption).getUpdateTags().put(localPos, nbt.copy());
+        }
+
+        updateInteractor(contraption);
+        updateActor(contraption, newInfo, changeType, level);
+    }
+
+    private void updateInteractor(Contraption contraption) {
+        MovingInteractionBehaviour interactionBehaviour = MovingInteractionBehaviour.REGISTRY.get(state);
+        if (interactionBehaviour != null) {
+            contraption.getInteractors().put(localPos, interactionBehaviour);
+        }
+    }
+
+    private void updateActor(Contraption contraption, StructureTemplate.StructureBlockInfo newInfo,
+                             ChangeType changeType, net.minecraft.world.level.Level level) {
+        var actors = contraption.getActors();
+        
+        MutablePair<StructureTemplate.StructureBlockInfo, ?> existingActor = null;
+        for (var actor : actors) {
+            if (actor.getLeft().pos().equals(localPos)) {
+                existingActor = actor;
+                break;
+            }
+        }
+
+        if (changeType == ChangeType.NEW_BLOCK && existingActor == null) {
+            MovementBehaviour movementBehaviour = MovementBehaviour.REGISTRY.get(state);
+            if (movementBehaviour != null) {
+                MovementContext ctx = new MovementContext(level, newInfo, contraption);
+                actors.add(MutablePair.of(newInfo, ctx));
+                return;
+            }
+        }
+
+        if (existingActor != null) {
+            existingActor.setLeft(newInfo);
+        }
+    }
+
+    private void updateBounds(Contraption contraption) {
+        if (updatedBounds == null) return;
+
+        var clientContraptionRef = ((ContraptionAccessor) contraption).getClientContraption();
+        var currentClientContraption = clientContraptionRef.getAcquire();
+        boolean boundsChangedY = currentClientContraption != null &&
+                (updatedBounds.minY < contraption.bounds.minY || updatedBounds.maxY > contraption.bounds.maxY);
+
+        contraption.bounds = updatedBounds;
+
+        if (boundsChangedY) {
+            clientContraptionRef.set(null);
+        }
+    }
+
+    private void handleClientContraptionUpdate(Contraption contraption, StructureTemplate.StructureBlockInfo existingInfo,
+                                               ChangeType changeType, net.minecraft.world.level.Level level) {
+        boolean needsRebuild = changeType == ChangeType.REMOVE || changeType == ChangeType.NEW_BLOCK;
+        boolean nbtOnlyChange = changeType == ChangeType.NBT_ONLY;
+
+        if (changeType == ChangeType.STATE_CHANGE && existingInfo != null) {
+            if (existingInfo.state().getBlock() instanceof PotBlock && isOnlyShowOilChanged(existingInfo.state())) {
+                nbtOnlyChange = true;
+            } else {
+                needsRebuild = true;
+            }
+        }
+
+        if (needsRebuild) {
+            contraption.resetClientContraption();
+            contraption.invalidateColliders();
+        } else if (nbtOnlyChange) {
+            updateBlockEntityNbt(contraption, level);
+            contraption.invalidateClientContraptionChildren();
+        }
+    }
+
+    private boolean isOnlyShowOilChanged(BlockState existingState) {
+        for (var property : existingState.getProperties()) {
+            if (property == PotBlock.SHOW_OIL) continue;
+            if (!existingState.getValue(property).equals(state.getValue(property))) {
+                return false;
+            }
+        }
+        return nbt != null;
+    }
+
+    private void updateBlockEntityNbt(Contraption contraption, net.minecraft.world.level.Level level) {
+        var clientContraptionRef = ((ContraptionAccessor) contraption).getClientContraption();
+        var currentClientContraption = clientContraptionRef.getAcquire();
+        if (currentClientContraption == null) return;
+
+        var blockEntityClient = currentClientContraption.getBlockEntity(localPos);
+        if (blockEntityClient != null && nbt != null) {
+            blockEntityClient.loadWithComponents(nbt, level.registryAccess());
+        }
     }
 }

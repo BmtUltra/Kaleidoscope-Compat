@@ -1,6 +1,5 @@
 package com.bmt.kaleidoscope_compat.compat.create.interaction;
 
-import com.bmt.kaleidoscope_compat.compat.create.util.ContraptionBoundsUtil;
 import com.bmt.kaleidoscope_compat.compat.create.util.ContraptionUtil;
 import com.bmt.kaleidoscope_compat.mixins.create.accessor.ContraptionAccessor;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.SteamerBlock;
@@ -223,7 +222,7 @@ public class SteamerMovingInteraction extends BaseMovingInteraction {
                     }
                 }
 
-                AABB updatedBounds = ContraptionBoundsUtil.recalculateBounds(contraption);
+                AABB updatedBounds = ContraptionUtil.recalculateBounds(contraption);
                 ContraptionUtil.syncBlockChange(contraptionEntity, placePos, newState, newNbt, updatedBounds);
             } else {
                 // 情况2：在空位放置新蒸笼
@@ -268,7 +267,7 @@ public class SteamerMovingInteraction extends BaseMovingInteraction {
                     }
                 }
 
-                AABB updatedBounds = ContraptionBoundsUtil.recalculateBounds(contraption);
+                AABB updatedBounds = ContraptionUtil.recalculateBounds(contraption);
                 ContraptionUtil.syncBlockChange(contraptionEntity, placePos, newState, newNbt, updatedBounds);
             }
 

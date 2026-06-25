@@ -6,7 +6,6 @@ import com.github.ysbbbbbb.kaleidoscopecookery.crafting.container.SimpleInput;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.PotRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModParticles;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModRecipes;
-import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
 import com.simibubi.create.content.contraptions.behaviour.MovementContext;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -17,13 +16,11 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraft.world.phys.Vec3;
 
 import static com.bmt.kaleidoscope_compat.compat.create.util.ContraptionNbtKeys.*;
@@ -52,7 +49,11 @@ public class PotMovementBehaviour extends BaseMovementBehaviour {
     }
 
     @Override
-    protected void tickWithHeat(MovementContext context, BlockState state, CompoundTag nbt) {
+    protected void doTick(MovementContext context, BlockState state, CompoundTag nbt) {
+        if (hasNoHeatSource(context)) {
+            return;
+        }
+
         int currentTick = nbt.getInt(CURRENT_TICK);
         int status = nbt.getInt(STATUS);
         RandomSource random = context.world.random;
@@ -92,11 +93,12 @@ public class PotMovementBehaviour extends BaseMovementBehaviour {
 
     private boolean tickPutIngredient(MovementContext context, BlockState state, CompoundTag nbt,
                                       int currentTick, RandomSource random) {
-        if (currentTick % 10 == 0) {
-            ContraptionUtil.spawnParticle(context, ModParticles.COOKING.get(),
-                    random.nextDouble() / 5 * (random.nextBoolean() ? 1 : -1),
-                    0.1 + random.nextDouble() / 3,
-                    random.nextDouble() / 5 * (random.nextBoolean() ? 1 : -1),
+        if (currentTick % 10 == 0 && context.world instanceof ServerLevel sl) {
+            Vec3 gp = getGlobalPos(context);
+            sl.sendParticles(ModParticles.COOKING.get(),
+                    gp.x + random.nextDouble() / 5 * (random.nextBoolean() ? 1 : -1),
+                    gp.y - 0.4 + random.nextDouble() / 3,
+                    gp.z + random.nextDouble() / 5 * (random.nextBoolean() ? 1 : -1),
                     1, 0, 0, 0, 0);
         }
 
@@ -145,11 +147,12 @@ public class PotMovementBehaviour extends BaseMovementBehaviour {
 
     private boolean tickFinished(MovementContext context, BlockState state, CompoundTag nbt,
                                  int currentTick, RandomSource random) {
-        if (currentTick % 10 == 0) {
-            ContraptionUtil.spawnParticle(context, ModParticles.COOKING.get(),
-                    random.nextDouble() / 5 * (random.nextBoolean() ? 1 : -1),
-                    0.1 + random.nextDouble() / 2,
-                    random.nextDouble() / 5 * (random.nextBoolean() ? 1 : -1),
+        if (currentTick % 10 == 0 && context.world instanceof ServerLevel sl) {
+            Vec3 gp = getGlobalPos(context);
+            sl.sendParticles(ModParticles.COOKING.get(),
+                    gp.x + random.nextDouble() / 5 * (random.nextBoolean() ? 1 : -1),
+                    gp.y - 0.4 + random.nextDouble() / 2,
+                    gp.z + random.nextDouble() / 5 * (random.nextBoolean() ? 1 : -1),
                     1, 0, 0, 0, 0);
         }
 
@@ -169,24 +172,25 @@ public class PotMovementBehaviour extends BaseMovementBehaviour {
     private boolean tickBurnt(MovementContext context, BlockState state, CompoundTag nbt,
                               int currentTick, RandomSource random) {
         int particleCount = 10 - currentTick / 5;
-        if (currentTick % 2 == 0) {
-            ContraptionUtil.spawnParticle(context, ParticleTypes.SMOKE,
-                    random.nextDouble() / 3 * (random.nextBoolean() ? 1 : -1),
-                    0.25 + random.nextDouble() / 3,
-                    random.nextDouble() / 3 * (random.nextBoolean() ? 1 : -1),
+        if (currentTick % 2 == 0 && context.world instanceof ServerLevel sl) {
+            Vec3 gp = getGlobalPos(context);
+            sl.sendParticles(ParticleTypes.SMOKE,
+                    gp.x + random.nextDouble() / 3 * (random.nextBoolean() ? 1 : -1),
+                    gp.y - 0.25 + random.nextDouble() / 3,
+                    gp.z + random.nextDouble() / 3 * (random.nextBoolean() ? 1 : -1),
                     particleCount, 0, 0, 0, 0.05);
         }
 
         if (currentTick == 0) {
             resetPot(context, state);
             playSound(context, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 1F, 1F);
-            ContraptionUtil.spawnParticle(context, ParticleTypes.SMOKE,
-                    random.nextDouble() / 3 * (random.nextBoolean() ? 1 : -1),
-                    0.25 + random.nextDouble() / 3,
-                    random.nextDouble() / 3 * (random.nextBoolean() ? 1 : -1),
-                    8, 0, 0, 0, 0.05);
-            if (context.world instanceof ServerLevel) {
+            if (context.world instanceof ServerLevel sl) {
                 Vec3 gp = getGlobalPos(context);
+                sl.sendParticles(ParticleTypes.SMOKE,
+                        gp.x + random.nextDouble() / 3 * (random.nextBoolean() ? 1 : -1),
+                        gp.y - 0.25 + random.nextDouble() / 3,
+                        gp.z + random.nextDouble() / 3 * (random.nextBoolean() ? 1 : -1),
+                        8, 0, 0, 0, 0.05);
                 int count = 1 + random.nextInt(3);
                 Block.popResource(context.world, BlockPos.containing(gp),
                         new ItemStack(Items.CHARCOAL, count));
@@ -209,6 +213,8 @@ public class PotMovementBehaviour extends BaseMovementBehaviour {
 
         CompoundTag newNbt = nbt.copy();
         newNbt.putInt(STATUS, COOKING);
+        // 设置 seed 用于客户端翻动动画
+        newNbt.putLong(SEED, System.currentTimeMillis());
 
         recipeOpt.ifPresentOrElse(holder -> {
             PotRecipe recipe = holder.value();
@@ -238,73 +244,5 @@ public class PotMovementBehaviour extends BaseMovementBehaviour {
 
         BlockState newState = state.setValue(HAS_OIL, false);
         updateData(context, newState, newNbt);
-    }
-
-    @Override
-    public void stopMoving(MovementContext context) {
-        if (context.world.isClientSide)
-            return;
-
-        StructureBlockInfo info = context.contraption.getBlocks().get(context.localPos);
-        if (info == null || !(info.state().getBlock() instanceof PotBlock)) {
-            return;
-        }
-
-        CompoundTag nbt = info.nbt();
-        if (nbt == null)
-            return;
-
-        RegistryAccess registryAccess = context.world.registryAccess();
-        Vec3 globalPos = context.contraption.entity.toGlobalVector(Vec3.atCenterOf(context.localPos), 1.0f);
-        int status = nbt.getInt(STATUS);
-
-        java.util.List<ItemStack> drops = new java.util.ArrayList<>();
-
-        if (status == PUT_INGREDIENT) {
-            // 返回 inputs 中的食材
-            NonNullList<ItemStack> inputs = ContraptionUtil.readInputs(nbt, registryAccess, PotRecipe.RECIPES_SIZE);
-            for (ItemStack item : inputs) {
-                if (!item.isEmpty()) {
-                    drops.add(item);
-                }
-            }
-        } else {
-            // COOKING / FINISHED / BURNT：返回成品
-            ItemStack result = ContraptionUtil.readResult(nbt, registryAccess);
-            if (!result.isEmpty()) {
-                drops.add(result);
-            }
-            // 同时返回 inputs 中未处理的食材
-            NonNullList<ItemStack> inputs = ContraptionUtil.readInputs(nbt, registryAccess, PotRecipe.RECIPES_SIZE);
-            for (ItemStack item : inputs) {
-                if (!item.isEmpty()) {
-                    drops.add(item);
-                }
-            }
-        }
-
-        // 查找最近玩家
-        Player nearestPlayer = null;
-        double closestDist = Double.MAX_VALUE;
-        for (Player player : context.world.players()) {
-            double dist = player.position().distanceTo(globalPos);
-            if (dist < closestDist) {
-                closestDist = dist;
-                nearestPlayer = player;
-            }
-        }
-
-        if (nearestPlayer != null && closestDist < 10.0) {
-            for (ItemStack drop : drops) {
-                if (!drop.isEmpty()) {
-                    ItemUtils.getItemToLivingEntity(nearestPlayer, drop);
-                }
-            }
-        } else {
-            ContraptionUtil.spawnItemDrops(context.world, globalPos, drops);
-        }
-
-        // 重置状态
-        resetPot(context, info.state());
     }
 }

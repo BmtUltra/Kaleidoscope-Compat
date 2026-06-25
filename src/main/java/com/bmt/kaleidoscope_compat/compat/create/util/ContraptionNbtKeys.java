@@ -1,3 +1,4 @@
+
 package com.bmt.kaleidoscope_compat.compat.create.util;
 
 /**
@@ -44,10 +45,23 @@ public final class ContraptionNbtKeys {
     public static final String SHAWARMA_SPIT_COOKED_ITEM = "CookedItem";
     public static final String SHAWARMA_SPIT_COOK_TIME = "CookTime";
 
-    public static final String TRASH_CAN_ITEMS = "TrashCanItems";
+    public static final String TRASH_CAN_ITEMS = "Storage";
 
     public static final String KITCHENWARE_RACKS_LEFT_ITEM = "LeftItem";
     public static final String KITCHENWARE_RACKS_RIGHT_ITEM = "RightItem";
+
+    public static final String TABLE_ITEMS = "ShowItems";
+    public static final String TABLE_CARPET_COLOR = "CarpetColor";
+    public static final String CHAIR_CARPET_COLOR = "CarpetColor";
+
+    public static final String MILLSTONE_ENTITY_ID = "EntityId";
+    public static final String MILLSTONE_INPUT = "InputItem";
+    public static final String MILLSTONE_OUTPUTS = "OutputItem";
+    public static final String MILLSTONE_PROGRESS = "Progress";
+    public static final String MILLSTONE_ROT_SPEED_TICK = "RotSpeedTick";
+    public static final String MILLSTONE_CACHE_ROT = "CacheRot";
+    public static final String MILLSTONE_LIFT_ANGLE = "LiftAngle";
+    public static final String MILLSTONE_OFFSET = "MillstoneOffset";
 
     public static final class PotStatus {
         public static final int PUT_INGREDIENT = 0;

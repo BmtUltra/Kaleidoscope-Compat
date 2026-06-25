@@ -2,9 +2,12 @@ package com.bmt.kaleidoscope_compat.compat.create;
 
 import com.bmt.kaleidoscope_compat.compat.create.interaction.*;
 import com.bmt.kaleidoscope_compat.compat.create.movement.*;
+import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.ShawarmaSpitBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.simibubi.create.api.behaviour.interaction.MovingInteractionBehaviour;
 import com.simibubi.create.api.behaviour.movement.MovementBehaviour;
+import com.simibubi.create.api.contraption.BlockMovementChecks;
+import com.simibubi.create.api.contraption.BlockMovementChecks.CheckResult;
 import net.minecraft.world.level.block.Block;
 
 import java.util.HashMap;
@@ -89,6 +92,51 @@ public class CreateKitchenBehaviours {
                 MovingInteractionBehaviour.REGISTRY.register(block, pair.interaction().get());
             }
         }
+
+        // 桌子（11 木种）：物品存储 + 地毯
+        Block[] tables = {
+                ModBlocks.TABLE_OAK.get(), ModBlocks.TABLE_SPRUCE.get(), ModBlocks.TABLE_ACACIA.get(),
+                ModBlocks.TABLE_BAMBOO.get(), ModBlocks.TABLE_BIRCH.get(), ModBlocks.TABLE_CHERRY.get(),
+                ModBlocks.TABLE_CRIMSON.get(), ModBlocks.TABLE_DARK_OAK.get(), ModBlocks.TABLE_JUNGLE.get(),
+                ModBlocks.TABLE_MANGROVE.get(), ModBlocks.TABLE_WARPED.get()
+        };
+        for (Block block : tables) {
+            MovementBehaviour.REGISTRY.register(block, new TableMovementBehaviour());
+            MovingInteractionBehaviour.REGISTRY.register(block, new TableMovingInteraction());
+        }
+
+        // 椅子（11 木种）：坐具 + 地毯
+        Block[] chairs = {
+                ModBlocks.CHAIR_OAK.get(), ModBlocks.CHAIR_SPRUCE.get(), ModBlocks.CHAIR_ACACIA.get(),
+                ModBlocks.CHAIR_BAMBOO.get(), ModBlocks.CHAIR_BIRCH.get(), ModBlocks.CHAIR_CHERRY.get(),
+                ModBlocks.CHAIR_CRIMSON.get(), ModBlocks.CHAIR_DARK_OAK.get(), ModBlocks.CHAIR_JUNGLE.get(),
+                ModBlocks.CHAIR_MANGROVE.get(), ModBlocks.CHAIR_WARPED.get()
+        };
+        for (Block block : chairs) {
+            MovementBehaviour.REGISTRY.register(block, new ChairMovementBehaviour());
+            MovingInteractionBehaviour.REGISTRY.register(block, new ChairMovingInteraction());
+        }
+
+        // 烹饪凳（11 木种）：坐具
+        Block[] stools = {
+                ModBlocks.COOK_STOOL_OAK.get(), ModBlocks.COOK_STOOL_SPRUCE.get(), ModBlocks.COOK_STOOL_ACACIA.get(),
+                ModBlocks.COOK_STOOL_BAMBOO.get(), ModBlocks.COOK_STOOL_BIRCH.get(), ModBlocks.COOK_STOOL_CHERRY.get(),
+                ModBlocks.COOK_STOOL_CRIMSON.get(), ModBlocks.COOK_STOOL_DARK_OAK.get(), ModBlocks.COOK_STOOL_JUNGLE.get(),
+                ModBlocks.COOK_STOOL_MANGROVE.get(), ModBlocks.COOK_STOOL_WARPED.get()
+        };
+        for (Block block : stools) {
+            MovementBehaviour.REGISTRY.register(block, new CookStoolMovementBehaviour());
+            MovingInteractionBehaviour.REGISTRY.register(block, new CookStoolMovingInteraction());
+        }
+
+        // 将烤肉架注册为"脆性方块"，使其在动态结构拆卸时跳过 updateShape 预检查，
+        // 避免双层方块（UPPER/LOWER）因邻居半块未放置而被 updateShape 转为空气导致烤肉塔方块消失。
+        BlockMovementChecks.registerBrittleCheck(state -> {
+            if (state.getBlock() instanceof ShawarmaSpitBlock) {
+                return CheckResult.SUCCESS;
+            }
+            return CheckResult.PASS;
+        });
 
         initialized = true;
     }

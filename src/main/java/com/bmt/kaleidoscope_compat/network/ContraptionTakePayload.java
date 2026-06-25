@@ -1,9 +1,10 @@
 package com.bmt.kaleidoscope_compat.network;
 
 import com.bmt.kaleidoscope_compat.KaleidoscopeCompat;
-import com.bmt.kaleidoscope_compat.compat.create.util.ContraptionBoundsUtil;
-import com.bmt.kaleidoscope_compat.compat.create.util.ContraptionUtil;
 import com.bmt.kaleidoscope_compat.compat.create.util.ContraptionNbtKeys;
+import com.bmt.kaleidoscope_compat.compat.create.util.ContraptionUtil;
+import com.github.ysbbbbbb.kaleidoscopecookery.block.decoration.ChairBlock;
+import com.github.ysbbbbbb.kaleidoscopecookery.block.decoration.TableBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.PotBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.SteamerBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.StockpotBlock;
@@ -88,6 +89,10 @@ public record ContraptionTakePayload(int contraptionEntityId, BlockPos localPos)
         CompoundTag blockNbt = info.nbt();
         if (blockNbt == null) blockNbt = new CompoundTag();
 
+        if (block instanceof TableBlock || block instanceof ChairBlock) {
+            return;
+        }
+
         RegistryAccess registryAccess = contraptionEntity.level().registryAccess();
 
         // 对于厨房方块，使用专门的掉落逻辑
@@ -107,12 +112,17 @@ public record ContraptionTakePayload(int contraptionEntityId, BlockPos localPos)
                 return;
             }
             case PotBlock ignored -> {
-                handlePotTake(player, registryAccess, blockNbt);
+                ItemUtils.getItemToLivingEntity(player, ModItems.POT.get().getDefaultInstance());
                 ContraptionUtil.removeBlockFromContraption(contraptionEntity, localPos, true);
                 return;
             }
             case StockpotBlock ignored -> {
-                handleStockpotTake(player, registryAccess, blockNbt);
+                ItemUtils.getItemToLivingEntity(player, ModItems.STOCKPOT.get().getDefaultInstance());
+                // 返还锅盖（如果有）
+                ItemStack lid = ItemStack.parseOptional(registryAccess, blockNbt.getCompound(ContraptionNbtKeys.STOCKPOT_LID_ITEM));
+                if (!lid.isEmpty()) {
+                    ItemUtils.getItemToLivingEntity(player, lid);
+                }
                 ContraptionUtil.removeBlockFromContraption(contraptionEntity, localPos, true);
                 return;
             }
@@ -184,73 +194,10 @@ public record ContraptionTakePayload(int contraptionEntityId, BlockPos localPos)
             StructureBlockInfo newInfo = new StructureBlockInfo(localPos, newState, newNbt);
             contraption.getBlocks().put(localPos, newInfo);
 
-            AABB updatedBounds = ContraptionBoundsUtil.recalculateBounds(contraption);
+            AABB updatedBounds = ContraptionUtil.recalculateBounds(contraption);
             ContraptionUtil.syncBlockChange(contraptionEntity, localPos, newState, newNbt, updatedBounds);
             contraption.invalidateColliders();
         }
-    }
-
-    /**
-     * 处理炒锅取下：干净物品 + 内容物/成品返还
-     */
-    private static void handlePotTake(ServerPlayer player, RegistryAccess registryAccess, CompoundTag nbt) {
-        int status = nbt.getInt(ContraptionNbtKeys.STATUS);
-
-        if (status == ContraptionNbtKeys.PotStatus.PUT_INGREDIENT) {
-            // 返回 inputs 中的食材
-            NonNullList<ItemStack> inputs = ContraptionUtil.readInputs(nbt, registryAccess,
-                    com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.PotRecipe.RECIPES_SIZE);
-            for (ItemStack item : inputs) {
-                if (!item.isEmpty()) {
-                    ItemUtils.getItemToLivingEntity(player, item);
-                }
-            }
-        } else {
-            // COOKING / FINISHED / BURNT：返回成品
-            ItemStack result = ContraptionUtil.readResult(nbt, registryAccess);
-            if (!result.isEmpty()) {
-                ItemUtils.getItemToLivingEntity(player, result);
-            }
-        }
-
-        // 掉落干净的炒锅物品
-        ItemUtils.getItemToLivingEntity(player, ModItems.POT.get().getDefaultInstance());
-    }
-
-    /**
-     * 处理汤锅取下：干净物品 + 内容物/成品/盖子返还
-     */
-    private static void handleStockpotTake(ServerPlayer player, RegistryAccess registryAccess, CompoundTag nbt) {
-        int status = nbt.getInt(ContraptionNbtKeys.STATUS);
-
-        if (status == ContraptionNbtKeys.StockpotStatus.PUT_INGREDIENT
-                || status == ContraptionNbtKeys.StockpotStatus.COOKING) {
-            // 返回 inputs 中的食材
-            NonNullList<ItemStack> inputs = ContraptionUtil.readInputs(nbt, registryAccess,
-                    com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.StockpotRecipe.RECIPES_SIZE);
-            for (ItemStack item : inputs) {
-                if (!item.isEmpty()) {
-                    ItemUtils.getItemToLivingEntity(player, item);
-                }
-            }
-        }
-
-        if (status == ContraptionNbtKeys.StockpotStatus.FINISHED) {
-            // 返回成品
-            ItemStack result = ContraptionUtil.readResult(nbt, registryAccess);
-            if (!result.isEmpty()) {
-                ItemUtils.getItemToLivingEntity(player, result);
-            }
-        }
-
-        // 返回盖子（如果有）
-        ItemStack lid = ItemStack.parseOptional(registryAccess, nbt.getCompound(ContraptionNbtKeys.STOCKPOT_LID_ITEM));
-        if (!lid.isEmpty()) {
-            ItemUtils.getItemToLivingEntity(player, lid);
-        }
-
-        // 掉落干净的汤锅物品
-        ItemUtils.getItemToLivingEntity(player, ModItems.STOCKPOT.get().getDefaultInstance());
     }
 
     private static List<ItemStack> getTeapotDrops(RegistryAccess registryAccess, CompoundTag nbt) {

@@ -23,6 +23,11 @@ public class KCPackets {
                 ContraptionTakePayload.STREAM_CODEC,
                 ContraptionTakePayload::handle
         );
+        registrar.playToServer(
+                ContraptionRacksInteractPayload.TYPE,
+                ContraptionRacksInteractPayload.STREAM_CODEC,
+                ContraptionRacksInteractPayload::handle
+        );
     }
 
     @SubscribeEvent

@@ -6,7 +6,8 @@ import mezz.jei.api.recipe.advanced.IRecipeManagerPlugin;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
 
 public class RecipeHiding implements IRecipeManagerPlugin {
     
