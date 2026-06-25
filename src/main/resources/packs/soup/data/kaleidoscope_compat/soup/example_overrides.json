@@ -1,6 +1,6 @@
 [
     {
-        "recipe_id": "kaleidoscope_cookery:stockpot/mushroom_stew",
+        "recipe_id": "kaleidoscope_om_stew",
         "cooking_texture": "kaleidoscope_cookery:stockpot/mushroom_cooking",
         "finished_texture": "kaleidoscope_cookery:stockpot/mushroom_finished",
         "cooking_bubble_color": 16777215,
