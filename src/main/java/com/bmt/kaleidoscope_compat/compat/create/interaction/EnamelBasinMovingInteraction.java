@@ -22,7 +22,6 @@ import static com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.EnamelBasinB
 
 /**
  * 搪瓷盆在动态结构上的交互行为
- * TODO:修复瓷盆交互模型渲染不同步问题
  */
 public class EnamelBasinMovingInteraction extends BaseMovingInteraction {
 
@@ -41,6 +40,14 @@ public class EnamelBasinMovingInteraction extends BaseMovingInteraction {
         }
 
         CompoundTag nbt = getOrCreateNbt(info);
+        // 如果 NBT 中没有 HAS_LID 键，从 BlockState 初始化（首次组装时需要同步）
+        if (!nbt.contains(ENAMEL_BASIN_HAS_LID)) {
+            nbt.putBoolean(ENAMEL_BASIN_HAS_LID, info.state().getValue(HAS_LID));
+        }
+        // 如果 NBT 中没有 OIL_COUNT 键，从 BlockState 初始化
+        if (!nbt.contains(ENAMEL_BASIN_OIL_COUNT)) {
+            nbt.putInt(ENAMEL_BASIN_OIL_COUNT, info.state().getValue(OIL_COUNT));
+        }
         boolean hasLid = nbt.getBoolean(ENAMEL_BASIN_HAS_LID);
         int oilCount = nbt.getInt(ENAMEL_BASIN_OIL_COUNT);
         ItemStack mainHandItem = player.getMainHandItem();
@@ -54,21 +61,25 @@ public class EnamelBasinMovingInteraction extends BaseMovingInteraction {
 
         // 2. 开盖
         if (hasLid) {
-            playSound(contraptionEntity, localPos, SoundEvents.LANTERN_BREAK, SoundSource.BLOCKS, 0.8F, 0.8F);
-            BlockState newState = info.state().setValue(HAS_LID, false);
-            CompoundTag newNbt = nbt.copy();
-            newNbt.putBoolean(ENAMEL_BASIN_HAS_LID, false);
-            updateData(contraptionEntity, localPos, new StructureBlockInfo(info.pos(), newState, newNbt));
+            if (!contraptionEntity.level().isClientSide()) {
+                playSound(contraptionEntity, localPos, SoundEvents.LANTERN_BREAK, SoundSource.BLOCKS, 0.8F, 0.8F);
+                BlockState newState = info.state().setValue(HAS_LID, false);
+                CompoundTag newNbt = nbt.copy();
+                newNbt.putBoolean(ENAMEL_BASIN_HAS_LID, false);
+                updateData(contraptionEntity, localPos, new StructureBlockInfo(info.pos(), newState, newNbt));
+            }
             return true;
         }
 
         // 3. 空手盖盖
         if (mainHandItem.isEmpty()) {
-            playSound(contraptionEntity, localPos, SoundEvents.LANTERN_BREAK, SoundSource.BLOCKS, 0.8F, 0.4F);
-            BlockState newState = info.state().setValue(HAS_LID, true);
-            CompoundTag newNbt = nbt.copy();
-            newNbt.putBoolean(ENAMEL_BASIN_HAS_LID, true);
-            updateData(contraptionEntity, localPos, new StructureBlockInfo(info.pos(), newState, newNbt));
+            if (!contraptionEntity.level().isClientSide()) {
+                playSound(contraptionEntity, localPos, SoundEvents.LANTERN_BREAK, SoundSource.BLOCKS, 0.8F, 0.4F);
+                BlockState newState = info.state().setValue(HAS_LID, true);
+                CompoundTag newNbt = nbt.copy();
+                newNbt.putBoolean(ENAMEL_BASIN_HAS_LID, true);
+                updateData(contraptionEntity, localPos, new StructureBlockInfo(info.pos(), newState, newNbt));
+            }
             return true;
         }
 
@@ -105,14 +116,14 @@ public class EnamelBasinMovingInteraction extends BaseMovingInteraction {
     }
 
     /**
-     * 铲子交互：取油或还油
+     * 锅铲交互：取油或还油
      */
     private boolean handleShovelInteraction(AbstractContraptionEntity contraptionEntity,
                                             BlockPos localPos, StructureBlockInfo info, CompoundTag nbt,
                                             ItemStack shovel, int oilCount) {
         boolean shovelHasOil = KitchenShovelItem.hasOil(shovel);
 
-        // 铲子有油，还油
+        // 锅铲有油，还油
         if (shovelHasOil) {
             if (oilCount >= MAX_OIL_COUNT) {
                 return false;

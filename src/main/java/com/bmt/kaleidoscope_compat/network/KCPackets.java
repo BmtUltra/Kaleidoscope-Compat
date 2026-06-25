@@ -14,6 +14,11 @@ public class KCPackets {
 
     public static void registerPackets(PayloadRegistrar registrar) {
         registrar.playToClient(
+                ArmRecipeSyncPayload.TYPE,
+                ArmRecipeSyncPayload.STREAM_CODEC,
+                ArmRecipeSyncPayload::handle
+        );
+        registrar.playToClient(
                 ContraptionBlockChangePayload.TYPE,
                 ContraptionBlockChangePayload.STREAM_CODEC,
                 ContraptionBlockChangePayload::handle
@@ -22,6 +27,11 @@ public class KCPackets {
                 ContraptionTakePayload.TYPE,
                 ContraptionTakePayload.STREAM_CODEC,
                 ContraptionTakePayload::handle
+        );
+        registrar.playToServer(
+                ContraptionRacksInteractPayload.TYPE,
+                ContraptionRacksInteractPayload.STREAM_CODEC,
+                ContraptionRacksInteractPayload::handle
         );
     }
 

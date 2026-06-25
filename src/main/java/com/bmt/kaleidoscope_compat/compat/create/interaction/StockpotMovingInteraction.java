@@ -53,13 +53,14 @@ public class StockpotMovingInteraction extends BaseMovingInteraction {
         BlockState state = info.state();
         CompoundTag nbt = getOrCreateNbt(info);
         ItemStack itemInHand = player.getItemInHand(activeHand);
+        boolean hasLid = state.getValue(HAS_LID);
 
-        if (itemInHand.isEmpty()) {
+        // 空手时取下盖子
+        if (itemInHand.isEmpty() && !hasLid) {
             return false;
         }
 
         int status = nbt.getInt(STATUS);
-        boolean hasLid = state.getValue(HAS_LID);
 
         // 1. 放上/取下盖子
         if (handleLidInteraction(player, contraptionEntity, localPos, state, nbt, itemInHand, info)) {
@@ -253,7 +254,7 @@ public class StockpotMovingInteraction extends BaseMovingInteraction {
             ItemStack stack = inputs.get(i);
             if (stack.isEmpty()) continue;
 
-            if (!containerIsMatch(player, stack)) return false;
+            if (containerIsMatch(player, stack)) return false;
             inputs.set(i, ItemStack.EMPTY);
 
             if (!contraptionEntity.level().isClientSide) {
@@ -280,17 +281,6 @@ public class StockpotMovingInteraction extends BaseMovingInteraction {
         return false;
     }
 
-    private boolean containerIsMatch(Player player, ItemStack stack) {
-        Item containerItem = ItemUtils.getContainerItem(stack);
-        if (containerItem == Items.AIR) return true;
-        if (player.getMainHandItem().is(containerItem)) {
-            player.getMainHandItem().shrink(1);
-            return true;
-        }
-        sendActionBarMessage(player, "tip.kaleidoscope_cookery.kitchen.remove_ingredient.need_container",
-                containerItem.getDefaultInstance().getHoverName());
-        return false;
-    }
 
     private boolean takeOutProduct(Player player, AbstractContraptionEntity contraptionEntity, BlockPos localPos,
                                    BlockState state, CompoundTag nbt, ItemStack stack, StructureBlockInfo info) {

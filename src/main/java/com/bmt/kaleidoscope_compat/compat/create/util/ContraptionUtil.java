@@ -1,28 +1,25 @@
 package com.bmt.kaleidoscope_compat.compat.create.util;
 
 import com.bmt.kaleidoscope_compat.mixins.create.accessor.ContraptionAccessor;
+import com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery.accessor.MillstoneBlockEntityAccessor;
 import com.bmt.kaleidoscope_compat.network.ContraptionBlockChangePayload;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
 import com.simibubi.create.content.contraptions.AbstractContraptionEntity;
 import com.simibubi.create.content.contraptions.Contraption;
 import com.simibubi.create.content.contraptions.behaviour.MovementContext;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
-import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.ContainerHelper;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
@@ -32,41 +29,55 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
-
 /**
  * 动态结构工具类
  */
 public class ContraptionUtil {
+    
+    // ==================== 热源检测 ====================
+    
+    /**
+     * 检测动态结构下方是否有热源
+     */
     public static boolean hasHeatSource(AbstractContraptionEntity contraptionEntity, BlockPos localPos) {
-        Contraption contraption = contraptionEntity.getContraption();
+        return hasHeatSource(
+                contraptionEntity.getContraption(),
+                localPos,
+                pos -> contraptionEntity.level().getBlockState(pos)
+        );
+    }
+
+    /**
+     * 检测动态结构下方是否有热源（MovementContext版本）
+     */
+    public static boolean hasHeatSource(MovementContext context) {
+        if (context.contraption.entity == null) return false;
+        return hasHeatSource(
+                context.contraption,
+                context.localPos,
+                pos -> context.world.getBlockState(pos)
+        );
+    }
+
+    /**
+     * 热源检测核心逻辑
+     * @param contraption 动态结构
+     * @param localPos 本地坐标
+     * @param worldStateGetter 世界方块状态获取器
+     */
+    private static boolean hasHeatSource(Contraption contraption, BlockPos localPos, 
+                                         java.util.function.Function<BlockPos, BlockState> worldStateGetter) {
+        // 优先检查动态结构内部的方块
         BlockPos belowPos = localPos.below();
         StructureBlockInfo belowInfo = contraption.getBlocks().get(belowPos);
         if (belowInfo != null) {
             return checkHeatSourceState(belowInfo.state());
         }
 
-        Vec3 globalPos = contraptionEntity.toGlobalVector(Vec3.atCenterOf(localPos), 1.0f);
-        BlockPos worldPos = new BlockPos((int) globalPos.x, (int) globalPos.y, (int) globalPos.z);
-        BlockState worldBelowState = contraptionEntity.level().getBlockState(worldPos.below());
-        return checkHeatSourceState(worldBelowState);
-    }
-
-    public static boolean hasHeatSource(MovementContext context) {
-        Contraption contraption = context.contraption;
-        BlockPos belowLocalPos = context.localPos.below();
-
-        StructureBlockInfo belowInfo = contraption.getBlocks().get(belowLocalPos);
-        if (belowInfo != null) {
-            return checkHeatSourceState(belowInfo.state());
-        }
-
-        if (context.contraption.entity == null) return false;
-
-        Vec3 globalPos = context.contraption.entity.toGlobalVector(Vec3.atCenterOf(context.localPos), 1.0f);
-        BlockPos worldPos = new BlockPos((int) globalPos.x, (int) globalPos.y, (int) globalPos.z);
-        BlockState worldBelowState = context.world.getBlockState(worldPos.below());
-        return checkHeatSourceState(worldBelowState);
+        // 检查外部世界方块
+        Vec3 globalPos = contraption.entity.toGlobalVector(Vec3.atCenterOf(localPos), 1.0f);
+        BlockPos worldPos = BlockPos.containing(globalPos);
+        return checkHeatSourceState(worldStateGetter.apply(worldPos.below()));
     }
 
     private static boolean checkHeatSourceState(BlockState state) {
@@ -76,24 +87,82 @@ public class ContraptionUtil {
         return state.is(TagMod.HEAT_SOURCE_BLOCKS_WITHOUT_LIT);
     }
 
+    /**
+     * 更新动态结构中的方块数据
+     * @param contraptionEntity 动态结构实体
+     * @param localPos 本地坐标
+     * @param newInfo 新的方块信息
+     */
     public static void updateContraptionData(AbstractContraptionEntity contraptionEntity, BlockPos localPos,
                                              StructureBlockInfo newInfo) {
         Contraption contraption = contraptionEntity.getContraption();
 
+        // 1. 更新方块数据
         contraption.getBlocks().put(localPos, newInfo);
 
-        if (newInfo.nbt() != null) {
-            ((ContraptionAccessor) contraption).getUpdateTags().put(localPos, newInfo.nbt().copy());
-        }
+        // 2. 更新 NBT 标签
+        updateNbtTag(contraption, localPos, newInfo.nbt());
 
+        // 3. 更新 Actor 数据
+        updateActorData(contraption, localPos, newInfo);
+
+        // 4. 同步到客户端
+        syncBlockChange(contraptionEntity, localPos, newInfo.state(), newInfo.nbt(), null);
+
+        // 5. 同步 BlockEntity 数据（用于渲染器）
+        syncBlockEntityData(contraptionEntity, localPos, newInfo.nbt());
+    }
+
+    /**
+     * 更新 NBT 标签
+     */
+    private static void updateNbtTag(Contraption contraption, BlockPos localPos, @Nullable CompoundTag nbt) {
+        if (nbt == null) return;
+        ((ContraptionAccessor) contraption).getUpdateTags().put(localPos, nbt.copy());
+    }
+
+    /**
+     * 更新 Actor 数据
+     */
+    private static void updateActorData(Contraption contraption, BlockPos localPos, StructureBlockInfo newInfo) {
         for (MutablePair<StructureBlockInfo, ?> actor : contraption.getActors()) {
             if (actor.getLeft().pos().equals(localPos)) {
                 actor.setLeft(newInfo);
                 break;
             }
         }
+    }
 
-        syncBlockChange(contraptionEntity, localPos, newInfo.state(), newInfo.nbt(), null);
+    /**
+     * 将 StructureBlockInfo 的 NBT 数据同步到世界中的 BlockEntity
+     */
+    private static void syncBlockEntityData(AbstractContraptionEntity contraptionEntity, BlockPos localPos, @Nullable CompoundTag nbt) {
+        if (nbt == null) return;
+        if (contraptionEntity.level().isClientSide) return;
+
+        Vec3 globalPos = getGlobalPos(contraptionEntity, localPos);
+        BlockPos worldPos = BlockPos.containing(globalPos);
+
+        BlockEntity be = contraptionEntity.level().getBlockEntity(worldPos);
+        if (be instanceof MillstoneBlockEntityAccessor accessor) {
+            syncMillstoneData(be, nbt, contraptionEntity.level().registryAccess(), accessor);
+        }
+    }
+
+    /**
+     * 同步石磨数据
+     */
+    private static void syncMillstoneData(BlockEntity be, CompoundTag nbt,
+                                          RegistryAccess registryAccess,
+                                          MillstoneBlockEntityAccessor accessor) {
+        if (nbt.contains("MillstoneInput")) {
+            ItemStack input = ItemStack.parseOptional(registryAccess, nbt.getCompound("MillstoneInput"));
+            accessor.setInput(input);
+        }
+        if (nbt.contains("MillstoneProgress")) {
+            accessor.setProgress(nbt.getInt("MillstoneProgress"));
+        }
+        be.setChanged();
     }
 
     /**
@@ -117,12 +186,16 @@ public class ContraptionUtil {
     }
 
     /**
-     * 播放音效
+     * 重新计算 Contraption 的 bounds
      */
-    public static void playSound(AbstractContraptionEntity contraptionEntity, BlockPos localPos,
-                                 SoundEvent sound, SoundSource source, float volume, float pitch) {
-        Vec3 soundPos = getGlobalPos(contraptionEntity, localPos);
-        contraptionEntity.level().playSound(null, soundPos.x, soundPos.y, soundPos.z, sound, source, volume, pitch);
+    public static AABB recalculateBounds(Contraption contraption) {
+        AABB newBounds = new AABB(BlockPos.ZERO);
+        for (BlockPos pos : contraption.getBlocks().keySet()) {
+            newBounds = newBounds.minmax(new AABB(pos));
+        }
+        contraption.bounds = newBounds;
+        contraption.expandBoundsAroundAxis(Direction.Axis.Y);
+        return contraption.bounds;
     }
 
     /**
@@ -135,7 +208,7 @@ public class ContraptionUtil {
         contraption.getActors().removeIf(actor -> actor.getLeft().pos().equals(localPos));
 
         if (sync) {
-            AABB updatedBounds = ContraptionBoundsUtil.recalculateBounds(contraption);
+            AABB updatedBounds = recalculateBounds(contraption);
             syncBlockChange(contraptionEntity, localPos, Blocks.AIR.defaultBlockState(), null, updatedBounds);
             contraption.invalidateColliders();
         }
@@ -157,22 +230,6 @@ public class ContraptionUtil {
         );
 
         PacketDistributor.sendToPlayersTrackingEntity(contraptionEntity, payload);
-    }
-
-    /**
-     * 发送粒子
-     */
-    public static void spawnParticle(MovementContext context, ParticleOptions particle,
-                                      double xOffset, double yOffset, double zOffset,
-                                      int count, double speedX, double speedY, double speedZ, double speedSpread) {
-        if (!(context.world instanceof ServerLevel sl)) return;
-
-        Vec3 gp = getGlobalPos(context);
-        sl.sendParticles(particle,
-                gp.x - 0.5 + xOffset,
-                gp.y - 0.5 + yOffset,
-                gp.z - 0.5 + zOffset,
-                count, speedX, speedY, speedZ, speedSpread);
     }
 
     /**
@@ -232,41 +289,6 @@ public class ContraptionUtil {
     }
 
     /**
-     * 将 ItemStack 列表保存到 NBT
-     */
-    public static void saveItems(CompoundTag nbt, NonNullList<ItemStack> items, RegistryAccess registryAccess) {
-        ContainerHelper.saveAllItems(nbt, items, true, registryAccess);
-    }
-
-    /**
-     * 检查 Items 列表中是否有任何物品
-     */
-    public static boolean hasAnyItem(CompoundTag nbt, RegistryAccess registryAccess, int size) {
-        NonNullList<ItemStack> items = readItems(nbt, registryAccess, size);
-        for (ItemStack stack : items) {
-            if (!stack.isEmpty()) return true;
-        }
-        return false;
-    }
-
-    /**
-     * 从 NBT 中读取 int 数组
-     */
-    public static int[] readIntArray(CompoundTag nbt, String key, int size) {
-        if (nbt.contains(key, Tag.TAG_INT_ARRAY)) {
-            return nbt.getIntArray(key);
-        }
-        return new int[size];
-    }
-
-    /**
-     * 将 int 数组保存到 NBT
-     */
-    public static void saveIntArray(CompoundTag nbt, String key, int[] array) {
-        nbt.putIntArray(key, array);
-    }
-
-    /**
      * 从 NBT 中读取 Result
      */
     public static ItemStack readResult(CompoundTag nbt, RegistryAccess registryAccess) {
@@ -274,20 +296,6 @@ public class ContraptionUtil {
             return ItemStack.parseOptional(registryAccess, nbt.getCompound(ContraptionNbtKeys.RESULT));
         }
         return ItemStack.EMPTY;
-    }
-
-    /**
-     * 将物品掉落物添加到世界中
-     */
-    public static void spawnItemDrops(Level world, Vec3 position, List<ItemStack> items) {
-        if (world.isClientSide) return;
-        for (ItemStack drop : items) {
-            if (!drop.isEmpty()) {
-                ItemEntity itemEntity = new ItemEntity(world, position.x, position.y, position.z, drop);
-                itemEntity.setDeltaMovement(0, 0.2, 0);
-                world.addFreshEntity(itemEntity);
-            }
-        }
     }
 
     /**

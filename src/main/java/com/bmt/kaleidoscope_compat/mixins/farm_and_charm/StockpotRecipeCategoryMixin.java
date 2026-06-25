@@ -2,11 +2,11 @@ package com.bmt.kaleidoscope_compat.mixins.farm_and_charm;
 
 import com.bmt.kaleidoscope_compat.compat.farm_and_charm.FarmAndCharmCompat;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.jei.category.StockpotRecipeCategory;
+import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.StockpotRecipe;
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.StockpotRecipe;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

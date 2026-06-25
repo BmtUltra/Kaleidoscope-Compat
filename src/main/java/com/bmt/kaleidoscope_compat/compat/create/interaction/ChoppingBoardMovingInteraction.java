@@ -8,22 +8,26 @@ import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
 import com.simibubi.create.content.contraptions.AbstractContraptionEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.Optional;
 
 import static com.bmt.kaleidoscope_compat.compat.create.util.ContraptionNbtKeys.*;
 
 /**
- * 砧板在动态结构上的交互行为
+ * 菜板在动态结构上的交互行为
  */
 public class ChoppingBoardMovingInteraction extends BaseMovingInteraction {
 
@@ -101,11 +105,15 @@ public class ChoppingBoardMovingInteraction extends BaseMovingInteraction {
      * 使用刀具切菜
      */
     private boolean cutItem(Player player, AbstractContraptionEntity contraptionEntity, BlockPos localPos,
-                            StructureBlockInfo info, ItemStack knife,
-                            ItemStack resultItem,
-                            int currentCutCount, int maxCutCount) {
+                         StructureBlockInfo info, ItemStack knife,
+                         ItemStack resultItem,
+                         int currentCutCount, int maxCutCount) {
         if (resultItem.isEmpty()) {
-            return false;
+            if (!contraptionEntity.level().isClientSide()) {
+                spawnCutParticles(contraptionEntity, localPos);
+            }
+            playSound(contraptionEntity, localPos, SoundEvents.WOOD_PLACE, SoundSource.BLOCKS, 1.0F,
+                    1.5F + contraptionEntity.level().random.nextFloat() * 0.4F);
         }
 
         if (currentCutCount >= maxCutCount) {
@@ -119,13 +127,13 @@ public class ChoppingBoardMovingInteraction extends BaseMovingInteraction {
 
             playSound(contraptionEntity, localPos, SoundEvents.WOOD_PLACE, SoundSource.BLOCKS, 1.0F,
                     2.0F + contraptionEntity.level().random.nextFloat() * 0.2F);
-            return true;
         }
 
         if (!contraptionEntity.level().isClientSide()) {
             CompoundTag newNbt = info.nbt() != null ? info.nbt().copy() : new CompoundTag();
             newNbt.putInt(CHOPPING_BOARD_CURRENT_CUT_COUNT, currentCutCount + 1);
             updateData(contraptionEntity, localPos, new StructureBlockInfo(info.pos(), info.state(), newNbt));
+            spawnCutParticles(contraptionEntity, localPos);
         }
 
         playSound(contraptionEntity, localPos, SoundEvents.WOOD_PLACE, SoundSource.BLOCKS, 1.0F,
@@ -184,5 +192,21 @@ public class ChoppingBoardMovingInteraction extends BaseMovingInteraction {
             return ItemStack.parseOptional(registryAccess, nbt.getCompound(CHOPPING_BOARD_RESULT_ITEM));
         }
         return ItemStack.EMPTY;
+    }
+
+    /**
+     * 生成粒子效果
+     */
+    private void spawnCutParticles(AbstractContraptionEntity contraptionEntity, BlockPos localPos) {
+        if (!(contraptionEntity.level() instanceof ServerLevel serverLevel)) return;
+
+        Vec3 globalPos = ContraptionUtil.getGlobalPos(contraptionEntity, localPos);
+        RandomSource random = serverLevel.getRandom();
+
+        serverLevel.sendParticles(ParticleTypes.CRIT,
+                globalPos.x - 0.25 + random.nextDouble() / 2,
+                globalPos.y - 0.25,
+                globalPos.z - 0.25 + random.nextDouble() / 2,
+                2, 0, 0, 0, 0.1);
     }
 }

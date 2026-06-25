@@ -2,16 +2,16 @@ package com.bmt.kaleidoscope_compat.compat.thirst;
 
 import com.bmt.kaleidoscope_compat.config.category.OtherCategory;
 import dev.ghen.thirst.api.ThirstHelper;
-import net.neoforged.fml.ModList;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.minecraft.world.item.Item;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 @EventBusSubscriber
 public class ThirstCompat {

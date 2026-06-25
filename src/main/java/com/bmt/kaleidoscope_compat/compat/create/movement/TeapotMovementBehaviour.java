@@ -1,9 +1,7 @@
 package com.bmt.kaleidoscope_compat.compat.create.movement;
 
 import com.bmt.kaleidoscope_compat.compat.create.util.ContraptionUtil;
-import com.github.ysbbbbbb.kaleidoscopecookery.KaleidoscopeCookery;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.TeapotBlock;
-import com.github.ysbbbbbb.kaleidoscopecookery.client.model.TeapotModel;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.container.TeapotInput;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.TeapotRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.serializer.TeapotRecipeSerializer;
@@ -19,30 +17,25 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import org.joml.Vector3f;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 import static com.bmt.kaleidoscope_compat.compat.create.util.ContraptionNbtKeys.*;
@@ -52,13 +45,6 @@ import static com.bmt.kaleidoscope_compat.compat.create.util.ContraptionNbtKeys.
  * 茶壶在动态结构上的移动行为
  */
 public class TeapotMovementBehaviour extends BaseMovementBehaviour {
-
-    private static final ResourceLocation TEAPOT_TEXTURE = ResourceLocation.fromNamespaceAndPath(
-            KaleidoscopeCookery.MOD_ID, "textures/block/teapot.png");
-    private static final Vector3f ANIMATION_VECTOR_CACHE = new Vector3f();
-
-    @OnlyIn(Dist.CLIENT)
-    private static TeapotModel teapotModel;
 
     @Override
     protected boolean isValidBlock(BlockState state) {
@@ -72,93 +58,7 @@ public class TeapotMovementBehaviour extends BaseMovementBehaviour {
     }
 
     @Override
-    public void stopMoving(MovementContext context) {
-        if (context.world.isClientSide)
-            return;
-
-        StructureBlockInfo info = context.contraption.getBlocks().get(context.localPos);
-        if (info == null || !(info.state().getBlock() instanceof TeapotBlock)) {
-            return;
-        }
-
-        CompoundTag nbt = info.nbt();
-        if (nbt == null)
-            return;
-
-        Vec3 globalPos = context.contraption.entity.toGlobalVector(Vec3.atCenterOf(context.localPos), 1.0f);
-        RegistryAccess registryAccess = context.world.registryAccess();
-
-        // 只掉落内容物（原料/成品），不掉落茶壶本身（茶壶方块会被动态结构系统重新放置）
-        List<ItemStack> drops = getContentDrops(registryAccess, nbt);
-
-        if (!drops.isEmpty()) {
-            Player nearestPlayer = null;
-            double closestDist = Double.MAX_VALUE;
-            for (Player player : context.world.players()) {
-                double dist = player.position().distanceTo(globalPos);
-                if (dist < closestDist) {
-                    closestDist = dist;
-                    nearestPlayer = player;
-                }
-            }
-
-            if (nearestPlayer != null && closestDist < 10.0) {
-                for (ItemStack drop : drops) {
-                    if (!drop.isEmpty()) {
-                        ContraptionUtil.giveItemToPlayer(nearestPlayer, drop);
-                    }
-                }
-            } else {
-                ContraptionUtil.spawnItemDrops(context.world, globalPos, drops);
-            }
-        }
-
-        // 重置茶壶状态（与 PotMovementBehaviour.resetPot 同理）
-        resetTeapot(context, info.state());
-    }
-
-    /**
-     * 获取茶壶内的内容物掉落
-     */
-    private List<ItemStack> getContentDrops(RegistryAccess registryAccess, CompoundTag nbt) {
-        List<ItemStack> drops = new ArrayList<>();
-        if (nbt == null)
-            return drops;
-
-        int status = nbt.getInt(STATUS);
-
-        // PUT_INGREDIENT 或 PROCESSING 状态：掉落原料
-        if (status == PUT_INGREDIENT || status == PROCESSING) {
-            CompoundTag inputTag = nbt.getCompound(TEAPOT_INPUT);
-            if (!inputTag.isEmpty()) {
-                ItemStack input = ItemStack.parseOptional(registryAccess, inputTag);
-                drops.add(input.copy());
-            }
-        } else if (status == FINISHED) {
-            // FINISHED 状态：掉落成品
-            CompoundTag resultTag = nbt.getCompound(RESULT);
-            if (!resultTag.isEmpty()) {
-                ItemStack result = ItemStack.parseOptional(registryAccess, resultTag);
-                drops.add(result.copy());
-            }
-        }
-
-        return drops;
-    }
-
-    /**
-     * 重置茶壶状态
-     */
-    private void resetTeapot(MovementContext context, BlockState state) {
-        CompoundTag newNbt = new CompoundTag();
-        newNbt.putInt(STATUS, PUT_INGREDIENT);
-        newNbt.putInt(CURRENT_TICK, -1);
-        newNbt.putString(TEA_FLUID_ID, TeapotRecipeSerializer.EMPTY_TEA_FLUID.toString());
-        updateData(context, state, newNbt);
-    }
-
-    @Override
-    protected void tickWithHeat(MovementContext context, BlockState state, CompoundTag nbt) {
+    protected void doTick(MovementContext context, BlockState state, CompoundTag nbt) {
         int status = nbt.getInt(STATUS);
 
         if (status == PUT_INGREDIENT) {
@@ -288,30 +188,35 @@ public class TeapotMovementBehaviour extends BaseMovementBehaviour {
         RandomSource random = context.world.random;
         playSound(context, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 0.4f,
                 0.8f + random.nextFloat() * 0.2F);
-        this.onFinishEffects(context);
 
-        ContraptionUtil.spawnParticle(context, ModParticles.COOKING.get(),
-                (random.nextFloat() - 0.5F),
-                1.1 + random.nextDouble() / 5,
-                (random.nextFloat() - 0.5F),
-                3,
-                (random.nextFloat() - 0.5) * 0.05F,
-                0.1,
-                (random.nextFloat() - 0.5) * 0.05F,
-                0.02);
+        if (context.world instanceof ServerLevel sl) {
+            Vec3 gp = getGlobalPos(context);
+            sl.sendParticles(ModParticles.COOKING.get(),
+                    gp.x + (random.nextFloat() - 0.5F),
+                    gp.y + 0.1 + random.nextDouble() / 5,
+                    gp.z + (random.nextFloat() - 0.5F),
+                    3,
+                    (random.nextFloat() - 0.5) * 0.05F,
+                    0.1,
+                    (random.nextFloat() - 0.5) * 0.05F,
+                    0.02);
+        }
     }
 
     private void onFinishEffects(MovementContext context) {
         RandomSource random = context.world.random;
-        ContraptionUtil.spawnParticle(context, ModParticles.COOKING.get(),
-                0.5 + random.nextDouble() / 4 * (random.nextBoolean() ? 1 : -1),
-                0.8 + random.nextDouble() / 3,
-                0.5 +random.nextDouble() / 4 * (random.nextBoolean() ? 1 : -1),
-                1,
-                (random.nextFloat() - 0.5) * 0.05F,
-                0.1,
-                (random.nextFloat() - 0.5) * 0.05F,
-                0.02);
+        if (context.world instanceof ServerLevel sl) {
+            Vec3 gp = getGlobalPos(context);
+            sl.sendParticles(ModParticles.COOKING.get(),
+                    gp.x + random.nextDouble() / 4 * (random.nextBoolean() ? 1 : -1),
+                    gp.y + 0.3 + random.nextDouble() / 3,
+                    gp.z + random.nextDouble() / 4 * (random.nextBoolean() ? 1 : -1),
+                    1,
+                    (random.nextFloat() - 0.5) * 0.05F,
+                    0.1,
+                    (random.nextFloat() - 0.5) * 0.05F,
+                    0.02);
+        }
     }
 
     @Override
@@ -327,13 +232,8 @@ public class TeapotMovementBehaviour extends BaseMovementBehaviour {
             return;
 
         int status = nbt.getInt(STATUS);
-        BlockState state = context.state;
         PoseStack viewProjection = matrices.getViewProjection();
-        PoseStack modelMatrix = matrices.getModel();
         Camera camera = mc.gameRenderer.getMainCamera();
-
-        // 渲染茶壶模型动画（沸腾效果）
-        renderTeapotAnimation(context, state, nbt, mc, viewProjection, modelMatrix, buffer);
 
         // 渲染浮动文本
         Vec3 globalPos = context.contraption.entity.toGlobalVector(
@@ -399,15 +299,6 @@ public class TeapotMovementBehaviour extends BaseMovementBehaviour {
 
         RenderSystem.enableDepthTest();
         RenderSystem.disableBlend();
-    }
-
-    /**
-     * 渲染茶壶沸腾动画
-     */
-    @OnlyIn(Dist.CLIENT)
-    private void renderTeapotAnimation(MovementContext context, BlockState state, CompoundTag nbt,
-            Minecraft mc, PoseStack viewProjection, PoseStack modelMatrix, MultiBufferSource buffer) {
-            //TODO: 实现沸腾动画
     }
 
     private Component getStatusText(int status) {

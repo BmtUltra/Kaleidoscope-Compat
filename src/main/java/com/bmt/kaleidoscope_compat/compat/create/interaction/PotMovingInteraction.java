@@ -7,6 +7,7 @@ import com.github.ysbbbbbb.kaleidoscopecookery.crafting.container.SimpleInput;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.FlexPotRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.PotRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.ModParticles;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModRecipes;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTrigger;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
@@ -22,9 +23,10 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
@@ -85,7 +87,7 @@ public class PotMovingInteraction extends BaseMovingInteraction {
             if (!onPlaceOil(player, contraptionEntity, localPos, state, nbt, itemInHand, info)) {
                 sendActionBarMessage(player, "tip.kaleidoscope_cookery.pot.need_oil");
             }
-            return false;
+            return true;
         }
 
         // 4.5 锅铲翻炒
@@ -194,7 +196,7 @@ public class PotMovingInteraction extends BaseMovingInteraction {
             ItemStack stack = inputs.get(i);
             if (stack.isEmpty()) continue;
 
-            if (!containerIsMatch(player, stack)) return false;
+            if (containerIsMatch(player, stack)) return false;
             inputs.set(i, ItemStack.EMPTY);
 
             if (!contraptionEntity.level().isClientSide) {
@@ -214,58 +216,54 @@ public class PotMovingInteraction extends BaseMovingInteraction {
         return false;
     }
 
-    private boolean containerIsMatch(Player player, ItemStack stack) {
-        Item containerItem = ItemUtils.getContainerItem(stack);
-        if (containerItem == Items.AIR) return true;
-        if (player.getMainHandItem().is(containerItem)) {
-            player.getMainHandItem().shrink(1);
-            return true;
-        }
-        if (player instanceof ServerPlayer sp) {
-            sp.sendSystemMessage(net.minecraft.network.chat.Component.translatable(
-                    "tip.kaleidoscope_cookery.kitchen.remove_ingredient.need_container",
-                    containerItem.getDefaultInstance().getHoverName()));
-        }
-        return false;
-    }
 
     private void onShovelHit(Player user, AbstractContraptionEntity contraptionEntity, BlockPos localPos,
                              BlockState state, CompoundTag nbt, StructureBlockInfo info) {
         int status = nbt.getInt(STATUS);
 
         if (!contraptionEntity.level().isClientSide) {
+            long newSeed = System.currentTimeMillis();
             CompoundTag newNbt = nbt.copy();
-            newNbt.putLong(SEED, System.currentTimeMillis());
+            newNbt.putLong(SEED, newSeed);
 
             if (status == PUT_INGREDIENT && !ContraptionUtil.areInputsEmpty(newNbt, contraptionEntity.level().registryAccess(), PotRecipe.RECIPES_SIZE)) {
-                startCooking(contraptionEntity, localPos, state, newNbt, info);
+                startCooking(contraptionEntity, localPos, state, newNbt, info, newSeed);
                 ModTrigger.EVENT.get().trigger(user, ModEventTriggerType.STIR_FRY_IN_POT);
-            }
-
-            StructureBlockInfo newInfo = new StructureBlockInfo(info.pos(), state, newNbt);
-            if (status == COOKING) {
+            } else if (status == COOKING) {
                 int stirFryCount = newNbt.getInt(POT_STIR_FRY_COUNT);
                 if (stirFryCount > 0) {
                     newNbt.putInt(POT_STIR_FRY_COUNT, stirFryCount - 1);
                 }
+                StructureBlockInfo newInfo = new StructureBlockInfo(info.pos(), state, newNbt);
                 updateData(contraptionEntity, localPos, newInfo);
                 ModTrigger.EVENT.get().trigger(user, ModEventTriggerType.STIR_FRY_IN_POT);
-            }
-
-            if (status == FINISHED || status == BURNT) {
+            } else if (status == FINISHED || status == BURNT) {
+                StructureBlockInfo newInfo = new StructureBlockInfo(info.pos(), state, newNbt);
                 updateData(contraptionEntity, localPos, newInfo);
             }
+        }
+
+        // 每次翻炒给点粒子效果
+        if (contraptionEntity.level() instanceof ServerLevel serverLevel) {
+            net.minecraft.world.phys.Vec3 pos = ContraptionUtil.getGlobalPos(contraptionEntity, localPos);
+            RandomSource random = serverLevel.random;
+            serverLevel.sendParticles(ModParticles.COOKING.get(),
+                    pos.x + random.nextDouble() / 3 * (random.nextBoolean() ? 1 : -1),
+                    pos.y - 0.4 + random.nextDouble() / 3,
+                    pos.z + random.nextDouble() / 3 * (random.nextBoolean() ? 1 : -1),
+                    1, 0, 0, 0, 0.05);
         }
     }
 
     private void startCooking(AbstractContraptionEntity contraptionEntity, BlockPos localPos, BlockState state,
-                              CompoundTag nbt, StructureBlockInfo info) {
+                              CompoundTag nbt, StructureBlockInfo info, long seed) {
         RegistryAccess registryAccess = contraptionEntity.level().registryAccess();
         NonNullList<ItemStack> inputs = ContraptionUtil.readInputs(nbt, registryAccess, PotRecipe.RECIPES_SIZE);
         SimpleInput simpleInput = new SimpleInput(inputs);
 
         CompoundTag newNbt = nbt.copy();
         newNbt.putInt(STATUS, COOKING);
+        newNbt.putLong(SEED, seed);
 
         var potRecipeOpt = contraptionEntity.level().getRecipeManager().getRecipeFor(ModRecipes.POT_RECIPE, simpleInput, contraptionEntity.level());
         if (potRecipeOpt.isPresent()) {
@@ -400,25 +398,8 @@ public class PotMovingInteraction extends BaseMovingInteraction {
         updateData(contraptionEntity, localPos, new StructureBlockInfo(info.pos(), newState, newNbt));
     }
 
-
-    private boolean isEmpty(CompoundTag nbt, RegistryAccess registryAccess) {
-        return ContraptionUtil.areInputsEmpty(nbt, registryAccess, PotRecipe.RECIPES_SIZE);
-    }
-
-    NonNullList<ItemStack> readInputs(CompoundTag nbt, RegistryAccess registryAccess) {
-        return ContraptionUtil.readInputs(nbt, registryAccess, PotRecipe.RECIPES_SIZE);
-    }
-
-    private void saveInputs(CompoundTag nbt, NonNullList<ItemStack> inputs, RegistryAccess registryAccess) {
-        ContraptionUtil.saveInputs(nbt, inputs, registryAccess);
-    }
-
     private Ingredient readCarrier(CompoundTag nbt) {
         return ContraptionUtil.readCarrier(nbt, CARRIER, Ingredient.EMPTY);
-    }
-
-    private void saveCarrier(CompoundTag nbt, Ingredient carrier) {
-        ContraptionUtil.saveCarrier(nbt, carrier, CARRIER);
     }
 
     private ItemStack readResult(CompoundTag nbt, RegistryAccess registryAccess) {

@@ -15,6 +15,8 @@ import net.minecraft.world.item.crafting.CampfireCookingRecipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 
 import java.util.Optional;
@@ -23,7 +25,6 @@ import static com.bmt.kaleidoscope_compat.compat.create.util.ContraptionNbtKeys.
 
 /**
  * 烤肉架在动态结构上的交互行为
- * TODO:修复烤肉架交互逻辑
  */
 public class ShawarmaSpitMovingInteraction extends BaseMovingInteraction {
 
@@ -44,10 +45,11 @@ public class ShawarmaSpitMovingInteraction extends BaseMovingInteraction {
             return false;
         }
 
+        BlockState state = info.state();
+
         CompoundTag nbt = getOrCreateNbt(info);
         RegistryAccess registryAccess = contraptionEntity.level().registryAccess();
 
-        // 读取当前状态
         ItemStack cookingItem = readCookingItem(nbt, registryAccess);
         ItemStack cookedItem = readCookedItem(nbt, registryAccess);
         int cookTime = nbt.getInt(SHAWARMA_SPIT_COOK_TIME);
@@ -56,24 +58,24 @@ public class ShawarmaSpitMovingInteraction extends BaseMovingInteraction {
 
         // 1. 尝试放入食材
         if (cookingItem.isEmpty() && cookedItem.isEmpty() && !mainHandItem.isEmpty()) {
-            return putCookingItem(player, contraptionEntity, localPos, info, mainHandItem, registryAccess);
+            return putCookingItem(contraptionEntity, localPos, info, mainHandItem, registryAccess);
         }
 
         // 2. 取出物品
-        return takeItem(player, contraptionEntity, localPos, info, cookingItem, cookedItem, cookTime, registryAccess);
+        return takeItem(player, contraptionEntity, localPos, info, state, cookingItem, cookedItem, cookTime, registryAccess);
     }
 
     /**
      * 放入食材进行烹饪
      */
-    private boolean putCookingItem(Player player, AbstractContraptionEntity contraptionEntity, BlockPos localPos,
+    private boolean putCookingItem(AbstractContraptionEntity contraptionEntity, BlockPos localPos,
                                    StructureBlockInfo info, ItemStack itemInHand, RegistryAccess registryAccess) {
         // 查找营火烹饪配方
         SingleRecipeInput input = new SingleRecipeInput(itemInHand);
         Optional<RecipeHolder<CampfireCookingRecipe>> recipeOpt = contraptionEntity.level().getRecipeManager()
                 .getRecipeFor(RecipeType.CAMPFIRE_COOKING, input, contraptionEntity.level());
 
-        if (!recipeOpt.isPresent()) {
+        if (recipeOpt.isEmpty()) {
             return false;
         }
 
@@ -101,7 +103,8 @@ public class ShawarmaSpitMovingInteraction extends BaseMovingInteraction {
      * 取出物品
      */
     private boolean takeItem(Player player, AbstractContraptionEntity contraptionEntity, BlockPos localPos,
-                             StructureBlockInfo info, ItemStack cookingItem, ItemStack cookedItem, int cookTime,
+                             StructureBlockInfo info, BlockState state,
+                             ItemStack cookingItem, ItemStack cookedItem, int cookTime,
                              RegistryAccess registryAccess) {
         ItemStack toGive = ItemStack.EMPTY;
 
@@ -126,8 +129,8 @@ public class ShawarmaSpitMovingInteraction extends BaseMovingInteraction {
             updateData(contraptionEntity, localPos, new StructureBlockInfo(info.pos(), info.state(), newNbt));
         }
 
-        // 如果有热源，烫伤玩家
-        if (hasHeatSource(contraptionEntity, localPos)) {
+        // 烫伤判断
+        if (state.hasProperty(BlockStateProperties.POWERED) && state.getValue(BlockStateProperties.POWERED)) {
             player.hurt(contraptionEntity.level().damageSources().inFire(), 1);
         }
 
@@ -141,8 +144,8 @@ public class ShawarmaSpitMovingInteraction extends BaseMovingInteraction {
      * 清空烹饪数据
      */
     private void clearCookingData(CompoundTag nbt, RegistryAccess registryAccess) {
-        nbt.remove(SHAWARMA_SPIT_COOKING_ITEM);
-        nbt.remove(SHAWARMA_SPIT_COOKED_ITEM);
+        nbt.put(SHAWARMA_SPIT_COOKING_ITEM, ItemStack.EMPTY.saveOptional(registryAccess));
+        nbt.put(SHAWARMA_SPIT_COOKED_ITEM, ItemStack.EMPTY.saveOptional(registryAccess));
         nbt.putInt(SHAWARMA_SPIT_COOK_TIME, 0);
     }
 

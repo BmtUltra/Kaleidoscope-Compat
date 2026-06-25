@@ -1,12 +1,16 @@
 package com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery.create;
 
 import com.bmt.kaleidoscope_compat.compat.create.PotArmAutomation;
+import com.bmt.kaleidoscope_compat.network.ArmRecipeSyncPayload;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.PotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.RecipeItem;
 import com.mojang.serialization.Dynamic;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -29,6 +33,28 @@ public class PotBlockEntityArmRecipeMixin implements PotArmAutomation {
 
     @Override
     public void kaleidoscopeCompat$setStoredRecipe(@Nullable RecipeItem.RecipeRecord recipe) {
+        this.kaleidoscopeCompat$storedRecipe = recipe;
+        BlockEntity be = (BlockEntity) (Object) this;
+        be.setChanged();
+        if (be.getLevel() != null && !be.getLevel().isClientSide) {
+            CompoundTag recipeData = null;
+            if (recipe != null) {
+                recipeData = new CompoundTag();
+                recipeData.put("recipe",
+                        RecipeItem.RecipeRecord.CODEC.encodeStart(NbtOps.INSTANCE, recipe).getOrThrow());
+            }
+            ArmRecipeSyncPayload payload = new ArmRecipeSyncPayload(be.getBlockPos(), recipeData);
+            ServerLevel serverLevel = (ServerLevel) be.getLevel();
+            for (ServerPlayer player : serverLevel.players()) {
+                if (player.blockPosition().closerToCenterThan(be.getBlockPos().getCenter(), 64)) {
+                    player.connection.send(payload);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void kaleidoscopeCompat$setStoredRecipeClient(@Nullable RecipeItem.RecipeRecord recipe) {
         this.kaleidoscopeCompat$storedRecipe = recipe;
     }
 

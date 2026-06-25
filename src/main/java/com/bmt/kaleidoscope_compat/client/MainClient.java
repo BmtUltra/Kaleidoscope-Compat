@@ -2,8 +2,9 @@ package com.bmt.kaleidoscope_compat.client;
 
 import com.bmt.kaleidoscope_compat.KaleidoscopeCompat;
 import com.bmt.kaleidoscope_compat.client.gui.overlay.ContraptionPotOverlay;
-import com.bmt.kaleidoscope_compat.datamap.StockpotVisualOverrideManager;
+import com.bmt.kaleidoscope_compat.compat.create.client.ContraptionTrashCanOverlay;
 import com.bmt.kaleidoscope_compat.config.MainConfig;
+import com.bmt.kaleidoscope_compat.datamap.StockpotVisualOverrideManager;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.model.StrawHatModel;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.teamresourceful.resourcefulconfig.client.ConfigScreen;
@@ -94,5 +95,8 @@ public class MainClient {
     public static void onRegisterGuiLayers(RegisterGuiLayersEvent event) {
         event.registerAboveAll(KaleidoscopeCompat.id("contraption_pot_overlay"),
                 (guiGraphics, deltaTracker) -> ContraptionPotOverlay.render(Minecraft.getInstance(), guiGraphics, deltaTracker));
+        event.registerAbove(net.neoforged.neoforge.client.gui.VanillaGuiLayers.CROSSHAIR,
+                KaleidoscopeCompat.id("contraption_trash_can_overlay"),
+                (guiGraphics, deltaTracker) -> ContraptionTrashCanOverlay.render(Minecraft.getInstance(), guiGraphics, deltaTracker));
     }
 }

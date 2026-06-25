@@ -6,14 +6,14 @@ import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModParticles;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModRecipes;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.tag.TagMod;
-import com.github.ysbbbbbb.kaleidoscopecookery.util.ItemUtils;
 import com.simibubi.create.content.contraptions.behaviour.MovementContext;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.block.state.BlockState;
@@ -41,7 +41,7 @@ public class SteamerMovementBehaviour extends BaseMovementBehaviour {
     }
 
     @Override
-    protected void tickWithHeat(MovementContext context, BlockState state, CompoundTag nbt) {
+    protected void doTick(MovementContext context, BlockState state, CompoundTag nbt) {
         if (context.world.getGameTime() % 5 == 0) {
             int litLevel = calculateLitLevel(context);
             CompoundTag newNbt = nbt.copy();
@@ -49,7 +49,7 @@ public class SteamerMovementBehaviour extends BaseMovementBehaviour {
             updateNbt(context, newNbt);
 
             // 检查是否有蒸熟的物品，释放熟粒粒子
-            int[] cookingTime = ContraptionUtil.readIntArray(nbt, STEAMER_COOKING_TIME, SLOT_COUNT);
+            int[] cookingTime = nbt.contains(STEAMER_COOKING_TIME, Tag.TAG_INT_ARRAY) ? nbt.getIntArray(STEAMER_COOKING_TIME) : new int[SLOT_COUNT];
             for (int j : cookingTime) {
                 if (j == -1) {
                     makeRipeParticles(context, state);
@@ -125,8 +125,8 @@ public class SteamerMovementBehaviour extends BaseMovementBehaviour {
     private void cookingTick(MovementContext context, BlockState state, CompoundTag nbt) {
         RegistryAccess registryAccess = context.world.registryAccess();
         NonNullList<ItemStack> items = ContraptionUtil.readItems(nbt, registryAccess, SLOT_COUNT);
-        int[] cookingProgress = ContraptionUtil.readIntArray(nbt, STEAMER_COOKING_PROGRESS, SLOT_COUNT);
-        int[] cookingTime = ContraptionUtil.readIntArray(nbt, STEAMER_COOKING_TIME, SLOT_COUNT);
+        int[] cookingProgress = nbt.contains(STEAMER_COOKING_PROGRESS, Tag.TAG_INT_ARRAY) ? nbt.getIntArray(STEAMER_COOKING_PROGRESS) : new int[SLOT_COUNT];
+        int[] cookingTime = nbt.contains(STEAMER_COOKING_TIME, Tag.TAG_INT_ARRAY) ? nbt.getIntArray(STEAMER_COOKING_TIME) : new int[SLOT_COUNT];
         boolean half = state.getValue(HALF);
         int endIndex = half ? 4 : 8;
 
@@ -167,16 +167,16 @@ public class SteamerMovementBehaviour extends BaseMovementBehaviour {
 
         if (changed) {
             CompoundTag newNbt = nbt.copy();
-            ContraptionUtil.saveItems(newNbt, items, registryAccess);
-            ContraptionUtil.saveIntArray(newNbt, STEAMER_COOKING_PROGRESS, cookingProgress);
-            ContraptionUtil.saveIntArray(newNbt, STEAMER_COOKING_TIME, cookingTime);
+            ContainerHelper.saveAllItems(newNbt, items, true, registryAccess);
+            newNbt.putIntArray(STEAMER_COOKING_PROGRESS, cookingProgress);
+            newNbt.putIntArray(STEAMER_COOKING_TIME, cookingTime);
             updateNbt(context, newNbt);
         }
     }
 
     private void cooldownTick(MovementContext context, BlockState state, CompoundTag nbt) {
-        int[] cookingProgress = ContraptionUtil.readIntArray(nbt, STEAMER_COOKING_PROGRESS, SLOT_COUNT);
-        int[] cookingTime = ContraptionUtil.readIntArray(nbt, STEAMER_COOKING_TIME, SLOT_COUNT);
+        int[] cookingProgress = nbt.contains(STEAMER_COOKING_PROGRESS, Tag.TAG_INT_ARRAY) ? nbt.getIntArray(STEAMER_COOKING_PROGRESS) : new int[SLOT_COUNT];
+        int[] cookingTime = nbt.contains(STEAMER_COOKING_TIME, Tag.TAG_INT_ARRAY) ? nbt.getIntArray(STEAMER_COOKING_TIME) : new int[SLOT_COUNT];
         boolean half = state.getValue(HALF);
         int endIndex = half ? 4 : 8;
         boolean changed = false;
@@ -190,8 +190,8 @@ public class SteamerMovementBehaviour extends BaseMovementBehaviour {
 
         if (changed) {
             CompoundTag newNbt = nbt.copy();
-            ContraptionUtil.saveIntArray(newNbt, STEAMER_COOKING_PROGRESS, cookingProgress);
-            ContraptionUtil.saveIntArray(newNbt, STEAMER_COOKING_TIME, cookingTime);
+            newNbt.putIntArray(STEAMER_COOKING_PROGRESS, cookingProgress);
+            newNbt.putIntArray(STEAMER_COOKING_TIME, cookingTime);
             updateNbt(context, newNbt);
         }
     }
@@ -240,58 +240,10 @@ public class SteamerMovementBehaviour extends BaseMovementBehaviour {
 
     @Override
     protected boolean shouldTick(MovementContext context, BlockState state, CompoundTag nbt) {
-        return ContraptionUtil.hasAnyItem(nbt, context.world.registryAccess(), SLOT_COUNT);
-    }
-
-    @Override
-    public void stopMoving(MovementContext context) {
-        if (context.world.isClientSide)
-            return;
-
-        StructureBlockInfo info = context.contraption.getBlocks().get(context.localPos);
-        if (info == null || !(info.state().getBlock() instanceof SteamerBlock)) {
-            return;
+        NonNullList<ItemStack> items = ContraptionUtil.readItems(nbt, context.world.registryAccess(), SLOT_COUNT);
+        for (ItemStack stack : items) {
+            if (!stack.isEmpty()) return true;
         }
-
-        CompoundTag nbt = info.nbt();
-        if (nbt == null)
-            return;
-
-        RegistryAccess registryAccess = context.world.registryAccess();
-        Vec3 globalPos = context.contraption.entity.toGlobalVector(Vec3.atCenterOf(context.localPos), 1.0f);
-
-        // 收集内容物
-        NonNullList<ItemStack> items = ContraptionUtil.readItems(nbt, registryAccess, SLOT_COUNT);
-        java.util.List<ItemStack> drops = new java.util.ArrayList<>();
-        for (ItemStack item : items) {
-            if (!item.isEmpty()) {
-                drops.add(item);
-            }
-        }
-
-        // 查找最近玩家
-        Player nearestPlayer = null;
-        double closestDist = Double.MAX_VALUE;
-        for (Player player : context.world.players()) {
-            double dist = player.position().distanceTo(globalPos);
-            if (dist < closestDist) {
-                closestDist = dist;
-                nearestPlayer = player;
-            }
-        }
-
-        if (nearestPlayer != null && closestDist < 10.0) {
-            for (ItemStack drop : drops) {
-                if (!drop.isEmpty()) {
-                    ItemUtils.getItemToLivingEntity(nearestPlayer, drop);
-                }
-            }
-        } else {
-            ContraptionUtil.spawnItemDrops(context.world, globalPos, drops);
-        }
-
-        // 清空内容物
-        ContraptionUtil.saveItems(nbt, NonNullList.withSize(SLOT_COUNT, ItemStack.EMPTY), registryAccess);
-        updateNbt(context, nbt);
+        return false;
     }
 }
