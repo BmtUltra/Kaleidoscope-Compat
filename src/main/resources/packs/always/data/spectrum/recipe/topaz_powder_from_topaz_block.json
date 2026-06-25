@@ -1,0 +1,10 @@
+{
+  "type": "kaleidoscope_cookery:millstone",
+  "ingredient": {
+    "item": "spectrum:topaz_block"
+  },
+  "result": {
+    "count": 3,
+    "id": "spectrum:topaz_shard"
+  }
+}

@@ -3,6 +3,7 @@ package com.bmt.kaleidoscope_compat.compat.spectrum;
 import com.bmt.kaleidoscope_compat.config.category.SpectrumCategory;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.common.NeoForge;
 
 public class SpectrumCompat {
     public static void init(IEventBus modEventBus) {
@@ -18,6 +19,9 @@ public class SpectrumCompat {
                 if (SpectrumCategory.spectrumTrashCanItemHandlerEnabled) {SpectrumTrashCanItemHandler.init(modEventBus);}
                 if (SpectrumCategory.spectrumChoppingBoardItemHandlerEnabled) {SpectrumChoppingBoardItemHandler.init(modEventBus);}
                 if (SpectrumCategory.spectrumTeapotItemHandlerEnabled) {SpectrumTeapotItemHandler.init(modEventBus);}
+            }
+            if (SpectrumCategory.spectrumMillstoneAnvilCrushingEnabled) {
+                NeoForge.EVENT_BUS.addListener(MillstoneAnvilCrushingCompat::afterMillstoneRecipeMatch);
             }
         });
     }

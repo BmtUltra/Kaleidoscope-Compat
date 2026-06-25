@@ -98,6 +98,8 @@
   "config.kaleidoscope_compat.category.spectrum": "Spectrum",
   "config.kaleidoscope_compat.category.spectrum.description": "Settings for Spectrum compatibility features",
   "config.kaleidoscope_compat.spectrum.compat_enabled": "Main Module",
+  "config.kaleidoscope_compat.spectrum.millstone_anvil_crushing_enabled": "Anvil Crushing Recipe Compatibility",
+  "config.kaleidoscope_compat.spectrum.millstone_anvil_crushing_enabled.comment": "When enabled, the millstone can read Spectrum's anvil crushing recipes",
   "config.kaleidoscope_compat.spectrum.pot_item_handler_enabled": "Wok Node Transfer",
   "config.kaleidoscope_compat.spectrum.chopping_board_item_handler_enabled": "Cutting Board Node Transfer",
   "config.kaleidoscope_compat.spectrum.millstone_item_handler_enabled": "Millstone Node Transfer",

@@ -1,0 +1,10 @@
+{
+  "type": "kaleidoscope_cookery:millstone",
+  "ingredient": {
+    "item": "spectrum:citrine_block"
+  },
+  "result": {
+    "count": 3,
+    "id": "spectrum:citrine_shard"
+  }
+}

@@ -42,6 +42,13 @@ public final class SpectrumCategory {
     )
     public static boolean spectrumCompatEnabled = true;
 
+    @ConfigEntry(id = "millstone_anvil_crushing_enabled", type = EntryType.BOOLEAN, translation = "config.kaleidoscope_compat.spectrum.millstone_anvil_crushing_enabled")
+    @Comment(
+            value = "Whether Spectrum anvil crushing recipes can be used in millstone",
+            translation = "config.kaleidoscope_compat.spectrum.millstone_anvil_crushing_enabled.comment"
+    )
+    public static boolean spectrumMillstoneAnvilCrushingEnabled = true;
+
     @ConfigEntry(id = "pot_item_handler_enabled", type = EntryType.BOOLEAN, translation = "config.kaleidoscope_compat.spectrum.pot_item_handler_enabled")
     @Comment(
             value = "Whether Spectrum pot item handler is enabled",

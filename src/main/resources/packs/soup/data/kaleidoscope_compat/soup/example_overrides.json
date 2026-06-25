@@ -1,16 +1,16 @@
 [
     {
-        "recipe_id": "kaleidoscope_om_stew",
-        "cooking_texture": "kaleidoscope_cookery:stockpot/mushroom_cooking",
-        "finished_texture": "kaleidoscope_cookery:stockpot/mushroom_finished",
-        "cooking_bubble_color": 16777215,
-        "finished_bubble_color": 16776960
+        "recipe_id": "farmersdelight:stockpot/modify/pumpkin_soup",
+        "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+        "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_orange",
+        "cooking_bubble_color": 16772291,
+        "finished_bubble_color": 16229438
     },
     {
         "recipe_id": "kaleidoscope_cookery:stockpot/pork_bone_soup",
-        "cooking_texture": "minecraft:block/beetroots_stage3",
-        "finished_texture": "minecraft:block/beetroots_stage3",
-        "cooking_bubble_color": 19999999,
-        "finished_bubble_color": 19999999
+        "cooking_texture": "kaleidoscope_cookery:stockpot/default_cooking",
+        "finished_texture": "kaleidoscope_cookery:stockpot/default_finished_white",
+        "cooking_bubble_color": 16772291,
+        "finished_bubble_color": 16382186
     }
 ]

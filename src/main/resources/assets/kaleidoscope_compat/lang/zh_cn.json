@@ -98,6 +98,8 @@
   "config.kaleidoscope_compat.category.spectrum": "光谱世界",
   "config.kaleidoscope_compat.category.spectrum.description": "光谱世界相关功能的设置",
   "config.kaleidoscope_compat.spectrum.compat_enabled": "总模块",
+  "config.kaleidoscope_compat.spectrum.millstone_anvil_crushing_enabled": "铁砧粉碎配方读取",
+  "config.kaleidoscope_compat.spectrum.millstone_anvil_crushing_enabled.comment": "启用后，石磨可以读取光谱世界的铁砧粉碎配方",
   "config.kaleidoscope_compat.spectrum.pot_item_handler_enabled": "炒锅节点传输",
   "config.kaleidoscope_compat.spectrum.chopping_board_item_handler_enabled": "切菜板节点传输",
   "config.kaleidoscope_compat.spectrum.millstone_item_handler_enabled": "石磨节点传输",
