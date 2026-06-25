@@ -61,7 +61,10 @@ public class ContraptionTrashCanOverlay {
             return;
         }
 
-        RegistryAccess registryAccess = minecraft.level.registryAccess();
+        RegistryAccess registryAccess = null;
+        if (minecraft.level != null) {
+            registryAccess = minecraft.level.registryAccess();
+        }
         ItemStackHandler handler = readItems(nbt, registryAccess);
 
         // 检查是否有物品
@@ -78,13 +81,13 @@ public class ContraptionTrashCanOverlay {
         }
 
         // 渲染物品
-        renderTrashCanTip(guiGraphics, minecraft, player, handler);
+        renderTrashCanTip(guiGraphics, minecraft, handler);
     }
 
     /**
      * 渲染垃圾桶物品提示
      */
-    private static void renderTrashCanTip(GuiGraphics guiGraphics, Minecraft minecraft, LocalPlayer player, ItemStackHandler storage) {
+    private static void renderTrashCanTip(GuiGraphics guiGraphics, Minecraft minecraft, ItemStackHandler storage) {
         Font font = minecraft.font;
         int x = minecraft.getWindow().getGuiScaledWidth() / 2 - 28;
         int y = minecraft.getWindow().getGuiScaledHeight() / 2 + 4;

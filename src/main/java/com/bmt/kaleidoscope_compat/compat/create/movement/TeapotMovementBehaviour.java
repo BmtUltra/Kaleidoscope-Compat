@@ -2,7 +2,6 @@ package com.bmt.kaleidoscope_compat.compat.create.movement;
 
 import com.bmt.kaleidoscope_compat.compat.create.util.ContraptionUtil;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.TeapotBlock;
-import com.github.ysbbbbbb.kaleidoscopecookery.client.model.TeapotModel;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.container.TeapotInput;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.TeapotRecipe;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.serializer.TeapotRecipeSerializer;
@@ -46,9 +45,6 @@ import static com.bmt.kaleidoscope_compat.compat.create.util.ContraptionNbtKeys.
  * 茶壶在动态结构上的移动行为
  */
 public class TeapotMovementBehaviour extends BaseMovementBehaviour {
-
-    @OnlyIn(Dist.CLIENT)
-    private static TeapotModel teapotModel;
 
     @Override
     protected boolean isValidBlock(BlockState state) {
@@ -236,9 +232,7 @@ public class TeapotMovementBehaviour extends BaseMovementBehaviour {
             return;
 
         int status = nbt.getInt(STATUS);
-        BlockState state = context.state;
         PoseStack viewProjection = matrices.getViewProjection();
-        PoseStack modelMatrix = matrices.getModel();
         Camera camera = mc.gameRenderer.getMainCamera();
 
         // 渲染浮动文本

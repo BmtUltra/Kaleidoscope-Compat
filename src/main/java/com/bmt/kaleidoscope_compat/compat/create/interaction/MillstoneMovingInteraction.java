@@ -119,7 +119,7 @@ public class MillstoneMovingInteraction extends BaseMovingInteraction {
                             : DEFAULT_ROT_SPEED_TICK), 1));
             saveInput(newNbt, actualInput, registryAccess);
 
-            BlockPos centerPos = findCenterPos(contraptionEntity, centerInfo);
+            BlockPos centerPos = findCenterPos(centerInfo);
             updateData(contraptionEntity, centerPos,
                     new StructureBlockInfo(centerInfo.pos(), centerInfo.state(), newNbt));
 
@@ -185,7 +185,7 @@ public class MillstoneMovingInteraction extends BaseMovingInteraction {
         newNbt.putUUID(MILLSTONE_ENTITY_ID, mob.getUUID());
         newNbt.putFloat(MILLSTONE_ROT_SPEED_TICK, DEFAULT_ROT_SPEED_TICK);
 
-        BlockPos centerPos = findCenterPos(contraptionEntity, centerInfo);
+        BlockPos centerPos = findCenterPos(centerInfo);
         updateData(contraptionEntity, centerPos,
                 new StructureBlockInfo(centerInfo.pos(), centerInfo.state(), newNbt));
 
@@ -229,7 +229,7 @@ public class MillstoneMovingInteraction extends BaseMovingInteraction {
         return contraptionEntity.getContraption().getBlocks().get(centerPos);
     }
 
-    private BlockPos findCenterPos(AbstractContraptionEntity contraptionEntity, StructureBlockInfo centerInfo) {
+    private BlockPos findCenterPos(StructureBlockInfo centerInfo) {
         NinePart part = centerInfo.state().getValue(MillstoneBlock.PART);
         return centerInfo.pos().subtract(new Vec3i(part.getPosX(), 0, part.getPosY()));
     }
@@ -239,7 +239,7 @@ public class MillstoneMovingInteraction extends BaseMovingInteraction {
      */
     private void reset(StructureBlockInfo centerInfo, AbstractContraptionEntity contraptionEntity,
                        RegistryAccess registryAccess) {
-        BlockPos centerPos = findCenterPos(contraptionEntity, centerInfo);
+        BlockPos centerPos = findCenterPos(centerInfo);
         CompoundTag newNbt = new CompoundTag();
         saveInput(newNbt, ItemStack.EMPTY, registryAccess);
         saveOutputs(newNbt, NonNullList.withSize(4, ItemStack.EMPTY), registryAccess);

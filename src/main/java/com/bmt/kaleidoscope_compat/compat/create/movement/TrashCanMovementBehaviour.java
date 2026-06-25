@@ -47,14 +47,14 @@ public class TrashCanMovementBehaviour extends BaseMovementBehaviour {
         boolean powered = state.hasProperty(BlockStateProperties.POWERED) && state.getValue(BlockStateProperties.POWERED);
 
         if (powered) {
-            trySuckItems(context, state, nbt, serverLevel);
+            trySuckItems(context, nbt, serverLevel);
         }
     }
 
     /**
      * 尝试吸取上方的物品实体
      */
-    private void trySuckItems(MovementContext context, BlockState state, CompoundTag nbt, ServerLevel serverLevel) {
+    private void trySuckItems(MovementContext context, CompoundTag nbt, ServerLevel serverLevel) {
         Vec3 globalPos = ContraptionUtil.getGlobalPos(context.contraption.entity, context.localPos);
         BlockPos worldPos = BlockPos.containing(globalPos);
 

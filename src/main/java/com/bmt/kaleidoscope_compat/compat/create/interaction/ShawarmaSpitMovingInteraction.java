@@ -58,7 +58,7 @@ public class ShawarmaSpitMovingInteraction extends BaseMovingInteraction {
 
         // 1. 尝试放入食材
         if (cookingItem.isEmpty() && cookedItem.isEmpty() && !mainHandItem.isEmpty()) {
-            return putCookingItem(player, contraptionEntity, localPos, info, mainHandItem, registryAccess);
+            return putCookingItem(contraptionEntity, localPos, info, mainHandItem, registryAccess);
         }
 
         // 2. 取出物品
@@ -68,14 +68,14 @@ public class ShawarmaSpitMovingInteraction extends BaseMovingInteraction {
     /**
      * 放入食材进行烹饪
      */
-    private boolean putCookingItem(Player player, AbstractContraptionEntity contraptionEntity, BlockPos localPos,
+    private boolean putCookingItem(AbstractContraptionEntity contraptionEntity, BlockPos localPos,
                                    StructureBlockInfo info, ItemStack itemInHand, RegistryAccess registryAccess) {
         // 查找营火烹饪配方
         SingleRecipeInput input = new SingleRecipeInput(itemInHand);
         Optional<RecipeHolder<CampfireCookingRecipe>> recipeOpt = contraptionEntity.level().getRecipeManager()
                 .getRecipeFor(RecipeType.CAMPFIRE_COOKING, input, contraptionEntity.level());
 
-        if (!recipeOpt.isPresent()) {
+        if (recipeOpt.isEmpty()) {
             return false;
         }
 

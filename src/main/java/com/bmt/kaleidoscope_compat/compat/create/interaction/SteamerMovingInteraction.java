@@ -66,7 +66,7 @@ public class SteamerMovingInteraction extends BaseMovingInteraction {
 
         // 2. 手持蒸笼堆叠
         if (itemInHand.getItem() instanceof SteamerItem) {
-            return handleStackSteamer(player, contraptionEntity, localPos, state, nbt, itemInHand, info);
+            return handleStackSteamer(player, contraptionEntity, localPos, state, nbt, itemInHand);
         }
 
         // 2.5. 空手右键取下蒸笼
@@ -80,11 +80,7 @@ public class SteamerMovingInteraction extends BaseMovingInteraction {
         }
 
         // 3. 尝试取出食材
-        if (takeFood(player, contraptionEntity, localPos, state, nbt, itemInHand, info)) {
-            return true;
-        }
-
-        return false;
+        return takeFood(player, contraptionEntity, localPos, state, nbt, itemInHand, info);
     }
 
     private boolean handleLidInteraction(Player player, AbstractContraptionEntity contraptionEntity, BlockPos localPos,
@@ -171,7 +167,7 @@ public class SteamerMovingInteraction extends BaseMovingInteraction {
      * 处理手持蒸笼右键堆叠
      */
     private boolean handleStackSteamer(Player player, AbstractContraptionEntity contraptionEntity, BlockPos localPos,
-                                       BlockState state, CompoundTag nbt, ItemStack itemInHand, StructureBlockInfo info) {
+                                       BlockState state, CompoundTag nbt, ItemStack itemInHand) {
         if (!(itemInHand.getItem() instanceof SteamerItem)) {
             return false;
         }

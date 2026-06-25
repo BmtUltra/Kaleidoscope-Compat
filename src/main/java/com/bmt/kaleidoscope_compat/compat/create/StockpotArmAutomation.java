@@ -8,4 +8,6 @@ public interface StockpotArmAutomation {
     RecipeItem.RecipeRecord kaleidoscopeCompat$getStoredRecipe();
 
     void kaleidoscopeCompat$setStoredRecipe(@Nullable RecipeItem.RecipeRecord recipe);
+
+    void kaleidoscopeCompat$setStoredRecipeClient(@Nullable RecipeItem.RecipeRecord recipe);
 }

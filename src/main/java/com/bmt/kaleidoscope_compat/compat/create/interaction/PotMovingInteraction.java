@@ -398,25 +398,8 @@ public class PotMovingInteraction extends BaseMovingInteraction {
         updateData(contraptionEntity, localPos, new StructureBlockInfo(info.pos(), newState, newNbt));
     }
 
-
-    private boolean isEmpty(CompoundTag nbt, RegistryAccess registryAccess) {
-        return ContraptionUtil.areInputsEmpty(nbt, registryAccess, PotRecipe.RECIPES_SIZE);
-    }
-
-    NonNullList<ItemStack> readInputs(CompoundTag nbt, RegistryAccess registryAccess) {
-        return ContraptionUtil.readInputs(nbt, registryAccess, PotRecipe.RECIPES_SIZE);
-    }
-
-    private void saveInputs(CompoundTag nbt, NonNullList<ItemStack> inputs, RegistryAccess registryAccess) {
-        ContraptionUtil.saveInputs(nbt, inputs, registryAccess);
-    }
-
     private Ingredient readCarrier(CompoundTag nbt) {
         return ContraptionUtil.readCarrier(nbt, CARRIER, Ingredient.EMPTY);
-    }
-
-    private void saveCarrier(CompoundTag nbt, Ingredient carrier) {
-        ContraptionUtil.saveCarrier(nbt, carrier, CARRIER);
     }
 
     private ItemStack readResult(CompoundTag nbt, RegistryAccess registryAccess) {

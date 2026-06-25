@@ -109,7 +109,7 @@ public class ChairMovingInteraction extends BaseMovingInteraction {
                 // 掉落原地毯
                 ItemStack carpetItem = CarpetColor.getCarpetByColor(currentColor).getDefaultInstance();
                 BlockDrop.popResource(contraptionEntity.level(),
-                        contraptionEntity.blockPosition(), 0.25, carpetItem);
+                        BlockPos.containing(getGlobalPos(contraptionEntity, localPos)), 0.25, carpetItem);
 
                 // 更新颜色和 BlockState
                 BlockState newState = state.setValue(ChairBlock.HAS_CARPET, true);

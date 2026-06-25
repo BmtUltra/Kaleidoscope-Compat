@@ -73,8 +73,6 @@ public class MillstoneMovementBehaviour extends BaseMovementBehaviour {
         return state.getValue(MillstoneBlock.PART) == NinePart.CENTER;
     }
 
-    // TODO: 实现石磨在动态结构上的动画效果渲染
-
     @Override
     protected void doTick(MovementContext context, BlockState state, CompoundTag nbt) {
         if (context.world.isClientSide) return;
@@ -95,7 +93,7 @@ public class MillstoneMovementBehaviour extends BaseMovementBehaviour {
                 tryAutoInput(serverLevel, mob, context, state, nbt);
 
                 // 研磨逻辑
-                processGrinding(context, state, nbt);
+                processGrinding(context, nbt);
 
                 // 粒子效果）
                 spawnParticles(serverLevel, nbt, state, context, rot);
@@ -146,8 +144,7 @@ public class MillstoneMovementBehaviour extends BaseMovementBehaviour {
         if (mob.distanceToSqr(center) >= MAX_DISTANCE_SQR) return false;
         if (mob.fallDistance > 0.5f) return false;
         if (mob.isInWall()) return false;
-        if (isSaddleEntityControlling(mob)) return false;
-        return true;
+        return !isSaddleEntityControlling(mob);
     }
 
     /**
@@ -259,7 +256,7 @@ public class MillstoneMovementBehaviour extends BaseMovementBehaviour {
                 if (stackInSlot.isEmpty()) continue;
 
                 ItemStack stack = handler.extractItem(i, MAX_INPUT_COUNT, true);
-                if (tryPutItem(stack, nbt, context, state)) {
+                if (tryPutItem(stack, nbt, context)) {
                     handler.extractItem(i, MAX_INPUT_COUNT, false);
                     return;
                 }
@@ -279,7 +276,7 @@ public class MillstoneMovementBehaviour extends BaseMovementBehaviour {
 
             int countCanInsert = Math.min(stack.getCount(), MAX_INPUT_COUNT);
             ItemStack stackToInsert = stack.copyWithCount(countCanInsert);
-            if (tryPutItem(stackToInsert, nbt, context, state)) {
+            if (tryPutItem(stackToInsert, nbt, context)) {
                 stack.shrink(countCanInsert);
                 if (stack.isEmpty()) {
                     itemEntity.discard();
@@ -294,7 +291,7 @@ public class MillstoneMovementBehaviour extends BaseMovementBehaviour {
     /**
      * 处理研磨进度
      */
-    private void processGrinding(MovementContext context, BlockState state, CompoundTag nbt) {
+    private void processGrinding(MovementContext context, CompoundTag nbt) {
         int progress = nbt.getInt(MILLSTONE_PROGRESS);
         ItemStack input = readInput(nbt, context.world.registryAccess());
 
@@ -354,7 +351,7 @@ public class MillstoneMovementBehaviour extends BaseMovementBehaviour {
         ItemStack item;
         if (!isOutputEmpty(nbt, serverLevel.registryAccess())) {
             NonNullList<ItemStack> outputs = readOutputs(nbt, serverLevel.registryAccess());
-            item = outputs.get(0).getItem() == Items.AIR ? ItemStack.EMPTY : outputs.get(0);
+            item = outputs.getFirst().getItem() == Items.AIR ? ItemStack.EMPTY : outputs.getFirst();
         } else {
             item = readInput(nbt, serverLevel.registryAccess());
         }
@@ -430,7 +427,7 @@ public class MillstoneMovementBehaviour extends BaseMovementBehaviour {
         return recipeOpt;
     }
 
-    private boolean tryPutItem(ItemStack stack, CompoundTag nbt, MovementContext context, BlockState state) {
+    private boolean tryPutItem(ItemStack stack, CompoundTag nbt, MovementContext context) {
         if (!isOutputEmpty(nbt, context.world.registryAccess())) return false;
 
         int progress = nbt.getInt(MILLSTONE_PROGRESS);
@@ -455,10 +452,12 @@ public class MillstoneMovementBehaviour extends BaseMovementBehaviour {
         if (mob.getVehicle() != null) return false;
         if (mob.isBaby()) return false;
         if (isSaddleEntityControlling(mob)) return false;
-        if (mob instanceof AbstractHorse horse) return horse.isTamed();
-        if (mob instanceof TamableAnimal tamable) return tamable.isTame();
-        if (mob instanceof OwnableEntity ownable) return ownable.getOwnerUUID() != null;
-        return true;
+        return switch (mob) {
+            case AbstractHorse horse -> horse.isTamed();
+            case TamableAnimal tamable -> tamable.isTame();
+            case OwnableEntity ownable -> ownable.getOwnerUUID() != null;
+            default -> true;
+        };
     }
 
     private boolean isSaddleEntityControlling(Mob mob) {

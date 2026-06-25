@@ -60,15 +60,15 @@ public class TableMovingInteraction extends BaseMovingInteraction {
         RegistryAccess registryAccess = contraptionEntity.level().registryAccess();
         ItemStackHandler handler = readItems(nbt, registryAccess);
 
-        return handleItems(player, contraptionEntity, localPos, info, state, handler, mainHandItem, registryAccess);
+        return handleItems(player, contraptionEntity, localPos, info, handler, mainHandItem, registryAccess);
     }
 
     /**
      * 处理物品放入/取出
      */
     private boolean handleItems(Player player, AbstractContraptionEntity contraptionEntity,
-                                 BlockPos localPos, StructureBlockInfo info, BlockState state,
-                                 ItemStackHandler handler, ItemStack mainHandItem,
+                                 BlockPos localPos, StructureBlockInfo info,
+                                ItemStackHandler handler, ItemStack mainHandItem,
                                  RegistryAccess registryAccess) {
         Pair<Integer, ItemStack> lastStack = ItemUtils.getLastStack(handler);
         Integer tableIndex = lastStack.getLeft();
@@ -151,7 +151,7 @@ public class TableMovingInteraction extends BaseMovingInteraction {
                 // 掉落原地毯
                 ItemStack carpetItem = CarpetColor.getCarpetByColor(currentColor).getDefaultInstance();
                 BlockDrop.popResource(contraptionEntity.level(),
-                        contraptionEntity.blockPosition(), 0.75, carpetItem);
+                        BlockPos.containing(getGlobalPos(contraptionEntity, localPos)), 0.75, carpetItem);
 
                 // 更新颜色
                 BlockState newState = state.setValue(TableBlock.HAS_CARPET, true);

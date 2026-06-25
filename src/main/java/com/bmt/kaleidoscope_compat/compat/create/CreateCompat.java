@@ -2,6 +2,7 @@ package com.bmt.kaleidoscope_compat.compat.create;
 
 import com.bmt.kaleidoscope_compat.compat.create.arm.*;
 import com.bmt.kaleidoscope_compat.config.category.CreateCategory;
+import com.bmt.kaleidoscope_compat.config.category.arm.ArmConfig;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -12,17 +13,17 @@ public class CreateCompat {
             return;
         }
         ModList.get().getModContainerById("create").ifPresent(modContainer -> {
-            if (CreateCategory.createArmPotEnabled) {
+            if (ArmConfig.potEnabled) {
                 CreatePotArm.init(modEventBus);}
-            if (CreateCategory.createArmStockpotEnabled) {
+            if (ArmConfig.stockpotEnabled) {
                 CreateStockpotArm.init(modEventBus);}
-            if (CreateCategory.createArmSteamerEnabled) {
+            if (ArmConfig.steamerEnabled) {
                 CreateSteamerArm.init(modEventBus);}
-            if (CreateCategory.createArmMillstoneEnabled) {
+            if (ArmConfig.millstoneEnabled) {
                 CreateMillstoneArm.init(modEventBus);}
-            if (CreateCategory.createArmShawarmaSpitEnabled) {
+            if (ArmConfig.shawarmaSpitEnabled) {
                 CreateShawarmaSpitArm.init(modEventBus);}
-            if (CreateCategory.createArmTeapotEnabled) {
+            if (ArmConfig.teapotEnabled) {
                 CreateTeapotArm.init(modEventBus);}
 
             modEventBus.addListener(CreateCompat::onCommonSetup);
