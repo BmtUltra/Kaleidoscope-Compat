@@ -1,7 +1,7 @@
 package com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery;
 
-import com.bmt.kaleidoscope_compat.datamap.StockpotVisualOverride;
-import com.bmt.kaleidoscope_compat.datamap.StockpotVisualOverrideManager;
+import com.bmt.kaleidoscope_compat.datamap.soup.StockpotVisualOverride;
+import com.bmt.kaleidoscope_compat.datamap.soup.StockpotVisualOverrideManager;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.StockpotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.StockpotVisuals;
 import net.minecraft.core.HolderLookup;

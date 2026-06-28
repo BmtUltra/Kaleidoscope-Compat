@@ -1,4 +1,4 @@
-package com.bmt.kaleidoscope_compat.datamap;
+package com.bmt.kaleidoscope_compat.datamap.soup;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
