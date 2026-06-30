@@ -1,21 +1,22 @@
 [
-  {
-    "type": "crafting,pot,stockpot,flexpot,flexstockpot",
-    "from": "minecraft:red_mushroom",
-    "to": "farmersdelight:tomato"
-  },
+
   {
     "type": "pot",
     "from": "kaleidoscope_cookery:cooked_rice",
     "toTag": "c:foods/cooked_rice"
   },
   {
-    "type": "stockpot",
-    "from": "minecraft:red_mushroom",
+    "type": "flexstockpot",
+    "fromTag": "c:crops/tomato",
     "toTag": "c:foods/cooked_rice"
   },
   {
-    "type": "all",
+    "type": "stockpot",
+    "from": "minecraft:red_mushroom",
+    "to": "minecraft:bedrock"
+  },
+  {
+    "type": "villager",
     "from": "farmersdelight:tomato",
     "to": "minecraft:bedrock"
   }
