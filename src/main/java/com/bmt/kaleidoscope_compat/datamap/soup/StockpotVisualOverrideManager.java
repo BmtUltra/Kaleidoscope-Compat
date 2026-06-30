@@ -1,4 +1,4 @@
-package com.bmt.kaleidoscope_compat.datamap;
+package com.bmt.kaleidoscope_compat.datamap.soup;
 
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
