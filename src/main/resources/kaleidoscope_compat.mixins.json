@@ -7,6 +7,8 @@
   "client": [
     "appleskin.FoodHelperMixin",
     "farmersdelight.CookingPotScreenMixin",
+    "kaleidoscope_doll.ComputerMenuScreenMixin",
+    "kaleidoscope_doll.CustomDollLoaderMixin",
     "solcarrot.FoodItemsMixin"
   ],
   "mixins": [
@@ -27,6 +29,7 @@
     "kaleidoscope_cookery.FlexPotRecipeMixin",
     "kaleidoscope_cookery.FlexStockpotRecipeMixin",
     "kaleidoscope_cookery.InitMixin",
+    "kaleidoscope_doll.ComputerMenuAccessor",
     "kaleidoscope_cookery.KitchenKnifeItemMixin",
     "kaleidoscope_cookery.MillstoneBlockEntityMixin",
     "kaleidoscope_cookery.MillstoneRecipeMixin",
