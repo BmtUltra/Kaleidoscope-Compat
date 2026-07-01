@@ -33,7 +33,7 @@ public class ReplacementManager extends SimpleJsonResourceReloadListener {
     private static final String DIRECTORY = "replacement";
     private static final String DEFAULT_TYPE = "crafting";
 
-    private static final List<String> ALL_TYPES = List.of("crafting", "pot", "stockpot", "flexpot", "flexstockpot", "croploot", "chestloot", "entityloot");
+    private static final List<String> ALL_TYPES = List.of("crafting", "pot", "stockpot", "flexpot", "flexstockpot", "croploot", "chestloot", "entityloot","villager");
 
     public ReplacementManager() {
         super(GSON, DIRECTORY);

@@ -163,8 +163,7 @@ dependencies {
     implementation "maven.modrinth:kaleidoscope-end:1.0.2-neoforge+mc1.21.1"
     implementation "maven.modrinth:kubejs:2101.7.2-build.348"
     compileOnly "maven.modrinth:thirst-was-taken:1.21.1-2.1.5"
-    compileOnly "maven.modrinth:kaleidoscope-doll:1.3.1-neoforge+mc1.21.1"
-    runtimeOnly "maven.modrinth:kaleidoscope-doll:1.3.1-neoforge+mc1.21.1"
+    implementation "maven.modrinth:kaleidoscope-doll:1.4.1-neoforge+mc1.21.1"
 //    implementation "maven.modrinth:bountiful-fares:3.0.8"
     compileOnly "maven.modrinth:quark:4.1-479"
     implementation "maven.modrinth:zeta:1.1-39"
@@ -187,7 +186,7 @@ dependencies {
     compileOnly "maven.modrinth:patchouli:1.21.1-93-neoforge"
 
     runtimeOnly "maven.modrinth:farmers-delight:1.21.1-1.3.2"
-    runtimeOnly "maven.modrinth:gensokyo-delight-youkais-feasts:1.1.0"
+//    runtimeOnly "maven.modrinth:gensokyo-delight-youkais-feasts:1.1.0"
 //    runtimeOnly "maven.modrinth:botany-pots:21.1.41"
 //    runtimeOnly "maven.modrinth:kaleidoscope-nether:1.0.7-neoforge+mc1.21.1"
     runtimeOnly "maven.modrinth:kaleidoscopetavern:1.1.2-neoforge+mc1.21.1"
