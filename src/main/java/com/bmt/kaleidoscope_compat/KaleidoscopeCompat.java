@@ -2,6 +2,7 @@ package com.bmt.kaleidoscope_compat;
 
 import com.bmt.kaleidoscope_compat.compat.create.CreateCompat;
 import com.bmt.kaleidoscope_compat.compat.farm_and_charm.FarmAndCharmCompat;
+import com.bmt.kaleidoscope_compat.compat.kaleidoscope_doll.KaleidoscopeDollCompat;
 import com.bmt.kaleidoscope_compat.compat.spectrum.SpectrumCompat;
 import com.bmt.kaleidoscope_compat.compat.touhoulittlemaid.LittleMaidCompat;
 import com.bmt.kaleidoscope_compat.config.MainConfig;
@@ -34,6 +35,7 @@ public class KaleidoscopeCompat {
         SpectrumCompat.init(modEventBus);
         FarmAndCharmCompat.init();
         LittleMaidCompat.init();
+        KaleidoscopeDollCompat.init(modEventBus);
         NeoForge.EVENT_BUS.addListener(this::onAddReloadListener);
     }
 

@@ -1,8 +1,6 @@
 package com.bmt.kaleidoscope_compat.client;
 
 import com.bmt.kaleidoscope_compat.KaleidoscopeCompat;
-import com.bmt.kaleidoscope_compat.client.gui.overlay.ContraptionPotOverlay;
-import com.bmt.kaleidoscope_compat.compat.create.client.ContraptionTrashCanOverlay;
 import com.bmt.kaleidoscope_compat.config.MainConfig;
 import com.bmt.kaleidoscope_compat.datamap.soup.StockpotVisualOverrideManager;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.model.StrawHatModel;
@@ -16,7 +14,6 @@ import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
@@ -89,14 +86,5 @@ public class MainClient {
     @SubscribeEvent
     public static void onRegisterLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(StrawHatModel.LAYER_LOCATION, StrawHatModel::createBodyLayer);
-    }
-
-    @SubscribeEvent
-    public static void onRegisterGuiLayers(RegisterGuiLayersEvent event) {
-        event.registerAboveAll(KaleidoscopeCompat.id("contraption_pot_overlay"),
-                (guiGraphics, deltaTracker) -> ContraptionPotOverlay.render(Minecraft.getInstance(), guiGraphics, deltaTracker));
-        event.registerAbove(net.neoforged.neoforge.client.gui.VanillaGuiLayers.CROSSHAIR,
-                KaleidoscopeCompat.id("contraption_trash_can_overlay"),
-                (guiGraphics, deltaTracker) -> ContraptionTrashCanOverlay.render(Minecraft.getInstance(), guiGraphics, deltaTracker));
     }
 }

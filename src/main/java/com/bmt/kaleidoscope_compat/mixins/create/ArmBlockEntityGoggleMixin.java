@@ -4,13 +4,16 @@ import com.bmt.kaleidoscope_compat.compat.create.PotArmAutomation;
 import com.bmt.kaleidoscope_compat.compat.create.StockpotArmAutomation;
 import com.bmt.kaleidoscope_compat.mixins.create.accessor.ArmBlockEntityAccessor;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.RecipeItem;
+import com.simibubi.create.content.equipment.goggles.GogglesItem;
 import com.simibubi.create.content.kinetics.mechanicalArm.ArmBlockEntity;
 import com.simibubi.create.content.kinetics.mechanicalArm.ArmInteractionPoint;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -28,7 +31,11 @@ public abstract class ArmBlockEntityGoggleMixin {
     @Inject(method = "addToTooltip", at = @At("RETURN"), remap = false, cancellable = true)
     private void kaleidoscopeCompat$addArmRecipeInfo(List<Component> tooltip, boolean isPlayerSneaking, CallbackInfoReturnable<Boolean> cir) {
         if (isPlayerSneaking) return;
-        
+
+        // 需要佩戴护目镜才能查看配方配置
+        Player player = Minecraft.getInstance().player;
+        if (player == null || !GogglesItem.isWearingGoggles(player)) return;
+
         ArmBlockEntity self = (ArmBlockEntity) (Object) this;
         Level level = self.getLevel();
         if (level == null) return;
@@ -42,7 +49,7 @@ public abstract class ArmBlockEntityGoggleMixin {
             cir.setReturnValue(true);
         }
     }
-    
+
     @Unique
     private RecipeItem.RecipeRecord kaleidoscopeCompat$findRecipe(ArmBlockEntityAccessor accessor, Level level) {
         // 检查输入
@@ -66,7 +73,7 @@ public abstract class ArmBlockEntityGoggleMixin {
         }
         return null;
     }
-    
+
     @Unique
     private RecipeItem.RecipeRecord kaleidoscopeCompat$getRecipeAt(Level level, BlockPos pos) {
         BlockEntity be = level.getBlockEntity(pos);
@@ -78,22 +85,22 @@ public abstract class ArmBlockEntityGoggleMixin {
         }
         return null;
     }
-    
+
     @Unique
     private void kaleidoscope_Compat_Dev_1$addRecipeToTooltip(List<Component> tooltip, RecipeItem.RecipeRecord recipe) {
         // 显示配方类型标题
         String typePath = recipe.type().getPath();
-        String typeKey = typePath.equals("pot") 
-            ? "gui.goggles.mechanical_arm.pot_recipe" 
+        String typeKey = typePath.equals("pot")
+            ? "gui.goggles.mechanical_arm.pot_recipe"
             : "gui.goggles.mechanical_arm.stockpot_recipe";
-        
+
         tooltip.add(Component.literal("    ").append(Component.translatable(typeKey)
             .withStyle(ChatFormatting.WHITE)));
-        
+
         // 显示食材需求
         tooltip.add(Component.literal("     ").append(Component.translatable("gui.goggles.mechanical_arm.ingredients")
             .withStyle(ChatFormatting.GOLD)));
-        
+
         List<ItemStack> inputs = recipe.input();
         for (ItemStack input : inputs) {
             if (!input.isEmpty()) {
@@ -107,7 +114,7 @@ public abstract class ArmBlockEntityGoggleMixin {
                     .append(itemName));
             }
         }
-        
+
         // 显示产出物
         ItemStack result = recipe.output();
         if (!result.isEmpty()) {

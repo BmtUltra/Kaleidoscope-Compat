@@ -10,9 +10,9 @@ import java.util.List;
 @Mixin(ArmBlockEntity.class)
 public interface ArmBlockEntityAccessor {
     
-    @Accessor(remap = false)
+    @Accessor
     List<ArmInteractionPoint> getInputs();
     
-    @Accessor(remap = false)
+    @Accessor
     List<ArmInteractionPoint> getOutputs();
 }
