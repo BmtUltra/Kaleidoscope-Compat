@@ -5,6 +5,7 @@ import com.bmt.kaleidoscope_compat.client.KeyMappings;
 import com.bmt.kaleidoscope_compat.compat.create.util.ContraptionNbtKeys;
 import com.bmt.kaleidoscope_compat.compat.create.util.ContraptionUtil;
 import com.bmt.kaleidoscope_compat.network.ContraptionTakePayload;
+import com.github.ysbbbbbb.kaleidoscopecookery.crafting.serializer.TeapotRecipeSerializer;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.PotBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.SteamerBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.StockpotBlock;
@@ -49,13 +50,6 @@ import java.util.Map;
 public class CreateClientCompat {
 
     private static final double DEFAULT_REACH_DISTANCE = 5.0;
-    private static final String TEA_FLUID_ID = "TeaFluidId";
-    private static final String RESULT = "Result";
-    private static final String STATUS = "Status";
-    private static final String INPUT = "Input";
-    private static final int PUT_INGREDIENT = 0;
-    private static final int PROCESSING = 1;
-    private static final int FINISHED = 2;
 
     public static void registerGuiLayers(RegisterGuiLayersEvent event) {
         event.registerAboveAll(KaleidoscopeCompat.id("contraption_pot_overlay"),
@@ -271,7 +265,7 @@ public class CreateClientCompat {
                 if (contraptionEntity == null) continue;
 
                 BlockHitResult hitResult = ContraptionHandlerClient.rayTraceContraption(eyePos, endPos, contraptionEntity);
-                if (hitResult == null) continue;
+                if (hitResult == null || hitResult.getType() != BlockHitResult.Type.BLOCK) continue;
 
                 BlockPos hitLocalPos = hitResult.getBlockPos();
                 StructureTemplate.StructureBlockInfo info = contraptionEntity.getContraption().getBlocks().get(hitLocalPos);
@@ -295,12 +289,15 @@ public class CreateClientCompat {
                                          MultiBufferSource.BufferSource bufferSource, Camera camera) {
         Minecraft mc = Minecraft.getInstance();
         Font font = mc.font;
-        int status = nbt.getInt(STATUS);
+        int status = nbt.getInt(ContraptionNbtKeys.STATUS);
+
+        if (camera == null) return;
 
         double distanceToCamera = globalPos.distanceTo(camera.getPosition());
         if (distanceToCamera > 32) return;
 
         poseStack.pushPose();
+
         poseStack.translate(globalPos.x - camera.getPosition().x,
                 globalPos.y - camera.getPosition().y + 0.5,
                 globalPos.z - camera.getPosition().z);
@@ -321,9 +318,9 @@ public class CreateClientCompat {
                     poseStack.last().pose(), bufferSource, Font.DisplayMode.POLYGON_OFFSET, 0, light);
         }
 
-        if (status == PUT_INGREDIENT) {
-            Component fluidText = getFluidName(nbt.getString(TEA_FLUID_ID));
-            ItemStack input = mc.level != null ? ItemStack.parseOptional(mc.level.registryAccess(), nbt.getCompound(INPUT)) : ItemStack.EMPTY;
+        if (status == ContraptionNbtKeys.TeapotStatus.PUT_INGREDIENT) {
+            Component fluidText = getFluidName(nbt.getString(ContraptionNbtKeys.TEA_FLUID_ID));
+            ItemStack input = mc.level != null ? ItemStack.parseOptional(mc.level.registryAccess(), nbt.getCompound(ContraptionNbtKeys.TEAPOT_INPUT)) : ItemStack.EMPTY;
             Component itemText = input.isEmpty() ?
                     Component.translatable("mco.configure.world.slot.empty") :
                     ComponentUtils.formatList(Arrays.asList(input.getHoverName(), Component.literal("x%d".formatted(input.getCount()))), CommonComponents.space());
@@ -333,8 +330,8 @@ public class CreateClientCompat {
                     poseStack.last().pose(), bufferSource, Font.DisplayMode.POLYGON_OFFSET, 0, light);
         }
 
-        if (status == FINISHED) {
-            ItemStack result = mc.level != null ? ItemStack.parseOptional(mc.level.registryAccess(), nbt.getCompound(RESULT)) : ItemStack.EMPTY;
+        if (status == ContraptionNbtKeys.TeapotStatus.FINISHED) {
+            ItemStack result = mc.level != null ? ItemStack.parseOptional(mc.level.registryAccess(), nbt.getCompound(ContraptionNbtKeys.RESULT)) : ItemStack.EMPTY;
             Component itemText = result.isEmpty() ?
                     Component.translatable("mco.configure.world.slot.empty") :
                     ComponentUtils.formatList(Arrays.asList(result.getHoverName(), Component.literal("x%d".formatted(result.getCount()))), CommonComponents.space());
@@ -343,26 +340,23 @@ public class CreateClientCompat {
             font.drawInBatch(infoText, infoWidth, 5, 0xFFFFFF, false,
                     poseStack.last().pose(), bufferSource, Font.DisplayMode.POLYGON_OFFSET, 0, light);
         }
-
-        poseStack.popPose();
-        RenderSystem.enableDepthTest();
-        RenderSystem.disableBlend();
     }
 
     private static Component getStatusText(int status) {
         return switch (status) {
-            case PUT_INGREDIENT -> Component.translatable("tooltip.kaleidoscope_cookery.teapot.statue.put_ingredient");
-            case PROCESSING -> Component.translatable("tooltip.kaleidoscope_cookery.teapot.statue.processing");
-            case FINISHED -> Component.translatable("tooltip.kaleidoscope_cookery.teapot.statue.finished");
+            case ContraptionNbtKeys.TeapotStatus.PUT_INGREDIENT -> Component.translatable("tooltip.kaleidoscope_cookery.teapot.statue.put_ingredient");
+            case ContraptionNbtKeys.TeapotStatus.PROCESSING -> Component.translatable("tooltip.kaleidoscope_cookery.teapot.statue.processing");
+            case ContraptionNbtKeys.TeapotStatus.FINISHED -> Component.translatable("tooltip.kaleidoscope_cookery.teapot.statue.finished");
             default -> null;
         };
     }
 
     private static Component getFluidName(String fluidId) {
-        if (fluidId.equals(com.github.ysbbbbbb.kaleidoscopecookery.crafting.serializer.TeapotRecipeSerializer.EMPTY_TEA_FLUID.toString())) {
+        if (fluidId == null || fluidId.isEmpty() || fluidId.equals(TeapotRecipeSerializer.EMPTY_TEA_FLUID.toString())) {
             return Component.translatable("mco.configure.world.slot.empty");
         }
         Fluid fluid = BuiltInRegistries.FLUID.get(ResourceLocation.parse(fluidId));
+        fluid.getFluidType();
         return Component.translatable(fluid.getFluidType().getDescriptionId());
     }
 

@@ -18,6 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @OnlyIn(Dist.CLIENT)
 public class PlayerDollSkinManager {
     private static final Map<String, ResourceLocation> SKIN_CACHE = new ConcurrentHashMap<>();
+    private static final Map<String, Boolean> LEGACY_SKIN_CACHE = new ConcurrentHashMap<>();
     private static final Set<String> LOADING = ConcurrentHashMap.newKeySet();
 
     public static ResourceLocation getSkin(String playerId) {
@@ -34,6 +35,11 @@ public class PlayerDollSkinManager {
 
         loadSkinAsync(lowerId);
         return null;
+    }
+
+    public static boolean isLegacySkin(String playerId) {
+        String lowerId = playerId.toLowerCase();
+        return LEGACY_SKIN_CACHE.getOrDefault(lowerId, false);
     }
 
     private static void loadSkinAsync(String playerId) {
@@ -67,6 +73,8 @@ public class PlayerDollSkinManager {
             DynamicTexture texture = new DynamicTexture(image);
             Minecraft.getInstance().getTextureManager().register(textureId, texture);
             SKIN_CACHE.put(playerId, textureId);
+            boolean isLegacy = image.getHeight() == 32 && image.getWidth() == 64;
+            LEGACY_SKIN_CACHE.put(playerId, isLegacy);
         } catch (Exception ignored) {
         }
     }

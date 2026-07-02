@@ -203,5 +203,7 @@
   "gui.goggles.mechanical_arm.pot_recipe": "Pot Recipe:",
   "gui.goggles.mechanical_arm.stockpot_recipe": "Stockpot Recipe:",
   "gui.goggles.mechanical_arm.ingredients": "Ingredients:",
-  "gui.goggles.mechanical_arm.result": "Result:"
+  "gui.goggles.mechanical_arm.result": "Result:",
+
+  "tooltip.kaleidoscope_compat.player_doll": "Player Doll"
 }

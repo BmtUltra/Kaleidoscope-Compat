@@ -203,5 +203,7 @@
   "gui.goggles.mechanical_arm.pot_recipe": "炒锅配方:",
   "gui.goggles.mechanical_arm.stockpot_recipe": "汤锅配方:",
   "gui.goggles.mechanical_arm.ingredients": "食材:",
-  "gui.goggles.mechanical_arm.result": "产出:"
+  "gui.goggles.mechanical_arm.result": "产出:",
+
+  "tooltip.kaleidoscope_compat.player_doll": "玩家玩偶"
 }

@@ -42,6 +42,10 @@ public class MainMixinPlugin implements IMixinConfigPlugin {
                     && isClassPresent();
         }
 
+        if (mixinClassName.contains(".kaleidoscope_doll.jade.")) {
+            return isModLoaded("kaleidoscope_doll") && isModLoaded("jade");
+        }
+
         if (mixinClassName.contains(".kaleidoscope_doll.")) {
             return isModLoaded("kaleidoscope_doll");
         }

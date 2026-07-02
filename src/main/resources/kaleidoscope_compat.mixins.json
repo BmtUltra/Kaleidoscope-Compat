@@ -9,12 +9,11 @@
     "farmersdelight.CookingPotScreenMixin",
     "kaleidoscope_doll.ComputerMenuScreenMixin",
     "kaleidoscope_doll.CustomDollLoaderMixin",
+    "kaleidoscope_doll.jade.DollBlockComponentProviderMixin",
     "solcarrot.FoodItemsMixin"
   ],
   "mixins": [
     "accessories.AdvanceBlockMatchToolMixin",
-    "create.ArmBlockEntityGoggleMixin",
-    "create.accessor.ArmBlockEntityAccessor",
     "create.accessor.ContraptionAccessor",
     "curios.AdvanceBlockMatchToolMixin",
     "farm_and_charm.CookingPotCategoryMixin",
@@ -32,6 +31,7 @@
     "kaleidoscope_cookery.FlexStockpotRecipeMixin",
     "kaleidoscope_cookery.InitMixin",
     "kaleidoscope_doll.ComputerMenuAccessor",
+    "kaleidoscope_doll.CustomDollBlockEntityAccessor",
     "kaleidoscope_cookery.KitchenKnifeItemMixin",
     "kaleidoscope_cookery.MillstoneBlockEntityMixin",
     "kaleidoscope_cookery.MillstoneRecipeMixin",

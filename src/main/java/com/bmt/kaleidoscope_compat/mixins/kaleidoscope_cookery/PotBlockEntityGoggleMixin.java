@@ -2,8 +2,8 @@ package com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery;
 
 import com.bmt.kaleidoscope_compat.compat.create.PotArmAutomation;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.PotBlockEntity;
-import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.RecipeItem;
+import com.simibubi.create.AllItems;
 import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -11,7 +11,6 @@ import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 
 import java.util.List;
 
@@ -80,21 +79,6 @@ public class PotBlockEntityGoggleMixin implements IHaveGoggleInformation {
 
     @Override
     public ItemStack getIcon(boolean isPlayerSneaking) {
-        return kaleidoscopeCompat$getRecipeStack();
-    }
-
-    @Unique
-    private ItemStack kaleidoscopeCompat$getRecipeStack() {
-        PotBlockEntity self = (PotBlockEntity) (Object) this;
-        if (!(self instanceof PotArmAutomation armAutomation)) {
-            return ItemStack.EMPTY;
-        }
-        RecipeItem.RecipeRecord recipe = armAutomation.kaleidoscopeCompat$getStoredRecipe();
-        if (recipe == null) {
-            return ItemStack.EMPTY;
-        }
-        ItemStack stack = new ItemStack(ModItems.RECIPE_ITEM.get());
-        RecipeItem.setRecipe(stack, recipe);
-        return stack;
+        return AllItems.GOGGLES.asStack();
     }
 }

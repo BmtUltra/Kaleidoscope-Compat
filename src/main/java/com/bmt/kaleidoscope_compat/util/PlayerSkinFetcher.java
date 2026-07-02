@@ -17,7 +17,7 @@ public class PlayerSkinFetcher {
     private static final String SESSION_API = "https://sessionserver.mojang.com/session/minecraft/profile/";
     private static final int TIMEOUT = 5000;
 
-    public record PlayerSkinInfo(UUID uuid, String skinUrl, boolean slimModel) {}
+    public record PlayerSkinInfo(UUID uuid, String skinUrl, boolean slimModel, boolean legacySkin) {}
 
     public static CompletableFuture<Optional<UUID>> fetchPlayerUuid(String username) {
         return CompletableFuture.supplyAsync(() -> fetchUuidSync(username));
@@ -104,7 +104,7 @@ public class PlayerSkinFetcher {
             String skinUrl = skin.get("url").getAsString();
             boolean slimModel = skin.has("metadata") &&
                     "slim".equals(skin.getAsJsonObject("metadata").get("model").getAsString());
-            return Optional.of(new PlayerSkinInfo(uuid, skinUrl, slimModel));
+            return Optional.of(new PlayerSkinInfo(uuid, skinUrl, slimModel, false));
         }
         return Optional.empty();
     }

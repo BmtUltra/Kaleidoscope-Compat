@@ -8,20 +8,8 @@ import com.github.ysbbbbbb.kaleidoscopecookery.crafting.serializer.TeapotRecipeS
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModParticles;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModRecipes;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModSounds;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.simibubi.create.content.contraptions.behaviour.MovementContext;
-import com.simibubi.create.content.contraptions.render.ContraptionMatrices;
-import com.simibubi.create.foundation.virtualWorld.VirtualRenderWorld;
-import net.minecraft.client.Camera;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -30,12 +18,8 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
-import java.util.Arrays;
 import java.util.Optional;
 
 import static com.bmt.kaleidoscope_compat.compat.create.util.ContraptionNbtKeys.*;
@@ -218,104 +202,4 @@ public class TeapotMovementBehaviour extends BaseMovementBehaviour {
                     0.02);
         }
     }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public void renderInContraption(MovementContext context, VirtualRenderWorld renderWorld,
-            ContraptionMatrices matrices, MultiBufferSource buffer) {
-        CompoundTag nbt = context.blockEntityData;
-        if (nbt == null)
-            return;
-
-        Minecraft mc = Minecraft.getInstance();
-        if (mc.level == null)
-            return;
-
-        int status = nbt.getInt(STATUS);
-        PoseStack viewProjection = matrices.getViewProjection();
-        Camera camera = mc.gameRenderer.getMainCamera();
-
-        // 渲染浮动文本
-        Vec3 globalPos = context.contraption.entity.toGlobalVector(
-                Vec3.atLowerCornerOf(context.localPos).add(0.5, 0.5, 0.5), 1.0f);
-
-        Font font = mc.font;
-
-        viewProjection.pushPose();
-        viewProjection.translate(globalPos.x - camera.getPosition().x,
-                globalPos.y - camera.getPosition().y + 2.0,
-                globalPos.z - camera.getPosition().z);
-        viewProjection.mulPose(camera.rotation());
-
-        float scale = 0.015625F;
-        viewProjection.scale(scale, -scale, scale);
-
-        RenderSystem.disableDepthTest();
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-
-        int light = 15728880;
-
-        Component statusText = getStatusText(status);
-        if (statusText != null) {
-            float width = (float) (-font.width(statusText) / 2) + 0.5f;
-            font.drawInBatch(statusText, width, -5, 0xFFFFFF, false,
-                    viewProjection.last().pose(), buffer, Font.DisplayMode.POLYGON_OFFSET, 0, light);
-        }
-
-        if (status == PUT_INGREDIENT) {
-            Component fluidText = getFluidName(nbt.getString(TEA_FLUID_ID));
-            ItemStack input = ItemStack.parseOptional(mc.level.registryAccess(), nbt.getCompound(TEAPOT_INPUT));
-            int count = input.getCount();
-            Component itemText = input.isEmpty() ? Component.translatable("mco.configure.world.slot.empty")
-                    : ComponentUtils.formatList(Arrays.asList(
-                            input.getHoverName(),
-                            Component.literal("x%d".formatted(count))), CommonComponents.space());
-
-            Component infoText = Component.translatable("tooltip.kaleidoscope_cookery.teapot.statue.fluid_ingredient",
-                    fluidText, itemText, count);
-            float infoWidth = (float) (-font.width(infoText) / 2) + 0.5f;
-            font.drawInBatch(infoText, infoWidth, 5, 0xFFFFFF, false,
-                    viewProjection.last().pose(), buffer, Font.DisplayMode.POLYGON_OFFSET, 0, light);
-        }
-
-        // 完成状态：显示产物
-        if (status == FINISHED) {
-            ItemStack result = ItemStack.parseOptional(mc.level.registryAccess(), nbt.getCompound(RESULT));
-            int count = result.getCount();
-            Component itemText = result.isEmpty() ? Component.translatable("mco.configure.world.slot.empty")
-                    : ComponentUtils.formatList(Arrays.asList(
-                            result.getHoverName(),
-                            Component.literal("x%d".formatted(count))), CommonComponents.space());
-
-            Component infoText = Component.translatable("tooltip.kaleidoscope_cookery.teapot.statue.result", itemText,
-                    count);
-            float infoWidth = (float) (-font.width(infoText) / 2) + 0.5f;
-            font.drawInBatch(infoText, infoWidth, 5, 0x00FF00, false,
-                    viewProjection.last().pose(), buffer, Font.DisplayMode.POLYGON_OFFSET, 0, light);
-        }
-
-        viewProjection.popPose();
-
-        RenderSystem.enableDepthTest();
-        RenderSystem.disableBlend();
-    }
-
-    private Component getStatusText(int status) {
-        return switch (status) {
-            case PUT_INGREDIENT -> Component.translatable("tooltip.kaleidoscope_cookery.teapot.statue.put_ingredient");
-            case PROCESSING -> Component.translatable("tooltip.kaleidoscope_cookery.teapot.statue.processing");
-            case FINISHED -> Component.translatable("tooltip.kaleidoscope_cookery.teapot.statue.finished");
-            default -> null;
-        };
-    }
-
-    private Component getFluidName(String fluidId) {
-        if (fluidId.equals(TeapotRecipeSerializer.EMPTY_TEA_FLUID.toString())) {
-            return Component.translatable("mco.configure.world.slot.empty");
-        }
-        Fluid fluid = BuiltInRegistries.FLUID.get(ResourceLocation.parse(fluidId));
-        return Component.translatable(fluid.getFluidType().getDescriptionId());
-    }
-
 }
