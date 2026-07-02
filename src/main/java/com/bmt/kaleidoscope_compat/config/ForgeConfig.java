@@ -11,13 +11,9 @@ public class ForgeConfig {
     public static final ForgeConfigSpec.ConfigValue<Boolean> SOUP_DATAPACK_ENABLED;
     public static final ForgeConfigSpec.ConfigValue<Boolean> KITCHEN_FUZZY_RECIPES_ENABLED;
     public static final ForgeConfigSpec.ConfigValue<Boolean> KITCHEN_BLOCK_ENABLED;
-    public static final ForgeConfigSpec.ConfigValue<Boolean> LUNCH_BAG_BLACKLIST_ENABLED;
-    public static final ForgeConfigSpec.ConfigValue<String> LUNCH_BAG_BLACKLIST;
     public static final ForgeConfigSpec.ConfigValue<Boolean> LUNCH_BAG_BACK_BEHAVIOR_ENABLED;
     public static final ForgeConfigSpec.ConfigValue<Boolean> LUNCH_BAG_APPLESKIN_COMPAT_ENABLED;
     public static final ForgeConfigSpec.ConfigValue<Boolean> SCARECROW_REPEL_PHANTOMS;
-    public static final ForgeConfigSpec.ConfigValue<Integer> PROJECTILE_DODGE_DURATION_COST;
-    public static final ForgeConfigSpec.ConfigValue<String> VITALITY_BLACKLIST;
     public static final ForgeConfigSpec.ConfigValue<Boolean> FARMERSDELIGHT_COOKING_POT_RECIPES_DISABLED;
     public static final ForgeConfigSpec.ConfigValue<Boolean> FARMERSDELIGHT_COOKING_POT_GUI_DISABLED;
     public static final ForgeConfigSpec.ConfigValue<Boolean> FARMERSDELIGHT_CUTTING_BOARD_RECIPES_DISABLED;
@@ -60,12 +56,6 @@ public class ForgeConfig {
                 .define("block_enabled", true);
 
         builder.push("lunch_bag");
-        LUNCH_BAG_BLACKLIST_ENABLED = builder
-                .comment("Whether the lunch bag blacklist is enabled")
-                .define("blacklist_enabled", true);
-        LUNCH_BAG_BLACKLIST = builder
-                .comment("List of item IDs that cannot be put into the Transmutation Lunch Bag")
-                .define("blacklist", "artifacts:eternal_steak,kaleidoscope_nether:everlasting_flame_steak");
         LUNCH_BAG_BACK_BEHAVIOR_ENABLED = builder
                 .comment("Whether the modified Transmutation Lunch Bag behavior is enabled")
                 .define("back_behavior_enabled", false);
@@ -78,18 +68,6 @@ public class ForgeConfig {
         SCARECROW_REPEL_PHANTOMS = builder
                 .comment("Whether scarecrows can repel phantoms")
                 .define("repel_phantoms", true);
-        builder.pop();
-
-        builder.push("projectile_dodge");
-        PROJECTILE_DODGE_DURATION_COST = builder
-                .comment("Duration cost per dodge (in ticks)")
-                .defineInRange("duration_cost", 200, 0, Integer.MAX_VALUE);
-        builder.pop();
-
-        builder.push("vitality");
-        VITALITY_BLACKLIST = builder
-                .comment("List of entity IDs that cannot be affected by Vitality effect")
-                .define("blacklist", "");
         builder.pop();
 
         builder.pop();

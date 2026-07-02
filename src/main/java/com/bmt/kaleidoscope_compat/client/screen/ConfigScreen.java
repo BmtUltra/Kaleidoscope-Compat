@@ -10,6 +10,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
 public class ConfigScreen extends Screen {
@@ -331,29 +332,22 @@ public class ConfigScreen extends Screen {
     private void updateComponentVisibility() {
         datapackModeButton.visible = false;
         soupDatapackCheckbox.visible = false;
-
         fuzzyRecipesCheckbox.visible = false;
         blockEnabledCheckbox.visible = false;
         lunchBagBackBehaviorCheckbox.visible = false;
         lunchBagAppleskinCheckbox.visible = false;
         scarecrowRepelPhantomsCheckbox.visible = false;
-
         fdCookingPotRecipesCheckbox.visible = false;
         fdCookingPotGuiCheckbox.visible = false;
         fdCuttingBoardRecipesCheckbox.visible = false;
         fdRichSoilHoeCheckbox.visible = false;
-
         yfSteamingRecipesCheckbox.visible = false;
-
         facCookingPotRecipesCheckbox.visible = false;
         facCompatCheckbox.visible = false;
-
         vineryBarrelRecipesCheckbox.visible = false;
-
         lmChoppingBoardCheckbox.visible = false;
         lmMillstoneCheckbox.visible = false;
         lmPressingTubCheckbox.visible = false;
-
         otherJeiCompatCheckbox.visible = false;
         otherThirstCompatCheckbox.visible = false;
         otherQuarkSickleCheckbox.visible = false;
@@ -399,50 +393,39 @@ public class ConfigScreen extends Screen {
                 otherSuppressTagErrorsCheckbox.visible = true;
                 break;
         }
-
         updateTabButtonStyles();
     }
 
     @Override
     public void onClose() {
         ForgeConfig.DATAPACK_MODE.set(currentDatapackMode.name());
-
         ForgeConfig.SOUP_DATAPACK_ENABLED.set(soupDatapackCheckbox.selected());
-
         ForgeConfig.KITCHEN_FUZZY_RECIPES_ENABLED.set(fuzzyRecipesCheckbox.selected());
         ForgeConfig.KITCHEN_BLOCK_ENABLED.set(blockEnabledCheckbox.selected());
         ForgeConfig.LUNCH_BAG_BACK_BEHAVIOR_ENABLED.set(lunchBagBackBehaviorCheckbox.selected());
         ForgeConfig.LUNCH_BAG_APPLESKIN_COMPAT_ENABLED.set(lunchBagAppleskinCheckbox.selected());
         ForgeConfig.SCARECROW_REPEL_PHANTOMS.set(scarecrowRepelPhantomsCheckbox.selected());
-
         ForgeConfig.FARMERSDELIGHT_COOKING_POT_RECIPES_DISABLED.set(fdCookingPotRecipesCheckbox.selected());
         ForgeConfig.FARMERSDELIGHT_COOKING_POT_GUI_DISABLED.set(fdCookingPotGuiCheckbox.selected());
         ForgeConfig.FARMERSDELIGHT_CUTTING_BOARD_RECIPES_DISABLED.set(fdCuttingBoardRecipesCheckbox.selected());
         ForgeConfig.FARMERSDELIGHT_RICH_SOIL_HOE_ENABLED.set(fdRichSoilHoeCheckbox.selected());
-
         ForgeConfig.YOUKAISFEASTS_STEAMING_RECIPES_DISABLED.set(yfSteamingRecipesCheckbox.selected());
-
         ForgeConfig.FARM_AND_CHARM_COOKING_POT_RECIPES_DISABLED.set(facCookingPotRecipesCheckbox.selected());
         ForgeConfig.FARM_AND_CHARM_COMPAT_ENABLED.set(facCompatCheckbox.selected());
-
         ForgeConfig.VINERY_BARREL_RECIPES_DISABLED.set(vineryBarrelRecipesCheckbox.selected());
-
         ForgeConfig.LITTLE_MAID_CHOPPING_BOARD_ENABLED.set(lmChoppingBoardCheckbox.selected());
         ForgeConfig.LITTLE_MAID_MILLSTONE_ENABLED.set(lmMillstoneCheckbox.selected());
         ForgeConfig.LITTLE_MAID_PRESSING_TUB_ENABLED.set(lmPressingTubCheckbox.selected());
-
         ForgeConfig.OTHER_JEI_COMPAT_ENABLED.set(otherJeiCompatCheckbox.selected());
         ForgeConfig.OTHER_THIRST_COMPAT_ENABLED.set(otherThirstCompatCheckbox.selected());
         ForgeConfig.OTHER_QUARK_SICKLE_HARVEST_FIX_ENABLED.set(otherQuarkSickleCheckbox.selected());
         ForgeConfig.OTHER_SUPPRESS_TAG_LOAD_ERRORS.set(otherSuppressTagErrorsCheckbox.selected());
-
         ForgeConfig.SPEC.save();
-
         this.minecraft.setScreen(this.parent);
     }
 
     @Override
-    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+    public void render(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
         this.renderBackground(graphics);
         graphics.drawCenteredString(this.font, this.title, this.width / 2, 15, 16777215);
         super.render(graphics, mouseX, mouseY, partialTick);

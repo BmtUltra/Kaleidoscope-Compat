@@ -20,12 +20,12 @@ public final class AppleSkinCompat {
     }
 
     public static boolean shouldTreatAsFood(ItemStack stack, Player player) {
-        if (isEnabled()) return false;
+        if (!isEnabled()) return false;
         return findPreviewFoodProperties(stack, player).isPresent();
     }
 
     public static Optional<FoodProperties> findPreviewFoodProperties(ItemStack lunchBag, Player player) {
-        if (isEnabled()) return Optional.empty();
+        if (!isEnabled()) return Optional.empty();
         if (!(lunchBag.getItem() instanceof TransmutationLunchBagItem) || !TransmutationLunchBagItem.hasItems(lunchBag)) {
             return Optional.empty();
         }

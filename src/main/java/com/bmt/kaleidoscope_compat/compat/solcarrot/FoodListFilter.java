@@ -9,7 +9,6 @@ import net.minecraft.world.item.ItemStack;
 import java.util.HashSet;
 import java.util.Set;
 
-@SuppressWarnings("all")
 public class FoodListFilter {
 
     private static final Set<Item> filteredItems = new HashSet<>();

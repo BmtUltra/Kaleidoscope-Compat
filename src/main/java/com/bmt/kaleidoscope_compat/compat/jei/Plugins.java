@@ -27,12 +27,9 @@ import java.util.List;
 import java.util.Set;
 
 @JeiPlugin
-@SuppressWarnings("all")
 public class Plugins implements IModPlugin {
 
-    private static final ResourceLocation PLUGIN_ID =
-            new ResourceLocation(KaleidoscopeCompat.MOD_ID, "jei_plugin");
-
+    private static final ResourceLocation PLUGIN_ID = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCompat.MOD_ID, "jei_plugin");
     private static final Set<Item> hiddenItems = new HashSet<>();
     private IJeiRuntime jeiRuntime;
 
@@ -111,13 +108,5 @@ public class Plugins implements IModPlugin {
         }
 
         jeiRuntime.getIngredientManager().removeIngredientsAtRuntime(VanillaTypes.ITEM_STACK, itemsToHide);
-    }
-
-    public static boolean isItemHidden(Item item) {
-        return hiddenItems.contains(item);
-    }
-
-    public static Set<Item> getHiddenItems() {
-        return new HashSet<>(hiddenItems);
     }
 }

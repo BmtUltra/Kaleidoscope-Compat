@@ -16,14 +16,21 @@ import java.util.Optional;
 @Mixin(value = FoodHelper.class, remap = false)
 public class FoodHelperMixin {
 
-    @Inject(method = "isFood(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/player/Player;)Z", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "isFood", at = @At("HEAD"), cancellable = true)
     private static void kaleidoscopeCompat$isFood(ItemStack itemStack, Player player, CallbackInfoReturnable<Boolean> cir) {
         if (AppleSkinCompat.shouldTreatAsFood(itemStack, player)) {
             cir.setReturnValue(true);
         }
     }
 
-    @Inject(method = "getDefaultFoodValues(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/player/Player;)Lsqueek/appleskin/api/food/FoodValues;", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "canConsume", at = @At("HEAD"), cancellable = true)
+    private static void kaleidoscopeCompat$canConsume(ItemStack itemStack, Player player, CallbackInfoReturnable<Boolean> cir) {
+        if (AppleSkinCompat.shouldTreatAsFood(itemStack, player)) {
+            cir.setReturnValue(player.canEat(true));
+        }
+    }
+
+    @Inject(method = "getDefaultFoodValues", at = @At("HEAD"), cancellable = true)
     private static void kaleidoscopeCompat$getDefaultFoodValues(ItemStack itemStack, Player player, CallbackInfoReturnable<FoodValues> cir) {
         Optional<FoodProperties> previewFood = AppleSkinCompat.findPreviewFoodProperties(itemStack, player);
         if (previewFood.isEmpty()) {
@@ -32,5 +39,25 @@ public class FoodHelperMixin {
 
         FoodProperties foodProperties = previewFood.get();
         cir.setReturnValue(new FoodValues(foodProperties.getNutrition(), foodProperties.getSaturationModifier()));
+    }
+
+    @Inject(method = "isRotten", at = @At("HEAD"), cancellable = true)
+    private static void kaleidoscopeCompat$isRotten(ItemStack itemStack, Player player, CallbackInfoReturnable<Boolean> cir) {
+        if (AppleSkinCompat.shouldTreatAsFood(itemStack, player)) {
+            Optional<FoodProperties> previewFood = AppleSkinCompat.findPreviewFoodProperties(itemStack, player);
+            if (previewFood.isPresent()) {
+                FoodProperties foodProperties = previewFood.get();
+                for (var effect : foodProperties.getEffects()) {
+                    if (effect.getFirst() != null) {
+                        effect.getFirst().getEffect();
+                        if (effect.getFirst().getEffect().getCategory() == net.minecraft.world.effect.MobEffectCategory.HARMFUL) {
+                            cir.setReturnValue(true);
+                            return;
+                        }
+                    }
+                }
+                cir.setReturnValue(false);
+            }
+        }
     }
 }

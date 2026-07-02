@@ -1,0 +1,80 @@
+{
+  "config.kaleidoscope_compat.title": "Kaleidoscope: Compat",
+
+  "config.kaleidoscope_compat.tab.general": "Datapack",
+
+  "config.kaleidoscope_compat.datapack.mode": "Datapack Mode",
+  "datapack_mode.kaleidoscope_compat.none": "Disabled",
+  "datapack_mode.kaleidoscope_compat.compat": "Compatibility Mode",
+  "datapack_mode.kaleidoscope_compat.unite": "Unified Mode",
+  "config.kaleidoscope_compat.datapack.mode.comment": "Disabled: Disable data compatibility\nCompatibility Mode: Provides extensive compatibility with items and recipes from other mods\nUnified Mode: Unifies items that are duplicated across other mods",
+  "config.kaleidoscope_compat.datapack.soup_enabled": "Enable Soup Pot Textures",
+  "config.kaleidoscope_compat.datapack.soup_enabled.comment": "Gives the soup pot colorful broth textures",
+
+  "config.kaleidoscope_compat.category.kitchen": "Kaleidoscope: Kitchen",
+
+  "config.kaleidoscope_compat.kitchen.effect.block_enabled.comment": "Whether Nourishment does not take effect when Satiety Compensation is active",
+  "config.kaleidoscope_compat.kitchen.fuzzy_recipes_enabled": "Fuzzy Recipes",
+  "config.kaleidoscope_compat.kitchen.fuzzy_recipes_enabled.comment": "Whether to enable fuzzy recipe mechanics for the wok and soup pot",
+  "config.kaleidoscope_compat.kitchen.lunch_bag.back_behavior_enabled": "Legacy Behavior",
+  "config.kaleidoscope_compat.kitchen.lunch_bag.back_behavior_enabled.comment": "Reverts the Transmutation Lunch Bag's functionality to the original version",
+  "config.kaleidoscope_compat.kitchen.lunch_bag.appleskin_compat_enabled": "AppleSkin Display",
+  "config.kaleidoscope_compat.kitchen.lunch_bag.appleskin_compat_enabled.comment": "Displays AppleSkin functionality when holding the lunch bag",
+  "config.kaleidoscope_compat.kitchen.scarecrow.repel_phantoms": "Repel Phantoms",
+  "config.kaleidoscope_compat.kitchen.scarecrow.repel_phantoms.comment": "Whether the scarecrow can repel nearby phantoms",
+  "config.kaleidoscope_compat.kitchen.effect.block_enabled": "Block Nourishment Effect",
+
+  "config.kaleidoscope_compat.category.farmersdelight": "Farmer's Delight",
+  "config.kaleidoscope_compat.farmersdelight.cooking_pot_recipes_disabled": "Disable Cooking Pot Recipes",
+  "config.kaleidoscope_compat.farmersdelight.cooking_pot_gui_disabled": "Disable Cooking Pot",
+  "config.kaleidoscope_compat.farmersdelight.cutting_board_recipes_disabled": "Disable Cutting Board Recipes",
+  "config.kaleidoscope_compat.farmersdelight.hoe_enabled": "Hoe Rich Soil Underwater",
+  "config.kaleidoscope_compat.farmersdelight.cooking_pot_recipes_disabled.comment": "Whether to disable all Farmer's Delight cooking pot recipes",
+  "config.kaleidoscope_compat.farmersdelight.cooking_pot_gui_disabled.comment": "When disabled, the cooking pot becomes unusable",
+  "config.kaleidoscope_compat.farmersdelight.cutting_board_recipes_disabled.comment": "Whether to disable all Farmer's Delight cutting board recipes",
+  "config.kaleidoscope_compat.farmersdelight.hoe_enabled.comment": "When enabled, rich soil underwater can be tilled with a hoe",
+
+  "config.kaleidoscope_compat.category.youkaisfeasts": "Youkai's Feasts",
+  "config.kaleidoscope_compat.youkaisfeasts.steaming_recipes_disabled": "Disable Steamer Recipes",
+  "config.kaleidoscope_compat.youkaisfeasts.steaming_recipes_disabled.comment": "Whether to disable all Youkai's Feasts steamer recipes",
+
+  "config.kaleidoscope_compat.category.farm_and_charm": "Farm & Charm",
+  "config.kaleidoscope_compat.farm_and_charm.cooking_pot_recipes_disabled": "Disable Cooking Pot Recipes",
+  "config.kaleidoscope_compat.farm_and_charm.compat_enabled": "Enable Soup Pot Recipe Compatibility",
+  "config.kaleidoscope_compat.farm_and_charm.cooking_pot_recipes_disabled.comment": "Whether to disable all Farm & Charm cooking pot recipes",
+  "config.kaleidoscope_compat.farm_and_charm.compat_enabled.comment": "When enabled, the soup pot will read cooking pot recipes",
+
+  "config.kaleidoscope_compat.category.vinery": "Vinery",
+  "config.kaleidoscope_compat.vinery.barrel_recipes_disabled": "Disable Fermentation Barrel Recipes",
+  "config.kaleidoscope_compat.vinery.barrel_recipes_disabled.comment": "Whether to disable all Vinery fermentation barrel recipes",
+
+  "config.kaleidoscope_compat.category.little_maid": "Touhou Little Maid",
+  "config.kaleidoscope_compat.little_maid.chopping_board_enabled": "Maid Chopping Board Task",
+  "config.kaleidoscope_compat.little_maid.millstone_enabled": "Maid Millstone Task",
+  "config.kaleidoscope_compat.little_maid.pressing_tub_enabled": "Maid Pressing Tub Task",
+  "config.kaleidoscope_compat.little_maid.compat_enabled.comment": "Whether to enable the overall module",
+  "config.kaleidoscope_compat.little_maid.chopping_board_enabled.comment": "Whether to enable the maid chopping board task",
+  "config.kaleidoscope_compat.little_maid.millstone_enabled.comment": "Whether to enable the maid millstone task",
+  "config.kaleidoscope_compat.little_maid.pressing_tub_enabled.comment": "Whether to enable the maid pressing tub task",
+
+  "config.kaleidoscope_compat.category.other": "Other",
+  "config.kaleidoscope_compat.category.other.description": "Miscellaneous feature settings",
+  "config.kaleidoscope_compat.compat.jei_compat_enabled": "Shawarma Spit Recipe Display",
+  "config.kaleidoscope_compat.compat.thirst_compat_enabled": "Thirst Compatibility",
+  "config.kaleidoscope_compat.compat.quark_sickle_harvest_fix_enabled": "Quark Sickle Harvest Fix",
+  "config.kaleidoscope_compat.compat.suppress_tag_load_errors": "Suppress Error Logs",
+  "config.kaleidoscope_compat.compat.jei_compat_enabled.comment": "When enabled, allows viewing Shawarma Spit recipes",
+  "config.kaleidoscope_compat.compat.thirst_compat_enabled.comment": "Whether to enable thirst compatibility",
+  "config.kaleidoscope_compat.compat.quark_sickle_harvest_fix_enabled.comment": "When enabled, holding a sickle will not trigger Quark's harvest",
+  "config.kaleidoscope_compat.compat.suppress_tag_load_errors.comment": "When enabled, suppresses all red tag loading error logs",
+
+  "task.kaleidoscope_compat.chopping_board": "Chopping",
+  "task.kaleidoscope_compat.chopping_board.desc": "The maid will find nearby chopping boards and chop ingredients",
+  "task.kaleidoscope_compat.millstone": "Milling",
+  "task.kaleidoscope_compat.millstone.desc": "The maid will find nearby millstones",
+  "task.kaleidoscope_compat.pressing_tub": "Pressing",
+  "task.kaleidoscope_compat.pressing_tub.desc": "The maid will find nearby pressing tubs, add ingredients, jump to press, and collect the product with a bucket",
+
+  "jei.category.kaleidoscope_compat.shawarma_spit": "Shawarma Spit",
+  "emi.category.kaleidoscope_compat.shawarma_spit": "Shawarma Spit"
+}

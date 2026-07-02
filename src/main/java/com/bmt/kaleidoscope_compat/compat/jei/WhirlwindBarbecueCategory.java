@@ -17,7 +17,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-@SuppressWarnings("all")
 public class WhirlwindBarbecueCategory implements IRecipeCategory<CampfireCookingRecipe> {
 
     public static final RecipeType<CampfireCookingRecipe> RECIPE_TYPE =
@@ -51,6 +50,7 @@ public class WhirlwindBarbecueCategory implements IRecipeCategory<CampfireCookin
     }
 
     @Override
+    @SuppressWarnings("removal")
     public IDrawable getBackground() {
         return background;
     }

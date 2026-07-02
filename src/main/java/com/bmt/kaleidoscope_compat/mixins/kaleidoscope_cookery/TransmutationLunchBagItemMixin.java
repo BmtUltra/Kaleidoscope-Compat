@@ -1,6 +1,7 @@
 package com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery;
 
 import com.bmt.kaleidoscope_compat.config.ForgeConfig;
+import com.bmt.kaleidoscope_compat.util.TagUtil;
 import com.github.ysbbbbbb.kaleidoscopecookery.advancements.critereon.ModEventTriggerType;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModTrigger;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.TransmutationLunchBagItem;
@@ -34,7 +35,7 @@ public abstract class TransmutationLunchBagItemMixin {
             cancellable = true, remap = false
     )
     private static void checkBlacklist(ItemStack food, CallbackInfoReturnable<Boolean> cir) {
-        if (ForgeConfig.LUNCH_BAG_BLACKLIST_ENABLED.get()) {
+        if (food.is(TagUtil.Items.LUNCH_BAG_BLACKLIST)) {
             cir.setReturnValue(false);
         }
     }
