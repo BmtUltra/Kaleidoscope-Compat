@@ -1,8 +1,7 @@
 package com.bmt.kaleidoscope_compat.datapack;
 
 import com.bmt.kaleidoscope_compat.KaleidoscopeCompat;
-import com.bmt.kaleidoscope_compat.config.MainConfig;
-import com.bmt.kaleidoscope_compat.util.DatapackMode;
+import com.bmt.kaleidoscope_compat.config.ForgeConfig;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
@@ -19,22 +18,40 @@ public class DatapackLoader {
     @SubscribeEvent
     public static void onDatapackLoad(AddPackFindersEvent event) {
         if (event.getPackType() == PackType.SERVER_DATA) {
-            String mainPackName = switch (MainConfig.datapackMode) {
+            DatapackMode datapackMode = DatapackMode.valueOf(ForgeConfig.DATAPACK_MODE.get());
+            boolean soupEnabled = ForgeConfig.SOUP_DATAPACK_ENABLED.get();
+
+            if (datapackMode == DatapackMode.NONE) {
+                if (soupEnabled) {
+                    addDatapack(event, "soup");
+                }
+                return;
+            }
+            addDatapack(event, "always");
+
+            String mainPackName = switch (datapackMode) {
                 case COMPAT -> "compat";
                 case UNITE -> "unite";
+                default -> throw new IllegalStateException("Unexpected value: " + datapackMode);
             };
             addDatapack(event, mainPackName);
 
-            if (MainConfig.soupDatapackEnabled) {
+            if (soupEnabled) {
                 addDatapack(event, "soup");
             }
 
-            if (MainConfig.datapackMode == DatapackMode.UNITE) {
+            if (datapackMode == DatapackMode.UNITE) {
                 if (ModList.get().isLoaded("farm_and_charm")) {
                     addDatapack(event, "unite_farm_and_charm");
                 }
                 if (ModList.get().isLoaded("farmersdelight")) {
                     addDatapack(event, "unite_farmersdelight");
+                }
+                if (ModList.get().isLoaded("youkaisfeasts")) {
+                    addDatapack(event, "unite_youkaisfeasts");
+                }
+                if (ModList.get().isLoaded("culturaldelights")) {
+                    addDatapack(event, "unite_culturaldelights");
                 }
             }
         }

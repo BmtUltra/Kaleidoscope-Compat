@@ -1,6 +1,6 @@
 package com.bmt.kaleidoscope_compat.mixins.farmersdelight;
 
-import com.bmt.kaleidoscope_compat.config.MainConfig;
+import com.bmt.kaleidoscope_compat.config.ForgeConfig;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModEffects;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -24,7 +24,7 @@ public abstract class NourishmentEffectMixin extends MobEffect {
             cancellable = true
     )
     public void onApplyEffectTick(LivingEntity entity, int amplifier, CallbackInfo ci) {
-        if (!MainConfig.nourishmentEffectBlockEnabled) {
+        if (!ForgeConfig.KITCHEN_BLOCK_ENABLED.get()) {
             return;
         }
 

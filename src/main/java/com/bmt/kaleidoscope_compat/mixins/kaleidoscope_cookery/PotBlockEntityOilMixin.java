@@ -27,7 +27,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import static com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.PotBlock.HAS_OIL;
 import static com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.PotBlock.SHOW_OIL;
 
-@Mixin(value = PotBlockEntity.class,remap = false)
+@Mixin(value = PotBlockEntity.class, remap = false)
 public abstract class PotBlockEntityOilMixin {
 
     @Shadow
@@ -35,9 +35,6 @@ public abstract class PotBlockEntityOilMixin {
 
     @Shadow
     private int status;
-
-    @Shadow
-    public abstract boolean hasHeatSource(Level level);
 
     @Inject(
             method = "onPlaceOil",
@@ -57,20 +54,20 @@ public abstract class PotBlockEntityOilMixin {
         }
 
         if (stack.is(TagUtil.Items.BOTTLE_OIL)) {
-            kaleidoscope_Compat_1_21_1_NeoForge$handleBottleOil(level, user, stack, pot);
+            kaleidoscopeCompat$handleBottleOil(level, user, stack, pot);
             cir.setReturnValue(true);
             return;
         }
 
         if (stack.is(TagUtil.Items.BUCKET_OIL)) {
-            kaleidoscope_Compat_1_21_1_NeoForge$handleBucketOil(level, user, stack, pot);
+            kaleidoscopeCompat$handleBucketOil(level, user, stack, pot);
             cir.setReturnValue(true);
         }
     }
 
     @Unique
-    private void kaleidoscope_Compat_1_21_1_NeoForge$handleBottleOil(Level level, LivingEntity user, ItemStack stack, PotBlockEntity pot) {
-        kaleidoscope_Compat_1_21_1_NeoForge$executePlaceOilLogic(level, user, pot);
+    private void kaleidoscopeCompat$handleBottleOil(Level level, LivingEntity user, ItemStack stack, PotBlockEntity pot) {
+        kaleidoscopeCompat$executePlaceOilLogic(level, user, pot);
         stack.shrink(1);
 
         ItemStack bottle = new ItemStack(Items.GLASS_BOTTLE);
@@ -78,9 +75,8 @@ public abstract class PotBlockEntityOilMixin {
     }
 
     @Unique
-    private void kaleidoscope_Compat_1_21_1_NeoForge$handleBucketOil(Level level, LivingEntity user, ItemStack stack, PotBlockEntity pot) {
-        kaleidoscope_Compat_1_21_1_NeoForge$executePlaceOilLogic(level, user, pot);
-
+    private void kaleidoscopeCompat$handleBucketOil(Level level, LivingEntity user, ItemStack stack, PotBlockEntity pot) {
+        kaleidoscopeCompat$executePlaceOilLogic(level, user, pot);
         stack.shrink(1);
 
         ItemStack bucket = new ItemStack(Items.BUCKET);
@@ -88,7 +84,7 @@ public abstract class PotBlockEntityOilMixin {
     }
 
     @Unique
-    private void kaleidoscope_Compat_1_21_1_NeoForge$executePlaceOilLogic(Level level, LivingEntity user, PotBlockEntity pot) {
+    private void kaleidoscopeCompat$executePlaceOilLogic(Level level, LivingEntity user, PotBlockEntity pot) {
         this.currentTick = 60 * 20;
         this.status = 0;
 

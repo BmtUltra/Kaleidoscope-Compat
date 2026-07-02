@@ -1,6 +1,6 @@
 package com.bmt.kaleidoscope_compat.mixins.farmersdelight;
 
-import com.bmt.kaleidoscope_compat.config.MainConfig;
+import com.bmt.kaleidoscope_compat.config.ForgeConfig;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -18,7 +18,7 @@ public class CuttingBoardRecipeMixin {
             cancellable = true
     )
     private void kc$interceptCuttingBoardRecipes(RecipeWrapper inv, Level level, CallbackInfoReturnable<Boolean> cir) {
-        if (MainConfig.cuttingBoardRecipesDisabled) {
+        if (ForgeConfig.FARMERSDELIGHT_CUTTING_BOARD_RECIPES_DISABLED.get()) {
             cir.setReturnValue(false);
         }
     }

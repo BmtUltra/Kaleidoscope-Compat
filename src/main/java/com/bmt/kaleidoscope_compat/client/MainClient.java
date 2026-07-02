@@ -1,19 +1,22 @@
 package com.bmt.kaleidoscope_compat.client;
 
 import com.bmt.kaleidoscope_compat.KaleidoscopeCompat;
+import com.bmt.kaleidoscope_compat.client.screen.ConfigScreen;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.model.StrawHatModel;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import java.lang.reflect.Method;
 
 @Mod.EventBusSubscriber(modid = KaleidoscopeCompat.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class ClientSetup {
+public class MainClient {
 
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
@@ -22,6 +25,15 @@ public class ClientSetup {
                 registerCurioRenderers();
             }
         });
+    }
+
+    public static void init(ModContainer container) {
+        container.registerExtensionPoint(
+                ConfigScreenHandler.ConfigScreenFactory.class,
+                () -> new ConfigScreenHandler.ConfigScreenFactory(
+                        (minecraft, parentScreen) -> new ConfigScreen(parentScreen)
+                )
+        );
     }
 
     private static boolean isCuriosLoaded() {

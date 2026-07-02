@@ -1,6 +1,6 @@
 package com.bmt.kaleidoscope_compat.mixins.vinery;
 
-import com.bmt.kaleidoscope_compat.config.MainConfig;
+import com.bmt.kaleidoscope_compat.config.ForgeConfig;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -22,7 +22,7 @@ public class RecipeManagerMixin {
     private <T extends Recipe<?>> void kc$interceptVineryBarrelRecipes(
             RecipeType<T> recipeType, CallbackInfoReturnable<List<T>> cir) {
 
-        if (recipeType.toString().contains("wine_fermentation") && MainConfig.vineryBarrelRecipesDisabled) {
+        if (recipeType.toString().contains("wine_fermentation") && ForgeConfig.VINERY_BARREL_RECIPES_DISABLED.get()) {
             cir.setReturnValue(List.of());
         }
     }

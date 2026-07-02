@@ -1,6 +1,6 @@
 package com.bmt.kaleidoscope_compat.mixins.farmersdelight;
 
-import com.bmt.kaleidoscope_compat.config.MainConfig;
+import com.bmt.kaleidoscope_compat.config.ForgeConfig;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.items.wrapper.RecipeWrapper;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,7 +18,7 @@ public class CookingPotRecipeMixin {
             cancellable = true
     )
     private void kc$interceptCookingPotRecipes(RecipeWrapper inv, Level level, CallbackInfoReturnable<Boolean> cir) {
-        if (MainConfig.cookingPotRecipesDisabled) {
+        if (ForgeConfig.FARMERSDELIGHT_COOKING_POT_RECIPES_DISABLED.get()) {
             cir.setReturnValue(false);
         }
     }
