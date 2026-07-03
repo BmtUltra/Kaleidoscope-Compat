@@ -1,6 +1,7 @@
 package com.bmt.kaleidoscope_compat.client;
 
 import com.bmt.kaleidoscope_compat.KaleidoscopeCompat;
+import com.bmt.kaleidoscope_compat.client.key.KeyMappings;
 import com.bmt.kaleidoscope_compat.config.MainConfig;
 import com.bmt.kaleidoscope_compat.datamap.soup.StockpotVisualOverrideManager;
 import com.github.ysbbbbbb.kaleidoscopecookery.client.model.StrawHatModel;

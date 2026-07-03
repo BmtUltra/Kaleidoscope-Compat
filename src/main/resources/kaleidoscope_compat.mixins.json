@@ -9,7 +9,6 @@
     "farmersdelight.CookingPotScreenMixin",
     "kaleidoscope_doll.ComputerMenuScreenMixin",
     "kaleidoscope_doll.CustomDollLoaderMixin",
-    "kaleidoscope_doll.jade.DollBlockComponentProviderMixin",
     "solcarrot.FoodItemsMixin"
   ],
   "mixins": [
@@ -30,8 +29,6 @@
     "kaleidoscope_cookery.FlexPotRecipeMixin",
     "kaleidoscope_cookery.FlexStockpotRecipeMixin",
     "kaleidoscope_cookery.InitMixin",
-    "kaleidoscope_doll.ComputerMenuAccessor",
-    "kaleidoscope_doll.CustomDollBlockEntityAccessor",
     "kaleidoscope_cookery.KitchenKnifeItemMixin",
     "kaleidoscope_cookery.MillstoneBlockEntityMixin",
     "kaleidoscope_cookery.MillstoneRecipeMixin",
@@ -98,6 +95,9 @@
     "kaleidoscope_cookery.replacement.villager.ItemsAndEmeraldsToItemsMixin",
     "kaleidoscope_cookery.replacement.villager.ItemsForEmeraldsMixin",
     "kaleidoscope_cookery.replacement.villager.TippedArrowForItemsAndEmeraldsMixin",
+    "kaleidoscope_doll.ComputerMenuAccessor",
+    "kaleidoscope_doll.CustomDollBlockEntityAccessor",
+    "kaleidoscope_doll.jade.DollBlockComponentProviderMixin",
     "kaleidoscope_tavern.BarCabinetBlockEntityRenderMixin",
     "kaleidoscope_tavern.BarCabinetBlockMixin",
     "kaleidoscope_tavern.BarrelBlockEntityMixin",

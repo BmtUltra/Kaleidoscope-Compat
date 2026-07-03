@@ -1,4 +1,4 @@
-package com.bmt.kaleidoscope_compat.client;
+package com.bmt.kaleidoscope_compat.client.util;
 
 import com.bmt.kaleidoscope_compat.KaleidoscopeCompat;
 import com.bmt.kaleidoscope_compat.util.PlayerSkinFetcher;

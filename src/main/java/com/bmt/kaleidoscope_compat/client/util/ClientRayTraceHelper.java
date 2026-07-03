@@ -1,4 +1,4 @@
-package com.bmt.kaleidoscope_compat.client;
+package com.bmt.kaleidoscope_compat.client.util;
 
 import com.simibubi.create.content.contraptions.AbstractContraptionEntity;
 import com.simibubi.create.content.contraptions.ContraptionHandlerClient;

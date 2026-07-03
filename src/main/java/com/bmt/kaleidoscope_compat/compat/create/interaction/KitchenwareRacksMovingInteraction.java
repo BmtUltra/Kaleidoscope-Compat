@@ -1,6 +1,6 @@
 package com.bmt.kaleidoscope_compat.compat.create.interaction;
 
-import com.bmt.kaleidoscope_compat.client.ClientRayTraceHelper;
+import com.bmt.kaleidoscope_compat.client.util.ClientRayTraceHelper;
 import com.bmt.kaleidoscope_compat.compat.create.util.ContraptionUtil;
 import com.bmt.kaleidoscope_compat.network.ContraptionRacksInteractPayload;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.KitchenwareRacksBlock;

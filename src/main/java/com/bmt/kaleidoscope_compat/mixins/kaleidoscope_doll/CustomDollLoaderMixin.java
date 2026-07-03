@@ -1,6 +1,6 @@
 package com.bmt.kaleidoscope_compat.mixins.kaleidoscope_doll;
 
-import com.bmt.kaleidoscope_compat.client.PlayerDollSkinManager;
+import com.bmt.kaleidoscope_compat.client.util.PlayerDollSkinManager;
 import com.github.ysbbbbbb.kaleidoscopedoll.client.custom.CustomDollLoader;
 import net.minecraft.client.model.Model;
 import net.minecraft.network.chat.Component;

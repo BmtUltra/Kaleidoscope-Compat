@@ -2,7 +2,6 @@ package com.bmt.kaleidoscope_compat.mixins.kaleidoscope_doll.jade;
 
 import com.bmt.kaleidoscope_compat.mixins.kaleidoscope_doll.CustomDollBlockEntityAccessor;
 import com.github.ysbbbbbb.kaleidoscopedoll.block.CustomDollBlock;
-import com.github.ysbbbbbb.kaleidoscopedoll.block.entity.CustomDollBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopedoll.compat.jade.DollBlockComponentProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;

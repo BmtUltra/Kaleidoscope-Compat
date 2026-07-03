@@ -156,14 +156,14 @@ dependencies {
 
     compileOnly "maven.modrinth:gensokyo-delight-youkais-feasts:1.1.0"
 
-    compileOnly "maven.modrinth:kaleidoscopetavern:1.1.2-neoforge+mc1.21.1"
+    compileOnly "maven.modrinth:kaleidoscopetavern:1.2.0-neoforge+mc1.21.1"
     compileOnly "maven.modrinth:botany-pots:21.1.41"
     compileOnly "maven.modrinth:farmers-delight:1.21.1-1.3.2"
     compileOnly "maven.modrinth:kaleidoscope-nether:1.0.6-neoforge+mc1.21.1"
     implementation "maven.modrinth:kaleidoscope-end:1.0.2-neoforge+mc1.21.1"
     implementation "maven.modrinth:kubejs:2101.7.2-build.348"
     compileOnly "maven.modrinth:thirst-was-taken:1.21.1-2.1.5"
-    implementation "maven.modrinth:kaleidoscope-doll:1.4.1-neoforge+mc1.21.1"
+    compileOnly "maven.modrinth:kaleidoscope-doll:1.4.1-neoforge+mc1.21.1"
 //    implementation "maven.modrinth:bountiful-fares:3.0.8"
     compileOnly "maven.modrinth:quark:4.1-479"
     implementation "maven.modrinth:zeta:1.1-39"
@@ -187,10 +187,11 @@ dependencies {
     compileOnly "maven.modrinth:jade:15.10.5+neoforge"
 
     runtimeOnly "maven.modrinth:farmers-delight:1.21.1-1.3.2"
+    runtimeOnly "maven.modrinth:kaleidoscope-doll:1.4.1-neoforge+mc1.21.1"
 //    runtimeOnly "maven.modrinth:gensokyo-delight-youkais-feasts:1.1.0"
 //    runtimeOnly "maven.modrinth:botany-pots:21.1.41"
 //    runtimeOnly "maven.modrinth:kaleidoscope-nether:1.0.7-neoforge+mc1.21.1"
-    runtimeOnly "maven.modrinth:kaleidoscopetavern:1.1.2-neoforge+mc1.21.1"
+    runtimeOnly "maven.modrinth:kaleidoscopetavern:1.2.0-neoforge+mc1.21.1"
 //    runtimeOnly "maven.modrinth:lets-do-vinery:1.5.3"
 //    runtimeOnly "maven.modrinth:lets-do-farm-charm:1.1.21"
 //    runtimeOnly "maven.modrinth:quark:4.1-479"
@@ -210,6 +211,7 @@ dependencies {
 //    implementation "maven.modrinth:spectrumjei:21.1.9+neoforge"
     runtimeOnly "maven.modrinth:touhou-little-maid:1.5.3-neoforge+mc1.21.1"
     runtimeOnly "maven.modrinth:patchouli:1.21.1-93-neoforge"
+    implementation "maven.modrinth:jade:15.10.5+neoforge"
     implementation fileTree("libs")
             jarJar(implementation("blank:resourcefulconfig:neoforge-1.21-3.0.11"))
 //    implementation "maven.modrinth:resourceful-config:3.0.11"

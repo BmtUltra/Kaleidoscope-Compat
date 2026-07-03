@@ -33,12 +33,10 @@ public class StockpotMatchesMixin {
             cancellable = true
     )
     private void onMatches(StockpotInput container, Level level, CallbackInfoReturnable<Boolean> cir) {
-        // 防止递归
         if (IS_REPLACING.get()) {
             return;
         }
 
-        // 替换容器中的输入物品
         List<ItemStack> originalInputs = container.getInputs();
         List<ItemStack> replacedInputs = new ArrayList<>();
         boolean modified = false;
@@ -63,7 +61,6 @@ public class StockpotMatchesMixin {
         if (modified) {
             IS_REPLACING.set(true);
             try {
-                // 使用替换后的输入进行匹配
                 StockpotInput replacedInput = new StockpotInput(replacedInputs, container.getSoupBase());
                 StockpotRecipe recipe = (StockpotRecipe) (Object) this;
                 boolean matches = recipe.matches(replacedInput, level);

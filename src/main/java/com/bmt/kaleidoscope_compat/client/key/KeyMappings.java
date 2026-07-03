@@ -1,4 +1,4 @@
-package com.bmt.kaleidoscope_compat.client;
+package com.bmt.kaleidoscope_compat.client.key;
 
 import net.minecraft.client.KeyMapping;
 import org.lwjgl.glfw.GLFW;

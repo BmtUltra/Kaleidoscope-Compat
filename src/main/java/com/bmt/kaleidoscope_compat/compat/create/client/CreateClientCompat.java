@@ -1,7 +1,7 @@
 package com.bmt.kaleidoscope_compat.compat.create.client;
 
 import com.bmt.kaleidoscope_compat.KaleidoscopeCompat;
-import com.bmt.kaleidoscope_compat.client.KeyMappings;
+import com.bmt.kaleidoscope_compat.client.key.KeyMappings;
 import com.bmt.kaleidoscope_compat.compat.create.util.ContraptionNbtKeys;
 import com.bmt.kaleidoscope_compat.compat.create.util.ContraptionUtil;
 import com.bmt.kaleidoscope_compat.network.ContraptionTakePayload;
