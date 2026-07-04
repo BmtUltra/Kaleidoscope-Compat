@@ -11,7 +11,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(TeapotBlockEntity.class)
-@SuppressWarnings("all")
 public class TeapotBlockEntityMixin {
 
     @Inject(method = "addTeaFluid", at = @At("HEAD"), cancellable = true)

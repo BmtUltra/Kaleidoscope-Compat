@@ -37,13 +37,6 @@ public final class OtherCategory {
     )
     public static boolean thirstCompatEnabled = true;
 
-    @ConfigEntry(id = "quark_sickle_harvest_fix_enabled", type = EntryType.BOOLEAN, translation = "config.kaleidoscope_compat.compat.quark_sickle_harvest_fix_enabled")
-    @Comment(
-            value = "Whether Quark sickle harvest fix is enabled",
-            translation = "config.kaleidoscope_compat.compat.quark_sickle_harvest_fix_enabled.comment"
-    )
-    public static boolean quarkSickleHarvestFixEnabled = true;
-
     @ConfigEntry(id = "suppress_tag_load_errors", type = EntryType.BOOLEAN, translation = "config.kaleidoscope_compat.compat.suppress_tag_load_errors")
     @Comment(
             value = "Whether to suppress tag file loading error logs",

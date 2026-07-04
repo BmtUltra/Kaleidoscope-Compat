@@ -1,10 +1,10 @@
 package com.bmt.kaleidoscope_compat.compat.thirst;
 
 import com.bmt.kaleidoscope_compat.config.category.OtherCategory;
-import dev.ghen.thirst.api.ThirstHelper;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -55,12 +55,53 @@ public class ThirstCompat {
     }
 
     private static void registerItems() {
+        boolean isNewVersion = isNewThirstVersion();
+
         for (Map.Entry<String, int[]> entry : SOUP_ITEMS.entrySet()) {
             Item item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(entry.getKey()));
-            if (item != net.minecraft.world.item.Items.AIR) {
+            if (item != Items.AIR) {
                 int[] values = entry.getValue();
-                ThirstHelper.VALID_FOODS.put(item, new Number[]{values[0], values[1]});
+                if (isNewVersion) {
+                    registerNewVersion(item, values[0], values[1]);
+                } else {
+                    registerOldVersion(item, values[0], values[1]);
+                }
             }
+        }
+    }
+
+    private static boolean isNewThirstVersion() {
+        try {
+            Class.forName("cn.mlus.thirst.api.ThirstHelper");
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static void registerNewVersion(Item item, int hydration, int quenched) {
+        try {
+            Class<?> thirstHelperClass = Class.forName("cn.mlus.thirst.api.ThirstHelper");
+            java.lang.reflect.Field validFoodsField = thirstHelperClass.getDeclaredField("VALID_FOODS");
+            validFoodsField.setAccessible(true);
+
+            Map<Item, Number[]> validFoods = (Map<Item, Number[]>) validFoodsField.get(null);
+            validFoods.put(item, new Number[]{hydration, quenched});
+        } catch (Exception ignored) {
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static void registerOldVersion(Item item, int hydration, int quenched) {
+        try {
+            Class<?> thirstHelperClass = Class.forName("dev.ghen.thirst.api.ThirstHelper");
+            java.lang.reflect.Field validFoodsField = thirstHelperClass.getDeclaredField("VALID_FOODS");
+            validFoodsField.setAccessible(true);
+
+            Map<Item, Number[]> validFoods = (Map<Item, Number[]>) validFoodsField.get(null);
+            validFoods.put(item, new Number[]{hydration, quenched});
+        } catch (Exception ignored) {
         }
     }
 }

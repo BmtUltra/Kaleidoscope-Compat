@@ -8,8 +8,8 @@ import net.neoforged.fml.ModList;
 
 public class AccessoriesIntegration {
     public static boolean hasStrawHatInAccessories(LivingEntity entity) {
-        if (!ModList.get().isLoaded("accessories")) return false;
-
+        if (!ModList.get().isLoaded("accessories"))
+            return false;
         var capability = AccessoriesCapability.get(entity);
         if (capability == null) return false;
 

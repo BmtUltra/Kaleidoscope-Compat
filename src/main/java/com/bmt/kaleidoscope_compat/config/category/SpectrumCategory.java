@@ -1,5 +1,6 @@
 package com.bmt.kaleidoscope_compat.config.category;
 
+import com.bmt.kaleidoscope_compat.config.category.spectrum.NetworkNodeConfig;
 import com.teamresourceful.resourcefulconfig.api.annotations.Category;
 import com.teamresourceful.resourcefulconfig.api.annotations.Comment;
 import com.teamresourceful.resourcefulconfig.api.annotations.ConfigEntry;
@@ -49,54 +50,12 @@ public final class SpectrumCategory {
     )
     public static boolean spectrumMillstoneAnvilCrushingEnabled = true;
 
-    @ConfigEntry(id = "pot_item_handler_enabled", type = EntryType.BOOLEAN, translation = "config.kaleidoscope_compat.spectrum.pot_item_handler_enabled")
+    @ConfigEntry(id = "network_node", type = EntryType.OBJECT, translation = "config.kaleidoscope_compat.spectrum.network_node")
     @Comment(
-            value = "Whether Spectrum pot item handler is enabled",
-            translation = "config.kaleidoscope_compat.spectrum.pot_item_handler_enabled.comment"
+            value = "Network node related settings",
+            translation = "config.kaleidoscope_compat.spectrum.network_node.comment"
     )
-    public static boolean spectrumPotItemHandlerEnabled = true;
-
-    @ConfigEntry(id = "chopping_board_item_handler_enabled", type = EntryType.BOOLEAN, translation = "config.kaleidoscope_compat.spectrum.chopping_board_item_handler_enabled")
-    @Comment(
-            value = "Whether Spectrum chopping board item handler is enabled",
-            translation = "config.kaleidoscope_compat.spectrum.chopping_board_item_handler_enabled.comment"
-    )
-    public static boolean spectrumChoppingBoardItemHandlerEnabled = true;
-
-    @ConfigEntry(id = "millstone_item_handler_enabled", type = EntryType.BOOLEAN, translation = "config.kaleidoscope_compat.spectrum.millstone_item_handler_enabled")
-    @Comment(
-            value = "Whether Spectrum millstone item handler is enabled",
-            translation = "config.kaleidoscope_compat.spectrum.millstone_item_handler_enabled.comment"
-    )
-    public static boolean spectrumMillstoneItemHandlerEnabled = true;
-
-    @ConfigEntry(id = "shawarma_spit_item_handler_enabled", type = EntryType.BOOLEAN, translation = "config.kaleidoscope_compat.spectrum.shawarma_spit_item_handler_enabled")
-    @Comment(
-            value = "Whether Spectrum shawarma spit item handler is enabled",
-            translation = "config.kaleidoscope_compat.spectrum.shawarma_spit_item_handler_enabled.comment"
-    )
-    public static boolean spectrumShawarmaSpitItemHandlerEnabled = true;
-
-    @ConfigEntry(id = "steamer_item_handler_enabled", type = EntryType.BOOLEAN, translation = "config.kaleidoscope_compat.spectrum.steamer_item_handler_enabled")
-    @Comment(
-            value = "Whether Spectrum steamer item handler is enabled",
-            translation = "config.kaleidoscope_compat.spectrum.steamer_item_handler_enabled.comment"
-    )
-    public static boolean spectrumSteamerItemHandlerEnabled = true;
-
-    @ConfigEntry(id = "teapot_item_handler_enabled", type = EntryType.BOOLEAN, translation = "config.kaleidoscope_compat.spectrum.teapot_item_handler_enabled")
-    @Comment(
-            value = "Whether Spectrum teapot item handler is enabled",
-            translation = "config.kaleidoscope_compat.spectrum.teapot_item_handler_enabled.comment"
-    )
-    public static boolean spectrumTeapotItemHandlerEnabled = true;
-
-    @ConfigEntry(id = "trash_can_item_handler_enabled", type = EntryType.BOOLEAN, translation = "config.kaleidoscope_compat.spectrum.trash_can_item_handler_enabled")
-    @Comment(
-            value = "Whether Spectrum trash can item handler is enabled",
-            translation = "config.kaleidoscope_compat.spectrum.trash_can_item_handler_enabled.comment"
-    )
-    public static boolean spectrumTrashCanItemHandlerEnabled = true;
+    public static final NetworkNodeConfig networkNode = new NetworkNodeConfig();
 
     @ConfigEntry(id = "pastel_node_compat_enabled", type = EntryType.BOOLEAN, translation = "config.kaleidoscope_compat.spectrum.pastel_node_compat_enabled")
     @Comment(

@@ -21,6 +21,7 @@ import net.minecraft.world.item.Item;
         LittleMaidCategory.class,
         SpectrumCategory.class,
         CreateCategory.class,
+        QuarkCategory.class,
         OtherCategory.class
 })
 @ConfigInfo(

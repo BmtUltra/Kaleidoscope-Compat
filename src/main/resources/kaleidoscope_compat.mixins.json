@@ -9,6 +9,7 @@
     "farmersdelight.CookingPotScreenMixin",
     "kaleidoscope_doll.ComputerMenuScreenMixin",
     "kaleidoscope_doll.CustomDollLoaderMixin",
+    "kaleidoscope_cookery.emi.EmiMillstoneRecipeMixin",
     "solcarrot.FoodItemsMixin"
   ],
   "mixins": [
@@ -48,6 +49,7 @@
     "kaleidoscope_cookery.TransmutationLunchBagItemMixin",
     "kaleidoscope_cookery.VitalityEventMixin",
     "kaleidoscope_cookery.accessor.BlockEntityAccessor",
+    "kaleidoscope_cookery.accessor.FoodBiteBlockAccessor",
     "kaleidoscope_cookery.accessor.MillstoneBlockEntityAccessor",
     "kaleidoscope_cookery.accessor.MobEffectInstanceAccessor",
     "kaleidoscope_cookery.accessor.PotBlockEntityAccessor",
@@ -60,7 +62,6 @@
     "kaleidoscope_cookery.emi.EmiChoppingBoardRecipeMixin",
     "kaleidoscope_cookery.emi.EmiFlexPotRecipeMixin",
     "kaleidoscope_cookery.emi.EmiFlexStockpotRecipeMixin",
-    "kaleidoscope_cookery.emi.EmiMillstoneRecipeMixin",
     "kaleidoscope_cookery.emi.EmiPotRecipeMixin",
     "kaleidoscope_cookery.emi.EmiSteamerRecipeMixin",
     "kaleidoscope_cookery.emi.EmiStockpotRecipeMixin",

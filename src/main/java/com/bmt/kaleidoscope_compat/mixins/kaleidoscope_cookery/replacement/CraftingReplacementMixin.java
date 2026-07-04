@@ -32,7 +32,7 @@ public class CraftingReplacementMixin {
     )
     private void onApply(Map<ResourceLocation, JsonElement> object, ResourceManager resourceManager,
                          ProfilerFiller profiler, CallbackInfo ci) {
-            ReplacementManager.loadData(resourceManager);
+        ReplacementManager.loadData(resourceManager);
 
         for (Map.Entry<ResourceLocation, JsonElement> entry : object.entrySet()) {
             JsonElement element = entry.getValue();
@@ -45,73 +45,79 @@ public class CraftingReplacementMixin {
 
     @Unique
     private void kaleidoscope_Compat_1_21_1_NeoForge$replaceIngredients(JsonObject json) {
-        if (json.has("key")) {
-            JsonObject keys = json.getAsJsonObject("key");
-            for (String key : keys.keySet()) {
-                JsonElement value = keys.get(key);
-                if (value.isJsonObject()) {
-                    kaleidoscope_Compat_1_21_1_NeoForge$replaceIngredient(value.getAsJsonObject());
+        try {
+            if (json.has("key")) {
+                JsonObject keys = json.getAsJsonObject("key");
+                for (String key : keys.keySet()) {
+                    JsonElement value = keys.get(key);
+                    if (value.isJsonObject()) {
+                        kaleidoscope_Compat_1_21_1_NeoForge$replaceIngredient(value.getAsJsonObject());
+                    }
                 }
             }
-        }
 
-        if (json.has("ingredients")) {
-            var ingredients = json.getAsJsonArray("ingredients");
-            for (int i = 0; i < ingredients.size(); i++) {
-                JsonElement ingredient = ingredients.get(i);
-                if (ingredient.isJsonObject()) {
-                    kaleidoscope_Compat_1_21_1_NeoForge$replaceIngredient(ingredient.getAsJsonObject());
+            if (json.has("ingredients")) {
+                var ingredients = json.getAsJsonArray("ingredients");
+                for (int i = 0; i < ingredients.size(); i++) {
+                    JsonElement ingredient = ingredients.get(i);
+                    if (ingredient.isJsonObject()) {
+                        kaleidoscope_Compat_1_21_1_NeoForge$replaceIngredient(ingredient.getAsJsonObject());
+                    }
                 }
             }
+        } catch (Exception ignored) {
         }
     }
 
     @Unique
     private void kaleidoscope_Compat_1_21_1_NeoForge$replaceIngredient(JsonObject ingredient) {
-        if (ingredient.has("item")) {
-            String itemId = ingredient.get("item").getAsString();
-            ResourceLocation from = ResourceLocation.parse(itemId);
+        try {
+            if (ingredient.has("item")) {
+                String itemId = ingredient.get("item").getAsString();
+                ResourceLocation from = ResourceLocation.parse(itemId);
 
-            ResourceLocation tagReplacement = ReplacementManager.getTagReplacement(REPLACEMENT_TYPE, from);
-            if (tagReplacement != null) {
-                ingredient.remove("item");
-                ingredient.addProperty("tag", tagReplacement.toString());
-                return;
-            }
+                ResourceLocation tagReplacement = ReplacementManager.getTagReplacement(REPLACEMENT_TYPE, from);
+                if (tagReplacement != null) {
+                    ingredient.remove("item");
+                    ingredient.addProperty("tag", tagReplacement.toString());
+                    return;
+                }
 
-            ResourceLocation itemReplacement = ReplacementManager.getItemReplacement(REPLACEMENT_TYPE, from);
-            if (itemReplacement != null) {
-                ingredient.addProperty("item", itemReplacement.toString());
-            }
-        }
-
-        if (ingredient.has("tag")) {
-            String tagId = ingredient.get("tag").getAsString();
-            ResourceLocation tagLocation = ResourceLocation.parse(tagId);
-            TagKey<Item> tagKey = ItemTags.create(tagLocation);
-
-            for (Map.Entry<ResourceKey<Item>, Item> entry : BuiltInRegistries.ITEM.entrySet()) {
-                Item item = entry.getValue();
-                if (item != Items.AIR) {
-                    ResourceLocation itemId = entry.getKey().location();
-                    BuiltInRegistries.ITEM.getHolder(itemId)
-                            .ifPresent(holder -> {
-                                if (holder.is(tagKey)) {
-                                    ResourceLocation itemReplacement = ReplacementManager.getItemReplacement(REPLACEMENT_TYPE, itemId);
-                                    if (itemReplacement != null) {
-                                        ingredient.remove("tag");
-                                        ingredient.addProperty("item", itemReplacement.toString());
-                                    }
-
-                                    ResourceLocation tagReplacement = ReplacementManager.getTagReplacement(REPLACEMENT_TYPE, itemId);
-                                    if (tagReplacement != null) {
-                                        ingredient.remove("tag");
-                                        ingredient.addProperty("tag", tagReplacement.toString());
-                                    }
-                                }
-                            });
+                ResourceLocation itemReplacement = ReplacementManager.getItemReplacement(REPLACEMENT_TYPE, from);
+                if (itemReplacement != null) {
+                    ingredient.addProperty("item", itemReplacement.toString());
                 }
             }
+
+            if (ingredient.has("tag")) {
+                String tagId = ingredient.get("tag").getAsString();
+                ResourceLocation tagLocation = ResourceLocation.parse(tagId);
+                TagKey<Item> tagKey = ItemTags.create(tagLocation);
+
+                for (Map.Entry<ResourceKey<Item>, Item> entry : BuiltInRegistries.ITEM.entrySet()) {
+                    Item item = entry.getValue();
+                    if (item != Items.AIR) {
+                        ResourceLocation itemId = entry.getKey().location();
+                        BuiltInRegistries.ITEM.getHolder(itemId)
+                                .ifPresent(holder -> {
+                                    if (holder.is(tagKey)) {
+                                        ResourceLocation itemReplacement = ReplacementManager.getItemReplacement(REPLACEMENT_TYPE, itemId);
+                                        if (itemReplacement != null) {
+                                            ingredient.remove("tag");
+                                            ingredient.addProperty("item", itemReplacement.toString());
+                                        }
+
+                                        ResourceLocation tagReplacement = ReplacementManager.getTagReplacement(REPLACEMENT_TYPE, itemId);
+                                        if (tagReplacement != null) {
+                                            ingredient.remove("tag");
+                                            ingredient.addProperty("tag", tagReplacement.toString());
+                                        }
+                                    }
+                                });
+                    }
+                }
+            }
+        } catch (Exception ignored) {
         }
     }
 }

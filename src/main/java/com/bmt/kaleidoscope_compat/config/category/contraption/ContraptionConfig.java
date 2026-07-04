@@ -5,10 +5,6 @@ import com.teamresourceful.resourcefulconfig.api.annotations.ConfigEntry;
 import com.teamresourceful.resourcefulconfig.api.annotations.ConfigObject;
 import com.teamresourceful.resourcefulconfig.api.types.options.EntryType;
 
-/**
- * 动态结构兼容配置
- * 控制各个方块在 Create 动态结构上的交互行为
- */
 @ConfigObject
 @SuppressWarnings("all")
 public final class ContraptionConfig {
