@@ -38,15 +38,12 @@ public abstract class StockpotBlockEntityVisualsMixin {
         if (this.recipeId != null) {
             StockpotVisualOverride override = StockpotVisualOverrideManager.getOverride(this.recipeId);
             if (override != null) {
-                ResourceLocation cookingTexture = override.cookingTexture() != null ? 
-                    override.cookingTexture() : (this.visuals != null ? this.visuals.cookingTexture() : StockpotVisuals.DEFAULT_COOKING_TEXTURE);
-                ResourceLocation finishedTexture = override.finishedTexture() != null ? 
-                    override.finishedTexture() : (this.visuals != null ? this.visuals.finishedTexture() : StockpotVisuals.DEFAULT_FINISHED_TEXTURE);
-                int cookingBubbleColor = override.cookingBubbleColor() != null ? 
-                    override.cookingBubbleColor() : (this.visuals != null ? this.visuals.cookingBubbleColor() : StockpotVisuals.DEFAULT_COOKING_BUBBLE_COLOR);
-                int finishedBubbleColor = override.finishedBubbleColor() != null ? 
-                    override.finishedBubbleColor() : (this.visuals != null ? this.visuals.finishedBubbleColor() : StockpotVisuals.DEFAULT_FINISHED_BUBBLE_COLOR);
-                this.visuals = new StockpotVisuals(cookingTexture, finishedTexture, cookingBubbleColor, finishedBubbleColor);
+                this.visuals = new StockpotVisuals(
+                        override.cookingTexture(),
+                        override.finishedTexture(),
+                        override.cookingBubbleColor(),
+                        override.finishedBubbleColor()
+                );
             }
         }
     }

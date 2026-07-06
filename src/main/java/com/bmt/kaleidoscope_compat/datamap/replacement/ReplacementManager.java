@@ -104,30 +104,34 @@ public class ReplacementManager extends SimpleJsonResourceReloadListener {
                 .ifPresent(replacement -> {
                     List<String> types = parseTypes(replacement.type().orElse(DEFAULT_TYPE));
                     for (String type : types) {
-                        replacement.fromTag().ifPresent(tagId -> {
-                            TagKey<Item> tagKey = ItemTags.create(tagId);
-                            for (Map.Entry<ResourceKey<Item>, Item> entry : BuiltInRegistries.ITEM.entrySet()) {
-                                Item item = entry.getValue();
-                                if (item != Items.AIR) {
-                                    ResourceLocation itemId = entry.getKey().location();
-                                    BuiltInRegistries.ITEM.getHolder(itemId)
-                                            .ifPresent(holder -> {
-                                                if (holder.is(tagKey)) {
-                                                    registerReplacementStatic(type, itemId, replacement);
-                                                }
-                                            });
+                        if (replacement.hasFromTag()) {
+                            for (ResourceLocation tagId : replacement.getFromTagIds()) {
+                                TagKey<Item> tagKey = ItemTags.create(tagId);
+                                for (Map.Entry<ResourceKey<Item>, Item> entry : BuiltInRegistries.ITEM.entrySet()) {
+                                    Item item = entry.getValue();
+                                    if (item != Items.AIR) {
+                                        ResourceLocation itemId = entry.getKey().location();
+                                        BuiltInRegistries.ITEM.getHolder(itemId)
+                                                .ifPresent(holder -> {
+                                                    if (holder.is(tagKey)) {
+                                                        registerReplacementStatic(type, itemId, replacement);
+                                                    }
+                                                });
+                                    }
                                 }
                             }
-                        });
-                        replacement.from().ifPresent(from -> registerReplacementStatic(type, from, replacement));
+                        }
+                        for (ResourceLocation fromId : replacement.getFromItemIds()) {
+                            registerReplacementStatic(type, fromId, replacement);
+                        }
                     }
                 });
     }
 
     private static void registerReplacementStatic(String type, ResourceLocation sourceItem, ReplacementMain replacement) {
-        if (replacement.toTag().isPresent()) {
-            ITEM_TO_TAG_REPLACEMENTS.computeIfAbsent(type, k -> new HashMap<>())
-                    .put(sourceItem, replacement.toTag().get());
+        if (replacement.isToTag()) {
+            replacement.getToTagId().ifPresent(tagId -> ITEM_TO_TAG_REPLACEMENTS.computeIfAbsent(type, k -> new HashMap<>())
+                    .put(sourceItem, tagId));
         } else if (replacement.to().isPresent()) {
             ITEM_REPLACEMENTS.computeIfAbsent(type, k -> new HashMap<>())
                     .put(sourceItem, replacement.to().get());

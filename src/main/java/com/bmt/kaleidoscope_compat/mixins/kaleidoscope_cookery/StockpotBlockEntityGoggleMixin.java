@@ -25,7 +25,6 @@ public class StockpotBlockEntityGoggleMixin implements IHaveGoggleInformation {
             return false;
         }
 
-        // 获取动力臂设置的菜谱
         if (!(self instanceof StockpotArmAutomation armAutomation)) {
             return false;
         }
@@ -36,11 +35,9 @@ public class StockpotBlockEntityGoggleMixin implements IHaveGoggleInformation {
             return false;
         }
 
-        // 显示标题
         tooltip.add(Component.literal("    ").append(Component.translatable("gui.goggles.mechanical_arm.stockpot_recipe")
             .withStyle(ChatFormatting.WHITE)));
-        
-        // 显示食材需求
+
         tooltip.add(Component.literal("     ").append(Component.translatable("gui.goggles.mechanical_arm.ingredients"))
             .withStyle(ChatFormatting.GOLD));
         
@@ -57,8 +54,7 @@ public class StockpotBlockEntityGoggleMixin implements IHaveGoggleInformation {
                     .append(itemName));
             }
         }
-        
-        // 显示产出物
+
         ItemStack result = storedRecipe.output();
         if (!result.isEmpty()) {
             tooltip.add(Component.literal("     ").append((Component.translatable("gui.goggles.mechanical_arm.result")))
