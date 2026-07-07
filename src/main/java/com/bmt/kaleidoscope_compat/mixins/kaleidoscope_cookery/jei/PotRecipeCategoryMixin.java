@@ -1,13 +1,16 @@
 package com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery.jei;
 
+import com.bmt.kaleidoscope_compat.config.category.KitchenCategory;
 import com.bmt.kaleidoscope_compat.util.TagUtil;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.jei.category.PotRecipeCategory;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.PotRecipe;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.ArrayList;
@@ -43,5 +46,20 @@ public class PotRecipeCategoryMixin {
             }
         }
         cir.setReturnValue(filteredRecipes);
+    }
+
+    @Inject(method = "getTitle", at = @At("RETURN"), cancellable = true)
+    private void onGetTitle(CallbackInfoReturnable<Component> cir) {
+        if (!KitchenCategory.fuzzyRecipesEnabled) {
+            cir.setReturnValue(Component.translatable("block.kaleidoscope_cookery.pot"));
+        }
+    }
+
+    @ModifyVariable(method = "draw*", at = @At("STORE"), name = "type")
+    private Component modifyTypeText(Component original) {
+        if (!KitchenCategory.fuzzyRecipesEnabled) {
+            return Component.empty();
+        }
+        return original;
     }
 }

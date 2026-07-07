@@ -25,7 +25,6 @@ public class PotBlockEntityGoggleMixin implements IHaveGoggleInformation {
             return false;
         }
 
-        // 获取动力臂设置的菜谱
         if (!(self instanceof PotArmAutomation armAutomation)) {
             return false;
         }
@@ -36,11 +35,9 @@ public class PotBlockEntityGoggleMixin implements IHaveGoggleInformation {
             return false;
         }
 
-        // 显示标题
         tooltip.add(Component.literal("    ").append(Component.translatable("gui.goggles.mechanical_arm.pot_recipe")
             .withStyle(ChatFormatting.WHITE)));
-        
-        // 显示食材需求
+
         tooltip.add(Component.literal("     ").append(Component.translatable("gui.goggles.mechanical_arm.ingredients"))
             .withStyle(ChatFormatting.GOLD));
         
@@ -57,8 +54,7 @@ public class PotBlockEntityGoggleMixin implements IHaveGoggleInformation {
                     .append(itemName));
             }
         }
-        
-        // 显示产出物
+
         ItemStack result = storedRecipe.output();
         if (!result.isEmpty()) {
             tooltip.add(Component.literal("     ").append(Component.translatable("gui.goggles.mechanical_arm.result"))
@@ -73,7 +69,6 @@ public class PotBlockEntityGoggleMixin implements IHaveGoggleInformation {
                 .append(resultName)
                 .append(Component.literal(" x" + result.getCount()).withStyle(ChatFormatting.GRAY)));
         }
-        
         return true;
     }
 
