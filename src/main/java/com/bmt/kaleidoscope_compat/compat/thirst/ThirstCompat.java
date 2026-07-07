@@ -1,7 +1,9 @@
 package com.bmt.kaleidoscope_compat.compat.thirst;
 
 import com.bmt.kaleidoscope_compat.config.category.OtherCategory;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.TeacupRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -46,6 +48,10 @@ public class ThirstCompat {
         SOUP_ITEMS.put("kaleidoscope_chinesefood:tomato_egg_drop_soup", new int[]{6, 8});
     }
 
+    private static final int[] TEA_HYDRATION = new int[]{3, 5};
+    private static final int[] DRINK_HYDRATION = new int[]{2, 4};
+    private static final int[] COCKTAIL_HYDRATION = new int[]{1, 3};
+
     @SubscribeEvent
     public static void onCommonSetup(FMLCommonSetupEvent event) {
         if (!ModList.get().isLoaded("thirst") || !OtherCategory.thirstCompatEnabled) {
@@ -61,12 +67,47 @@ public class ThirstCompat {
             Item item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(entry.getKey()));
             if (item != Items.AIR) {
                 int[] values = entry.getValue();
-                if (isNewVersion) {
-                    registerNewVersion(item, values[0], values[1]);
-                } else {
-                    registerOldVersion(item, values[0], values[1]);
-                }
+                registerItem(item, values[0], values[1], isNewVersion);
             }
+        }
+        registerTeaItems(isNewVersion);
+        registerDrinkBlockItems(isNewVersion);
+        registerCocktailBlockItems(isNewVersion);
+    }
+
+    private static void registerTeaItems(boolean isNewVersion) {
+        for (Map.Entry<ResourceLocation, TeacupRegistry.TeacupData> entry : TeacupRegistry.TEACUP_DATA_MAP.entrySet()) {
+            ResourceLocation teaId = entry.getKey();
+            Item item = BuiltInRegistries.ITEM.get(teaId);
+            if (item != Items.AIR) {
+                registerItem(item, TEA_HYDRATION[0], TEA_HYDRATION[1], isNewVersion);
+            }
+        }
+    }
+
+    private static void registerDrinkBlockItems(boolean isNewVersion) {
+        for (Map.Entry<ResourceKey<Item>, Item> entry : BuiltInRegistries.ITEM.entrySet()) {
+            Item item = entry.getValue();
+            if (item instanceof com.github.ysbbbbbb.kaleidoscopetavern.item.DrinkBlockItem) {
+                registerItem(item, DRINK_HYDRATION[0], DRINK_HYDRATION[1], isNewVersion);
+            }
+        }
+    }
+
+    private static void registerCocktailBlockItems(boolean isNewVersion) {
+        for (Map.Entry<ResourceKey<Item>, Item> entry : BuiltInRegistries.ITEM.entrySet()) {
+            Item item = entry.getValue();
+            if (item instanceof com.github.ysbbbbbb.kaleidoscopetavern.item.CocktailBlockItem) {
+                registerItem(item, COCKTAIL_HYDRATION[0], COCKTAIL_HYDRATION[1], isNewVersion);
+            }
+        }
+    }
+
+    private static void registerItem(Item item, int hydration, int quenched, boolean isNewVersion) {
+        if (isNewVersion) {
+            registerNewVersion(item, hydration, quenched);
+        } else {
+            registerOldVersion(item, hydration, quenched);
         }
     }
 
