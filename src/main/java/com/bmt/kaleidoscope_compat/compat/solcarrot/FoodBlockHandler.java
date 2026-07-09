@@ -2,8 +2,8 @@ package com.bmt.kaleidoscope_compat.compat.solcarrot;
 
 import com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery.accessor.FoodBiteBlockAccessor;
 import com.cazsius.solcarrot.tracking.FoodList;
-import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBiteBlock;
+import com.github.ysbbbbbb.kaleidoscopecookery.block.food.FoodBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.registry.FoodBiteRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;

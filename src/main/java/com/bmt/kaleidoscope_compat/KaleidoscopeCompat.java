@@ -6,8 +6,8 @@ import com.bmt.kaleidoscope_compat.compat.kaleidoscope_doll.KaleidoscopeDollComp
 import com.bmt.kaleidoscope_compat.compat.spectrum.SpectrumCompat;
 import com.bmt.kaleidoscope_compat.compat.touhoulittlemaid.LittleMaidCompat;
 import com.bmt.kaleidoscope_compat.config.MainConfig;
-import com.bmt.kaleidoscope_compat.datamap.soup.StockpotVisualOverrideManager;
 import com.bmt.kaleidoscope_compat.datamap.replacement.ReplacementManager;
+import com.bmt.kaleidoscope_compat.datamap.soup.StockpotVisualOverrideManager;
 import com.teamresourceful.resourcefulconfig.api.loader.Configurator;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;

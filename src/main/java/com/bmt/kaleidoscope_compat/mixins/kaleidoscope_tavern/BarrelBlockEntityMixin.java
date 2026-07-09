@@ -2,7 +2,6 @@ package com.bmt.kaleidoscope_compat.mixins.kaleidoscope_tavern;
 
 import com.github.ysbbbbbb.kaleidoscopetavern.api.blockentity.ITapBehavior;
 import com.github.ysbbbbbb.kaleidoscopetavern.blockentity.brew.BarrelBlockEntity;
-import com.github.ysbbbbbb.kaleidoscopetavern.blockentity.brew.DrinkBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopetavern.crafting.recipe.BarrelRecipe;
 import com.github.ysbbbbbb.kaleidoscopetavern.crafting.serializer.BarrelRecipeSerializer;
 import com.github.ysbbbbbb.kaleidoscopetavern.init.ModItems;
@@ -34,8 +33,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
-
-import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
 @Mixin(value = BarrelBlockEntity.class, remap = false)
 public abstract class BarrelBlockEntityMixin {

@@ -1,6 +1,5 @@
 package com.bmt.kaleidoscope_compat.mixins.spectrum;
 
-import com.bmt.kaleidoscope_compat.config.category.SpectrumCategory;
 import com.bmt.kaleidoscope_compat.config.category.spectrum.NetworkNodeConfig;
 import com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery.accessor.PotBlockEntityAccessor;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.PotBlock;
