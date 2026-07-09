@@ -34,7 +34,6 @@
     "kaleidoscope_cookery.MillstoneBlockEntityMixin",
     "kaleidoscope_cookery.MillstoneRecipeMixin",
     "kaleidoscope_cookery.PhantomMixin",
-    "kaleidoscope_cookery.PotBlockEntityAnimationMixin",
     "kaleidoscope_cookery.PotBlockEntityGoggleMixin",
     "kaleidoscope_cookery.PotRecipeMixin",
     "kaleidoscope_cookery.ProjectileDodgeEventMixin",
