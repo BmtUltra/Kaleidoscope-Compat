@@ -207,13 +207,14 @@ dependencies {
     runtimeOnly "curse.maven:spice-of-life-carrot-edition-277616:7374098"
 //    runtimeOnly "maven.modrinth:ars-nouveau:5.11.3"
     runtimeOnly "maven.modrinth:appleskin:3.0.9+mc1.21"
-//    runtimeOnly "maven.modrinth:thirst-was-taken:1.21.1-2.1.5"
+    runtimeOnly "maven.modrinth:thirst-was-taken:1.21.1-2.1.5"
     runtimeOnly "maven.modrinth:cloth-config:15.0.140+neoforge"
     runtimeOnly "maven.modrinth:spectrum:1.11.8-1.21.1-neo"
     implementation "maven.modrinth:spectrumjei:21.1.9+neoforge"
     runtimeOnly "maven.modrinth:touhou-little-maid:1.5.3-neoforge+mc1.21.1"
     runtimeOnly "maven.modrinth:patchouli:1.21.1-93-neoforge"
     implementation "maven.modrinth:jade:15.10.5+neoforge"
+//    implementation "maven.modrinth:kaleidoscope-twilight:1.0.6-neoforge+mc1.21.1"
     implementation fileTree("libs")
             jarJar(implementation("blank:resourcefulconfig:neoforge-1.21-3.0.11"))
 //    implementation "maven.modrinth:resourceful-config:3.0.11"
