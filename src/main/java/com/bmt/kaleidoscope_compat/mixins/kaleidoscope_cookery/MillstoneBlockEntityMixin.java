@@ -4,9 +4,6 @@ import com.bmt.kaleidoscope_compat.config.kitchen.block.MillstoneConfig;
 import com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery.accessor.BlockEntityAccessor;
 import com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery.accessor.MillstoneBlockEntityAccessor;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.MillstoneBlockEntity;
-import net.minecraft.Util;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -17,7 +14,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(MillstoneBlockEntity.class)
@@ -74,17 +70,6 @@ public abstract class MillstoneBlockEntityMixin {
                 world.sendBlockUpdated(blockEntityAccessor.getWorldPosition(), state, state, Block.UPDATE_ALL);
             }
             cir.setReturnValue(true);
-        }
-    }
-
-    /**
-     * 确保 loadAdditional 方法在读取 EntityId 之前，NBT 标签存在
-     * 修复动态结构拆卸时因 EntityId 标签不存在导致的 NullPointerException
-     */
-    @Inject(method = "loadAdditional", at = @At("HEAD"))
-    private void onLoadAdditional(CompoundTag tag, HolderLookup.Provider registries, CallbackInfo ci) {
-        if (!tag.contains("EntityId")) {
-            tag.putUUID("EntityId", Util.NIL_UUID);
         }
     }
 

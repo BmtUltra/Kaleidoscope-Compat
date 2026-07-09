@@ -1,5 +1,6 @@
 package com.bmt.kaleidoscope_compat;
 
+import com.bmt.kaleidoscope_compat.capability.PotItemHandler;
 import com.bmt.kaleidoscope_compat.compat.create.CreateCompat;
 import com.bmt.kaleidoscope_compat.compat.farm_and_charm.FarmAndCharmCompat;
 import com.bmt.kaleidoscope_compat.compat.kaleidoscope_doll.KaleidoscopeDollCompat;
@@ -8,10 +9,13 @@ import com.bmt.kaleidoscope_compat.compat.touhoulittlemaid.LittleMaidCompat;
 import com.bmt.kaleidoscope_compat.config.MainConfig;
 import com.bmt.kaleidoscope_compat.datamap.soup.StockpotVisualOverrideManager;
 import com.bmt.kaleidoscope_compat.datamap.replacement.ReplacementManager;
+import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.teamresourceful.resourcefulconfig.api.loader.Configurator;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 
@@ -36,7 +40,16 @@ public class KaleidoscopeCompat {
         FarmAndCharmCompat.init();
         LittleMaidCompat.init();
         KaleidoscopeDollCompat.init(modEventBus);
+        modEventBus.addListener(this::registerCapabilities);
         NeoForge.EVENT_BUS.addListener(this::onAddReloadListener);
+    }
+
+    private void registerCapabilities(RegisterCapabilitiesEvent event) {
+        event.registerBlockEntity(
+                Capabilities.ItemHandler.BLOCK,
+                ModBlocks.POT_BE.get(),
+                (pot, side) -> new PotItemHandler(pot)
+        );
     }
 
     private void onAddReloadListener(AddReloadListenerEvent event) {

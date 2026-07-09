@@ -52,6 +52,9 @@ public class ThirstCompat {
     private static final int[] DRINK_HYDRATION = new int[]{2, 4};
     private static final int[] COCKTAIL_HYDRATION = new int[]{1, 3};
 
+    private static Class<?> drinkBlockItemClass;
+    private static Class<?> cocktailBlockItemClass;
+
     @SubscribeEvent
     public static void onCommonSetup(FMLCommonSetupEvent event) {
         if (!ModList.get().isLoaded("thirst") || !OtherCategory.thirstCompatEnabled) {
@@ -63,6 +66,15 @@ public class ThirstCompat {
     private static void registerItems() {
         boolean isNewVersion = isNewThirstVersion();
 
+        try {
+            drinkBlockItemClass = Class.forName("com.github.ysbbbbbb.kaleidoscopetavern.item.DrinkBlockItem");
+        } catch (ClassNotFoundException ignored) {
+        }
+        try {
+            cocktailBlockItemClass = Class.forName("com.github.ysbbbbbb.kaleidoscopetavern.item.CocktailBlockItem");
+        } catch (ClassNotFoundException ignored) {
+        }
+
         for (Map.Entry<String, int[]> entry : SOUP_ITEMS.entrySet()) {
             Item item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(entry.getKey()));
             if (item != Items.AIR) {
@@ -70,6 +82,7 @@ public class ThirstCompat {
                 registerItem(item, values[0], values[1], isNewVersion);
             }
         }
+
         registerTeaItems(isNewVersion);
         registerDrinkBlockItems(isNewVersion);
         registerCocktailBlockItems(isNewVersion);
@@ -86,18 +99,24 @@ public class ThirstCompat {
     }
 
     private static void registerDrinkBlockItems(boolean isNewVersion) {
+        if (drinkBlockItemClass == null) {
+            return;
+        }
         for (Map.Entry<ResourceKey<Item>, Item> entry : BuiltInRegistries.ITEM.entrySet()) {
             Item item = entry.getValue();
-            if (item instanceof com.github.ysbbbbbb.kaleidoscopetavern.item.DrinkBlockItem) {
+            if (drinkBlockItemClass.isInstance(item)) {
                 registerItem(item, DRINK_HYDRATION[0], DRINK_HYDRATION[1], isNewVersion);
             }
         }
     }
 
     private static void registerCocktailBlockItems(boolean isNewVersion) {
+        if (cocktailBlockItemClass == null) {
+            return;
+        }
         for (Map.Entry<ResourceKey<Item>, Item> entry : BuiltInRegistries.ITEM.entrySet()) {
             Item item = entry.getValue();
-            if (item instanceof com.github.ysbbbbbb.kaleidoscopetavern.item.CocktailBlockItem) {
+            if (cocktailBlockItemClass.isInstance(item)) {
                 registerItem(item, COCKTAIL_HYDRATION[0], COCKTAIL_HYDRATION[1], isNewVersion);
             }
         }
