@@ -1,0 +1,40 @@
+package com.bmt.kaleidoscope_compat.compat.touhoulittlemaid;
+
+import com.bmt.kaleidoscope_compat.compat.touhoulittlemaid.task.TaskChoppingBoard;
+import com.bmt.kaleidoscope_compat.compat.touhoulittlemaid.task.TaskMillstone;
+import com.bmt.kaleidoscope_compat.compat.touhoulittlemaid.task.TaskPressingTub;
+import com.bmt.kaleidoscope_compat.config.ForgeConfig;
+import com.github.tartaricacid.touhoulittlemaid.api.ILittleMaid;
+import com.github.tartaricacid.touhoulittlemaid.api.LittleMaidExtension;
+import com.github.tartaricacid.touhoulittlemaid.entity.task.TaskManager;
+import net.minecraftforge.fml.ModList;
+
+public class LittleMaidCompat {
+    public static final String ID = "touhoulittlemaid";
+    public static final String KALEIDOSCOPE_TAVERN_ID = "kaleidoscope_tavern";
+    public static boolean IS_LOADED = false;
+    public static boolean IS_KALEIDOSCOPE_TAVERN_LOADED = false;
+
+    public static void init() {
+        ModList.get().getModContainerById(ID).ifPresent(modContainer -> IS_LOADED = true);
+        IS_KALEIDOSCOPE_TAVERN_LOADED = ModList.get().isLoaded(KALEIDOSCOPE_TAVERN_ID);
+    }
+
+    @LittleMaidExtension
+    public static class LittleMaidExtensionImpl implements ILittleMaid {
+        @Override
+        public void addMaidTask(TaskManager manager) {
+            if (ForgeConfig.LITTLE_MAID_CHOPPING_BOARD_ENABLED.get()) {
+                manager.add(new TaskChoppingBoard());
+            }
+            if (ForgeConfig.LITTLE_MAID_MILLSTONE_ENABLED.get()) {
+                manager.add(new TaskMillstone());
+            }
+            if (IS_KALEIDOSCOPE_TAVERN_LOADED) {
+                if (ForgeConfig.LITTLE_MAID_PRESSING_TUB_ENABLED.get()) {
+                    manager.add(new TaskPressingTub());
+                }
+            }
+        }
+    }
+}

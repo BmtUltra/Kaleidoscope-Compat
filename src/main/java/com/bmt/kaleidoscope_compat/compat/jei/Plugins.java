@@ -92,7 +92,7 @@ public class Plugins implements IModPlugin {
 
         hiddenItems.clear();
 
-        for (Holder<Item> itemHolder : BuiltInRegistries.ITEM.getTagOrEmpty(TagUtil.Items.HIDDEN_FROM_JEI)) {
+        for (Holder<Item> itemHolder : BuiltInRegistries.ITEM.getTagOrEmpty(TagUtil.Items.UNITED)) {
             hiddenItems.add(itemHolder.value());
         }
     }

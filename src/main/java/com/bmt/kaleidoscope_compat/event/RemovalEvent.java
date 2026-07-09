@@ -17,7 +17,7 @@ public class RemovalEvent {
         MutableHashedLinkedMap<ItemStack, CreativeModeTab.TabVisibility> entries = event.getEntries();
         entries.iterator().forEachRemaining(entry -> {
             ItemStack stack = entry.getKey();
-            if (stack.is(TagUtil.Items.REMOVED_FROM_ALL_CREATIVE_TABS)) {
+            if (stack.is(TagUtil.Items.UNITED)) {
                 entries.remove(entry.getKey());
             }
         });

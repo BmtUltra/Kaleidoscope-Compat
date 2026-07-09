@@ -73,7 +73,7 @@ description='''${mod_description}'''
     modId="kaleidoscope_cookery"
     mandatory=true
     # Use a version range that includes the specified version
-    versionRange="[1.1.0,)"
+    versionRange="[1.4.0,)"
     ordering="NONE"
     side="BOTH"
 

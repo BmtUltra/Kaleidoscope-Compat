@@ -1,6 +1,7 @@
 package com.bmt.kaleidoscope_compat;
 
 import com.bmt.kaleidoscope_compat.client.MainClient;
+import com.bmt.kaleidoscope_compat.compat.touhoulittlemaid.LittleMaidCompat;
 import com.bmt.kaleidoscope_compat.compat.vinery.VineryBarrelCompatMain;
 import com.bmt.kaleidoscope_compat.config.ForgeConfig;
 import net.minecraftforge.fml.ModContainer;
@@ -21,5 +22,6 @@ public class KaleidoscopeCompat {
             MainClient.init(container);
         }
         VineryBarrelCompatMain.init();
+        LittleMaidCompat.init();
     }
 }

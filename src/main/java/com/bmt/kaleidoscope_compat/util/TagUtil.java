@@ -12,11 +12,9 @@ public class TagUtil {
         public static final TagKey<Item> SMALL_BOTTLE = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_tavern", "small_bottle"));
         public static final TagKey<Item> LARGE_BOTTLE = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_tavern", "large_bottle"));
         public static final TagKey<Item> WINE = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("youkaisfeasts", "wine"));
-        public static final TagKey<Item> HIDDEN_FROM_JEI = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_cookery", "hidden_from_jei"));
-        public static final TagKey<Item> FILTERED_FROM_FOOD_LIST = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_cookery", "filtered_from_food_list"));
         public static final TagKey<Item> SCALE_DOWN_IN_CABINET = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_tavern", "scale_down_in_cabinet"));
-        public static final TagKey<Item> REMOVED_FROM_ALL_CREATIVE_TABS = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_cookery", "removed_from_all_creative_tabs"));
         public static final TagKey<Item> LUNCH_BAG_BLACKLIST = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_cookery", "lunch_bag_blacklist"));
+        public static final TagKey<Item> UNITED = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("kaleidoscope_cookery", "united"));
     }
 
     public static class Blocks {

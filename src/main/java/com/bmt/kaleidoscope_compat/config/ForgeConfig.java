@@ -41,7 +41,7 @@ public class ForgeConfig {
 
         SOUP_DATAPACK_ENABLED = builder
                 .comment("Enable soup base material")
-                .define("soup_datapack_enabled", true);
+                .define("soup_datapack_enabled", false);
 
         builder.pop();
 
