@@ -207,5 +207,10 @@
   "gui.goggles.mechanical_arm.ingredients": "食材:",
   "gui.goggles.mechanical_arm.result": "产出:",
 
-  "tooltip.kaleidoscope_compat.player_doll": "玩家"
+  "tooltip.kaleidoscope_compat.player_doll": "玩家",
+
+  "command.kaleidoscope_compat.barrel.not_found": "未找到酒桶",
+  "command.kaleidoscope_compat.barrel.set_success": "已将酒桶酿造等级设置为 %s",
+  "command.kaleidoscope_compat.barrel.reset_success": "已重置酒桶酿造状态",
+  "command.kaleidoscope_compat.barrel.complete_success": "已直接完成酒桶酿造"
 }

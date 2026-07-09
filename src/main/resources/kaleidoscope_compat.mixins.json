@@ -7,9 +7,9 @@
   "client": [
     "appleskin.FoodHelperMixin",
     "farmersdelight.CookingPotScreenMixin",
+    "kaleidoscope_cookery.emi.EmiMillstoneRecipeMixin",
     "kaleidoscope_doll.ComputerMenuScreenMixin",
     "kaleidoscope_doll.CustomDollLoaderMixin",
-    "kaleidoscope_cookery.emi.EmiMillstoneRecipeMixin",
     "solcarrot.FoodItemsMixin"
   ],
   "mixins": [
@@ -96,6 +96,7 @@
     "kaleidoscope_doll.jade.DollBlockComponentProviderMixin",
     "kaleidoscope_tavern.BarCabinetBlockEntityRenderMixin",
     "kaleidoscope_tavern.BarCabinetBlockMixin",
+    "kaleidoscope_tavern.accessor.BarrelBlockEntityAccessor",
     "kaleidoscope_tavern.BarrelBlockEntityMixin",
     "kaleidoscope_tavern.BarrelRecipeCategoryMixin",
     "quark.SimpleHarvestEventMixin",
