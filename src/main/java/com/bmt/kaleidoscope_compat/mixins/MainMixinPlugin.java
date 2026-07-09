@@ -50,6 +50,10 @@ public class MainMixinPlugin implements IMixinConfigPlugin {
             return isModLoaded("kaleidoscope_doll");
         }
 
+        if (mixinClassName.contains("BarrelBlockEntityMixin")) {
+            return isModLoaded("create") && isModLoaded("kaleidoscope_tavern");
+        }
+
         return true;
     }
 

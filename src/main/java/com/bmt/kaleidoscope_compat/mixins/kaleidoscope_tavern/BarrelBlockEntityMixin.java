@@ -15,7 +15,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
@@ -192,35 +191,6 @@ public abstract class BarrelBlockEntityMixin {
             }
             return null;
         }).orElse(null);
-    }
-
-    @Unique
-    private boolean kc$isDrinkBlockItem(Item item) {
-        try {
-            Class<?> itemClass = item.getClass();
-            String className = itemClass.getName();
-
-            if (className.equals("net.satisfy.vinery.core.item.DrinkBlockItem")) {
-                return true;
-            }
-
-            Class<?> superClass = itemClass.getSuperclass();
-            while (superClass != null) {
-                if (superClass.getName().equals("net.satisfy.vinery.core.item.DrinkBlockItem")) {
-                    return true;
-                }
-                superClass = superClass.getSuperclass();
-            }
-
-            for (Class<?> interfaceClass : itemClass.getInterfaces()) {
-                if (interfaceClass.getName().equals("net.satisfy.vinery.core.item.DrinkBlockItem")) {
-                    return true;
-                }
-            }
-            return false;
-        } catch (Exception e) {
-            return false;
-        }
     }
 
     @Unique
