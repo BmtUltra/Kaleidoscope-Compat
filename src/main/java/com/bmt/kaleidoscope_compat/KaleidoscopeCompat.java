@@ -8,7 +8,6 @@ import com.bmt.kaleidoscope_compat.compat.kaleidoscope_doll.KaleidoscopeDollComp
 import com.bmt.kaleidoscope_compat.compat.spectrum.SpectrumCompat;
 import com.bmt.kaleidoscope_compat.compat.touhoulittlemaid.LittleMaidCompat;
 import com.bmt.kaleidoscope_compat.config.MainConfig;
-import com.bmt.kaleidoscope_compat.datamap.replacement.ReplacementManager;
 import com.bmt.kaleidoscope_compat.datamap.soup.StockpotVisualOverrideManager;
 import com.github.ysbbbbbb.kaleidoscopecookery.init.ModBlocks;
 import com.teamresourceful.resourcefulconfig.api.loader.Configurator;
@@ -28,7 +27,6 @@ public class KaleidoscopeCompat {
     public static Configurator CONFIGURATOR;
 
     private static final StockpotVisualOverrideManager STOCKPOT_VISUAL_MANAGER = new StockpotVisualOverrideManager();
-    private static final ReplacementManager TOMATO_REPLACEMENT_MANAGER = new ReplacementManager();
 
     public static ResourceLocation id(String path) {
         return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
@@ -64,6 +62,5 @@ public class KaleidoscopeCompat {
 
     private void onAddReloadListener(AddReloadListenerEvent event) {
         event.addListener(STOCKPOT_VISUAL_MANAGER);
-        event.addListener(TOMATO_REPLACEMENT_MANAGER);
     }
 }

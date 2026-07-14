@@ -34,7 +34,6 @@ public class StockpotBlockEntityArmRecipeMixin implements StockpotArmAutomation 
     @Override
     public void kaleidoscopeCompat$setStoredRecipe(@Nullable RecipeItem.RecipeRecord recipe) {
         this.kaleidoscopeCompat$storedRecipe = recipe;
-        // 同步到客户端
         BlockEntity be = (BlockEntity) (Object) this;
         be.setChanged();
         if (be.getLevel() != null && !be.getLevel().isClientSide) {
