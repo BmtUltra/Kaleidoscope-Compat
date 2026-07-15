@@ -1,67 +1,67 @@
 [
    {
       "recipe_id":"kaleidoscope_nether:stockpot/blaze_soup",
-      "finished_texture":"kaleidoscope_compat:stockpot/default_finished_blaze",
+      "finished_texture":"kaleidoscope_nether:stockpot/default_finished_blaze",
       "finished_bubble_color":12934424
    },
    {
       "recipe_id":"kaleidoscope_nether:stockpot/chongqing_noodles",
-      "finished_texture":"kaleidoscope_compat:stockpot/default_finished_blood",
+      "finished_texture":"kaleidoscope_nether:stockpot/default_finished_blood",
       "finished_bubble_color":10948634
    },
    {
       "recipe_id":"kaleidoscope_nether:stockpot/forgetfulness_soup",
-      "finished_texture":"kaleidoscope_compat:stockpot/default_finished_forget",
+      "finished_texture":"kaleidoscope_nether:stockpot/default_finished_forget",
       "finished_bubble_color":4836504
    },
    {
       "recipe_id":"kaleidoscope_nether:stockpot/glowing_soup",
-      "finished_texture":"kaleidoscope_compat:stockpot/default_finished_yellow",
+      "finished_texture":"kaleidoscope_nether:stockpot/default_finished_yellow",
       "finished_bubble_color":16503296
    },
    {
       "recipe_id":"kaleidoscope_nether:stockpot/luosifen",
-      "finished_texture":"kaleidoscope_compat:stockpot/default_finished_blood",
+      "finished_texture":"kaleidoscope_nether:stockpot/default_finished_blood",
       "finished_bubble_color":10948634
    },
    {
       "recipe_id":"kaleidoscope_nether:stockpot/magma_cream_soup",
-      "finished_texture":"kaleidoscope_compat:stockpot/default_finished_magma",
+      "finished_texture":"kaleidoscope_nether:stockpot/default_finished_magma",
       "finished_bubble_color":12402712
    },
    {
       "recipe_id":"kaleidoscope_nether:stockpot/nether_reed_stew",
-      "finished_texture":"kaleidoscope_compat:stockpot/default_finished_blue",
+      "finished_texture":"kaleidoscope_nether:stockpot/default_finished_blue",
       "finished_bubble_color":4583412
    },
    {
       "recipe_id":"kaleidoscope_nether:stockpot/poisonous_soup",
-      "finished_texture":"kaleidoscope_compat:stockpot/default_finished_purple",
+      "finished_texture":"kaleidoscope_nether:stockpot/default_finished_purple",
       "finished_bubble_color":7423636
    },
    {
       "recipe_id":"kaleidoscope_nether:stockpot/sauerkraut_fish",
-      "finished_texture":"kaleidoscope_compat:stockpot/default_finished_white",
+      "finished_texture":"kaleidoscope_nether:stockpot/default_finished_white",
       "finished_bubble_color":16382186
    },
    {
       "recipe_id":"kaleidoscope_nether:stockpot/soul_soup",
-      "finished_texture":"kaleidoscope_compat:stockpot/default_finished_blue",
+      "finished_texture":"kaleidoscope_nether:stockpot/default_finished_blue",
       "finished_bubble_color":4583412
    },
    {
       "recipe_id":"kaleidoscope_nether:stockpot/spicy_hoglin_ramen",
-      "finished_texture":"kaleidoscope_compat:stockpot/default_finished_blood",
+      "finished_texture":"kaleidoscope_nether:stockpot/default_finished_blood",
       "finished_bubble_color":10948634
    },
    {
       "recipe_id":"kaleidoscope_nether:stockpot/star_stew",
-      "finished_texture":"kaleidoscope_compat:stockpot/default_finished_star",
+      "finished_texture":"kaleidoscope_nether:stockpot/default_finished_star",
       "finished_bubble_color":12175817
    },
    {
       "recipe_id":"kaleidoscope_nether:stockpot/wither_bone_soup",
-      "finished_texture":"kaleidoscope_compat:stockpot/default_finished_black",
+      "finished_texture":"kaleidoscope_nether:stockpot/default_finished_black",
       "finished_bubble_color":4338990
    }
    
