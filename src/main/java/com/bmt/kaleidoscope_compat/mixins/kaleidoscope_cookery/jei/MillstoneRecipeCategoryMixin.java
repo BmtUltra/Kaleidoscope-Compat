@@ -20,14 +20,14 @@ import java.util.List;
 public class MillstoneRecipeCategoryMixin {
     @Inject(method = "getRecipes", at = @At("RETURN"), cancellable = true)
     private static void onGetRecipes(CallbackInfoReturnable<List<RecipeHolder<MillstoneRecipe>>> cir) {
-        List<RecipeHolder<MillstoneRecipe>> filteredRecipes = new ArrayList<>();
-
         if (ModList.get().isLoaded("spectrum") && SpectrumCategory.spectrumMillstoneAnvilCrushingEnabled) {
             ClientLevel level = Minecraft.getInstance().level;
             if (level != null) {
-                MillstoneAnvilCrushingCompat.getTransformRecipeForJei(level, filteredRecipes);
+                List<RecipeHolder<MillstoneRecipe>> originalRecipes = cir.getReturnValue();
+                List<RecipeHolder<MillstoneRecipe>> mergedRecipes = new ArrayList<>(originalRecipes);
+                MillstoneAnvilCrushingCompat.getTransformRecipeForJei(level, mergedRecipes);
+                cir.setReturnValue(mergedRecipes);
             }
         }
-        cir.setReturnValue(filteredRecipes);
     }
 }
