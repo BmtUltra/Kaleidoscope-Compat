@@ -1,6 +1,6 @@
 package com.bmt.kaleidoscope_compat.mixins.farm_and_charm;
 
-//import com.bmt.kaleidoscope_compat.compat.farm_and_charm.FarmAndCharmCompat;
+import com.bmt.kaleidoscope_compat.compat.farm_and_charm.FarmAndCharmCompat;
 import com.github.ysbbbbbb.kaleidoscopecookery.compat.jei.category.StockpotRecipeCategory;
 import com.github.ysbbbbbb.kaleidoscopecookery.crafting.recipe.StockpotRecipe;
 import com.google.common.collect.Lists;
@@ -29,7 +29,7 @@ public class StockpotRecipeCategoryMixin {
         }
 
         List<StockpotRecipe> recipes = Lists.newArrayList(cir.getReturnValue());
-//        FarmAndCharmCompat.getTransformRecipeForJei(level, recipes);
+        FarmAndCharmCompat.getTransformRecipeForJei(level, recipes);
         cir.setReturnValue(recipes);
     }
 }

@@ -10,7 +10,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(BarCabinetBlockEntityRender.class)
-@SuppressWarnings("all")
 public abstract class BarCabinetBlockEntityRenderMixin {
 
     @Redirect(
@@ -36,6 +35,7 @@ public abstract class BarCabinetBlockEntityRenderMixin {
     }
 
     @Unique
+    @SuppressWarnings("unchecked")
     private <T extends Comparable<T>> BlockState kc$setFakeModel(BlockState state, Property<T> property) {
         if (property.getValueClass() == Boolean.class) {
             return state.setValue((Property<Boolean>) property, false);

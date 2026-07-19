@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class FermentationBarrelRecipeMixin {
 
     @Inject(
-            method = "matches(Lnet/satisfy/vinery/core/block/entity/FermentationBarrelBlockEntity;Lnet/minecraft/world/level/Level;)Z",
+            method = "matches*",
             at = @At("HEAD"),
             cancellable = true,
             remap = false

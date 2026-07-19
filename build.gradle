@@ -112,6 +112,7 @@ dependencies {
     implementation fg.deobf("maven.modrinth:quark:1.20.1-4.0-462")
     implementation fg.deobf("curse.maven:spice-of-life-carrot-edition-277616:4888575")
     implementation fg.deobf("curse.maven:lets-do-vinery-704465:6965751")
+//    implementation fg.deobf("maven.modrinth:lets-do-vinery:1.4.41")
     implementation fg.deobf("maven.modrinth:gensokyo-delight-youkais-feasts:0.5.0")
     implementation fg.deobf("maven.modrinth:lets-do-farm-charm:1.0.14")
     implementation fg.deobf("curse.maven:kubejs-238086:5853326")

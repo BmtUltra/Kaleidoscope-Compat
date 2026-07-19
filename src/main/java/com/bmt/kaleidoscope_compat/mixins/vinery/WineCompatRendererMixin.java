@@ -2,8 +2,6 @@ package com.bmt.kaleidoscope_compat.mixins.vinery;
 
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.satisfy.vinery.client.render.block.storage.BigBottleRenderer;
 import net.satisfy.vinery.client.render.block.storage.FourBottleRenderer;
 import net.satisfy.vinery.client.render.block.storage.NineBottleRenderer;
@@ -13,8 +11,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-@Mixin({BigBottleRenderer.class, FourBottleRenderer.class, NineBottleRenderer.class, WineBoxRenderer.class})
-@OnlyIn(Dist.CLIENT)
+@Mixin(value = {BigBottleRenderer.class, FourBottleRenderer.class, NineBottleRenderer.class, WineBoxRenderer.class})
 public class WineCompatRendererMixin {
 
     @Redirect(
