@@ -1,6 +1,7 @@
 package com.bmt.kaleidoscope_compat.compat.create.arm;
 
 import com.bmt.kaleidoscope_compat.KaleidoscopeCompat;
+import com.bmt.kaleidoscope_compat.compat.create.automation.WorkBlockItemAutomation;
 import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.SteamerBlock;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.SteamerBlockEntity;
 import com.simibubi.create.api.registry.CreateBuiltInRegistries;
@@ -13,13 +14,10 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.RegisterEvent;
-
-import java.util.Optional;
 
 public class CreateSteamerArm {
     private static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCompat.MOD_ID, "steamer");
@@ -59,50 +57,7 @@ public class CreateSteamerArm {
 
         @Override
         public ItemStack insert(ArmBlockEntity armBlockEntity, ItemStack stack, boolean simulate) {
-            SteamerBlockEntity steamer = getSteamer();
-            if (steamer == null || stack.isEmpty() || isBlockedAbove()) {
-                return stack;
-            }
-
-            Optional<? extends RecipeHolder<?>> recipe = steamer.getSteamerRecipe(level, stack);
-            if (recipe.isEmpty()) {
-                return stack;
-            }
-
-            int emptySlotCount = getEmptySlotCount(steamer);
-            if (emptySlotCount == 0) {
-                return stack;
-            }
-
-            int cookTime = steamer.getSteamerRecipe(level, stack)
-                    .map(holder -> holder.value().getCookTick())
-                    .orElse(0);
-            if (cookTime <= 0) {
-                return stack;
-            }
-
-            int insertCount = Math.min(stack.getCount(), emptySlotCount);
-            if (!simulate) {
-                NonNullList<ItemStack> items = steamer.getItems();
-                int[] cookingProgress = steamer.getCookingProgress();
-                int[] cookingTime = steamer.getCookingTime();
-                int endIndex = getEndIndex(steamer);
-                int left = insertCount;
-                for (int i = 0; i < endIndex && left > 0; i++) {
-                    if (!items.get(i).isEmpty()) {
-                        continue;
-                    }
-                    items.set(i, stack.copyWithCount(1));
-                    cookingProgress[i] = 0;
-                    cookingTime[i] = cookTime;
-                    left--;
-                }
-                steamer.refresh();
-            }
-
-            ItemStack remainder = stack.copy();
-            remainder.shrink(insertCount);
-            return remainder;
+            return WorkBlockItemAutomation.insert(level, pos, stack, simulate);
         }
 
         @Override
@@ -117,8 +72,11 @@ public class CreateSteamerArm {
                 return ItemStack.EMPTY;
             }
 
-            ItemStack template = steamer.getItems().get(readySlot);
-            int extractLimit = amount > 0 ? amount : template.getMaxStackSize();
+            ItemStack template = steamer.getItems().get(readySlot).copy();
+            int extractLimit = Math.min(amount, template.getMaxStackSize());
+            if (extractLimit <= 0) {
+                return ItemStack.EMPTY;
+            }
             int extracted = countExtractableReadyItems(steamer, template, readySlot, extractLimit);
             ItemStack result = template.copyWithCount(extracted);
             if (!simulate) {
@@ -145,18 +103,6 @@ public class CreateSteamerArm {
                 }
             }
             return readyCount;
-        }
-
-        private int getEmptySlotCount(SteamerBlockEntity steamer) {
-            NonNullList<ItemStack> items = steamer.getItems();
-            int endIndex = getEndIndex(steamer);
-            int emptyCount = 0;
-            for (int i = 0; i < endIndex; i++) {
-                if (items.get(i).isEmpty()) {
-                    emptyCount++;
-                }
-            }
-            return emptyCount;
         }
 
         private int getReadySlotByIndex(SteamerBlockEntity steamer, int slot) {
