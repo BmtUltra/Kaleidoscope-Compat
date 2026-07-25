@@ -14,7 +14,7 @@
   ],
   "mixins": [
     "accessories.AdvanceBlockMatchToolMixin",
-    "create.accessor.ContraptionAccessor",
+    "create.EjectorBlockEntityMixin",
     "curios.AdvanceBlockMatchToolMixin",
     "farm_and_charm.CookingPotCategoryMixin",
     "farm_and_charm.CookingPotRecipeMixin",

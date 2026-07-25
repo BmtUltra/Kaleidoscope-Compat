@@ -1,7 +1,7 @@
 package com.bmt.kaleidoscope_compat.compat.create.arm;
 
 import com.bmt.kaleidoscope_compat.KaleidoscopeCompat;
-import com.github.ysbbbbbb.kaleidoscopecookery.block.kitchen.ShawarmaSpitBlock;
+import com.bmt.kaleidoscope_compat.compat.create.automation.WorkBlockItemAutomation;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.ShawarmaSpitBlockEntity;
 import com.simibubi.create.api.registry.CreateBuiltInRegistries;
 import com.simibubi.create.content.kinetics.mechanicalArm.AllArmInteractionPointTypes.TopFaceArmInteractionPoint;
@@ -11,17 +11,13 @@ import com.simibubi.create.content.kinetics.mechanicalArm.ArmInteractionPointTyp
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.RegisterEvent;
 
 public class CreateShawarmaSpitArm {
     private static final ResourceLocation ID = ResourceLocation.fromNamespaceAndPath(KaleidoscopeCompat.MOD_ID, "shawarma_spit");
-    private static final int MAX_ITEMS = 8;
     private static boolean initialized;
 
     public static void init(IEventBus modEventBus) {
@@ -42,9 +38,7 @@ public class CreateShawarmaSpitArm {
     private static class ShawarmaSpitType extends ArmInteractionPointType {
         @Override
         public boolean canCreatePoint(Level level, BlockPos pos, BlockState state) {
-            return state.hasProperty(ShawarmaSpitBlock.HALF)
-                    && state.getValue(ShawarmaSpitBlock.HALF) == DoubleBlockHalf.UPPER
-                    && level.getBlockEntity(pos.below()) instanceof ShawarmaSpitBlockEntity;
+            return level.getBlockEntity(pos) instanceof ShawarmaSpitBlockEntity;
         }
 
         @Override
@@ -60,30 +54,7 @@ public class CreateShawarmaSpitArm {
 
         @Override
         public ItemStack insert(ArmBlockEntity armBlockEntity, ItemStack stack, boolean simulate) {
-            ShawarmaSpitBlockEntity spit = getSpit();
-            if (spit == null || stack.isEmpty() || !spit.cookingItem.isEmpty() || !spit.cookedItem.isEmpty()) {
-                return stack;
-            }
-
-            SingleRecipeInput input = new SingleRecipeInput(stack);
-            var recipe = level.getRecipeManager().getRecipeFor(RecipeType.CAMPFIRE_COOKING, input, level);
-            if (recipe.isEmpty()) {
-                return stack;
-            }
-
-            int insertedCount = Math.min(stack.getCount(), MAX_ITEMS);
-            ItemStack remainder = stack.copy();
-            remainder.shrink(insertedCount);
-
-            if (!simulate) {
-                spit.cookingItem = stack.copyWithCount(insertedCount);
-                spit.cookedItem = recipe.get().value().assemble(input, level.registryAccess());
-                spit.cookedItem.setCount(insertedCount);
-                spit.cookTime = recipe.get().value().getCookingTime();
-                spit.refresh();
-            }
-
-            return remainder;
+            return WorkBlockItemAutomation.insert(level, pos, stack, simulate);
         }
 
         @Override
@@ -110,8 +81,7 @@ public class CreateShawarmaSpitArm {
         }
 
         private ShawarmaSpitBlockEntity getSpit() {
-            BlockPos lowerPos = pos.below();
-            return level.getBlockEntity(lowerPos) instanceof ShawarmaSpitBlockEntity spit ? spit : null;
+            return level.getBlockEntity(pos) instanceof ShawarmaSpitBlockEntity spit ? spit : null;
         }
     }
 }

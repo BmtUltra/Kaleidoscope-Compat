@@ -1,7 +1,6 @@
 package com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery.create;
 
-import com.bmt.kaleidoscope_compat.compat.create.PotArmAutomation;
-import com.bmt.kaleidoscope_compat.compat.create.StockpotArmAutomation;
+import com.bmt.kaleidoscope_compat.compat.create.automation.RecipeAutomation;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.PotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.StockpotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.RecipeItem;
@@ -34,10 +33,8 @@ public class RecipeItemStockpotMixin {
             return;
         }
 
-        if (blockEntity instanceof PotBlockEntity pot && record.type().equals(RecipeItem.POT)) {
-            if (pot instanceof PotArmAutomation automation) {
-                automation.kaleidoscopeCompat$setStoredRecipe(record);
-            }
+        if (blockEntity instanceof PotBlockEntity && record.type().equals(RecipeItem.POT)
+                && RecipeAutomation.configure(blockEntity, record)) {
             player.displayClientMessage(
                     Component.translatable("tip.kaleidoscope_compat.pot_arm_recipe_set", record.output().getHoverName()),
                     true);
@@ -45,11 +42,9 @@ public class RecipeItemStockpotMixin {
             return;
         }
 
-        if (!(blockEntity instanceof StockpotBlockEntity stockpot) || !record.type().equals(RecipeItem.STOCKPOT)) {
+        if (!(blockEntity instanceof StockpotBlockEntity) || !record.type().equals(RecipeItem.STOCKPOT)
+                || !RecipeAutomation.configure(blockEntity, record)) {
             return;
-        }
-        if (stockpot instanceof StockpotArmAutomation automation) {
-            automation.kaleidoscopeCompat$setStoredRecipe(record);
         }
         player.displayClientMessage(
                 Component.translatable("tip.kaleidoscope_compat.stockpot_arm_recipe_set", record.output().getHoverName()),
