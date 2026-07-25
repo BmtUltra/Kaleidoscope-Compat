@@ -44,6 +44,16 @@ repositories {
         name = "EngineRoom Maven"
         url "https://maven.engine-room.dev/releases"
     }
+    maven {
+        name = "RyanH Maven"
+        url "https://maven.ryanhcode.dev/releases"
+        content {
+            includeGroup "dev.eriksonn.aeronautics"
+            includeGroup "dev.simulated_team.simulated"
+            includeGroup "dev.ryanhcode.sable"
+            includeGroup "dev.ryanhcode.sable-companion"
+        }
+    }
     flatDir {
         dir 'libs'
     }
@@ -173,6 +183,15 @@ dependencies {
     compileOnly "maven.modrinth:create-central-kitchen:2.5.0"
     compileOnly "maven.modrinth:create:6.0.10+mc1.21.1"
     compileOnly "maven.modrinth:create-dragons-plus:1.11.2b"
+    compileOnly("dev.eriksonn.aeronautics:aeronautics-neoforge-${minecraft_version}:${aeronautics_version}") {
+        transitive = false
+    }
+    compileOnly("dev.simulated_team.simulated:simulated-neoforge-${minecraft_version}:${aeronautics_version}") {
+        transitive = false
+    }
+    compileOnly("dev.ryanhcode.sable:sable-neoforge-${minecraft_version}:${sable_version}") {
+        transitive = false
+    }
     compileOnly "net.createmod.ponder:ponder-neoforge:1.0.81+mc1.21.1"
     compileOnly "maven.modrinth:mystical-agriculture:8.0.24"
     implementation "maven.modrinth:cucumber:8.0.15"
@@ -201,6 +220,8 @@ dependencies {
     runtimeOnly "maven.modrinth:create-central-kitchen:2.5.0"
     runtimeOnly "maven.modrinth:create:6.0.10+mc1.21.1"
     runtimeOnly "maven.modrinth:create-dragons-plus:1.11.2b"
+    runtimeOnly "maven.modrinth:create-aeronautics:${aeronautics_version}+mc${minecraft_version}"
+    runtimeOnly "maven.modrinth:sable:${sable_version}+mc${minecraft_version}"
     runtimeOnly "maven.modrinth:curios:9.5.1+1.21.1"
 //    runtimeOnly "maven.modrinth:mystical-agriculture:8.0.24"
 //    runtimeOnly "maven.modrinth:lets-do-brewery-farmcharm-compat:2.1.8"
@@ -237,7 +258,8 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             mod_license            : mod_license,
             mod_version            : mod_version,
             mod_authors            : mod_authors,
-            mod_description        : mod_description
+            mod_description        : mod_description,
+            aeronautics_version    : aeronautics_version
     ]
     inputs.properties replaceProperties
     expand replaceProperties
