@@ -1,7 +1,5 @@
 package com.bmt.kaleidoscope_compat.compat.create.automation;
 
-import com.bmt.kaleidoscope_compat.compat.create.PotArmAutomation;
-import com.bmt.kaleidoscope_compat.compat.create.StockpotArmAutomation;
 import com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery.accessor.PotBlockEntityAccessor;
 import com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery.accessor.StockpotBlockEntityAccessor;
 import com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery.accessor.TeapotBlockEntityAccessor;
@@ -82,9 +80,7 @@ public final class WorkBlockItemAutomation {
     }
 
     private static ItemStack insertPot(Level level, BlockPos pos, PotBlockEntity pot, ItemStack stack, boolean simulate) {
-        RecipeItem.RecipeRecord recipe = pot instanceof PotArmAutomation automation
-                ? automation.kaleidoscopeCompat$getStoredRecipe()
-                : null;
+        RecipeItem.RecipeRecord recipe = RecipeAutomation.getStoredRecipe(pot);
         if (recipe == null || !recipe.type().equals(RecipeItem.POT)) {
             return stack;
         }
@@ -226,9 +222,7 @@ public final class WorkBlockItemAutomation {
             return insertSoupBase(stockpot, stack, simulate);
         }
         if (stockpot.getStatus() == IStockpot.PUT_INGREDIENT) {
-            RecipeItem.RecipeRecord recipe = stockpot instanceof StockpotArmAutomation automation
-                    ? automation.kaleidoscopeCompat$getStoredRecipe()
-                    : null;
+            RecipeItem.RecipeRecord recipe = RecipeAutomation.getStoredRecipe(stockpot);
             if (recipe == null || !recipe.type().equals(RecipeItem.STOCKPOT)) {
                 return stack;
             }
