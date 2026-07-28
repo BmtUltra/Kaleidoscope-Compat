@@ -1,0 +1,37 @@
+[
+   {
+      "recipe_id":"kaleidoscope_end:stockpot/shulker_shell_stew",
+      "finished_texture":"kaleidoscope_end:stockpot/default_finished_white",
+      "finished_bubble_color":16382186
+   },
+   {
+      "recipe_id":"kaleidoscope_end:stockpot/mint_noodle_soup",
+      "finished_texture":"kaleidoscope_end:stockpot/default_finished_white",
+      "finished_bubble_color":16382186
+   },
+   {
+      "recipe_id":"kaleidoscope_end:stockpot/void_conch_noodle_soup",
+      "finished_texture":"kaleidoscope_end:stockpot/default_finished_white",
+      "finished_bubble_color":16382186
+   },
+   {
+      "recipe_id":"kaleidoscope_end:stockpot/dragon_egg_custard",
+      "finished_texture":"kaleidoscope_end:stockpot/default_finished_chorus",
+      "finished_bubble_color":11243699
+   },
+   {
+      "recipe_id":"kaleidoscope_end:stockpot/chorus_flower_soup",
+      "finished_texture":"kaleidoscope_end:stockpot/default_finished_chorus",
+      "finished_bubble_color":11243699
+   },
+   {
+      "recipe_id":"kaleidoscope_end:stockpot/dark_dragon_egg_stew",
+      "finished_texture":"kaleidoscope_end:stockpot/default_finished_dargon",
+      "finished_bubble_color":13143759
+   },
+   {
+      "recipe_id":"kaleidoscope_end:stockpot/dragon_breath_chorus_soup",
+      "finished_texture":"kaleidoscope_end:stockpot/default_finished_dargon",
+      "finished_bubble_color":13143759
+   }
+]

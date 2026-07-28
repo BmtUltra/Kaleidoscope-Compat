@@ -1,4 +1,4 @@
-package com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery;
+package com.bmt.kaleidoscope_compat.mixins.minecraft;
 
 import com.bmt.kaleidoscope_compat.config.category.OtherCategory;
 import net.minecraft.tags.TagLoader;

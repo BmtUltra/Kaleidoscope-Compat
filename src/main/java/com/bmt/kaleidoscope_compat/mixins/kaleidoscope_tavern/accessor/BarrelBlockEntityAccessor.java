@@ -7,7 +7,6 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(BarrelBlockEntity.class)
 public interface BarrelBlockEntityAccessor {
-
     @Accessor("brewLevel")
     void setBrewLevel(int level);
 

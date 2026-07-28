@@ -26,7 +26,7 @@ public class PotItemHandler implements IItemHandler {
 
     @NotNull
     @Override
-    public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
+    public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
         if (stack.isEmpty() || pot.getLevel() == null) {
             return stack;
         }

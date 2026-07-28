@@ -27,7 +27,7 @@ public class EjectorBlockEntityMixin {
                     target = "Lcom/simibubi/create/content/logistics/depot/EjectorBlockEntity;getTargetOpenInv()Lcom/simibubi/create/content/kinetics/belt/behaviour/DirectBeltInputBehaviour;"
             )
     )
-    // Need an Ejector compatibility API from Create
+
     private void kaleidoscopeCompat$insertIntoWorkBlock(boolean doLogic, float maxTime,
                                                         IntAttached<ItemStack> intAttached, CallbackInfo ci) {
         EjectorBlockEntity ejector = (EjectorBlockEntity) (Object) this;
