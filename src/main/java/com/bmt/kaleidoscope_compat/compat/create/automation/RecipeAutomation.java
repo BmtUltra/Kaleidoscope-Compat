@@ -1,14 +1,15 @@
 package com.bmt.kaleidoscope_compat.compat.create.automation;
 
-import com.bmt.kaleidoscope_compat.compat.create.PotArmAutomation;
-import com.bmt.kaleidoscope_compat.compat.create.StockpotArmAutomation;
+import com.bmt.kaleidoscope_compat.compat.create.ArmRecipeAttachments;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.PotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.StockpotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.RecipeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 
 public final class RecipeAutomation {
     private RecipeAutomation() {
@@ -45,34 +46,27 @@ public final class RecipeAutomation {
             return false;
         }
 
-        if (blockEntity instanceof PotArmAutomation automation) {
-            automation.kaleidoscopeCompat$setStoredRecipe(recipe);
-            return true;
-        }
-        if (blockEntity instanceof StockpotArmAutomation automation) {
-            automation.kaleidoscopeCompat$setStoredRecipe(recipe);
-            return true;
-        }
-        return false;
+        blockEntity.setData(ArmRecipeAttachments.ARM_RECIPE, Optional.of(recipe));
+        blockEntity.setChanged();
+        blockEntity.syncData(ArmRecipeAttachments.ARM_RECIPE);
+        return true;
     }
 
     private static boolean supports(BlockEntity blockEntity, RecipeItem.RecipeRecord recipe) {
         return blockEntity instanceof PotBlockEntity
-                && blockEntity instanceof PotArmAutomation
                 && recipe.type().equals(RecipeItem.POT)
                 || blockEntity instanceof StockpotBlockEntity
-                && blockEntity instanceof StockpotArmAutomation
                 && recipe.type().equals(RecipeItem.STOCKPOT);
     }
 
     private static boolean hasSameRecipe(BlockEntity blockEntity, RecipeItem.RecipeRecord recipe) {
-        RecipeItem.RecipeRecord stored = null;
-        if (blockEntity instanceof PotArmAutomation automation) {
-            stored = automation.kaleidoscopeCompat$getStoredRecipe();
-        } else if (blockEntity instanceof StockpotArmAutomation automation) {
-            stored = automation.kaleidoscopeCompat$getStoredRecipe();
-        }
-        return recipesMatch(stored, recipe);
+        return recipesMatch(getStoredRecipe(blockEntity), recipe);
+    }
+
+    public static @Nullable RecipeItem.RecipeRecord getStoredRecipe(BlockEntity blockEntity) {
+        return blockEntity.getExistingData(ArmRecipeAttachments.ARM_RECIPE)
+                .orElse(Optional.empty())
+                .orElse(null);
     }
 
     private static boolean recipesMatch(RecipeItem.RecipeRecord first, RecipeItem.RecipeRecord second) {

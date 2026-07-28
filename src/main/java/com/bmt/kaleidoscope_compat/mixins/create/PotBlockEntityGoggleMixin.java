@@ -1,6 +1,6 @@
-package com.bmt.kaleidoscope_compat.mixins.kaleidoscope_cookery;
+package com.bmt.kaleidoscope_compat.mixins.create;
 
-import com.bmt.kaleidoscope_compat.compat.create.PotArmAutomation;
+import com.bmt.kaleidoscope_compat.compat.create.automation.RecipeAutomation;
 import com.github.ysbbbbbb.kaleidoscopecookery.blockentity.kitchen.PotBlockEntity;
 import com.github.ysbbbbbb.kaleidoscopecookery.item.RecipeItem;
 import com.simibubi.create.AllItems;
@@ -25,11 +25,7 @@ public class PotBlockEntityGoggleMixin implements IHaveGoggleInformation {
             return false;
         }
 
-        if (!(self instanceof PotArmAutomation armAutomation)) {
-            return false;
-        }
-        
-        RecipeItem.RecipeRecord storedRecipe = armAutomation.kaleidoscopeCompat$getStoredRecipe();
+        RecipeItem.RecipeRecord storedRecipe = RecipeAutomation.getStoredRecipe(self);
         
         if (storedRecipe == null) {
             return false;
